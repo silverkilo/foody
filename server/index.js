@@ -1,6 +1,7 @@
 const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
+const db = require('./db')
 const app = express()
 const PORT = process.env.PORT || 3001
 
@@ -20,7 +21,9 @@ app.use((err, req, res, next) => {
     res.status(err.status || 500)
     res.send(err.message || 'INTERNAL SERVER ERROR')
 })
-
-app.listen(PORT, () => {
-    console.log(`LISTENING ON PORT ${PORT}`)
+db.sync().then(function() {
+    app.listen(PORT, () => {
+        console.log(`LISTENING ON PORT ${PORT}`)
+    })
 })
+
