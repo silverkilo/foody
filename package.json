@@ -20,11 +20,13 @@
     "socket.io-client": "^2.2.0"
   },
   "scripts": {
-    "dev": "concurrently \"npm start\" \"nodemon server\"",
-    "start": "react-scripts start",
+    "dev": "concurrently \"npm start-client\" \"nodemon server\"",
+    "start-client": "react-scripts start",
+    "start": "node server",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "seed": "node server/seed.js"
   },
   "eslintConfig": {
     "extends": "react-app"
