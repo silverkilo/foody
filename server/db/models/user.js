@@ -3,6 +3,12 @@ const db = require('../db')
 const crypto = require('crypto')
 
 const User = db.define('user', {
+  firstName: {
+    type: Sequelize.STRING
+  },
+  lastName: {
+    type: Sequelize.STRING
+  },
   email: {
     type: Sequelize.STRING,
     unique: true,
@@ -13,13 +19,13 @@ const User = db.define('user', {
   },
   password: {
     type: Sequelize.STRING,
-    get(){
+    get() {
       return () => this.getDataValue('password')
     }
   },
   salt: {
     type: Sequelize.STRING,
-    get(){
+    get() {
       return () => this.getDataValue('salt')
     }
   }
