@@ -1,21 +1,21 @@
 import React, { Component } from 'react'
 import {me} from '../store/user'
-import { connect } from 'tls';
+import {connect} from 'react-redux';
 
-class UserProfile extends Component {
-  render() {
+export const UserProfile = props => {
+  const {user} = props
+
     return (
       <div>
         <div>
-          <h1>Hello {this.props.user.firstName}!</h1>
+          <h1>Hello {user.firstName} {user.lastName}!</h1>
         </div>
 
         <div>
-          <h3>{this.props.user.email}</h3>
+          <h3>Email: {user.email}</h3>
         </div>
       </div>
     )
-  }
 }
 
 const mapStateToProps = state => {
@@ -24,10 +24,4 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getUser: (userId) => dispatch(me(userId))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserProfile)
+export default connect(mapStateToProps)(UserProfile)
