@@ -46,8 +46,8 @@ class Preference extends Component {
         </div>
 
         <div>
-          <select defaultValue={this.categories[0]}
-          onChange={evt => this.props.updatePreference([...evt.target.selectedOptions].map(x=> x.value))}>
+          <select defaultValue={this.props.categories[0]}
+          onChange={evt => this.props.sendUserPreference(this.props.user.id,[...evt.target.selectedOptions].map(x=> x.value))}>
               {this.props.categories.map(
                 val => (
                   <option key={val} value={val}> {val} </option>
@@ -63,14 +63,15 @@ class Preference extends Component {
 
 const mapStateToProps = state => {
   return {
-    categories: state
+    categories: state.categories,
+    user: state.user
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     getAllCategories: () => dispatch(getAllCategories()),
-    updatePreference: (id, pref) => dispatch(sendUserPreference(id, pref))
+    sendUserPreference: (id, pref) => dispatch(sendUserPreference(id, pref))
   }
 }
 

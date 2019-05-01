@@ -4,9 +4,9 @@ const SET_PREFERENCES = 'SET_PREFERENCES'
 
 const sendPreferences = preferences => ({type: SET_PREFERENCES, preferences})
 
-export const sendUserPreference = (preferences) => async dispatch => {
+export const sendUserPreference = (id, preferences) => async dispatch => {
   try {
-    const res = await axios.post(`/api/preference`, preferences)
+    const res = await axios.post(`/api/preferences/${id}`, {preferences})
     dispatch(sendPreferences(res.data))
   } catch (err) {
     console.error(err)
