@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const {User} = require('../db/models')
 module.exports = router
-const {userGateway} = require('./gateways')
+const {userGateway} = require('./gateway')
 
 router.get('/:userId', async (req, res, next) => {
   try {
