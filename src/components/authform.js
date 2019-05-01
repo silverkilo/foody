@@ -86,6 +86,10 @@ class AuthForm extends Component {
           Log Out
         </button>
         <Link to='/profile'>Profile</Link>
+
+        <form method='get' action='http://localhost:3001/auth/google'>
+          <button type='submit' >Login with Google</button>
+        </form>
       </div>
     )
   }

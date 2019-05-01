@@ -9,6 +9,7 @@
     "express": "^4.16.4",
     "express-session": "^1.16.1",
     "passport": "^0.4.0",
+    "passport-google-oauth": "^2.0.0",
     "pg": "^7.10.0",
     "pg-hstore": "^2.3.2",
     "react": "^16.8.6",
