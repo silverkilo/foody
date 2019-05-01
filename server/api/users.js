@@ -36,7 +36,7 @@ router.post('/', async (req, res, next) => {
 })
 
 router.put(
-  '/:userId/:newPassword',
+  '/:userId',
   userGateway,
   async (req, res, next) => {
     try {
@@ -44,7 +44,12 @@ router.put(
       if (!user) {
         res.sendStatus(404)
       } else {
-        await user.update({password: req.params.newPassword})
+        await User.update({
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          email: req.body.email,
+          password: req.body.email
+        })
         res.json('success')
       }
     } catch (err) {

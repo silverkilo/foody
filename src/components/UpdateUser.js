@@ -63,6 +63,15 @@ class UpdateUser extends Component {
             value={this.state.email || ''}
           />
         </div>
+        <div>
+          <label>Password</label>
+          <input
+            type="text"
+            name="email"
+            onChange={this.handleChange}
+            value={this.state.password || ''}
+          />
+        </div>
         <button type="submit">Submit</button>
       </form>
     )
