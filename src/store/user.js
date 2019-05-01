@@ -2,9 +2,11 @@ import axios from 'axios'
 
 const GET_USER = 'GET_USER'
 const UPDATE_USER = 'UPDATE_USER'
+const GET_CATEGORIES = 'GET_CATEGORIES'
 
 const getUser = user => ({type: GET_USER, user})
 const updateUser = userInfo => ({type: UPDATE_USER, userInfo})
+const updatePreference = userInfo => ({type: UPDATE_USER, userInfo})
 
 export const me = userId => async dispatch => {
   try {

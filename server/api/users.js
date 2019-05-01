@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const {User} = require('../db/models')
 module.exports = router
+const {userGateway} = require('./gateways')
 
 router.get('/:userId', async (req, res, next) => {
   try {
@@ -31,3 +32,22 @@ router.post('/', async (req, res, next) => {
     next(err)
   }
 })
+
+router.put(
+  '/:userId/:newPassword',
+  userGateway,
+  async (req, res, next) => {
+    try {
+      const user = await User.findByPk(req.params.userId)
+      if (!user) {
+        res.sendStatus(404)
+      } else {
+        await user.update({password: req.params.newPassword})
+        res.json('success')
+      }
+    } catch (err) {
+      next(err)
+    }
+  }
+)
+

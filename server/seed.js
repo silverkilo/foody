@@ -3,6 +3,7 @@
 const db = require('../server/db')
 const {Preference, User} = require('./db/models')
 const categories = [
+  'All',
   'African',
   'American',
   'Japanese',
