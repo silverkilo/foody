@@ -21,11 +21,12 @@
     "socket.io-client": "^2.2.0"
   },
   "scripts": {
-    "dev": "concurrently \"npm run start-client\" \"nodemon server\"",
+    "dev": "export NODE_ENV=development && concurrently \"npm run start-client\" \"nodemon server\"",
     "start-client": "react-scripts start",
     "start": "node server",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "export NODE_ENV=test && jest",
+    "test-w": "export NODE_ENV=test && jest --watch",
     "eject": "react-scripts eject",
     "seed": "node server/seed.js"
   },
@@ -47,9 +48,11 @@
   },
   "devDependencies": {
     "concurrently": "^4.1.0",
+    "jest": "^24.7.1",
     "morgan": "^1.9.1",
     "prettier": "^1.17.0",
     "redux-devtools-extension": "^2.13.8",
-    "redux-logger": "^3.0.6"
+    "redux-logger": "^3.0.6",
+    "supertest": "^4.0.2"
   }
 }
