@@ -4,8 +4,10 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "connect-session-sequelize": "^6.0.0",
     "express": "^4.16.4",
     "express-session": "^1.16.1",
+    "passport": "^0.4.0",
     "pg": "^7.10.0",
     "pg-hstore": "^2.3.2",
     "react": "^16.8.6",
@@ -20,7 +22,7 @@
     "socket.io-client": "^2.2.0"
   },
   "scripts": {
-    "dev": "concurrently \"npm start-client\" \"nodemon server\"",
+    "dev": "concurrently \"npm run start-client\" \"nodemon server\"",
     "start-client": "react-scripts start",
     "start": "node server",
     "build": "react-scripts build",

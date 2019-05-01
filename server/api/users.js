@@ -1,17 +1,20 @@
 const router = require('express').Router()
 const {User} = require('../db/models')
+const {isAuthenticated} = require('./authenticate')
 module.exports = router
 
-router.get('/:userId', async (req, res, next) => {
+router.get('/:userId', isAuthenticated, async (req, res, next) => {
   try {
     const userId = await Number(req.params.userId)
-    const user = await User.findByPk(userId)
-    res.json({
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email
-    })
+    if (userId === Number(req.session.passport.user)) {
+      const user = await User.findByPk(userId)
+      res.json({
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email
+      })
+    }
   } catch (err) {
     next(err)
   }
