@@ -8,6 +8,7 @@ class Cache {
     constructor() {
         this.preferences = new CacheObject('preferences')
         this.matches = new CacheObject('matches')
+        this.categories = new CacheObject('categories')
     }
 }
 class CacheObject {
@@ -24,15 +25,19 @@ class CacheObject {
             * @param {string | number} key 
             */
     get(key) {
+        if (this[keyName] === 'categories') key = 'all'
         if (!this[isValid](key)) throw this[keyErr]
         if (!this[store][key]) return null
-        return (JSON.parse(this[store][key]))
+        return new Promise((resolve) => {
+            resolve((JSON.parse(this[store][key])))
+        })
     }
     /**
      * 
      * @param {string | number} key 
      */
     set(key, value, expires = Infinity) {
+        if (this[keyName] === 'categories') key = 'all'
         if (!this[isValid](key)) throw this[keyErr]
         if (typeof value === 'object') {
             value = JSON.stringify(value)
@@ -44,7 +49,9 @@ class CacheObject {
                 this[store][key] = undefined
             }, expires)
         }
-        return true
+        return new Promise((resolve) => {
+            resolve(true)
+        })
     }
     /**
      * 
@@ -54,11 +61,36 @@ class CacheObject {
         if (!this[isValid](key)) throw this[keyErr];
         if (this[store][key]) return false;
         delete this[store][key];
-        return true
+        return new Promise((resolve) => {
+            resolve(true)
+        })
     }
 }
 
+const cache = new Cache()
+const categories = [
+    'African',
+    'American',
+    'Japanese',
+    'Chinese',
+    'Malaysian',
+    'Vietnamese',
+    'Australian',
+    'Brazilian',
+    'Burmese',
+    'Cajun',
+    'Dessert',
+    'French',
+    'Bakery',
+    'German',
+    'Greek',
+    'Persian',
+    'Peruvian',
+    'Vegan',
+    'Vegetarian'
+]
+
+cache.categories.set('all', categories)
 
 
-
-module.exports = Cache
+module.exports = cache
