@@ -7,7 +7,8 @@ class Preference extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      loaded: false
+      loaded: false,
+      selected: []
     }
   }
 
@@ -20,6 +21,14 @@ class Preference extends Component {
           loaded: true
         })
       )
+  }
+
+  handleChange(value){
+    this.setState({selected: [...this.state.selected, value]})
+  }
+
+  handleClick(){
+    this.props.sendUserPreference(this.props.user.id, this.state.selected)
   }
 
   componentDidMount() {
@@ -45,7 +54,7 @@ class Preference extends Component {
             <span> What type of food are you feeling today? </span>
         </div>
 
-        <div>
+        {/* <div>
           <select defaultValue={this.props.categories[0]}
           onChange={evt => this.props.sendUserPreference(this.props.user.id,[...evt.target.selectedOptions].map(x=> x.value))}>
               {this.props.categories.map(
@@ -54,6 +63,16 @@ class Preference extends Component {
                 )
               )}
           </select>
+        </div> */}
+        <div>
+          {
+            this.props.categories.map(category => {return (
+              <li onClick={() => this.handleChange(category)} > {category} </li>
+            )})
+          }
+        </div>
+        <div>
+          <button onClick={()=> this.handleClick()}> Submit </button>
         </div>
 
       </div>
