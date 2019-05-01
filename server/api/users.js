@@ -37,20 +37,23 @@ router.post('/', async (req, res, next) => {
 
 router.put(
   '/:userId',
-  userGateway,
+  // userGateway,
   async (req, res, next) => {
     try {
       const user = await User.findByPk(req.params.userId)
       if (!user) {
         res.sendStatus(404)
       } else {
-        await User.update({
+        const [rowsUpdated, userUpdate] = await User.update({
           firstName: req.body.firstName,
           lastName: req.body.lastName,
           email: req.body.email,
           password: req.body.password
-        })
-        res.json('success')
+        }, {
+          returning: true, where: {id: req.params.userId}
+        }
+      )
+        res.send(userUpdate[0])
       }
     } catch (err) {
       next(err)

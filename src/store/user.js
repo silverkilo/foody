@@ -58,6 +58,8 @@ export const logout = () => async dispatch => {
 
 export const updateUserThunk = (userId, userInfo) => async dispatch => {
   try {
+    console.log("userid", userId)
+    console.log("userInfo", userInfo)
     await axios.put(`/api/users/${userId}`, userInfo)
     dispatch(updateUser(userInfo))
   } catch (err) {
@@ -73,6 +75,13 @@ export default function(state = initialState, action) {
       return action.user
     case REMOVE_USER:
       return initialState
+    case UPDATE_USER:
+      return {...state,
+        firstName: action.userInfo.firstName,
+        lastName: action.userInfo.lastName,
+        email: action.userInfo.email,
+        password: action.userInfo.password
+      }
     default:
       return state
   }
