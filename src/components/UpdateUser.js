@@ -8,7 +8,8 @@ class UpdateUser extends Component {
     this.state = {
       firstName: '',
       lastName: '',
-      email: ''
+      email: '',
+      password: ''
     }
     this.handleChange = this.handleChange.bind(this)
   }
@@ -18,6 +19,7 @@ class UpdateUser extends Component {
       firstName: props.user.firstName,
       lastName: props.user.lastName,
       email: props.user.email,
+      password: props.user.password
     }
   }
 
