@@ -1,39 +1,44 @@
-'use strict'
+
 
 const db = require('../server/db')
-const {Preference} = require('./db/models')
+const {Preference, User} = require('./db/models')
 const categories = [
-  "African",
-  "American",
-  "Japanese",
-  "Chinese",
-  "Malaysian",
-  "Vietnamese",
-  "Australian",
-  "Brazilian",
-  "Burmese",
-  "Cajun",
-  "Dessert",
-  "French",
-  "Bakery",
-  "German",
-  "Greek",
-  "Persian",
-  "Peruvian",
-  "Vegan",
-  "Vegetarian"
+  'African',
+  'American',
+  'Japanese',
+  'Chinese',
+  'Malaysian',
+  'Vietnamese',
+  'Australian',
+  'Brazilian',
+  'Burmese',
+  'Cajun',
+  'Dessert',
+  'French',
+  'Bakery',
+  'German',
+  'Greek',
+  'Persian',
+  'Peruvian',
+  'Vegan',
+  'Vegetarian'
 ]
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
-  for(let i=0; i< categories.length; i++){
+  for (let i = 0; i < categories.length; i++) {
     await Preference.create({
       category: categories[i]
     })
   }
-
+  await User.create({
+    firstName: 'Cody',
+    lastName: 'The Pug',
+    email: 'cody@thepug.com',
+    password: '123'
+  })
   console.log(`seeded successfully`)
 }
 
