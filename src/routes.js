@@ -2,8 +2,14 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import {AuthForm, UserProfile, UpdateUser, Preference} from './components'
+import {me} from './store'
 
 class Routes extends Component {
+
+  componentDidMount() {
+    this.props.me()
+  }
+
   render() {
     return (
       <Switch>
@@ -16,9 +22,10 @@ class Routes extends Component {
   }
 }
 
+
 export default withRouter(
   connect(
     null,
-    null
+    {me}
   )(Routes)
 )

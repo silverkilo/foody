@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 
 export const UserProfile = props => {
   const {user} = props
-
+  console.log(user)
     return (
       <div>
         <div>
@@ -24,7 +24,7 @@ export const UserProfile = props => {
 
 const mapStateToProps = state => {
   return {
-    user: state
+    user: state.user
   }
 }
 

@@ -6,7 +6,7 @@ class UpdateUser extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      firstName: '',
+      firstName: props.user.firstName,
       lastName: '',
       email: '',
       password: ''
@@ -14,19 +14,23 @@ class UpdateUser extends Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
-  static getDerivedStateFromProps(props) {
-    return {
-      firstName: props.user.firstName,
-      lastName: props.user.lastName,
-      email: props.user.email,
-      password: props.user.password
-    }
-  }
+    // componentDidUpdate(props) {
+    //   console.log("PROPS", props)
+    // }
+  // static getDerivedStateFromProps(props) {
+  //   return {
+  //     firstName: props.user.firstName,
+  //     lastName: props.user.lastName,
+  //     email: props.user.email,
+  //     password: props.user.password
+  //   }
+  // }
 
   handleChange = event => {
     this.setState({
       [event.target.name]: event.target.value
     })
+    console.log("current state after handle change", this.state)
   }
 
   handleSubmit = event => {
@@ -69,7 +73,7 @@ class UpdateUser extends Component {
           <label>Password</label>
           <input
             type="text"
-            name="email"
+            name="password"
             onChange={this.handleChange}
             value={this.state.password || ''}
           />
@@ -82,7 +86,7 @@ class UpdateUser extends Component {
 
 const mapStateToProps = state => {
   return {
-    user: state
+    user: state.user
   }
 }
 

@@ -2,16 +2,12 @@ import {createStore, combineReducers, applyMiddleware} from 'redux'
 import {createLogger} from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
-import userReducer from './user'
-import categoriesReducer from './categories'
-import preferencesReducer from './preferences'
+import user from './user'
+import categories from './categories'
+import preferences from './preferences'
 
-const reducer = combineReducers({
-  user: userReducer,
-  categories: categoriesReducer,
-  preferences: preferencesReducer
+const reducer = combineReducers({ user, categories, preferences})
 
-})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )

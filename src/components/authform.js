@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {auth, login, logout} from '../store'
+import { Link } from 'react-router-dom'
 
 class AuthForm extends Component {
   constructor(props) {
@@ -84,6 +85,7 @@ class AuthForm extends Component {
         <button type="button" onClick={() => this.handleLogOut()}>
           Log Out
         </button>
+        <Link to='/profile'>Profile</Link>
 
         <form method='get' action='http://localhost:3001/auth/google'>
           <button type='submit' >Login with Google</button>
