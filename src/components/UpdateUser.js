@@ -8,7 +8,8 @@ class UpdateUser extends Component {
     this.state = {
       firstName: '',
       lastName: '',
-      email: ''
+      email: '',
+      password: ''
     }
     this.handleChange = this.handleChange.bind(this)
   }
@@ -18,6 +19,7 @@ class UpdateUser extends Component {
       firstName: props.user.firstName,
       lastName: props.user.lastName,
       email: props.user.email,
+      password: props.user.password
     }
   }
 
@@ -61,6 +63,15 @@ class UpdateUser extends Component {
             name="email"
             onChange={this.handleChange}
             value={this.state.email || ''}
+          />
+        </div>
+        <div>
+          <label>Password</label>
+          <input
+            type="text"
+            name="email"
+            onChange={this.handleChange}
+            value={this.state.password || ''}
           />
         </div>
         <button type="submit">Submit</button>

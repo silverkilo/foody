@@ -1,5 +1,5 @@
 const User = require('./user')
-const Preference = require('./preference')
+const Preference = require('./preferences')
 // const Review = require('./review')
 
 // User.hasMany(Review)

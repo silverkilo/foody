@@ -6,19 +6,21 @@ const {userGateway} = require('./gateway')
 router.get('/:userId', userGateway, async (req, res, next) => {
   try {
     const userId = await Number(req.params.userId)
-    const user = await User.findByPk(userId)
-    res.json({
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email
-    })
+    if (userId === Number(req.session.passport.user)) {
+      const user = await User.findByPk(userId)
+      res.json({
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email
+      })
+    }
   } catch (err) {
     next(err)
   }
 })
 
-router.post('/', userGateway, async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
     const newUser = await User.create({
       firstName: req.body.firstName,
@@ -34,7 +36,7 @@ router.post('/', userGateway, async (req, res, next) => {
 })
 
 router.put(
-  '/:userId/:newPassword',
+  '/:userId',
   userGateway,
   async (req, res, next) => {
     try {
@@ -42,7 +44,12 @@ router.put(
       if (!user) {
         res.sendStatus(404)
       } else {
-        await user.update({password: req.params.newPassword})
+        await User.update({
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          email: req.body.email,
+          password: req.body.password
+        })
         res.json('success')
       }
     } catch (err) {
