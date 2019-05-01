@@ -30,12 +30,12 @@ class UpdateUser extends Component {
   handleSubmit = event => {
     event.preventDefault()
     alert('Changes submitted!')
-    this.props.updateUser(this.props.user.id, this.state)
+    this.props.update(this.props.user.id, this.state)
   }
 
   render() {
     return (
-      <form className="updateUserForm" onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit}>
         <div>
           <label>First Name</label>
           <input
@@ -77,7 +77,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateUser: (id, user) => dispatch(updateUserThunk(id, user))
+    update: (id, user) => dispatch(updateUserThunk(id, user))
   }
 }
 
