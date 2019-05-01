@@ -1,31 +1,43 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { updateUserPreference } from '../store/user';
-const categories = [
-  'All',
-  'African',
-  'American',
-  'Japanese',
-  'Chinese',
-  'Malaysian',
-  'Vietnamese',
-  'Australian',
-  'Brazilian',
-  'Burmese',
-  'Cajun',
-  'Dessert',
-  'French',
-  'Bakery',
-  'German',
-  'Greek',
-  'Persian',
-  'Peruvian',
-  'Vegan',
-  'Vegetarian'
-]
+import { getAllCategories } from '../store/categories';
+import { sendUserPreference } from '../store/preferences';
 
 class Preference extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      loaded: false
+    }
+  }
+
+  async reload() {
+    this.setState({loaded: false})
+    await this.props
+      .getAllCategories()
+      .then(() =>
+        this.setState({
+          loaded: true
+        })
+      )
+  }
+
+  componentDidMount() {
+    this.reload()
+  }
+
+  componentDidUpdate(prevState) {
+    if (
+      prevState === this.props.categories
+    ) {
+      this.reload()
+    }
+  }
+
   render() {
+    if (!this.state.loaded) {
+      return <h1>Loading...</h1>
+    }
     return (
       <div>
 
@@ -34,10 +46,9 @@ class Preference extends Component {
         </div>
 
         <div>
-          <select defaultValue={categories[0]}
-          onChange={evt => this.props.updatePreference(id, evt.target.value)
-                                  .catch(err => this.setState({isErr: true}))}>
-              {categories.map(
+          <select defaultValue={this.props.categories[0]}
+          onChange={evt => this.props.sendUserPreference(this.props.user.id,[...evt.target.selectedOptions].map(x=> x.value))}>
+              {this.props.categories.map(
                 val => (
                   <option key={val} value={val}> {val} </option>
                 )
@@ -52,13 +63,15 @@ class Preference extends Component {
 
 const mapStateToProps = state => {
   return {
-    categories: state
+    categories: state.categories,
+    user: state.user
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    updatePreference: (id, pref) => dispatch(updateUserPreference(id, pref))
+    getAllCategories: () => dispatch(getAllCategories()),
+    sendUserPreference: (id, pref) => dispatch(sendUserPreference(id, pref))
   }
 }
 

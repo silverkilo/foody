@@ -21,8 +21,8 @@ class CacheObject {
         this[keyName] = storeName
     }
     /**
-            * 
-            * @param {string | number} key 
+            *
+            * @param {string | number} key
             */
     get(key) {
         if (this[keyName] === 'categories') key = 'all'
@@ -33,8 +33,8 @@ class CacheObject {
         })
     }
     /**
-     * 
-     * @param {string | number} key 
+     *
+     * @param {string | number} key
      */
     set(key, value, expires = Infinity) {
         if (this[keyName] === 'categories') key = 'all'
@@ -54,8 +54,8 @@ class CacheObject {
         })
     }
     /**
-     * 
-     * @param {string|number} key 
+     *
+     * @param {string|number} key
      */
     clear(key) {
         if (!this[isValid](key)) throw this[keyErr];
@@ -69,6 +69,7 @@ class CacheObject {
 
 const cache = new Cache()
 const categories = [
+    'All',
     'African',
     'American',
     'Japanese',
