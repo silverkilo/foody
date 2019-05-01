@@ -1,8 +1,10 @@
 import axios from 'axios'
 
 const GET_USER = 'GET_USER'
+const UPDATE_USER = 'UPDATE_USER'
 
 const getUser = user => ({type: GET_USER, user})
+const updateUser = userInfo => ({type: UPDATE_USER, userInfo})
 
 export const me = userId => async dispatch => {
   try {
@@ -12,6 +14,16 @@ export const me = userId => async dispatch => {
     console.error(err)
   }
 }
+
+export const updateUserThunk = (userId, userInfo) => async dispatch => {
+  try {
+    await axios.put(`/api/users/${userId}`, userInfo)
+    dispatch(updateUser(userInfo))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 const initialState = {}
 
 export default function(state = initialState, action) {
@@ -22,3 +34,5 @@ export default function(state = initialState, action) {
       return state
   }
 }
+
+
