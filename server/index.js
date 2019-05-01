@@ -22,7 +22,7 @@ passport.deserializeUser(async (id, done) => {
 })
 
 app.use(morgan('dev'))
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 app.use(
@@ -41,13 +41,15 @@ app.use('/api', require('./api'))
 
 app.use(express.static(path.join(__dirname, '..', 'build')))
 
-app.get('*', (req, res, next) => {
-  res.sendFile(path.join(__dirname, '..', 'build/index.html'))
-})
-app.use((err, req, res, next) => {
-  res.status(err.status || 500)
-  res.send(err.message || 'INTERNAL SERVER ERROR')
-})
+if (process.env.NODE_ENV === 'production') {
+  app.get('*', (req, res, next) => {
+    res.sendFile(path.join(__dirname, '..', 'build/index.html'))
+  })
+  app.use((err, req, res, next) => {
+    res.status(err.status || 500)
+    res.send(err.message || 'INTERNAL SERVER ERROR')
+  })
+}
 db.sync()
   .then(function() {
     return sessionStore.sync()

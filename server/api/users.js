@@ -1,9 +1,9 @@
 const router = require('express').Router()
 const {User} = require('../db/models')
-const {isAuthenticated} = require('./authenticate')
 module.exports = router
+const {userGateway} = require('./gateway')
 
-router.get('/:userId', isAuthenticated, async (req, res, next) => {
+router.get('/:userId', userGateway, async (req, res, next) => {
   try {
     const userId = await Number(req.params.userId)
     if (userId === Number(req.session.passport.user)) {
@@ -34,3 +34,22 @@ router.post('/', async (req, res, next) => {
     next(err)
   }
 })
+
+router.put(
+  '/:userId/:newPassword',
+  userGateway,
+  async (req, res, next) => {
+    try {
+      const user = await User.findByPk(req.params.userId)
+      if (!user) {
+        res.sendStatus(404)
+      } else {
+        await user.update({password: req.params.newPassword})
+        res.json('success')
+      }
+    } catch (err) {
+      next(err)
+    }
+  }
+)
+
