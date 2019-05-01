@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {me} from '../store/user'
-import {connect} from 'react-redux';
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 export const UserProfile = props => {
   const {user} = props
@@ -13,6 +14,9 @@ export const UserProfile = props => {
 
         <div>
           <h3>Email: {user.email}</h3>
+        </div>
+        <div>
+          <Link to='/editProfile'>Update Profile</Link>
         </div>
       </div>
     )
