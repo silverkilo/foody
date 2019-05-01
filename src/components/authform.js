@@ -84,6 +84,10 @@ class AuthForm extends Component {
         <button type="button" onClick={() => this.handleLogOut()}>
           Log Out
         </button>
+
+        <form method='get' action='http://localhost:3001/auth/google'>
+          <button type='submit' >Login with Google</button>
+        </form>
       </div>
     )
   }
