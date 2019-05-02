@@ -5,8 +5,9 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import categories from './categories'
 import preferences from './preferences'
+import matchlist from './match'
 
-const reducer = combineReducers({ user, categories, preferences})
+const reducer = combineReducers({ user, categories, preferences, matchlist })
 
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
