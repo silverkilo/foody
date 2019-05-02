@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
-import {AuthForm, UserProfile, UpdateUser, Preference} from './components'
+import {AuthForm, UserProfile, UpdateUser, Preference, Matching} from './components'
 import {me} from './store'
 
 class Routes extends Component {
@@ -17,6 +17,7 @@ class Routes extends Component {
         <Route path='/profile' component={UserProfile} />
         <Route path='/editProfile' component={UpdateUser} />
         <Route path='/preference' component={Preference} />
+        <Route path='/matches' component={Matching} />
       </Switch>
     )
   }
