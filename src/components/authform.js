@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {auth, login, logout} from '../store'
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 class AuthForm extends Component {
   constructor(props) {
@@ -82,13 +82,18 @@ class AuthForm extends Component {
             Not signed up? Register Here!
           </a>
         )}
-        <button type="button" onClick={() => this.handleLogOut()}>
-          Log Out
-        </button>
-        <Link to='/profile'>Profile</Link>
+        {this.props.user.id ? (
+          <button type="button" onClick={() => this.handleLogOut()}>
+            Log Out
+          </button>
+        ) : (
+          ''
+        )}
 
-        <form method='get' action='http://localhost:3001/auth/google'>
-          <button type='submit' >Login with Google</button>
+        <Link to="/profile">Profile</Link>
+
+        <form method="get" action="http://localhost:3001/auth/google">
+          <button type="submit">Login with Google</button>
         </form>
       </div>
     )
@@ -97,7 +102,8 @@ class AuthForm extends Component {
 
 const mapState = state => {
   return {
-    error: state.user.error
+    error: state.user.error,
+    user: state.user
   }
 }
 
