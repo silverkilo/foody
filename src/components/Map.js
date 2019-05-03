@@ -35,7 +35,7 @@ export class Map extends Component {
         mapStyle='mapbox://styles/rhearao/cjv749h8x1o4f1fpff04veqj9'
         onViewportChange={(viewport) => this.setState({viewport})}
         mapboxApiAccessToken={'pk.eyJ1IjoicmhlYXJhbyIsImEiOiJjanQ0ajJ3MjUwMjJrNDlvM2ExcmszcXZ3In0.xztopoCKZUlUCYgWMy7Djw'}
-        >
+      >
         <Marker latitude={40.7128} longitude={-74.0060} offsetLeft={-20} offsetTop={-10}>
           <div className={`marker marker${this.state.icon}`}></div>
         </Marker>
