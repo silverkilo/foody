@@ -16,7 +16,7 @@ export class Map extends Component {
       height: 812,
       latitude: 40.7128,
       longitude: -74.0060,
-      zoom: 12
+      zoom: 14
     },
     icon: randomIcon(),
     lat: 40.7128,
@@ -35,8 +35,9 @@ export class Map extends Component {
     let lat = position.coords.latitude
     let long = position.coords.longitude
     this.setState({
-      lat,
-      long
+      viewport: {...this.state.viewport, latitude: lat, longitude: long},
+      lat: lat,
+      long: long
     })
   }
 
