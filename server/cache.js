@@ -4,6 +4,7 @@ const keyErr = Symbol('keyErr')
 const valErr = Symbol('valErr')
 const expErr = Symbol('expErr')
 const keyName = Symbol('keyName')
+
 class Cache {
     constructor() {
         this.preferences = new CacheObject('preferences')
@@ -92,6 +93,5 @@ const categories = [
 ]
 
 cache.categories.set('all', categories)
-
 
 module.exports = cache
