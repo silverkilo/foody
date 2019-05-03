@@ -18,8 +18,11 @@ export class Map extends Component {
       longitude: -74.0060,
       zoom: 12
     },
-    icon: randomIcon()
+    icon: randomIcon(),
+    lat: 40.7128,
+    long: -74.0060
     }
+    this.test = this.test.bind(this)
   }
 
   componentDidMount() {
@@ -28,7 +31,18 @@ export class Map extends Component {
     })
   }
 
+  test(position) {
+    let lat = position.coords.latitude
+    let long = position.coords.longitude
+    this.setState({
+      lat,
+      long
+    })
+  }
+
   render(){
+    window.navigator.geolocation.getCurrentPosition(this.test)
+
     return (
       <MapGL
         {...this.state.viewport}
@@ -36,7 +50,7 @@ export class Map extends Component {
         onViewportChange={(viewport) => this.setState({viewport})}
         mapboxApiAccessToken={'pk.eyJ1IjoicmhlYXJhbyIsImEiOiJjanQ0ajJ3MjUwMjJrNDlvM2ExcmszcXZ3In0.xztopoCKZUlUCYgWMy7Djw'}
       >
-        <Marker latitude={40.7128} longitude={-74.0060} offsetLeft={-20} offsetTop={-10}>
+        <Marker latitude={this.state.lat} longitude={this.state.long} offsetLeft={-20} offsetTop={-10}>
           <div className={`marker marker${this.state.icon}`}></div>
         </Marker>
       </MapGL>
