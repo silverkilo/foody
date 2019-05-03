@@ -1,0 +1,159 @@
+@import 'reset.css';
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400|Pacifico');
+
+* {
+    box-sizing: border-box;
+}
+#root {
+    font-family: 'Lato', sans-serif;
+    font-size: 12px;
+    min-height: 100vh;
+    max-height: 100%;
+    padding: 0 20px;
+}
+.login, .signup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+.email, .welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin-top: 40px;
+}
+.login__title, .signup__title {
+    font-family: 'Pacifico', cursive;
+    font-size: 2.5em;
+    margin-bottom: 50px;
+}
+.email__title {
+    font-size: 1.5em;
+    margin-bottom: 40px;
+    font-weight: 300;
+}
+.welcome__title, .welcome__user {
+    font-size: 1.5em;
+    font-weight: 300;
+    line-height: 1.5em;
+}
+.welcome__user {
+    margin-bottom: 20px;
+}
+.login__form, .email__form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 20px;
+    position: relative;
+}
+.login__input, .email__input {
+    padding: 10px;
+    border-radius: 5px;
+    background: rgb(240, 240, 240);
+    color: rgb(99, 99, 99);
+    border: 1px solid rgb(231, 231, 231);
+    border-top: 1px solid rgb(211, 211, 211);
+    box-shadow: inset 0px 0px 1px 0px rgba(255,255,255,1);
+    margin-bottom: 20px;
+    outline: none;
+}
+
+/* .login__input__clear:after {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    content: 'x';
+    position: absolute;
+    z-index: 2;
+    top: 10px;
+    right: 10px;
+    background: rgb(211, 211, 211);
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    font-size: 8px;
+    color: white;
+}
+.login__input:not(:valid) ~
+.login__input__clear {
+    display: none;
+} */
+.welcome__text {
+    font-weight: 300;
+    line-height: 1.5em;
+}
+.welcome__text:nth-child(2n) {
+    margin-bottom: 20px;
+}
+.login__option, .signup__option, .welcome__option {
+    color: rgb(58, 124, 230);
+    text-decoration: none;
+    align-self: flex-end;
+    margin-bottom: 20px;
+}
+.signup__option, .welcome__option {
+    align-self: center;
+}
+.login__button, .signup__button, .email__button, .welcome__button {
+    background: rgb(58, 124, 230);
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    outline: none;
+}
+.signup__button, .welcome__button {
+    width: 100%;
+    margin-bottom: 20px;
+    opacity: 1;
+}
+
+.login__divider {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.login__divider span {
+    flex-basis: 40%;
+    background: rgb(231, 231, 231);
+    height: 1px;
+}
+.login__divider p {
+    color: rgb(99, 99, 99);
+    font-size: 0.8em;
+    text-transform: uppercase;
+}
+.login__oauth {
+    display: flex;
+    color: rgb(58, 124, 230);
+    justify-content: center;
+    align-items: center;
+}
+.login__oauth__logo {
+    margin-right: 5px;
+}
+.login__oauth__text {
+    letter-spacing: 0.2px;
+}
+.login__footer, .email__footer {
+    position: fixed;
+    bottom: 0px;
+    height: 15%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid rgb(231, 231, 231);
+    color: rgb(99, 99, 99);
+    font-weight: 300;
+}
+.login__footer__link, .email__footer__link {
+    font-weight: 400;
+    text-decoration: none;
+    color: rgb(58, 124, 230);
+}
