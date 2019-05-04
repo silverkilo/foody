@@ -1,12 +1,18 @@
+const { Op } = require('sequelize')
 const router = require('express').Router()
-const cache = require('../cache')
+// const cache = require('../cache')
+const { Preference, User, UserPreference } = require('../db/models')
 module.exports = router
 
 
 router.get('/:id', async (req, res, next) => {
     try {
-        const userPreferences = await cache.preferences.get(req.params.id)
-        res.send(userPreferences)
+        const user = await User.findByPk(Number(req.params.id), {
+            include: [
+                { model: Preference }
+            ]
+        })
+        res.send(user.preferences.map(({ id, category }) => ({ id, category })))
     } catch (e) {
         next(e)
     }
@@ -14,9 +20,16 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/:id', async (req, res, next) => {
     try {
-        await cache.preferences.set(req.params.id, req.body.preferences)
-        const prefs = await cache.preferences.get(req.params.id)
-        res.status(201).send(prefs)
+        const { preferences } = req.body
+        const id = Number(req.params.id)
+        await UserPreference.destroy({
+            where: {
+                userId: id
+            }
+        })
+        const newPrefs = preferences.map(preferenceId => ({ userId: id, preferenceId }))
+        await UserPreference.bulkCreate(newPrefs)
+        res.status(201).send(preferences)
     } catch (e) {
         next(e)
     }
