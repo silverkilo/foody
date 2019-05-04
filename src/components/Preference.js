@@ -13,7 +13,7 @@ class Preference extends Component {
   }
 
   async reload() {
-    this.setState({loaded: false})
+    this.setState({ loaded: false })
     await this.props
       .getAllCategories()
       .then(() =>
@@ -23,11 +23,11 @@ class Preference extends Component {
       )
   }
 
-  handleChange(value){
-    this.setState({selected: [...this.state.selected, value]})
+  handleChange(id) {
+    this.setState({ selected: [...this.state.selected, id] })
   }
 
-  handleClick(){
+  handleClick() {
     this.props.sendUserPreference(this.props.user.id, this.state.selected)
   }
 
@@ -51,7 +51,7 @@ class Preference extends Component {
       <div>
 
         <div>
-            <span> What type of food are you feeling today? </span>
+          <span> What type of food are you feeling today? </span>
         </div>
 
         {/* <div>
@@ -66,13 +66,15 @@ class Preference extends Component {
         </div> */}
         <div>
           {
-            this.props.categories.map(category => {return (
-              <li onClick={() => this.handleChange(category)} > {category} </li>
-            )})
+            this.props.categories.map(({ id, category }) => {
+              return (
+                <li key={id} onClick={() => this.handleChange(id)} > {category} </li>
+              )
+            })
           }
         </div>
         <div>
-          <button onClick={()=> this.handleClick()}> Submit </button>
+          <button onClick={() => this.handleClick()}> Submit </button>
         </div>
 
       </div>
