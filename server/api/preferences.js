@@ -1,4 +1,3 @@
-const { Op } = require('sequelize')
 const router = require('express').Router()
 // const cache = require('../cache')
 const { Preference, User, UserPreference } = require('../db/models')
