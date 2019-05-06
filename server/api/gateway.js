@@ -4,7 +4,7 @@ function gatewayCreator(condition) {
       if (condition(req)) {
         next()
       } else {
-        res.send('no')
+        throw new Error('Unauthorized')
       }
     } catch (err) {
       next(err)
@@ -20,4 +20,7 @@ const userOrAdminGateway = gatewayCreator(
   req => req.user && (req.user.isAdmin || req.user.id === req.params.userId)
 )
 
-module.exports = {adminGateway, userGateway, userOrAdminGateway}
+const authGateWay = gatewayCreator(
+  req => req.user && req.user.id
+)
+module.exports = { adminGateway, userGateway, userOrAdminGateway, authGateWay }

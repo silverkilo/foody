@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const { UserLocation, Location, } = require('../db/models')
+const { authGateWay } = require('./gateway')
 module.exports = router
 
 
@@ -19,7 +20,8 @@ router.post('/', async (req, res, next) => {
     }
 })
 
-router.post('/:userId', async (req, res, next) => {
+
+router.post('/me', authGateWay, async (req, res, next) => {
     try {
         const { locations } = req.body
         if (!locations || !Array.isArray(locations)) {
@@ -27,7 +29,7 @@ router.post('/:userId', async (req, res, next) => {
             err.status = 400
             throw err
         }
-        const userId = Number(req.params.userId)
+        const userId = req.user.id
         await UserLocation.destroy({
             where: {
                 userId

@@ -15,8 +15,8 @@ Preference.belongsToMany(User, { through: UserPreference })
 User.belongsToMany(Location, { through: UserLocation })
 Location.belongsToMany(User, { through: UserLocation })
 
-User.belongsToMany(User, { through: Match, as: 'Matcher', foreignKey: 'matcherId' })
-User.belongsToMany(User, { through: Match, as: 'Matchee', foreignKey: 'matcheeId' })
+User.belongsToMany(User, { through: Match, as: 'Matchee', foreignKey: 'matcherId' })
+User.belongsToMany(User, { through: Match, as: 'Matcher', foreignKey: 'matcheeId' })
 module.exports = {
   User,
   Preference,

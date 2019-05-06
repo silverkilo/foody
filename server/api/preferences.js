@@ -1,11 +1,12 @@
 const router = require('express').Router()
 const { Preference, User, UserPreference } = require('../db/models')
+const { authGateWay } = require('./gateway')
 module.exports = router
 
 
-router.get('/:id', async (req, res, next) => {
+router.get('/', authGateWay, async (req, res, next) => {
     try {
-        const user = await User.findByPk(Number(req.params.id), {
+        const user = await User.findByPk(Number(req.user.id), {
             include: [
                 { model: Preference }
             ]
@@ -16,7 +17,7 @@ router.get('/:id', async (req, res, next) => {
     }
 })
 
-router.post('/:userId', async (req, res, next) => {
+router.post('/', authGateWay, async (req, res, next) => {
     try {
         const { preferences } = req.body
         if (!preferences || !Array.isArray(preferences)) {
@@ -24,7 +25,7 @@ router.post('/:userId', async (req, res, next) => {
             err.status = 400
             throw err
         }
-        const userId = Number(req.params.userId)
+        const userId = req.user.id
         await UserPreference.destroy({
             where: {
                 userId
