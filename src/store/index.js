@@ -6,8 +6,10 @@ import user from './user'
 import categories from './categories'
 import preferences from './preferences'
 import matchlist from './match'
+import userMatchLatLong from './location'
+import userHood from './neighborhood'
 
-const reducer = combineReducers({ user, categories, preferences, matchlist })
+const reducer = combineReducers({ user, categories, preferences, matchlist, userMatchLatLong, userHood })
 
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))

@@ -17,20 +17,35 @@ export const me = userId => async dispatch => {
   }
 }
 
-export const auth = (
-  firstName,
-  lastName,
-  email,
-  password,
-  method
-) => async dispatch => {
+// export const auth = (
+//   firstName,
+//   lastName,
+//   email,
+//   password,
+//   method
+// ) => async dispatch => {
+//   try {
+//     await axios.post(`/auth/${method}`, {
+//       firstName,
+//       lastName,
+//       email,
+//       password
+//     })
+//   } catch (authError) {
+//     return dispatch(getUser({error: authError}))
+//   }
+// }
+export const auth = (email, password, method) => async dispatch => {
   try {
-    await axios.post(`/auth/${method}`, {
-      firstName,
-      lastName,
+    const res = await axios.post(`/auth/${method}`, {
       email,
       password
     })
+    const res2 = await axios.post('/auth/login', {
+      email: res.data.email,
+      password: 'temp'
+    })
+    dispatch(getUser(res2.data))
   } catch (authError) {
     return dispatch(getUser({error: authError}))
   }
@@ -51,15 +66,15 @@ export const logout = () => async dispatch => {
   try {
     await axios.post('/auth/logout')
     dispatch(removeUser())
-    } catch (err) {
+  } catch (err) {
     console.error(err)
   }
 }
 
 export const updateUserThunk = (userId, userInfo) => async dispatch => {
   try {
-    console.log("userid", userId)
-    console.log("userInfo", userInfo)
+    console.log('userid', userId)
+    console.log('userInfo', userInfo)
     await axios.put(`/api/users/${userId}`, userInfo)
     dispatch(updateUser(userInfo))
   } catch (err) {
@@ -76,7 +91,8 @@ export default function(state = initialState, action) {
     case REMOVE_USER:
       return initialState
     case UPDATE_USER:
-      return {...state,
+      return {
+        ...state,
         firstName: action.userInfo.firstName,
         lastName: action.userInfo.lastName,
         email: action.userInfo.email,

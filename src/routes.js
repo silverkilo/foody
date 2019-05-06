@@ -1,11 +1,26 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
-import {AuthForm, UserProfile, UpdateUser, Preference, Matching, Map, FoodPlaces} from './components'
+
+import {
+  Login,
+  Signup,
+  SignupEmail,
+  SignupName,
+  SignupPassword,
+  Welcome,
+  AuthForm,
+  UserProfile,
+  UpdateUser,
+  Preference,
+  Matching,
+  Map,
+  FoodPlaces
+} from './components'
+
 import {me} from './store'
 
 class Routes extends Component {
-
   componentDidMount() {
     this.props.me()
   }
@@ -13,19 +28,23 @@ class Routes extends Component {
   render() {
     return (
       <Switch>
-        <Route path="/login" component={AuthForm} />
-        <Route path='/profile' component={UserProfile} />
-        <Route path='/editProfile' component={UpdateUser} />
-        <Route path='/preference' component={Preference} />
-        <Route path='/matches' component={Matching} />
-        <Route path='/map' component={Map} />
+        <Route exact path="/" component={Login} />
+        <Route path="/signup" component={Signup} />
+        <Route path="/signup-email" component={SignupEmail} />
+        <Route path="/signup-name" component={SignupName} />
+        <Route path="/signup-password" component={SignupPassword} />
+        <Route path="/welcome" component={Welcome} />
+        <Route path="/authform" component={AuthForm} />
+        <Route path="/profile" component={UserProfile} />
+        <Route path="/editProfile" component={UpdateUser} />
+        <Route path="/preference" component={Preference} />
+        <Route path="/matches" component={Matching} />
+        <Route path="/map" component={Map} />
         <Route path='/food' component={FoodPlaces} />
-
       </Switch>
     )
   }
 }
-
 
 export default withRouter(
   connect(

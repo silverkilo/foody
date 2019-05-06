@@ -22,15 +22,17 @@ export class FoodPlaces extends Component {
     lat: 40.7128,
     long: -74.0060,
     venues: []
-    }
-    this.test = this.test.bind(this)
-    this.getVenues = this.getVenues.bind(this)
   }
+  this.test = this.test.bind(this)
+  this.getVenues = this.getVenues.bind(this)
+}
 
-  componentDidMount() {
-    this.setState({
-      icon: randomIcon()
-    })
+componentDidMount() {
+  this.setState({
+    icon: randomIcon()
+  })
+  window.navigator.geolocation.getCurrentPosition(this.test)
+  this.getVenues();
   }
 
   getVenues() {
@@ -62,11 +64,10 @@ export class FoodPlaces extends Component {
       lat: lat,
       long: long
     })
-    this.getVenues();
   }
 
   render(){
-    window.navigator.geolocation.getCurrentPosition(this.test)
+
     return (
       <MapGL
         {...this.state.viewport}
