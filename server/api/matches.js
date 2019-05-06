@@ -8,6 +8,23 @@ module.exports = router
 router.post('/match/:id', async (req, res, next) => {
     try {
         const id = Number(req.params.id)
+        const { matchee } = req.body
+        const didMatch = req.body.didMatch || !!(await Match.findOne({
+            where: {
+                matcheeId: id,
+                matcherId: matchee
+            }
+        }))
+        if (didMatch) {
+            return res.status(201).send({ didMatch })
+        } else {
+            await Match.create({
+                matcherId: id,
+                matcheeId: matchee
+            })
+        }
+
+
     } catch (error) {
         next(error)
     }
