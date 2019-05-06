@@ -21,7 +21,7 @@ class SignupEmail extends Component {
       event.preventDefault()
       const email = event.target.email.value
       const formName = event.target.name
-      await this.props.auth(email, 'temp', formName)
+      if (email) await this.props.auth(email, 'temp', formName)
       if (this.props.user.id) {
         this.props.history.push('/signup-name')
       }
@@ -32,15 +32,18 @@ class SignupEmail extends Component {
     }
   }
   render() {
+    const {error} = this.props
     return (
       <div className="email">
         <h1 className="email__title">Enter Your Email</h1>
+        {error && error.response && <div> {error.response.data} </div>}
         <form
           className="email__form"
           name="signup"
           onSubmit={this.handleSubmit}
         >
           <input
+            required
             name="email"
             className="email__input"
             type="email"

@@ -44,19 +44,13 @@ router.put(
       if (!user) {
         res.sendStatus(404)
       } else {
-        const [rowsUpdated, userUpdate] = await User.update(
-          {
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            password: req.body.password
-          },
-          {
-            returning: true,
-            where: {id: req.params.userId}
-          }
-        )
-        res.send(userUpdate[0])
+        const updatedUser = await user.update({
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          email: req.body.email,
+          password: req.body.password
+        })
+        res.send(updatedUser)
       }
     } catch (err) {
       next(err)

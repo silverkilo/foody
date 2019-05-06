@@ -33,9 +33,11 @@ class Login extends Component {
     }
   }
   render() {
+    const {error} = this.props
     return (
       <div className="login">
         <h1 className="login__title">Foody</h1>
+        {error && error.response && <div> {error.response.data} </div>}
         <form className="login__form" name="login" onSubmit={this.handleSubmit}>
           <input
             className="login__input"
