@@ -24,17 +24,17 @@ export class FoodPlaces extends Component {
     venues: []
     }
     this.test = this.test.bind(this)
+    this.getVenues = this.getVenues.bind(this)
   }
 
   componentDidMount() {
     this.setState({
       icon: randomIcon()
     })
-
+    this.getVenues();
   }
 
   getVenues() {
-    let setVenueState = this.setState.bind(this);
     const venuesEndpoint = 'https://api.foursquare.com/v2/venues/explore?';
 
     const params = {
@@ -49,7 +49,7 @@ export class FoodPlaces extends Component {
     fetch(venuesEndpoint + new URLSearchParams(params), {
       method: 'GET'
     }).then(response => response.json()).then(response => {
-      setVenueState({venues: response.response.groups[0].items});
+      this.setState({venues: response.response.groups[0].items});
     });
   }
 
@@ -65,7 +65,6 @@ export class FoodPlaces extends Component {
 
   render(){
     window.navigator.geolocation.getCurrentPosition(this.test)
-    this.getVenues();
     return (
       <MapGL
         {...this.state.viewport}
