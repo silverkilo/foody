@@ -1,5 +1,4 @@
 const router = require('express').Router()
-// const cache = require('../cache')
 const { Preference, User, UserPreference } = require('../db/models')
 module.exports = router
 
@@ -11,22 +10,27 @@ router.get('/:id', async (req, res, next) => {
                 { model: Preference }
             ]
         })
-        res.send(user.preferences.map(({ id, category }) => ({ id, category })))
+        res.send(user.preferences)
     } catch (e) {
         next(e)
     }
 })
 
-router.post('/:id', async (req, res, next) => {
+router.post('/:userId', async (req, res, next) => {
     try {
         const { preferences } = req.body
-        const id = Number(req.params.id)
+        if (!preferences || !Array.isArray(preferences)) {
+            const err = new Error('"preferences" must be an array')
+            err.status = 400
+            throw err
+        }
+        const userId = Number(req.params.userId)
         await UserPreference.destroy({
             where: {
-                userId: id
+                userId
             }
         })
-        const newPrefs = preferences.map(preferenceId => ({ userId: id, preferenceId }))
+        const newPrefs = preferences.map(preferenceId => ({ userId, preferenceId }))
         await UserPreference.bulkCreate(newPrefs)
         res.status(201).send(preferences)
     } catch (e) {
