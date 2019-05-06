@@ -6,6 +6,7 @@ import {Link, withRouter} from 'react-router-dom'
 class Welcome extends Component {
   constructor(props) {
     super(props)
+
     this.handleLogOut = this.handleLogOut.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -17,23 +18,24 @@ class Welcome extends Component {
     this.props.history.push('/Preference')
   }
   render() {
+    console.log(this.props)
     const {firstName, lastName} = this.props.user
     return (
       <div className="welcome">
-        <h1 class="welcome__title">Welcome to Foody,</h1>
-        <h1 class="welcome__user">{`${firstName} ${lastName}`}</h1>
-        <p class="welcome__text">
+        <h1 className="welcome__title">Welcome to Foody,</h1>
+        <h1 className="welcome__user">{`${firstName} ${lastName}`}</h1>
+        <p className="welcome__text">
           Start searching for matches and grab something to eat.
         </p>
-        <p class="welcome__text">Edit your profile below.</p>
+        <p className="welcome__text">Edit your profile below.</p>
         <button
-          class="welcome__button"
+          className="welcome__button"
           type="button"
           onClick={() => this.handleSubmit()}
         >
           Next
         </button>
-        <Link to="/editprofile" class="welcome__option">
+        <Link to="/editprofile" className="welcome__option">
           Edit Profile
         </Link>
         <div className="email__footer">
