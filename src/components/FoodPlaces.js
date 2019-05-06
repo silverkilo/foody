@@ -31,16 +31,15 @@ export class FoodPlaces extends Component {
     this.setState({
       icon: randomIcon()
     })
-    this.getVenues();
   }
 
   getVenues() {
     const venuesEndpoint = 'https://api.foursquare.com/v2/venues/explore?';
 
     const params = {
-      client_id: 'ZJWIIRNTTOXTXGYZCHG3YPBEUHSCWKNE00T3LBIE15FXARUB',
-      client_secret: 'KBJ5SOQRK3LL3LO1SPEMO4XWYOU0TVRE2XEPL5G2P1V44QXS',
-      limit: 100,
+      client_id: 'C31O5PRPCMXK5NSFRPCN0PD5R2VRUQCOCU4TMD3MKCXCPLTF',
+      client_secret: 'Z2ZPHY0VHFQIFNJKOQFAOUBVZWRKZIQJYWE1TNJGO2YJT4VR',
+      limit: 20,
       query: 'Food',
       v: '20130619', // version of the API
       ll: `${this.state.lat}, ${this.state.long}`
@@ -65,6 +64,7 @@ export class FoodPlaces extends Component {
 
   render(){
     window.navigator.geolocation.getCurrentPosition(this.test)
+    this.getVenues();
     return (
       <MapGL
         {...this.state.viewport}
@@ -86,3 +86,4 @@ export class FoodPlaces extends Component {
       </MapGL>
   )}
 }
+
