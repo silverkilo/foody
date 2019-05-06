@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
-import {AuthForm, UserProfile, UpdateUser, Preference, Matching, Map} from './components'
+import {AuthForm, UserProfile, UpdateUser, Preference, Matching, Map } from './components'
 import {me} from './store'
 
 class Routes extends Component {
