@@ -14,7 +14,8 @@ import {
   UpdateUser,
   Preference,
   Matching,
-  Map
+  Map,
+  FoodPlaces
 } from './components'
 
 import {me} from './store'
@@ -39,6 +40,7 @@ class Routes extends Component {
         <Route path="/preference" component={Preference} />
         <Route path="/matches" component={Matching} />
         <Route path="/map" component={Map} />
+        <Route path='/food' component={FoodPlaces} />
       </Switch>
     )
   }

@@ -15,6 +15,7 @@
     "pg-hstore": "^2.3.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-foursquare": "^1.0.3",
     "react-map-gl": "^4.1.2",
     "react-map-gl-geocoder": "^2.0.2",
     "react-redux": "^7.0.3",
