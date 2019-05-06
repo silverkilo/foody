@@ -34,7 +34,7 @@ export class FoodPlaces extends Component {
   }
 
   getVenues() {
-    const venuesEndpoint = 'https://api.foursquare.com/v2/venues/explore?';
+    const venuesEndpoint = 'https://api.foursquare.com/v2/venues/search?';
 
     const params = {
       client_id: 'C31O5PRPCMXK5NSFRPCN0PD5R2VRUQCOCU4TMD3MKCXCPLTF',
@@ -48,7 +48,9 @@ export class FoodPlaces extends Component {
     fetch(venuesEndpoint + new URLSearchParams(params), {
       method: 'GET'
     }).then(response => response.json()).then(response => {
-      this.setState({venues: response.response.groups[0].items});
+      this.setState({venues: response.response.venues});
+      console.log(response.response.venues)
+      console.log(typeof(response.response.venues[0].location.lat))
     });
   }
 
@@ -60,11 +62,11 @@ export class FoodPlaces extends Component {
       lat: lat,
       long: long
     })
+    this.getVenues();
   }
 
   render(){
     window.navigator.geolocation.getCurrentPosition(this.test)
-    this.getVenues();
     return (
       <MapGL
         {...this.state.viewport}
@@ -77,8 +79,7 @@ export class FoodPlaces extends Component {
         </Marker>
 
         {this.state.venues.map(item =>
-          <Marker latitude={item.venue.location.lat} longitude={item.venue.location.lng} offsetLeft={-20} offsetTop={-10}>
-          {/* <div>{item.venue.name}</div> */}
+          <Marker latitude={item.location.lat} longitude={item.location.lng} offsetLeft={-20} offsetTop={-10} key={item.location.lat}>
           <div className={`foodMarker food`}></div>
         </Marker>
         )}
