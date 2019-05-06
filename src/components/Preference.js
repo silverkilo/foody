@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux';
-import { getAllCategories } from '../store/categories';
-import { sendUserPreference } from '../store/preferences';
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {getAllCategories} from '../store/categories'
+import {sendUserPreference} from '../store/preferences'
+import {logout} from '../store'
 
 class Preference extends Component {
   constructor(props) {
@@ -10,24 +11,26 @@ class Preference extends Component {
       loaded: false,
       selected: []
     }
+    this.handleLogOut = this.handleLogOut.bind(this)
   }
 
   async reload() {
     this.setState({loaded: false})
-    await this.props
-      .getAllCategories()
-      .then(() =>
-        this.setState({
-          loaded: true
-        })
-      )
+    await this.props.getAllCategories().then(() =>
+      this.setState({
+        loaded: true
+      })
+    )
+  }
+  handleLogOut() {
+    this.props.logout()
+    this.props.history.push('/')
+  }
+  handleChange(id) {
+    this.setState({selected: [...this.state.selected, id]})
   }
 
-  handleChange(value){
-    this.setState({selected: [...this.state.selected, value]})
-  }
-
-  handleClick(){
+  handleClick() {
     this.props.sendUserPreference(this.props.user.id, this.state.selected)
   }
 
@@ -36,9 +39,7 @@ class Preference extends Component {
   }
 
   componentDidUpdate(prevState) {
-    if (
-      prevState === this.props.categories
-    ) {
+    if (prevState === this.props.categories) {
       this.reload()
     }
   }
@@ -49,9 +50,8 @@ class Preference extends Component {
     }
     return (
       <div>
-
         <div>
-            <span> What type of food are you feeling today? </span>
+          <span> What type of food are you feeling today? </span>
         </div>
 
         {/* <div>
@@ -65,16 +65,19 @@ class Preference extends Component {
           </select>
         </div> */}
         <div>
-          {
-            this.props.categories.map(category => {return (
-              <li onClick={() => this.handleChange(category)} > {category} </li>
-            )})
-          }
+          {this.props.categories.map(({id, category}) => {
+            return (
+              <li key={id} onClick={() => this.handleChange(id)}>
+                {' '}
+                {category}{' '}
+              </li>
+            )
+          })}
         </div>
         <div>
-          <button onClick={()=> this.handleClick()}> Submit </button>
+          <button onClick={() => this.handleClick()}> Submit </button>
         </div>
-
+        <button onClick={() => this.handleLogOut()}>Log Out</button>
       </div>
     )
   }
@@ -90,8 +93,12 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getAllCategories: () => dispatch(getAllCategories()),
-    sendUserPreference: (id, pref) => dispatch(sendUserPreference(id, pref))
+    sendUserPreference: (id, pref) => dispatch(sendUserPreference(id, pref)),
+    logout: () => dispatch(logout())
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Preference)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Preference)
