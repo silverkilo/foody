@@ -26,8 +26,8 @@ class Preference extends Component {
     this.props.logout()
     this.props.history.push('/')
   }
-  handleChange(value) {
-    this.setState({selected: [...this.state.selected, value]})
+  handleChange(id) {
+    this.setState({selected: [...this.state.selected, id]})
   }
 
   handleClick() {
@@ -65,9 +65,12 @@ class Preference extends Component {
           </select>
         </div> */}
         <div>
-          {this.props.categories.map(category => {
+          {this.props.categories.map(({id, category}) => {
             return (
-              <li onClick={() => this.handleChange(category)}> {category} </li>
+              <li key={id} onClick={() => this.handleChange(id)}>
+                {' '}
+                {category}{' '}
+              </li>
             )
           })}
         </div>

@@ -1,7 +1,7 @@
 
 
 const db = require('../server/db')
-const {Preference, User} = require('./db/models')
+const { Preference, User } = require('./db/models')
 const categories = [
   'All',
   'African',
@@ -26,7 +26,7 @@ const categories = [
 ]
 
 async function seed() {
-  await db.sync({force: true})
+  await db.sync({ force: true })
   console.log('db synced!')
 
   for (let i = 0; i < categories.length; i++) {

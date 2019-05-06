@@ -1,30 +1,29 @@
 const router = require('express').Router()
-const cache = require('../cache')
+const { Preference } = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
     try {
-        const categories = await cache.categories.get()
-        res.send(categories)
+        const prefs = await Preference.findAll()
+        res.send(prefs.map(({ id, category }) => ({ id, category })))
     } catch (e) {
         next(e)
     }
 })
 router.post('/', async (req, res, next) => {
     try {
-        const categories = await cache.categories.get()
-        categories.push(req.body.preference)
-        await cache.categories.set('all', categories)
-        res.send(categories)
+        const { category } = req.body
+        const pref = await Preference.create({ category })
+        res.status(201).send({ id: pref.id, category })
     } catch (e) {
         next(e)
     }
 })
 
-router.delete('/:name', async (req, res, next) => {
+router.delete('/:id', async (req, res, next) => {
     try {
-        const categories = await cache.categories.get()
-        await cache.categories.set('all', categories.filter(cat => cat !== req.params.name))
+        const { id } = req.params
+        await Preference.destroy({ where: { id } })
         res.sendStatus(204)
     } catch (e) {
         next(e)
