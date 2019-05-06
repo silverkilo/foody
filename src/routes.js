@@ -3,6 +3,11 @@ import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import {
   Login,
+  Signup,
+  SignupEmail,
+  SignupName,
+  SignupPassword,
+  Welcome,
   AuthForm,
   UserProfile,
   UpdateUser,
@@ -21,6 +26,11 @@ class Routes extends Component {
     return (
       <Switch>
         <Route exact path="/" component={Login} />
+        <Route path="/signup" component={Signup} />
+        <Route path="/signup-email" component={SignupEmail} />
+        <Route path="/signup-name" component={SignupName} />
+        <Route path="/signup-password" component={SignupPassword} />
+        <Route path="/welcome" component={Welcome} />
         <Route path="/authform" component={AuthForm} />
         <Route path="/profile" component={UserProfile} />
         <Route path="/editProfile" component={UpdateUser} />

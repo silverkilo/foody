@@ -13,7 +13,7 @@ class Login extends Component {
   }
   componentDidUpdate() {
     if (this.props.user && this.props.user.id) {
-      this.props.history.push('/map')
+      this.props.history.push('/profile')
     }
   }
   async handleSubmit(event) {
@@ -23,7 +23,9 @@ class Login extends Component {
       const email = event.target.email.value
       const password = event.target.password.value
       await this.props.login(email, password, formName)
-      this.props.history.push('/map')
+      if (this.props.user.id) {
+        this.props.history.push('/Preference')
+      }
     } catch (error) {
       this.setState({
         error
@@ -31,7 +33,6 @@ class Login extends Component {
     }
   }
   render() {
-    console.log(this.props)
     return (
       <div className="login">
         <h1 className="login__title">Foody</h1>
@@ -69,7 +70,7 @@ class Login extends Component {
         </form>
         <div className="login__footer">
           <p>
-            Don't have an account?
+            Don't have an account?{' '}
             <Link className="login__footer__link" to="/signup">
               Sign Up.
             </Link>
