@@ -13,6 +13,7 @@
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "express-session": "^1.16.1",
+    "http-proxy-middleware": "^0.19.1",
     "passport": "^0.4.0",
     "passport-google-oauth": "^2.0.0",
     "pg": "^7.10.0",
@@ -61,6 +62,7 @@
   },
   "devDependencies": {
     "concurrently": "^4.1.0",
+    "faker": "^4.1.0",
     "jest": "^24.7.1",
     "morgan": "^1.9.1",
     "prettier": "^1.17.0",

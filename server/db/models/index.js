@@ -10,9 +10,14 @@ const UserPreference = require('./userPreference')
 User.belongsToMany(Preference, { through: UserPreference })
 Preference.belongsToMany(User, { through: UserPreference })
 
-User.belongsToMany(User, { through: Match, as: 'Matcher', foreignKey: 'matcherId' })
-User.belongsToMany(User, { through: Match, as: 'Matchee', foreignKey: 'matcheeId' })
+// User.belongsToMany(Location, { through: UserLocation })
+// Location.belongsToMany(User, { through: UserLocation })
+
+User.belongsToMany(User, { through: Match, as: 'Matchee', foreignKey: 'matcherId' })
+User.belongsToMany(User, { through: Match, as: 'Matcher', foreignKey: 'matcheeId' })
 module.exports = {
   User,
-  Preference, Match, UserPreference
+  Preference,
+  Match,
+  UserPreference,
 }
