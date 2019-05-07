@@ -6,6 +6,7 @@ const matchPreference = preference => ({type: MATCH_PREFERENCE, preference})
 
 export const getMatchPreference = (userId) => async dispatch => {
   try {
+    // add a line to get the matched prefences
     dispatch(matchPreference())
   } catch (err) {
     console.error(err)
