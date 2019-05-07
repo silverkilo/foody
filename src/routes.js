@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch } from 'react-router-dom'
+
+
 import {
   Login,
   Signup,
@@ -13,9 +15,12 @@ import {
   UpdateUser,
   Preference,
   Matching,
-  Map
+  Map,
+  FoodPlaces,
+  UserPreference
 } from './components'
 import { me, createConnection, errorListener } from './store'
+
 
 class Routes extends Component {
   componentDidMount() {

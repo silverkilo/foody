@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@mapbox/react-geocoder": "^2.5.0",
     "axios": "^0.18.0",
     "connect-session-sequelize": "^6.0.0",
     "cors": "^2.8.5",
@@ -16,7 +17,9 @@
     "pg-hstore": "^2.3.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-foursquare": "^1.0.3",
     "react-map-gl": "^4.1.2",
+    "react-map-gl-geocoder": "^2.0.2",
     "react-redux": "^7.0.3",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.0",

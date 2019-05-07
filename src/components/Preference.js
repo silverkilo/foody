@@ -1,8 +1,13 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {getAllCategories} from '../store/categories'
-import {sendUserPreference} from '../store/preferences'
-import {logout} from '../store'
+import {
+  getAllCategories,
+  sendUserPreference,
+  logout,
+  addPreference
+} from '../store'
+import UserPreference from './User-Preference'
+import Nav from './Nav'
 
 class Preference extends Component {
   constructor(props) {
@@ -11,27 +16,9 @@ class Preference extends Component {
       loaded: false,
       selected: []
     }
-    this.handleLogOut = this.handleLogOut.bind(this)
-  }
-
-  async reload() {
-    this.setState({loaded: false})
-    await this.props.getAllCategories().then(() =>
-      this.setState({
-        loaded: true
-      })
-    )
-  }
-  handleLogOut() {
-    this.props.logout()
-    this.props.history.push('/')
-  }
-  handleChange(id) {
-    this.setState({selected: [...this.state.selected, id]})
-  }
-
-  handleClick() {
-    this.props.sendUserPreference(this.props.user.id, this.state.selected)
+    this.handleSelect = this.handleSelect.bind(this)
+    this.handleClick = this.handleClick.bind(this)
+    this.formatPreferences = this.formatPreferences.bind(this)
   }
 
   componentDidMount() {
@@ -44,40 +31,66 @@ class Preference extends Component {
     }
   }
 
+  async reload() {
+    this.setState({loaded: false})
+    await this.props.getAllCategories().then(() =>
+      this.setState({
+        loaded: true
+      })
+    )
+  }
+
+  handleSelect(preference) {
+    this.props.addPreference(preference)
+  }
+
+  formatPreferences(preferences) {
+    let prefIds = []
+    for (let preference of preferences) {
+      prefIds.push(preference.id)
+    }
+    return prefIds
+  }
+
+  handleClick() {
+    const preferences = this.formatPreferences(this.props.preferences)
+    this.props.sendUserPreference(this.props.user.id, preferences)
+  }
+
   render() {
     if (!this.state.loaded) {
       return <h1>Loading...</h1>
     }
     return (
-      <div>
-        <div>
-          <span> What type of food are you feeling today? </span>
+      <div className="preference">
+        <Nav />
+        <div className="preference__selection">
+          <h1 className="preference__text">
+            What type of food are you feeling today?
+          </h1>
+          <UserPreference />
         </div>
-
-        {/* <div>
-          <select defaultValue={this.props.categories[0]}
-          onChange={evt => this.props.sendUserPreference(this.props.user.id,[...evt.target.selectedOptions].map(x=> x.value))}>
-              {this.props.categories.map(
-                val => (
-                  <option key={val} value={val}> {val} </option>
-                )
-              )}
-          </select>
-        </div> */}
-        <div>
-          {this.props.categories.map(({id, category}) => {
+        <div className="preference__list">
+          {this.props.categories.map(category => {
             return (
-              <li key={id} onClick={() => this.handleChange(id)}>
-                {' '}
-                {category}{' '}
-              </li>
+              <button
+                className="preference__button"
+                type="button"
+                key={category.id}
+                onClick={() => this.handleSelect(category)}
+              >
+                {category.category}
+              </button>
             )
           })}
         </div>
-        <div>
-          <button onClick={() => this.handleClick()}> Submit </button>
-        </div>
-        <button onClick={() => this.handleLogOut()}>Log Out</button>
+        <button
+          className="match"
+          type="button"
+          onClick={() => this.handleClick()}
+        >
+          Match Me
+        </button>
       </div>
     )
   }
@@ -86,7 +99,8 @@ class Preference extends Component {
 const mapStateToProps = state => {
   return {
     categories: state.categories,
-    user: state.user
+    user: state.user,
+    preferences: state.preferences
   }
 }
 
@@ -94,7 +108,8 @@ const mapDispatchToProps = dispatch => {
   return {
     getAllCategories: () => dispatch(getAllCategories()),
     sendUserPreference: (id, pref) => dispatch(sendUserPreference(id, pref)),
-    logout: () => dispatch(logout())
+    logout: () => dispatch(logout()),
+    addPreference: preference => dispatch(addPreference(preference))
   }
 }
 

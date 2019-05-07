@@ -1,13 +1,20 @@
 import axios from 'axios'
 
-const SET_PREFERENCES = 'SET_PREFERENCES'
+const ADD_PREFERENCE = 'ADD_PREFERENCE'
+const REMOVE_PREFERENCE = 'REMOVE_PREFERENCE'
+const SEND_PREFERENCES = 'SEND_PREFERENCES'
 
-const sendPreferences = preferences => ({type: SET_PREFERENCES, preferences})
+export const addPreference = preference => ({type: ADD_PREFERENCE, preference})
+export const removePreference = preference => ({
+  type: REMOVE_PREFERENCE,
+  preference
+})
+const sendPreferences = () => ({type: SEND_PREFERENCES})
 
 export const sendUserPreference = (id, preferences) => async dispatch => {
   try {
-    const res = await axios.post(`/api/preferences/${id}`, {preferences})
-    dispatch(sendPreferences(res.data))
+    await axios.post(`/api/preferences/${id}`, {preferences})
+    dispatch(sendPreferences())
   } catch (err) {
     console.error(err)
   }
@@ -17,8 +24,17 @@ const initialState = []
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case SET_PREFERENCES:
-      return action.preferences
+    case ADD_PREFERENCE:
+      for (let preference of state) {
+        if (preference.id === action.preference.id) {
+          return state
+        }
+      }
+      return [...state, action.preference]
+    case REMOVE_PREFERENCE:
+      return state.filter(preference => preference.id !== action.preference.id)
+    case SEND_PREFERENCES:
+      return initialState
     default:
       return state
   }
