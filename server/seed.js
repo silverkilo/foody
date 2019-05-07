@@ -46,8 +46,8 @@ async function seed() {
       lastName: faker.name.lastName(),
       email: faker.internet.email(),
       password: String(i + 2),
-      latitude: codyLoc.latitude + (i * ((Math.random() > 5 ? -1 : 1) * 100)),
-      longitude: codyLoc.longitude + (i * ((Math.random() > 5 ? -1 : 1) * 100))
+      latitude: codyLoc.latitude + (i * ((Math.random() > 5 ? -1 : 1) * 200)),
+      longitude: codyLoc.longitude + (i * ((Math.random() > 5 ? -1 : 1) * 200))
     }))),
     {
       returning: true

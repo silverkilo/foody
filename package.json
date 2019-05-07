@@ -5,9 +5,11 @@
   "dependencies": {
     "axios": "^0.18.0",
     "connect-session-sequelize": "^6.0.0",
+    "cors": "^2.8.5",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "express-session": "^1.16.1",
+    "http-proxy-middleware": "^0.19.1",
     "passport": "^0.4.0",
     "passport-google-oauth": "^2.0.0",
     "pg": "^7.10.0",

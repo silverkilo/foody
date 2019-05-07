@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {withRouter, Route, Switch} from 'react-router-dom'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { withRouter, Route, Switch } from 'react-router-dom'
 import {
   Login,
   Signup,
@@ -15,11 +15,13 @@ import {
   Matching,
   Map
 } from './components'
-import {me} from './store'
+import { me, createConnection, errorListener } from './store'
 
 class Routes extends Component {
   componentDidMount() {
     this.props.me()
+    this.props.createConnection()
+    this.props.errorListener()
   }
 
   render() {
@@ -45,6 +47,6 @@ class Routes extends Component {
 export default withRouter(
   connect(
     null,
-    {me}
+    { me, createConnection, errorListener }
   )(Routes)
 )
