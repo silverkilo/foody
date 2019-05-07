@@ -7,6 +7,7 @@ import {
   addPreference
 } from '../store'
 import UserPreference from './User-Preference'
+import Nav from './Nav'
 
 class Preference extends Component {
   constructor(props) {
@@ -62,9 +63,7 @@ class Preference extends Component {
     }
     return (
       <div className="preference">
-        <header className="header">
-          <h1 className="header__title">Foody</h1>
-        </header>
+        <Nav />
         <div className="preference__selection">
           <h1 className="preference__text">
             What type of food are you feeling today?
