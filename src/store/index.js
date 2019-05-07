@@ -9,7 +9,14 @@ import matchlist from './match'
 import userMatchLatLong from './location'
 import userHood from './neighborhood'
 
-const reducer = combineReducers({ user, categories, preferences, matchlist, userMatchLatLong, userHood })
+const reducer = combineReducers({
+  user,
+  categories,
+  preferences,
+  matchlist,
+  userMatchLatLong,
+  userHood
+})
 
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
@@ -19,3 +26,5 @@ export const store = createStore(reducer, middleware)
 
 export default store
 export * from './user'
+export * from './categories'
+export * from './preferences'
