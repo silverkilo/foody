@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
-import MapGL, {Marker} from 'react-map-gl';
+import DeckGL from '@deck.gl/react';
+import {LineLayer} from '@deck.gl/layers';
+import StaticMap, {Marker} from 'react-map-gl';
 import { connect } from 'react-redux';
 import { setUserLatLong, getMatchLatLong } from '../store/location'
 import { getMatchPreference } from '../store/matchPreference'
 import './mapstyles.css'
 
+const mapAccess = {
+  mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
+}
 
-// const mapAccess = {
-//   mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
-// }
+const data = [{sourcePosition: [-74.006, 40.712], targetPosition: [-73.977, 40.731]}];
 
 function randomIcon(){
   return Math.floor(Math.random() * 8) + 1;
@@ -34,6 +37,7 @@ export class Map extends Component {
       // THE BELOW MATCH PREFERENCES JUST HAS SOME PLACEHOLDER PREFERENCES FOR TESTING
       matchPreferences: ['Food Truck', 'Supermarket', 'Food Stand']
     }
+
     this.getCurrentLocation = this.getCurrentLocation.bind(this)
     this.getVenuesUser = this.getVenuesUser.bind(this)
     this.getVenuesMatch = this.getVenuesMatch.bind(this)
@@ -106,41 +110,50 @@ export class Map extends Component {
   }
 
   render(){
-
+    const layers = [
+      new LineLayer({id: 'line-layer', data})
+    ];
     return (
-      <MapGL
-        {...this.state.viewport}
-        mapStyle='mapbox://styles/rhearao/cjv749h8x1o4f1fpff04veqj9'
-        onViewportChange={(viewport) => this.setState({viewport})}
-        mapboxApiAccessToken='pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg'
+      <DeckGL
+        initialViewState={this.state.viewport}
+        controller={true}
+        layers={layers}
       >
+        <StaticMap
+          {...mapAccess}
+          {...this.state.viewport}
+          mapStyle='mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu'
+          onViewportChange={(viewport) => this.setState({viewport})}
+          // mapboxApiAccessToken='pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg'
+        >
 
-        <Marker latitude={this.state.lat} longitude={this.state.long} offsetLeft={-20} offsetTop={-10}>
-          <div className={`marker marker${this.state.icon}`}></div> </Marker>
+          <Marker latitude={this.state.lat} longitude={this.state.long} offsetLeft={-20} offsetTop={-10}>
+            <div className={`marker marker${this.state.icon}`}></div> </Marker>
 
-        <Marker latitude={this.props.matchLat} longitude={this.props.matchLong} offsetLeft={-20} offsetTop={-10}>
-          <div className={`marker marker${this.state.icon2}`}></div>
-        </Marker>
+          <Marker latitude={this.props.matchLat} longitude={this.props.matchLong} offsetLeft={-20} offsetTop={-10}>
+            <div className={`marker marker${this.state.icon2}`}></div>
+          </Marker>
 
-        {this.state.venuesUser.map(item =>
-          <Marker latitude={item.location.lat} longitude={item.location.lng} offsetLeft={-20} offsetTop={-10} key={item.location.lat}>
-          <div className={`foodMarker food`}></div>
-        </Marker>
-        )}
+          {this.state.venuesUser.map(item =>
+            <Marker latitude={item.location.lat} longitude={item.location.lng} offsetLeft={-20} offsetTop={-10} key={item.location.lat}>
+            <div className={`foodMarker food`}></div>
+          </Marker>
+          )}
 
-        {this.state.venuesMatch.map(item =>
-          <Marker latitude={item.location.lat} longitude={item.location.lng} offsetLeft={-20} offsetTop={-10} key={item.location.lat}>
-          <div className={`foodMarker food`}></div>
-        </Marker>
-        )}
-
-      </MapGL>
+          {this.state.venuesMatch.map(item =>
+            <Marker latitude={item.location.lat} longitude={item.location.lng} offsetLeft={-20} offsetTop={-10} key={item.location.lat}>
+            <div className={`foodMarker food`}></div>
+          </Marker>
+          )}
+        </StaticMap>
+      </DeckGL>
     )
   }
 }
 
 const mapStateToProps = state => {
   return {
+    userName: state.user.name,
     userId: state.user.id,
     matchLat: state.userMatchLatLong.match[0],
     matchLong: state.userMatchLatLong.match[1]

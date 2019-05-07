@@ -16,7 +16,6 @@ import {
   Preference,
   Matching,
   Map,
-  FoodPlaces,
   UserPreference
 } from './components'
 import { me, createConnection, errorListener } from './store'
