@@ -15,7 +15,8 @@ import {
   Preference,
   Matching,
   Map,
-  FoodPlaces
+  FoodPlaces,
+  UserPreference
 } from './components'
 
 import {me} from './store'
