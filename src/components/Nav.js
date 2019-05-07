@@ -23,7 +23,7 @@ class Nav extends Component {
           type="button"
           onClick={() => this.handleLogOut()}
         >
-          <i class="fas fa-cog" />
+          <i className="fas fa-cog" />
         </button>
       </header>
     )
