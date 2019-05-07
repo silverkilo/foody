@@ -7,7 +7,7 @@ import categories from './categories'
 import preferences from './preferences'
 import matchlist from './match'
 import userMatchLatLong from './location'
-import userHood from './neighborhood'
+import matchPreference from './matchPreference'
 
 const reducer = combineReducers({
   user,
@@ -15,7 +15,7 @@ const reducer = combineReducers({
   preferences,
   matchlist,
   userMatchLatLong,
-  userHood
+  matchPreference
 })
 
 const middleware = composeWithDevTools(
