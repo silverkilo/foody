@@ -1,19 +1,14 @@
 import React, {Component} from 'react';
 import MapGL, {Marker} from 'react-map-gl';
 import { connect } from 'react-redux';
-import { setUserNeighborhood }  from '../store/neighborhood'
 import { setUserLatLong, getMatchLatLong } from '../store/location'
+import { getMatchPreference } from '../store/matchPreference'
 import './mapstyles.css'
 
 
-const mapAccess = {
-  mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
-}
-
-const fourSquareAccess = {
-  client_id: process.env.client_id,
-  client_secret: process.env.client_secret
-}
+// const mapAccess = {
+//   mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
+// }
 
 function randomIcon(){
   return Math.floor(Math.random() * 8) + 1;
@@ -35,7 +30,9 @@ export class Map extends Component {
       lat: 40.754,
       long: -73.984,
       venuesUser: [],
-      venuesMatch: []
+      venuesMatch: [],
+      // THE BELOW MATCH PREFERENCES JUST HAS SOME PLACEHOLDER PREFERENCES FOR TESTING
+      matchPreferences: ['Food Truck', 'Supermarket', 'Food Stand']
     }
     this.getCurrentLocation = this.getCurrentLocation.bind(this)
     this.getVenuesUser = this.getVenuesUser.bind(this)
@@ -47,7 +44,9 @@ export class Map extends Component {
     this.props.getMatchLatLong(this.props.userId)
     this.setState({
       icon: randomIcon(),
-      icon2: randomIcon()
+      icon2: randomIcon(),
+      // COMMENT THE BELOW BACK IN ONCE WE HAVE THE MATCH PREFERENCES
+      // matchPreferences: this.props.getMatchPreference(this.props.userId)
     })
     window.setTimeout(this.getVenuesUser, 3000)
     window.setTimeout(this.getVenuesMatch, 3000)
@@ -59,7 +58,7 @@ export class Map extends Component {
     const params = {
       client_id: 'C31O5PRPCMXK5NSFRPCN0PD5R2VRUQCOCU4TMD3MKCXCPLTF',
       client_secret: 'Z2ZPHY0VHFQIFNJKOQFAOUBVZWRKZIQJYWE1TNJGO2YJT4VR',
-      limit: 50,
+      limit: 5,
       query: 'Food',
       v: '20130619', // version of the API
       ll: `${this.state.lat}, ${this.state.long}`,
@@ -69,7 +68,8 @@ export class Map extends Component {
     fetch(venuesEndpoint + new URLSearchParams(params), {
       method: 'GET'
     }).then(response => response.json()).then(response => {
-      this.setState({venuesUser: response.response.venues});
+      let filtered = response.response.venues.filter((eachPlace => (this.state.matchPreferences.indexOf(eachPlace.categories[0]['name']) > -1)))
+      this.setState({venuesUser: filtered});
     });
   }
 
@@ -79,7 +79,7 @@ export class Map extends Component {
     const params = {
       client_id: 'C31O5PRPCMXK5NSFRPCN0PD5R2VRUQCOCU4TMD3MKCXCPLTF',
       client_secret: 'Z2ZPHY0VHFQIFNJKOQFAOUBVZWRKZIQJYWE1TNJGO2YJT4VR',
-      limit: 50,
+      limit: 5,
       query: 'Food',
       v: '20130619', // version of the API
       ll: `${this.props.matchLat}, ${this.props.matchLong}`,
@@ -89,7 +89,8 @@ export class Map extends Component {
     fetch(venuesEndpoint + new URLSearchParams(params), {
       method: 'GET'
     }).then(response => response.json()).then(response => {
-      this.setState({venuesMatch: response.response.venues});
+      let filtered = response.response.venues.filter((eachPlace => (this.state.matchPreferences.indexOf(eachPlace.categories[0]['name']) > -1)))
+      this.setState({venuesMatch: filtered});
     });
   }
 
@@ -102,17 +103,16 @@ export class Map extends Component {
       long: long
     })
     this.props.setUserLatLong([this.state.lat, this.state.long])
-    this.props.setUserNeighborhood(this.state.long, this.state.lat)
   }
 
   render(){
 
     return (
       <MapGL
-        {...mapAccess}
         {...this.state.viewport}
         mapStyle='mapbox://styles/rhearao/cjv749h8x1o4f1fpff04veqj9'
         onViewportChange={(viewport) => this.setState({viewport})}
+        mapboxApiAccessToken='pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg'
       >
 
         <Marker latitude={this.state.lat} longitude={this.state.long} offsetLeft={-20} offsetTop={-10}>
@@ -149,9 +149,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setUserNeighborhood: (long, lat) => dispatch(setUserNeighborhood(long, lat)),
     setUserLatLong: (arr) => dispatch(setUserLatLong(arr)),
-    getMatchLatLong: (userId) => dispatch(getMatchLatLong(userId))
+    getMatchLatLong: (userId) => dispatch(getMatchLatLong(userId)),
+    getMatchPreference: (userId) => dispatch(getMatchPreference(userId))
   }
 }
 
