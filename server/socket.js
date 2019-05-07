@@ -2,14 +2,12 @@ const socketIO = require('socket.io')
 const { Op, fn, col, literal } = require('sequelize')
 const { Preference, User, UserPreference, Match } = require('./db/models')
 module.exports = function (server, sessionMiddleware) {
-    const io = socketIO(server,
-        // { origins: 'http://localhost:3000' }
-    )
+    const io = socketIO(server)
     io.use((socket, next) => {
         sessionMiddleware(socket.request, socket.request.res, next);
     });
     io.on('connect', (socket) => {
-        console.log('connected', socket.request.session)
+
         socket.on('getMatches', async ({ id, exclude }) => {
             try {
                 exclude = (exclude || []).concat([id])
