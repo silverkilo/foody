@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 
 export class FoodDetails extends Component {
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
     this.state = {
       name: '',
-      price: 2,
+      price: '',
       address: '',
       city: '',
       state: '',

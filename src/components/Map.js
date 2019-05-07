@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { setUserLatLong, getMatchLatLong } from '../store/location'
 import { getMatchPreference } from '../store/matchPreference'
 import './mapstyles.css'
-
+import ReactSwipe from 'react-swipe';
+import {FoodDetails} from './FoodDetails'
 
 // const mapAccess = {
 //   mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
@@ -32,7 +33,8 @@ export class Map extends Component {
       venuesUser: [],
       venuesMatch: [],
       // THE BELOW MATCH PREFERENCES JUST HAS SOME PLACEHOLDER PREFERENCES FOR TESTING
-      matchPreferences: ['Food Truck', 'Supermarket', 'Food Stand']
+      matchPreferences: ['Food Truck', 'Supermarket', 'Food Stand'],
+      loaded: false
     }
     this.getCurrentLocation = this.getCurrentLocation.bind(this)
     this.getVenuesUser = this.getVenuesUser.bind(this)
@@ -68,7 +70,7 @@ export class Map extends Component {
     fetch(venuesEndpoint + new URLSearchParams(params), {
       method: 'GET'
     }).then(response => response.json()).then(response => {
-      let filtered = response.response.venues.filter((eachPlace => (this.state.matchPreferences.indexOf(eachPlace.categories[0]['name']) > -1)))
+      let filtered = response.response.venues.filter((eachPlace => (this.state.matchPreferences.indexOf(eachPlace.categories[0]['name']) === -1)))
       this.setState({venuesUser: filtered});
     });
   }
@@ -79,7 +81,7 @@ export class Map extends Component {
     const params = {
       client_id: 'C31O5PRPCMXK5NSFRPCN0PD5R2VRUQCOCU4TMD3MKCXCPLTF',
       client_secret: 'Z2ZPHY0VHFQIFNJKOQFAOUBVZWRKZIQJYWE1TNJGO2YJT4VR',
-      limit: 5,
+      limit: 10,
       query: 'Food',
       v: '20130619', // version of the API
       ll: `${this.props.matchLat}, ${this.props.matchLong}`,
@@ -89,9 +91,12 @@ export class Map extends Component {
     fetch(venuesEndpoint + new URLSearchParams(params), {
       method: 'GET'
     }).then(response => response.json()).then(response => {
-      let filtered = response.response.venues.filter((eachPlace => (this.state.matchPreferences.indexOf(eachPlace.categories[0]['name']) > -1)))
+      let filtered = response.response.venues.filter((eachPlace => (this.state.matchPreferences.indexOf(eachPlace.categories[0]['name']) === -1)))
       this.setState({venuesMatch: filtered});
     });
+    this.setState({
+      loaded: true
+    })
   }
 
   getCurrentLocation(position) {
@@ -106,11 +111,12 @@ export class Map extends Component {
   }
 
   render(){
-
+    let reactSwipeEl;
     return (
+      <div>
       <MapGL
         {...this.state.viewport}
-        mapStyle='mapbox://styles/rhearao/cjv749h8x1o4f1fpff04veqj9'
+        mapStyle='mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu'
         onViewportChange={(viewport) => this.setState({viewport})}
         mapboxApiAccessToken='pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg'
       >
@@ -135,6 +141,33 @@ export class Map extends Component {
         )}
 
       </MapGL>
+
+      {this.state.loaded &&
+        <div>
+          <ReactSwipe
+            swipeOptions={{ continuous: true }}
+            ref={el => (reactSwipeEl = el)}
+          >
+
+            {this.state.venuesUser.map((eachVenue) => {
+                {/* <FoodDetails venueId={eachVenue.id}/> */}
+                return (
+                <div>
+                  {/* <h2>{eachVenue.id}</h2> */}
+                  <h2>"HI"</h2>
+                  {console.log("ID:", eachVenue.id)}
+                  <button>Yes</button>
+                  <button>No</button>
+                </div>)
+            }
+            )}
+
+          </ReactSwipe>
+          <button onClick={() => reactSwipeEl.next()}>Next</button>
+          <button onClick={() => reactSwipeEl.prev()}>Previous</button>
+        </div>
+      }
+      </div>
     )
   }
 }
