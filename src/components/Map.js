@@ -123,13 +123,13 @@ export class Map extends Component {
         </Marker>
 
         {this.state.venuesUser.map(item =>
-          <Marker latitude={item.location.lat} longitude={item.location.lng} offsetLeft={-20} offsetTop={-10} key={item.location.lat}>
+          <Marker latitude={item.location.lat} longitude={item.location.lng} offsetLeft={-20} offsetTop={-10} key={item.id}>
           <div className={`foodMarker food`}></div>
         </Marker>
         )}
 
         {this.state.venuesMatch.map(item =>
-          <Marker latitude={item.location.lat} longitude={item.location.lng} offsetLeft={-20} offsetTop={-10} key={item.location.lat}>
+          <Marker latitude={item.location.lat} longitude={item.location.lng} offsetLeft={-20} offsetTop={-10} key={item.id}>
           <div className={`foodMarker food`}></div>
         </Marker>
         )}
