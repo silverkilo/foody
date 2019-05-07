@@ -15,7 +15,6 @@ import {
   Preference,
   Matching,
   Map,
-  FoodPlaces,
   UserPreference
 } from './components'
 
