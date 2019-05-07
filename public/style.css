@@ -171,17 +171,23 @@
 }
 .header {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     height: 80px;
+    padding: 0 20px;
     border-bottom: 1px solid rgb(231, 231, 231);
     position: fixed;
     background: white;
 }
+.header div {
+    flex-basis: 30%;
+}
 .header__title {
+    flex-basis: 30%;
     font-family: 'Pacifico', cursive;
     font-size: 2.5em;
+    text-align: center;
 }
 .preference__selection {
     display: flex;
@@ -253,4 +259,10 @@
     width: 100%;
     padding: 20px;
     font-size: 2em;
+}
+
+.logout {
+    font-size: 2em;
+    flex-basis: 30%;
+    text-align: right;
 }
