@@ -1,6 +1,6 @@
 const router = require('express').Router()
-const { Op, fn, col } = require('sequelize')
-const { Preference, User, UserPreference, Location, UserLocation, Match } = require('../db/models')
+const { Op, fn, col, literal } = require('sequelize')
+const { Preference, User, UserPreference, Match } = require('../db/models')
 const { authGateWay } = require('./gateway')
 module.exports = router
 
@@ -16,15 +16,22 @@ router.post('/match/:id', async (req, res, next) => {
             }
         }))
         if (didMatch) {
-            return res.status(201).send({ didMatch })
+            User.update({
+                hasMatched: true
+            }, {
+                    where: {
+                        id: {
+                            [Op.in]: [id, matchee]
+                        }
+                    }
+                }).catch(e => console.log(e))
         } else {
             await Match.create({
                 matcherId: id,
                 matcheeId: matchee
             })
         }
-
-
+        res.status(201).send({ didMatch })
     } catch (error) {
         next(error)
     }
@@ -39,17 +46,17 @@ router.post('/potential/:id', async (req, res, next) => {
         const user = await User.findByPk(id, {
             include: [{
                 model: Preference
-            }, {
-                model: Location
             }]
         })
         const userPrefs = user.preferences.map(({ id, }) => id)
-        const userLocs = user.locations.map(({ id }) => id)
+        const distanceCalc = literal(`sqrt(pow(${user.latitude} - "user"."latitude", 2) + pow(${user.longitude} - "user"."longitude", 2))`)
         const matchers = await user.getMatcher({
+            attributes: ['firstName', 'lastName', 'id', 'latitude', 'longitude', [distanceCalc, 'distance']],
             where: {
                 id: {
                     [Op.notIn]: exclude
-                }
+                },
+                hasMatched: false
             },
             include: [{
                 model: Preference,
@@ -58,17 +65,11 @@ router.post('/potential/:id', async (req, res, next) => {
                         [Op.in]: userPrefs
                     }
                 },
-            }, {
-                model: Location,
-                where: {
-                    id: {
-                        [Op.in]: userLocs
-                    }
-                }
             }],
-            order: col('preferences')
+            order: col('distance')
         })
         const rest = await User.findAll({
+            attributes: ['firstName', 'lastName', 'id', 'latitude', 'longitude', [distanceCalc, 'distance']],
             include: [{
                 model: Preference,
                 where: {
@@ -76,20 +77,14 @@ router.post('/potential/:id', async (req, res, next) => {
                         [Op.in]: userPrefs
                     }
                 },
-            }, {
-                model: Location,
-                where: {
-                    id: {
-                        [Op.in]: userLocs
-                    }
-                }
             }],
             where: [{
                 id: {
                     [Op.notIn]: exclude.concat(matchers.map(({ id }) => id))
-                }
+                },
+                hasMatched: false,
             }],
-            order: col('preferences')
+            order: col('distance'),
         })
         res.send(matchers.concat(rest))
     } catch (e) {

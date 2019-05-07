@@ -2,7 +2,7 @@
 
 const faker = require('faker')
 const db = require('../server/db')
-const { Preference, User, Location, UserPreference, Match, UserLocation } = require('./db/models')
+const { Preference, User, UserPreference, Match } = require('./db/models')
 const categories = [
   'All',
   'African',
@@ -25,38 +25,35 @@ const categories = [
   'Vegan',
   'Vegetarian'
 ]
-const locations = [
-  'Greenwich',
-  'ChinaTown',
-  'Flatiron'
-]
-
 async function seed() {
   await db.sync({ force: true })
   console.log('db synced!')
 
   await Preference.bulkCreate(categories.map(category => ({ category })))
+  const codyLoc = {
+    "latitude": 40.704663848e7,
+    "longitude": -74.006499974e7
+  }
   const users = await User.bulkCreate(
     [{
+      ...codyLoc,
       firstName: 'Cody',
       lastName: 'The Pug',
       email: 'cody@thepug.com',
-      password: '123'
+      password: '123',
     }].concat(Array(11).fill('x').map((_, i) => ({
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       email: faker.internet.email(),
-      password: String(i + 2)
+      password: String(i + 2),
+      latitude: codyLoc.latitude + (i * ((Math.random() > 5 ? -1 : 1) * 100)),
+      longitude: codyLoc.longitude + (i * ((Math.random() > 5 ? -1 : 1) * 100))
     }))),
     {
       returning: true
     }
   )
-  await Location.bulkCreate(locations.map(name => ({ name })))
-  await UserLocation.bulkCreate(users.map(({ id: userId }, i) => ({
-    userId,
-    locationId: 1
-  })))
+
   await UserPreference.bulkCreate(
     Array(users.length * 3).fill('x').map((_, i) => ({
       userId: (i % users.length) + 1,
