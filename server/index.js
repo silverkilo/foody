@@ -7,6 +7,7 @@ const session = require('express-session')
 const passport = require('passport')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const db = require('./db')
+const gis = require('./gis')
 const sessionStore = new SequelizeStore({ db })
 const app = express()
 const server = http.createServer(app)
@@ -56,6 +57,10 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 db.sync()
+  .then(async () => {
+    await gis(db)
+
+  })
   .then(function () {
     return sessionStore.sync()
   })

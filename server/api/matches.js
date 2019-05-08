@@ -49,25 +49,30 @@ router.post('/potential/:id', async (req, res, next) => {
             }]
         })
         const userPrefs = user.preferences.map(({ id, }) => id)
-        const distanceCalc = literal(`sqrt(pow(${user.latitude} - "user"."latitude", 2) + pow(${user.longitude} - "user"."longitude", 2))`)
-        const matchers = await user.getMatcher({
-            attributes: ['firstName', 'lastName', 'id', 'latitude', 'longitude', [distanceCalc, 'distance']],
-            where: {
-                id: {
-                    [Op.notIn]: exclude
-                },
-                hasMatched: false
-            },
-            include: [{
-                model: Preference,
-                where: {
-                    id: {
-                        [Op.in]: userPrefs
-                    }
-                },
-            }],
-            order: col('distance')
-        })
+        // const distanceCalc = literal(`sqrt(pow(${user.latitude} - "user"."latitude", 2) + pow(${user.longitude} - "user"."longitude", 2))`)
+        // const matchers = await user.getMatcher({
+        //     attributes: ['firstName', 'lastName', 'id', 'latitude', 'longitude', [distanceCalc, 'distance']],
+        //     where: {
+        //         id: {
+        //             [Op.notIn]: exclude
+        //         },
+        //         hasMatched: false
+        //     },
+        //     include: [{
+        //         model: Preference,
+        //         where: {
+        //             id: {
+        //                 [Op.in]: userPrefs
+        //             }
+        //         },
+        //     }],
+        //     order: col('distance')
+        // })
+        // const [matchers] = await db.query(`
+        //     SELECT 
+        //         "id", firstName", "lastName", "coords"
+
+        // `)
         const rest = await User.findAll({
             attributes: ['firstName', 'lastName', 'id', 'latitude', 'longitude', [distanceCalc, 'distance']],
             include: [{

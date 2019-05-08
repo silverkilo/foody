@@ -2,6 +2,7 @@
 
 const faker = require('faker')
 const db = require('../server/db')
+const gis = require('./gis')
 const { Preference, User, UserPreference, Match } = require('./db/models')
 const categories = [
   'All',
@@ -27,13 +28,16 @@ const categories = [
 ]
 async function seed() {
   await db.sync({ force: true })
+  await gis(db)
   console.log('db synced!')
 
   await Preference.bulkCreate(categories.map(category => ({ category })))
   const codyLoc = {
-    "latitude": 40.704663848e7,
-    "longitude": -74.006499974e7
+    "latitude": 40.704663848,
+    "longitude": -74.006499974
   }
+  const locations = [codyLoc]
+
   const users = await User.bulkCreate(
     [{
       ...codyLoc,
@@ -41,19 +45,27 @@ async function seed() {
       lastName: 'The Pug',
       email: 'cody@thepug.com',
       password: '123',
-    }].concat(Array(11).fill('x').map((_, i) => ({
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
-      email: faker.internet.email(),
-      password: String(i + 2),
-      latitude: codyLoc.latitude + (i * ((Math.random() > 5 ? -1 : 1) * 200)),
-      longitude: codyLoc.longitude + (i * ((Math.random() > 5 ? -1 : 1) * 200))
-    }))),
+    }].concat(Array(11).fill('x').map((_, i) => {
+      locations.push({
+        latitude: codyLoc.latitude + (i * ((Math.random() > 5 ? -1 : 1) * 1)),
+        longitude: codyLoc.longitude + (i * ((Math.random() > 5 ? -1 : 1) * 1))
+      })
+      return ({
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+        email: faker.internet.email(),
+        password: String(i + 2),
+
+      })
+    })),
     {
       returning: true
     }
   )
-
+  for (let user of users) {
+    const { longitude, latitude } = locations[user.id - 1]
+    await db.query(`UPDATE users SET coords='SRID=26918;POINT(? ?)'::geometry WHERE id=?`, { replacements: [longitude, latitude, user.id] })
+  }
   await UserPreference.bulkCreate(
     Array(users.length * 3).fill('x').map((_, i) => ({
       userId: (i % users.length) + 1,

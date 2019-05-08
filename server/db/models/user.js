@@ -36,12 +36,6 @@ const User = db.define('user', {
   hasMatched: {
     type: Sequelize.BOOLEAN,
     defaultValue: false
-  },
-  latitude: {
-    type: Sequelize.INTEGER,
-  },
-  longitude: {
-    type: Sequelize.INTEGER
   }
 })
 

@@ -1,4 +1,5 @@
 const socketIO = require('socket.io')
+const db = require('./db')
 const { Op, fn, col, literal } = require('sequelize')
 const { Preference, User, UserPreference, Match } = require('./db/models')
 module.exports = function (server, sessionMiddleware) {
@@ -38,7 +39,11 @@ module.exports = function (server, sessionMiddleware) {
                     order: col('distance'),
                     limit: 5
                 })
-                matchers = matchers.map(matcher => ({ ...matcher, match: true }))
+
+                // const matchers = await db.query(`
+
+                // `)
+                // matchers = matchers.map(matcher => ({ ...matcher, match: true }))
                 const remainder = 5 - matchers.length
                 let rest = []
                 if (remainder > 0) {
