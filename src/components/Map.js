@@ -60,7 +60,7 @@ export class Map extends Component {
     const params = {
       client_id: 'C31O5PRPCMXK5NSFRPCN0PD5R2VRUQCOCU4TMD3MKCXCPLTF',
       client_secret: 'Z2ZPHY0VHFQIFNJKOQFAOUBVZWRKZIQJYWE1TNJGO2YJT4VR',
-      limit: 5,
+      limit: 50,
       query: 'Food',
       v: '20130619', // version of the API
       ll: `${this.state.lat}, ${this.state.long}`,
@@ -70,8 +70,8 @@ export class Map extends Component {
     fetch(venuesEndpoint + new URLSearchParams(params), {
       method: 'GET'
     }).then(response => response.json()).then(response => {
-      let filtered = response.response.venues.filter((eachPlace => (this.state.matchPreferences.indexOf(eachPlace.categories[0]['name']) === -1)))
-      this.setState({venuesUser: filtered});
+      let filtered = response.response.venues.filter((eachPlace => (this.state.matchPreferences.indexOf(eachPlace.categories[0]['name']) > -1)))
+      this.setState({venuesUser: response.response.venues});
     });
   }
 
@@ -91,7 +91,7 @@ export class Map extends Component {
     fetch(venuesEndpoint + new URLSearchParams(params), {
       method: 'GET'
     }).then(response => response.json()).then(response => {
-      let filtered = response.response.venues.filter((eachPlace => (this.state.matchPreferences.indexOf(eachPlace.categories[0]['name']) === -1)))
+      let filtered = response.response.venues.filter((eachPlace => (this.state.matchPreferences.indexOf(eachPlace.categories[0]['name']) >-1)))
       this.setState({venuesMatch: filtered});
     });
     this.setState({
@@ -147,19 +147,15 @@ export class Map extends Component {
           <ReactSwipe
             swipeOptions={{ continuous: true }}
             ref={el => (reactSwipeEl = el)}
+            childCount={this.state.venuesUser.length}
           >
-
-            {this.state.venuesUser.map((eachVenue) => {
-                {/* <FoodDetails venueId={eachVenue.id}/> */}
-                return (
-                <div>
+            {this.state.venuesUser.map(venue => (
+                <div key={venue.id}>
+                  <FoodDetails venueId={venue.id}/>
                   {/* <h2>{eachVenue.id}</h2> */}
-                  <h2>"HI"</h2>
-                  {console.log("ID:", eachVenue.id)}
-                  <button>Yes</button>
-                  <button>No</button>
+                  {/* <button>Yes</button>
+                  <button>No</button> */}
                 </div>)
-            }
             )}
 
           </ReactSwipe>

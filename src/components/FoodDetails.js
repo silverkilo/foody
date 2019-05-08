@@ -6,12 +6,13 @@ export class FoodDetails extends Component {
     super(props)
     this.state = {
       name: '',
-      price: '',
+      price: 'n/a',
       address: '',
       city: '',
       state: '',
-      rating: '',
-      photo: ''
+      rating: 'n/a',
+      photo: '',
+      categories: ''
     }
     this.getVenuesDetails = this.getVenuesDetails.bind(this)
   }
@@ -21,7 +22,7 @@ export class FoodDetails extends Component {
   }
 
   getVenuesDetails() {
-    const venueId = '412d2800f964a520df0c1fe3'
+    const venueId = this.props.venueId
     const venuesEndpoint = `https://api.foursquare.com/v2/venues/${venueId}?`;
 
     const params = {
@@ -33,28 +34,38 @@ export class FoodDetails extends Component {
     fetch(venuesEndpoint + new URLSearchParams(params), {
       method: 'GET'
     }).then(response => response.json()).then(response => {
-      console.log(response)
+      console.log("RESPONSE", response)
       this.setState({
         name: response.response.venue.name,
-        // price: response.response.venue.price.message,
+        // price: response.response.venue.price,
         address: response.response.venue.location.address,
         city: response.response.venue.location.city,
         state: response.response.venue.location.state,
-        rating: response.response.venue.rating
+        categories: response.response.venue.categories[0].name
       })
 
-      for (let i = 0; i < 20; i++) {
-        let eachItem = response.response.venue.tips.groups[0].items[i];
-        if (eachItem.hasOwnProperty('photourl')) {
-          this.setState({
-            photo: eachItem.photourl
-          })
-          break;
-        }
+      if (response.response.venue.price !== undefined) {
+        this.setState({
+          price: response.response.venue.price.message,
+        })
+      }
+
+      if (response.response.venue.rating !== undefined) {
+        this.setState({
+          rating: response.response.venue.rating,
+        })
+      }
+      for (let i = 0; i < response.response.venue.tips.groups[0].items.length; i++) {
+        let eachItem = response.response.venue.tips;
+        console.log('eachitem', eachItem)
+        // if (eachItem.photourl !== undefined) {
+        //   this.setState({
+        //     photo: eachItem.photourl
+        //   })
+        //   break;
+        // }
       }
     });
-
-
   }
 
   render(){
@@ -63,9 +74,10 @@ export class FoodDetails extends Component {
         <h2>{this.state.name}</h2>
         <h2>{this.state.address}</h2>
         <h2>{this.state.city}, {this.state.state}</h2>
+        <h2>Category: {this.state.categories}</h2>
         <h2>Price: {this.state.price}</h2>
-        <h2>Rating: {this.state.rating}/10</h2>
-        <img src={this.state.photo} alt='new'/>
+        <h2>Rating: {this.state.rating}</h2>
+        <img src={this.state.photo} alt=''/>
       </div>
     )
   }
