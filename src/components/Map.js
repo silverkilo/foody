@@ -34,7 +34,8 @@ export class Map extends Component {
       venuesMatch: [],
       // THE BELOW MATCH PREFERENCES JUST HAS SOME PLACEHOLDER PREFERENCES FOR TESTING
       matchPreferences: ['Food Truck', 'Supermarket', 'Food Stand'],
-      loaded: false
+      loadedVenues: false,
+      loadedUser: false
     }
     this.getCurrentLocation = this.getCurrentLocation.bind(this)
     this.getVenuesUser = this.getVenuesUser.bind(this)
@@ -50,17 +51,17 @@ export class Map extends Component {
       // COMMENT THE BELOW BACK IN ONCE WE HAVE THE MATCH PREFERENCES
       // matchPreferences: this.props.getMatchPreference(this.props.userId)
     })
-    window.setTimeout(this.getVenuesUser, 3000)
-    window.setTimeout(this.getVenuesMatch, 3000)
+    window.setTimeout(this.getVenuesUser, 9000)
+    window.setTimeout(this.getVenuesMatch, 9000)
   }
 
   getVenuesUser() {
     const venuesEndpoint = 'https://api.foursquare.com/v2/venues/search?';
 
     const params = {
-      client_id: 'C31O5PRPCMXK5NSFRPCN0PD5R2VRUQCOCU4TMD3MKCXCPLTF',
-      client_secret: 'Z2ZPHY0VHFQIFNJKOQFAOUBVZWRKZIQJYWE1TNJGO2YJT4VR',
-      limit: 50,
+      client_id: 'NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ',
+      client_secret: 'YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM',
+      limit: 5,
       query: 'Food',
       v: '20130619', // version of the API
       ll: `${this.state.lat}, ${this.state.long}`,
@@ -70,7 +71,9 @@ export class Map extends Component {
     fetch(venuesEndpoint + new URLSearchParams(params), {
       method: 'GET'
     }).then(response => response.json()).then(response => {
-      let filtered = response.response.venues.filter((eachPlace => (this.state.matchPreferences.indexOf(eachPlace.categories[0]['name']) > -1)))
+      console.log('venues for user',response.response)
+      // let filtered = response.response.venues.filter((eachPlace => (this.state.matchPreferences.indexOf(eachPlace.categories[0].name) > -1)))
+      // console.log(filtered)
       this.setState({venuesUser: response.response.venues});
     });
   }
@@ -79,9 +82,9 @@ export class Map extends Component {
     const venuesEndpoint = 'https://api.foursquare.com/v2/venues/search?';
 
     const params = {
-      client_id: 'C31O5PRPCMXK5NSFRPCN0PD5R2VRUQCOCU4TMD3MKCXCPLTF',
-      client_secret: 'Z2ZPHY0VHFQIFNJKOQFAOUBVZWRKZIQJYWE1TNJGO2YJT4VR',
-      limit: 10,
+      client_id: 'NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ',
+      client_secret: 'YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM',
+      limit: 5,
       query: 'Food',
       v: '20130619', // version of the API
       ll: `${this.props.matchLat}, ${this.props.matchLong}`,
@@ -91,11 +94,12 @@ export class Map extends Component {
     fetch(venuesEndpoint + new URLSearchParams(params), {
       method: 'GET'
     }).then(response => response.json()).then(response => {
-      let filtered = response.response.venues.filter((eachPlace => (this.state.matchPreferences.indexOf(eachPlace.categories[0]['name']) >-1)))
-      this.setState({venuesMatch: filtered});
+      console.log('venues for match',response.response)
+      // let filtered = response.response.venues.filter((eachPlace => (this.state.matchPreferences.indexOf(eachPlace.categories[0].name) >-1)))
+      this.setState({venuesMatch: response.response.venues});
     });
     this.setState({
-      loaded: true
+      loadedVenues: true
     })
   }
 
@@ -105,7 +109,8 @@ export class Map extends Component {
     this.setState({
       viewport: {...this.state.viewport, latitude: lat, longitude: long},
       lat: lat,
-      long: long
+      long: long,
+      loadedUser: true
     })
     this.props.setUserLatLong([this.state.lat, this.state.long])
   }
@@ -142,7 +147,7 @@ export class Map extends Component {
 
       </MapGL>
 
-      {this.state.loaded &&
+      {this.state.loadedVenues &&
         <div>
           <ReactSwipe
             swipeOptions={{ continuous: true }}
@@ -152,12 +157,10 @@ export class Map extends Component {
             {this.state.venuesUser.map(venue => (
                 <div key={venue.id}>
                   <FoodDetails venueId={venue.id}/>
-                  {/* <h2>{eachVenue.id}</h2> */}
-                  {/* <button>Yes</button>
-                  <button>No</button> */}
+                  <button>Yes</button>
+                  <button>No</button>
                 </div>)
             )}
-
           </ReactSwipe>
           <button onClick={() => reactSwipeEl.next()}>Next</button>
           <button onClick={() => reactSwipeEl.prev()}>Previous</button>
