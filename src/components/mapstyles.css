@@ -15,6 +15,14 @@
   cursor: pointer;
 }
 
+.foodStyle {
+  background-size: cover;
+  background: rgba(0, 181, 204, 0.5);
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
 .food {
   background-image: url('./assets/foodPin.png');
 }

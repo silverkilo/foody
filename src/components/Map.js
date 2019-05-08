@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import MapGL, {Marker} from 'react-map-gl';
-import DeckGL from '@deck.gl/react';
 import { SwipeLayer } from './Layer';
 import { connect } from 'react-redux';
 import { setUserLatLong, getMatchLatLong } from '../store/location'
@@ -15,6 +14,7 @@ import './mapstyles.css'
 function randomIcon(){
   return Math.floor(Math.random() * 8) + 1;
 }
+
 
 export class Map extends Component {
   constructor(){
@@ -133,22 +133,8 @@ export class Map extends Component {
   }
 
   render(){
-
-    const layers = [
-      new SwipeLayer({
-        allVenues: this.state.allVenues,
-        loadedVenues: this.state.loadedVenues
-      })
-    ];
-
     return (
-      <DeckGL>
-        initialViewState={{latitude: 40.7128,
-        longitude: -74.0060,
-        zoom: 14}}
-        controller={true}
-        layers={layers}
-      >
+      <div>
         <MapGL
           {...this.state.viewport}
           mapStyle='mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu'
@@ -175,8 +161,12 @@ export class Map extends Component {
           </Marker>
           )}
 
+          <div className={'foodStyle'}>
+          <SwipeLayer allVenues={this.state.allVenues} loadedVenues={this.state.loadedVenues} />
+          </div>
           </MapGL>
-      </DeckGL>
+
+      </div>
     )
   }
 }
