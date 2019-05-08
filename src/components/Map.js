@@ -4,6 +4,7 @@ import { SwipeLayer } from './Layer';
 import { connect } from 'react-redux';
 import { setUserLatLong, getMatchLatLong } from '../store/location'
 import { getMatchPreference } from '../store/matchPreference'
+import { Chat } from './Chat'
 import './mapstyles.css'
 
 
@@ -37,7 +38,8 @@ export class Map extends Component {
       // THE BELOW MATCH PREFERENCES JUST HAS SOME PLACEHOLDER PREFERENCES FOR TESTING
       matchPreferences: ['Food Truck', 'Supermarket', 'Food Stand'],
       loadedVenues: false,
-      loadedUser: false
+      loadedUser: false,
+      showChat: false
     }
     this.getCurrentLocation = this.getCurrentLocation.bind(this)
     this.getVenuesUser = this.getVenuesUser.bind(this)
@@ -132,40 +134,55 @@ export class Map extends Component {
     this.props.setUserLatLong([this.state.lat, this.state.long])
   }
 
+  handleOpenChat = () => {
+    this.setState({ showChat: true });
+  }
+
+  handleCloseChat = () => {
+    this.setState({ showChat: false });
+  }
+
   render(){
     return (
       <div>
-        <MapGL
-          {...this.state.viewport}
-          mapStyle='mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu'
-          onViewportChange={(viewport) => this.setState({viewport})}
-          mapboxApiAccessToken='pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg'
-        >
-
-          <Marker latitude={this.state.lat} longitude={this.state.long} offsetLeft={-20} offsetTop={-10}>
-            <div className={`marker marker${this.state.icon}`}></div> </Marker>
-
-          <Marker latitude={this.props.matchLat} longitude={this.props.matchLong} offsetLeft={-20} offsetTop={-10}>
-            <div className={`marker marker${this.state.icon2}`}></div>
-          </Marker>
-
-          {this.state.venuesUser.map(item =>
-            <Marker latitude={item.location.lat} longitude={item.location.lng} offsetLeft={-20} offsetTop={-10} key={item.id}>
-            <div className={`foodMarker food`}></div>
-          </Marker>
-          )}
-
-          {this.state.venuesMatch.map(item =>
-            <Marker latitude={item.location.lat} longitude={item.location.lng} offsetLeft={-20} offsetTop={-10} key={item.id}>
-            <div className={`foodMarker food`}></div>
-          </Marker>
-          )}
-
-          <div className={'foodStyle'}>
-          <SwipeLayer allVenues={this.state.allVenues} loadedVenues={this.state.loadedVenues} />
+          <div className='chatBox'>
+            <button onClick={this.handleOpenChat}> Chat Room </button>
+            <Chat showChat={this.state.showChat} handleCloseChat={this.handleCloseChat}/>
           </div>
-          </MapGL>
 
+          <MapGL
+
+            {...this.state.viewport}
+            mapStyle='mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu'
+            onViewportChange={(viewport) => this.setState({viewport})}
+            mapboxApiAccessToken='pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg'
+          >
+
+            <Marker latitude={this.state.lat} longitude={this.state.long} offsetLeft={-20} offsetTop={-10}>
+              <div className={`marker marker${this.state.icon}`}></div> </Marker>
+
+            <Marker latitude={this.props.matchLat} longitude={this.props.matchLong} offsetLeft={-20} offsetTop={-10}>
+              <div className={`marker marker${this.state.icon2}`}></div>
+            </Marker>
+
+            {this.state.venuesUser.map(item =>
+              <Marker latitude={item.location.lat} longitude={item.location.lng} offsetLeft={-20} offsetTop={-10} key={item.id}>
+              <div className={`foodMarker`}></div>
+            </Marker>
+            )}
+
+            {this.state.venuesMatch.map(item =>
+              <Marker latitude={item.location.lat} longitude={item.location.lng} offsetLeft={-20} offsetTop={-10} key={item.id}>
+              <div className={`foodMarker`}></div>
+            </Marker>
+            )}
+
+            {this.state.loadedVenues &&
+              <div>
+              <SwipeLayer allVenues={this.state.allVenues}/>
+              </div>
+            }
+          </MapGL>
       </div>
     )
   }

@@ -7,15 +7,20 @@
   cursor: pointer;
 }
 
+.chatBox {
+  background-size: cover;
+}
+
 .foodMarker {
   background-size: cover;
   width: 20px;
   height: 20px;
   border-radius: 50%;
   cursor: pointer;
+  background-image: url('./assets/foodPin.png');
 }
 
-.foodStyle {
+.unselectedFoodPlace {
   background-size: cover;
   background: rgba(0, 181, 204, 0.5);
   color: white;
@@ -23,9 +28,14 @@
   text-align: center;
 }
 
-.food {
-  background-image: url('./assets/foodPin.png');
+.selectedFoodPlace {
+  background-size: cover;
+  background: rgba(255, 148, 120, 0.5);
+  color: white;
+  padding: 10px;
+  text-align: center;
 }
+
 .marker1 {
   background-image: url('./assets/chick.png');
 }
