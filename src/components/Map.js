@@ -1,29 +1,23 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import MapGL, {Marker} from 'react-map-gl';
 import DeckGL from '@deck.gl/react';
-import { LineLayer } from '@deck.gl/layers';
-import StaticMap, { Marker } from 'react-map-gl';
+import { SwipeLayer } from './Layer';
 import { connect } from 'react-redux';
 import { setUserLatLong, getMatchLatLong } from '../store/location'
 import { getMatchPreference } from '../store/matchPreference'
 import './mapstyles.css'
-<<<<<<< HEAD
-import ReactSwipe from 'react-swipe';
-import {FoodDetails} from './FoodDetails'
-=======
 
-const mapAccess = {
-  mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
-}
->>>>>>> master
 
-const data = [{ sourcePosition: [-74.006, 40.712], targetPosition: [-73.977, 40.731] }];
+// const mapAccess = {
+//   mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
+// }
 
-function randomIcon() {
+function randomIcon(){
   return Math.floor(Math.random() * 8) + 1;
 }
 
 export class Map extends Component {
-  constructor() {
+  constructor(){
     super()
     this.state = {
       viewport: {
@@ -45,7 +39,6 @@ export class Map extends Component {
       loadedVenues: false,
       loadedUser: false
     }
-
     this.getCurrentLocation = this.getCurrentLocation.bind(this)
     this.getVenuesUser = this.getVenuesUser.bind(this)
     this.getVenuesMatch = this.getVenuesMatch.bind(this)
@@ -80,7 +73,6 @@ export class Map extends Component {
     fetch(venuesEndpoint + new URLSearchParams(params), {
       method: 'GET'
     }).then(response => response.json()).then(response => {
-<<<<<<< HEAD
       // filter out those places without category names
       let filteredWithoutCategories = response.response.venues.filter((eachPlace =>
         (eachPlace.categories[0] !== undefined)
@@ -90,11 +82,6 @@ export class Map extends Component {
         (this.state.matchPreferences.indexOf(eachPlace.categories[0].name) > -1)
       ))
       this.setState({venuesUser: filtered});
-      console.log('venues user', this.state.venuesUser)
-=======
-      let filtered = response.response.venues.filter((eachPlace => (this.state.matchPreferences.indexOf(eachPlace.categories[0]['name']) > -1)))
-      this.setState({ venuesUser: filtered });
->>>>>>> master
     });
   }
 
@@ -114,7 +101,6 @@ export class Map extends Component {
     fetch(venuesEndpoint + new URLSearchParams(params), {
       method: 'GET'
     }).then(response => response.json()).then(response => {
-<<<<<<< HEAD
       // filter out those places without category names
       let filteredWithoutCategories = response.response.venues.filter((eachPlace =>
         (eachPlace.categories[0] !== undefined)
@@ -123,25 +109,22 @@ export class Map extends Component {
       let filtered = filteredWithoutCategories.filter((eachPlace =>
         (this.state.matchPreferences.indexOf(eachPlace.categories[0].name) > -1)
       ))
-      this.setState({venuesMatch: filtered});
-      console.log('venues match', this.state.venuesMatch)
-=======
-      let filtered = response.response.venues.filter((eachPlace => (this.state.matchPreferences.indexOf(eachPlace.categories[0]['name']) > -1)))
-      this.setState({ venuesMatch: filtered });
->>>>>>> master
+      this.setState({venuesMatch: filtered,
+      });
+      this.setState({
+        allVenues: this.state.venuesUser.concat(this.state.venuesMatch)
+      });
     });
     this.setState({
-      loadedVenues: true,
-      // allVenus: this.state.venuesUser.concat(this.state.venuesMatch)
+      loadedVenues: true
     })
-    // console.log("ALLVENUES", this.state.allVenues)
   }
 
   getCurrentLocation(position) {
     let lat = position.coords.latitude
     let long = position.coords.longitude
     this.setState({
-      viewport: { ...this.state.viewport, latitude: lat, longitude: long },
+      viewport: {...this.state.viewport, latitude: lat, longitude: long},
       lat: lat,
       long: long,
       loadedUser: true
@@ -149,77 +132,28 @@ export class Map extends Component {
     this.props.setUserLatLong([this.state.lat, this.state.long])
   }
 
-<<<<<<< HEAD
   render(){
-    let reactSwipeEl;
-    return (
-      <div>
-      <MapGL
-        {...this.state.viewport}
-        mapStyle='mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu'
-        onViewportChange={(viewport) => this.setState({viewport})}
-        mapboxApiAccessToken='pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg'
-      >
 
-        <Marker latitude={this.state.lat} longitude={this.state.long} offsetLeft={-20} offsetTop={-10}>
-          <div className={`marker marker${this.state.icon}`}></div> </Marker>
-
-        <Marker latitude={this.props.matchLat} longitude={this.props.matchLong} offsetLeft={-20} offsetTop={-10}>
-          <div className={`marker marker${this.state.icon2}`}></div>
-        </Marker>
-
-        {this.state.venuesUser.map(item =>
-          <Marker latitude={item.location.lat} longitude={item.location.lng} offsetLeft={-20} offsetTop={-10} key={item.id}>
-          <div className={`foodMarker food`}></div>
-        </Marker>
-        )}
-
-        {this.state.venuesMatch.map(item =>
-          <Marker latitude={item.location.lat} longitude={item.location.lng} offsetLeft={-20} offsetTop={-10} key={item.id}>
-          <div className={`foodMarker food`}></div>
-        </Marker>
-        )}
-
-      </MapGL>
-
-      {this.state.loadedVenues &&
-        <div>
-          <ReactSwipe
-            swipeOptions={{ continuous: true }}
-            ref={el => (reactSwipeEl = el)}
-            childCount={this.state.venuesUser.length}
-          >
-            {this.state.allVenues.map(venue => (
-                <div key={venue.id}>
-                  {/* <FoodDetails venueId={venue.id}/> */}
-                  <h1>HI</h1>
-                  <button>Yes</button>
-                  <button>No</button>
-                </div>)
-            )}
-          </ReactSwipe>
-          <button onClick={() => reactSwipeEl.next()}>Next</button>
-          <button onClick={() => reactSwipeEl.prev()}>Previous</button>
-        </div>
-      }
-      </div>
-=======
-  render() {
     const layers = [
-      new LineLayer({ id: 'line-layer', data })
+      new SwipeLayer({
+        allVenues: this.state.allVenues,
+        loadedVenues: this.state.loadedVenues
+      })
     ];
+
     return (
-      <DeckGL
-        initialViewState={this.state.viewport}
+      <DeckGL>
+        initialViewState={{latitude: 40.7128,
+        longitude: -74.0060,
+        zoom: 14}}
         controller={true}
         layers={layers}
       >
-        <StaticMap
-          {...mapAccess}
+        <MapGL
           {...this.state.viewport}
           mapStyle='mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu'
-          onViewportChange={(viewport) => this.setState({ viewport })}
-        // mapboxApiAccessToken='pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg'
+          onViewportChange={(viewport) => this.setState({viewport})}
+          mapboxApiAccessToken='pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg'
         >
 
           <Marker latitude={this.state.lat} longitude={this.state.long} offsetLeft={-20} offsetTop={-10}>
@@ -230,26 +164,25 @@ export class Map extends Component {
           </Marker>
 
           {this.state.venuesUser.map(item =>
-            <Marker latitude={item.location.lat} longitude={item.location.lng} offsetLeft={-20} offsetTop={-10} key={item.location.lat}>
-              <div className={`foodMarker food`}></div>
-            </Marker>
+            <Marker latitude={item.location.lat} longitude={item.location.lng} offsetLeft={-20} offsetTop={-10} key={item.id}>
+            <div className={`foodMarker food`}></div>
+          </Marker>
           )}
 
           {this.state.venuesMatch.map(item =>
-            <Marker latitude={item.location.lat} longitude={item.location.lng} offsetLeft={-20} offsetTop={-10} key={item.location.lat}>
-              <div className={`foodMarker food`}></div>
-            </Marker>
+            <Marker latitude={item.location.lat} longitude={item.location.lng} offsetLeft={-20} offsetTop={-10} key={item.id}>
+            <div className={`foodMarker food`}></div>
+          </Marker>
           )}
-        </StaticMap>
+
+          </MapGL>
       </DeckGL>
->>>>>>> master
     )
   }
 }
 
 const mapStateToProps = state => {
   return {
-    userName: state.user.name,
     userId: state.user.id,
     matchLat: state.userMatchLatLong.match[0],
     matchLong: state.userMatchLatLong.match[1]
