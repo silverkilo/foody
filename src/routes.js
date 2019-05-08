@@ -43,7 +43,6 @@ class Routes extends Component {
         <Route path="/preference" component={Preference} />
         <Route path="/matches" component={Matching} />
         <Route path="/map" component={Map} />
-        <Route path="/food" component={FoodDetails} />
       </Switch>
     )
   }
