@@ -33,6 +33,7 @@ export class FoodDetails extends Component {
     fetch(venuesEndpoint + new URLSearchParams(params), {
       method: 'GET'
     }).then(response => response.json()).then(response => {
+      console.log("ADDITIONAL DETAILS", response.response.venue)
       this.setState({
         name: response.response.venue.name,
         address: response.response.venue.location.address,
@@ -40,12 +41,7 @@ export class FoodDetails extends Component {
         state: response.response.venue.location.state,
       })
 
-      // if (response.response.venue.price !== undefined && response.response.venue.price.message !== undefined) {
-      //   this.setState({
-      //     price: response.response.venue.price.message,
-      //   })
-      // }
-      if (response.response.venue.name !== undefined) {
+      if (response.response.venue.price !== undefined && response.response.venue.price.message !== undefined) {
         this.setState({
           price: response.response.venue.price.message,
         })

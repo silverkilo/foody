@@ -32,6 +32,7 @@ export class Map extends Component {
       long: -73.984,
       venuesUser: [],
       venuesMatch: [],
+      allVenues: [],
       // THE BELOW MATCH PREFERENCES JUST HAS SOME PLACEHOLDER PREFERENCES FOR TESTING
       matchPreferences: ['Food Truck', 'Supermarket', 'Food Stand'],
       loadedVenues: false,
@@ -61,7 +62,7 @@ export class Map extends Component {
     const params = {
       client_id: 'NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ',
       client_secret: 'YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM',
-      limit: 5,
+      limit: 20,
       query: 'Food',
       v: '20130619', // version of the API
       ll: `${this.state.lat}, ${this.state.long}`,
@@ -71,10 +72,16 @@ export class Map extends Component {
     fetch(venuesEndpoint + new URLSearchParams(params), {
       method: 'GET'
     }).then(response => response.json()).then(response => {
-      console.log('venues for user',response.response)
-      // let filtered = response.response.venues.filter((eachPlace => (this.state.matchPreferences.indexOf(eachPlace.categories[0].name) > -1)))
-      // console.log(filtered)
-      this.setState({venuesUser: response.response.venues});
+      // filter out those places without category names
+      let filteredWithoutCategories = response.response.venues.filter((eachPlace =>
+        (eachPlace.categories[0] !== undefined)
+      ))
+      // filter out places with categories that don't match the user's preferences
+      let filtered = filteredWithoutCategories.filter((eachPlace =>
+        (this.state.matchPreferences.indexOf(eachPlace.categories[0].name) > -1)
+      ))
+      this.setState({venuesUser: filtered});
+      console.log('venues user', this.state.venuesUser)
     });
   }
 
@@ -94,13 +101,22 @@ export class Map extends Component {
     fetch(venuesEndpoint + new URLSearchParams(params), {
       method: 'GET'
     }).then(response => response.json()).then(response => {
-      console.log('venues for match',response.response)
-      // let filtered = response.response.venues.filter((eachPlace => (this.state.matchPreferences.indexOf(eachPlace.categories[0].name) >-1)))
-      this.setState({venuesMatch: response.response.venues});
+      // filter out those places without category names
+      let filteredWithoutCategories = response.response.venues.filter((eachPlace =>
+        (eachPlace.categories[0] !== undefined)
+      ))
+      // filter out places with categories that don't match the user's preferences
+      let filtered = filteredWithoutCategories.filter((eachPlace =>
+        (this.state.matchPreferences.indexOf(eachPlace.categories[0].name) > -1)
+      ))
+      this.setState({venuesMatch: filtered});
+      console.log('venues match', this.state.venuesMatch)
     });
     this.setState({
-      loadedVenues: true
+      loadedVenues: true,
+      // allVenus: this.state.venuesUser.concat(this.state.venuesMatch)
     })
+    // console.log("ALLVENUES", this.state.allVenues)
   }
 
   getCurrentLocation(position) {
@@ -154,9 +170,10 @@ export class Map extends Component {
             ref={el => (reactSwipeEl = el)}
             childCount={this.state.venuesUser.length}
           >
-            {this.state.venuesUser.map(venue => (
+            {this.state.allVenues.map(venue => (
                 <div key={venue.id}>
-                  <FoodDetails venueId={venue.id}/>
+                  {/* <FoodDetails venueId={venue.id}/> */}
+                  <h1>HI</h1>
                   <button>Yes</button>
                   <button>No</button>
                 </div>)
