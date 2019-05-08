@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import DeckGL from '@deck.gl/react';
-import {LineLayer} from '@deck.gl/layers';
-import StaticMap, {Marker} from 'react-map-gl';
+import { LineLayer } from '@deck.gl/layers';
+import StaticMap, { Marker } from 'react-map-gl';
 import { connect } from 'react-redux';
 import { setUserLatLong, getMatchLatLong } from '../store/location'
 import { getMatchPreference } from '../store/matchPreference'
@@ -11,14 +11,14 @@ const mapAccess = {
   mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 }
 
-const data = [{sourcePosition: [-74.006, 40.712], targetPosition: [-73.977, 40.731]}];
+const data = [{ sourcePosition: [-74.006, 40.712], targetPosition: [-73.977, 40.731] }];
 
-function randomIcon(){
+function randomIcon() {
   return Math.floor(Math.random() * 8) + 1;
 }
 
 export class Map extends Component {
-  constructor(){
+  constructor() {
     super()
     this.state = {
       viewport: {
@@ -73,7 +73,7 @@ export class Map extends Component {
       method: 'GET'
     }).then(response => response.json()).then(response => {
       let filtered = response.response.venues.filter((eachPlace => (this.state.matchPreferences.indexOf(eachPlace.categories[0]['name']) > -1)))
-      this.setState({venuesUser: filtered});
+      this.setState({ venuesUser: filtered });
     });
   }
 
@@ -94,7 +94,7 @@ export class Map extends Component {
       method: 'GET'
     }).then(response => response.json()).then(response => {
       let filtered = response.response.venues.filter((eachPlace => (this.state.matchPreferences.indexOf(eachPlace.categories[0]['name']) > -1)))
-      this.setState({venuesMatch: filtered});
+      this.setState({ venuesMatch: filtered });
     });
   }
 
@@ -102,16 +102,16 @@ export class Map extends Component {
     let lat = position.coords.latitude
     let long = position.coords.longitude
     this.setState({
-      viewport: {...this.state.viewport, latitude: lat, longitude: long},
+      viewport: { ...this.state.viewport, latitude: lat, longitude: long },
       lat: lat,
       long: long
     })
     this.props.setUserLatLong([this.state.lat, this.state.long])
   }
 
-  render(){
+  render() {
     const layers = [
-      new LineLayer({id: 'line-layer', data})
+      new LineLayer({ id: 'line-layer', data })
     ];
     return (
       <DeckGL
@@ -123,8 +123,8 @@ export class Map extends Component {
           {...mapAccess}
           {...this.state.viewport}
           mapStyle='mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu'
-          onViewportChange={(viewport) => this.setState({viewport})}
-          // mapboxApiAccessToken='pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg'
+          onViewportChange={(viewport) => this.setState({ viewport })}
+        // mapboxApiAccessToken='pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg'
         >
 
           <Marker latitude={this.state.lat} longitude={this.state.long} offsetLeft={-20} offsetTop={-10}>
@@ -136,14 +136,14 @@ export class Map extends Component {
 
           {this.state.venuesUser.map(item =>
             <Marker latitude={item.location.lat} longitude={item.location.lng} offsetLeft={-20} offsetTop={-10} key={item.location.lat}>
-            <div className={`foodMarker food`}></div>
-          </Marker>
+              <div className={`foodMarker food`}></div>
+            </Marker>
           )}
 
           {this.state.venuesMatch.map(item =>
             <Marker latitude={item.location.lat} longitude={item.location.lng} offsetLeft={-20} offsetTop={-10} key={item.location.lat}>
-            <div className={`foodMarker food`}></div>
-          </Marker>
+              <div className={`foodMarker food`}></div>
+            </Marker>
           )}
         </StaticMap>
       </DeckGL>
