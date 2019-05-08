@@ -6,10 +6,10 @@ import {Link, withRouter} from 'react-router-dom'
 class Welcome extends Component {
   constructor(props) {
     super(props)
-
     this.handleLogOut = this.handleLogOut.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
+
   handleLogOut() {
     this.props.logout()
     this.props.history.push('/')
@@ -18,7 +18,6 @@ class Welcome extends Component {
     this.props.history.push('/Preference')
   }
   render() {
-    console.log(this.props)
     const {firstName, lastName} = this.props.user
     return (
       <div className="welcome">
@@ -56,7 +55,6 @@ class Welcome extends Component {
 
 const mapState = state => {
   return {
-    error: state.user.error,
     user: state.user
   }
 }

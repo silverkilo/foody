@@ -12,9 +12,14 @@ router.get('/', async (req, res, next) => {
 })
 router.post('/', async (req, res, next) => {
     try {
-        const { category } = req.body
-        const pref = await Preference.create({ category })
-        res.status(201).send({ id: pref.id, category })
+        const { categories } = req.body
+        if (!categories || !Array.isArray(categories)) {
+            const err = new Error('"categories" must be an array')
+            err.status = 400
+            throw err
+        }
+        const newCategories = await Preference.bulkCreate(categories.map(category => ({ category })), { returning: true })
+        res.status(201).send(newCategories)
     } catch (e) {
         next(e)
     }

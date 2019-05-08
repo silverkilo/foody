@@ -1,6 +1,7 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {withRouter, Route, Switch} from 'react-router-dom'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { withRouter, Route, Switch } from 'react-router-dom'
+
 
 import {
   Login,
@@ -15,14 +16,16 @@ import {
   Preference,
   Matching,
   Map,
-  FoodDetails
+  UserPreference
 } from './components'
+import { me, createConnection, errorListener } from './store'
 
-import {me} from './store'
 
 class Routes extends Component {
   componentDidMount() {
     this.props.me()
+    this.props.createConnection()
+    this.props.errorListener()
   }
 
   render() {
@@ -49,6 +52,6 @@ class Routes extends Component {
 export default withRouter(
   connect(
     null,
-    {me}
+    { me, createConnection, errorListener }
   )(Routes)
 )

@@ -4,12 +4,12 @@ const GET_CATEGORIES = 'GET_CATEGORIES'
 const ADD_CATEGORIES = 'ADD_CATEGORIES'
 const DELETE_CATEGORIES = 'DELETE_CATEGORIES'
 
-const getCategories = categories => ({ type: GET_CATEGORIES, categories })
+const getCategories = categories => ({type: GET_CATEGORIES, categories})
 const addCategories = category => ({
   type: ADD_CATEGORIES,
   category
 })
-const deleteCategory = id => ({ type: DELETE_CATEGORIES, id })
+const deleteCategory = id => ({type: DELETE_CATEGORIES, id})
 
 export const getAllCategories = () => async dispatch => {
   try {
@@ -22,15 +22,15 @@ export const getAllCategories = () => async dispatch => {
 
 export const postNewCategories = category => async dispatch => {
   try {
-    // const res1 = await axios.get(`/api/categories/`) 
-    const { data } = await axios.post(`/api/categories/`, { category })
+    // const res1 = await axios.get(`/api/categories/`)
+    const {data} = await axios.post(`/api/categories/`, {category})
     dispatch(addCategories(data))
   } catch (err) {
     console.error(err)
   }
 }
 
-export const deleteCategories = ({ id }) => async dispatch => {
+export const deleteCategories = ({id}) => async dispatch => {
   try {
     await axios.delete(`/api/categories/${id}`)
     dispatch(deleteCategory(id))
@@ -41,7 +41,7 @@ export const deleteCategories = ({ id }) => async dispatch => {
 
 const initialState = []
 
-export default function (state = initialState, action) {
+export default function(state = initialState, action) {
   switch (action.type) {
     case GET_CATEGORIES:
       return action.categories
