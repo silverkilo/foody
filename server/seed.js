@@ -3,33 +3,39 @@ const db = require("../server/db");
 const gis = require("./gis");
 const { Preference, User, UserPreference, Match } = require("./db/models");
 const categories = [
-  "All",
-  "African",
-  "American",
-  "Japanese",
-  "Chinese",
-  "Malaysian",
-  "Vietnamese",
-  "Australian",
-  "Brazilian",
-  "Burmese",
-  "Cajun",
-  "Dessert",
-  "French",
+  "Bubble Tea Shop",
+  "African Restaurant",
+  "American Restaurant",
+  "Japanese Restaurant",
+  "Chinese Restaurant",
+  "Malay Restaurant",
+  "Coffee Shop",
+  "Vietnamese Restaurant",
+  "Australian Restaurant",
+  "Brazilian Restaurant",
+  "Burmese Restaurant",
+  "Cajun / Creole Restaurant",
+  "Dessert Shop",
+  "French Restaurant",
   "Bakery",
-  "German",
-  "Greek",
-  "Persian",
-  "Peruvian",
-  "Vegan",
-  "Vegetarian"
+  "German Restaurant",
+  "Greek Restaurant",
+  "Persian Restaurant",
+  "Peruvian Restaurant",
+  "Vegetarian / Vegan Restaurant"
 ];
 async function seed() {
-  await db.sync({ force: true });
+  await db.sync({
+    force: true
+  });
   await gis(db);
   console.log("db synced!");
 
-  await Preference.bulkCreate(categories.map(category => ({ category })));
+  await Preference.bulkCreate(
+    categories.map(category => ({
+      category
+    }))
+  );
   const codyLoc = {
     latitude: 40.704663848,
     longitude: -74.006499974
@@ -71,7 +77,9 @@ async function seed() {
     const { longitude, latitude } = locations[user.id - 1];
     await db.query(
       `UPDATE users SET location='SRID=26918;POINT(? ?)'::geometry WHERE id=?`,
-      { replacements: [longitude, latitude, user.id] }
+      {
+        replacements: [longitude, latitude, user.id]
+      }
     );
   }
   await UserPreference.bulkCreate(
