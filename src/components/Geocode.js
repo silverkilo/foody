@@ -1,7 +1,3 @@
-
-
-
-
 // const queryParams = {
 //   country: 'us'
 // }
@@ -9,7 +5,6 @@
 // class Geocode extends Component {
 
 //   mapRef = React.createRef()
-
 
 //   render(){
 //     return (
@@ -35,4 +30,3 @@
 // }
 
 // export default connect(mapStateToProps, mapDispatchToProps)(Geocode)
-
