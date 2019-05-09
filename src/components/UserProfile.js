@@ -1,25 +1,24 @@
 import React, { Component } from 'react'
-import {me} from '../store/user'
+import { me } from '../store/user'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 export const UserProfile = props => {
-  const {user} = props
-  console.log(user)
-    return (
+  const { user } = props
+  return (
+    <div>
       <div>
-        <div>
-          <h1>Hello {user.firstName} {user.lastName}!</h1>
-        </div>
-
-        <div>
-          <h3>Email: {user.email}</h3>
-        </div>
-        <div>
-          <Link to='/editProfile'>Update Profile</Link>
-        </div>
+        <h1>Hello {user.firstName} {user.lastName}!</h1>
       </div>
-    )
+
+      <div>
+        <h3>Email: {user.email}</h3>
+      </div>
+      <div>
+        <Link to='/editProfile'>Update Profile</Link>
+      </div>
+    </div>
+  )
 }
 
 const mapStateToProps = state => {

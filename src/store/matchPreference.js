@@ -13,9 +13,7 @@ export const getMatchPreference = (userId) => async dispatch => {
   }
 }
 
-const initialState = []
-
-export default function(state = initialState, action) {
+export default function(state = [], action) {
   switch (action.type) {
     case MATCH_PREFERENCE:
       return action.preference

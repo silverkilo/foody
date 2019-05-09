@@ -9,6 +9,7 @@ import matchlist from './match'
 import socket from './socket'
 import userMatchLatLong from './location'
 import matchPreference from './matchPreference'
+import food from './food'
 
 const reducer = combineReducers({
   user,
@@ -17,7 +18,8 @@ const reducer = combineReducers({
   matchlist,
   userMatchLatLong,
   socket,
-  matchPreference
+  matchPreference,
+  food
 })
 
 const middleware = composeWithDevTools(
@@ -31,3 +33,4 @@ export * from './user'
 export * from './socket'
 export * from './categories'
 export * from './preferences'
+export * from './food'

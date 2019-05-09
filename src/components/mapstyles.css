@@ -8,6 +8,8 @@
 
 .chatBox {
   background-size: cover;
+  /* background: rgba(0, 181, 204, 0.5);
+  padding: 100px; */
 }
 
 .foodMarker {
@@ -21,7 +23,7 @@
 
 /* .unselectedFoodPlace {
   background-size: cover;
-  background: rgba(0, 181, 204, 0.5);
+  background: rgba(0, 181, 204, 0.8);
   color: white;
   padding: 10px;
   text-align: center;

@@ -18,16 +18,24 @@ import {
   Map,
   UserPreference
 } from './components'
-import { me, createConnection, errorListener } from './store'
+import { me, createConnection, errorListener, potentialMatchesListener, getPotentialMatches, didMatchListener } from './store'
 
 
 class Routes extends Component {
   componentDidMount() {
     this.props.me()
-    this.props.createConnection()
-    this.props.errorListener()
-  }
 
+  }
+  componentDidUpdate() {
+    if (this.props.user && this.props.user.id) {
+      this.props.createConnection()
+      this.props.errorListener()
+      this.props.potentialMatchesListener()
+      this.props.getPotentialMatches()
+      console.log(this.props.didMatchListener)
+      this.props.didMatchListener()
+    }
+  }
   render() {
     return (
       <Switch>
@@ -48,9 +56,11 @@ class Routes extends Component {
   }
 }
 
+const mapStateToProps = ({ user }) => ({ user })
+
 export default withRouter(
   connect(
-    null,
-    { me, createConnection, errorListener }
+    mapStateToProps,
+    { me, createConnection, errorListener, potentialMatchesListener, getPotentialMatches, didMatchListener }
   )(Routes)
 )

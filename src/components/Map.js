@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import MapGL, { Marker } from "react-map-gl";
-import { SwipeLayer } from "./Layer";
+import SwipeLayer from "./Layer";
 import { connect } from "react-redux";
 import { setUserLatLong, getMatchLatLong } from "../store/location";
 import { getMatchPreference } from "../store/matchPreference";
@@ -51,7 +51,7 @@ export class Map extends Component {
       icon: randomIcon(),
       icon2: randomIcon()
       // COMMENT THE BELOW BACK IN ONCE WE HAVE THE MATCH PREFERENCES
-      // matchPreferences: this.props.getMatchPreference(this.props.userId)
+      // matchPreferences: this.props.matchPreference
     });
     window.setTimeout(this.getVenuesUser, 9000);
     window.setTimeout(this.getVenuesMatch, 9000);
@@ -61,8 +61,8 @@ export class Map extends Component {
     const venuesEndpoint = "https://api.foursquare.com/v2/venues/search?";
 
     const params = {
-      client_id: "NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ",
-      client_secret: "YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM",
+      client_id: "5DQ4HC1WROBOH0SFRD4IULDTPLLRP4J5LWKMOG0SZ0LRV5K0",
+      client_secret: "E5PLXEXQKZMQMPU02YDTSV0I1ZIAFK5LI0KPAEEZUCQQ5OJ3",
       limit: 20,
       query: "Food",
       v: "20130619", // version of the API
@@ -93,8 +93,8 @@ export class Map extends Component {
     const venuesEndpoint = "https://api.foursquare.com/v2/venues/search?";
 
     const params = {
-      client_id: "NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ",
-      client_secret: "YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM",
+      client_id: "5DQ4HC1WROBOH0SFRD4IULDTPLLRP4J5LWKMOG0SZ0LRV5K0",
+      client_secret: "E5PLXEXQKZMQMPU02YDTSV0I1ZIAFK5LI0KPAEEZUCQQ5OJ3",
       limit: 5,
       query: "Food",
       v: "20130619", // version of the API
@@ -176,7 +176,6 @@ export class Map extends Component {
             >
               <div className={`marker marker${this.state.icon2}`} />
             </Marker>
-
             {this.state.venuesUser.map(item => (
               <Marker
                 latitude={item.location.lat}
@@ -188,7 +187,6 @@ export class Map extends Component {
                 <div className={`foodMarker`} />
               </Marker>
             ))}
-
             {this.state.venuesMatch.map(item => (
               <Marker
                 latitude={item.location.lat}
@@ -222,7 +220,8 @@ const mapStateToProps = state => {
   return {
     userId: state.user.id,
     matchLat: state.userMatchLatLong.match[0],
-    matchLong: state.userMatchLatLong.match[1]
+    matchLong: state.userMatchLatLong.match[1],
+    matchPreference: state.matchPreference
   };
 };
 
