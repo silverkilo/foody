@@ -29,8 +29,7 @@ export class SwipeLayer extends Component {
           >
             {this.props.allVenues.map(venue => (
                 <div key={venue.id}>
-                  {/* <FoodDetails venueId={venue.id}/> */}
-                  <h1>HI</h1>
+                  <FoodDetails venueId={venue.id}/>
                   <button onClick={() => this.checkYes(venue.id)}>pick me!</button>
                 </div>)
             )}

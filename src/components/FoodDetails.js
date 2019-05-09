@@ -10,14 +10,19 @@ export class FoodDetails extends Component {
       city: '',
       state: '',
       rating: 'n/a',
-      photo: '',
+      photoPrefix: '',
+      photoSuffix: '',
+      photoWidth: '',
+      photoHeight: '',
       categories: ''
     }
     this.getVenuesDetails = this.getVenuesDetails.bind(this)
+    this.getVenuesPhoto = this.getVenuesPhoto.bind(this)
   }
 
   componentDidMount() {
     this.getVenuesDetails()
+    this.getVenuesPhoto()
   }
 
   getVenuesDetails() {
@@ -58,31 +63,43 @@ export class FoodDetails extends Component {
           categories: response.response.venue.categories[0].name,
         })
       }
-
-      // KEEP THE BELOW CODE FOR PHOTOS
-      // for (let i = 0; i < response.response.venue.tips.groups[0].items.length; i++) {
-      //   let eachItem = response.response.venue.tips;
-      //   console.log('eachitem', eachItem)
-      //   if (eachItem.photourl !== undefined) {
-      //     this.setState({
-      //       photo: eachItem.photourl
-      //     })
-      //     break;
-      //   }
-      // }
     });
+  }
+
+  getVenuesPhoto() {
+    const venueId = this.props.venueId
+    const venuesEndpoint = `https://api.foursquare.com/v2/venues/${venueId}/photos?`;
+
+    const params = {
+      client_id: 'NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ',
+      client_secret: 'YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM',
+      v: '20130619'
+    };
+
+    fetch(venuesEndpoint + new URLSearchParams(params), {
+      method: 'GET'
+    }).then(response => response.json()).then(response => {
+      console.log("ADDITIONAL PHOTOS", response.response.photos)
+      if (response.response.photos.items !== undefined && response.response.photos.items.length > 0) {
+        this.setState({
+          photoPrefix: response.response.photos.items[0].prefix,
+          photoSuffix: response.response.photos.items[0].suffix,
+          photoWidth: response.response.photos.items[0].width,
+          photoHeight: response.response.photos.items[0].height
+        })
+     }})
   }
 
   render(){
     return (
       <div>
+        <img src={this.state.photoPrefix + '100x100' + this.state.photoSuffix} alt=''/>
         <h2>{this.state.name}</h2>
         <h2>{this.state.address}</h2>
         <h2>{this.state.city}, {this.state.state}</h2>
         <h2>Category: {this.state.categories}</h2>
         <h2>Price: {this.state.price}</h2>
         <h2>Rating: {this.state.rating}</h2>
-        <img src={this.state.photo} alt=''/>
       </div>
     )
   }
