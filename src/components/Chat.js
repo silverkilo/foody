@@ -11,7 +11,7 @@ export const Chat = props => {
         <p>Chat Room</p>
         <ul id="messages" />
         <form action="">
-          <input id="m" autocomplete="off" />
+          <input id="m" autoComplete="off" placeholder="Discuss where you want to go!" />
           <button>Send</button>
         </form>
         <button onClick={() => handleClose()}> Close Chat </button>
