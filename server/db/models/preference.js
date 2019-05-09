@@ -1,10 +1,10 @@
-const Sequelize = require('sequelize')
-const db = require('../db')
+const Sequelize = require("sequelize");
+const db = require("../db");
 
-const Preference = db.define('preference', {
+const Preference = db.define("preference", {
   category: {
     type: Sequelize.STRING
   }
-})
+});
 
-module.exports = Preference
+module.exports = Preference;

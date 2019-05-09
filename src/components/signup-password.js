@@ -1,39 +1,39 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {updateUserThunk, logout} from '../store'
-import {withRouter} from 'react-router-dom'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { updateUserThunk, logout } from "../store";
+import { withRouter } from "react-router-dom";
 
 class SignupPassword extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      error: ''
-    }
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleLogOut = this.handleLogOut.bind(this)
+      error: ""
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleLogOut = this.handleLogOut.bind(this);
   }
   handleLogOut() {
-    this.props.logout()
-    this.props.history.push('/')
+    this.props.logout();
+    this.props.history.push("/");
   }
   async handleSubmit(event) {
     try {
-      event.preventDefault()
+      event.preventDefault();
       const userInfo = {
         password: event.target.password.value
-      }
-      const userId = this.props.user.id
-      await this.props.updateUserThunk(userId, userInfo)
-      this.props.history.push('/welcome')
+      };
+      const userId = this.props.user.id;
+      await this.props.updateUserThunk(userId, userInfo);
+      this.props.history.push("/welcome");
     } catch (error) {
       this.setState({
         error
-      })
+      });
     }
   }
 
   render() {
-    console.log(this.props)
+    console.log(this.props);
     return (
       <div className="email">
         <h1 className="email__title">Create a Password</h1>
@@ -54,7 +54,7 @@ class SignupPassword extends Component {
         </form>
         <div className="email__footer">
           <p>
-            Already have an account?{' '}
+            Already have an account?{" "}
             <button
               className="email__footer__link"
               onClick={() => this.handleLogOut()}
@@ -64,7 +64,7 @@ class SignupPassword extends Component {
           </p>
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -72,20 +72,20 @@ const mapState = state => {
   return {
     error: state.user.error,
     user: state.user
-  }
-}
+  };
+};
 
 const mapDispatch = dispatch => {
   return {
     updateUserThunk: (userId, userInfo) =>
       dispatch(updateUserThunk(userId, userInfo)),
     logout: () => dispatch(logout())
-  }
-}
+  };
+};
 
 export default withRouter(
   connect(
     mapState,
     mapDispatch
   )(SignupPassword)
-)
+);

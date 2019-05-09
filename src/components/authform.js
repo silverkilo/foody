@@ -1,64 +1,64 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {auth, login, logout} from '../store'
-import {Link} from 'react-router-dom'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { auth, login, logout } from "../store";
+import { Link } from "react-router-dom";
 
 class AuthForm extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      name: 'login',
-      displayName: 'Login',
-      error: ''
-    }
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleClick = this.handleClick.bind(this)
-    this.handleLogOut = this.handleLogOut.bind(this)
+      name: "login",
+      displayName: "Login",
+      error: ""
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleLogOut = this.handleLogOut.bind(this);
   }
   handleLogOut() {
     this.setState({
-      name: 'login',
-      displayName: 'Login'
-    })
-    this.props.logout()
+      name: "login",
+      displayName: "Login"
+    });
+    this.props.logout();
   }
   handleClick() {
-    if (this.state.name === 'login') {
+    if (this.state.name === "login") {
       this.setState({
-        name: 'signup',
-        displayName: 'Signup'
-      })
+        name: "signup",
+        displayName: "Signup"
+      });
     } else {
       this.setState({
-        name: 'login',
-        displayName: 'Login'
-      })
+        name: "login",
+        displayName: "Login"
+      });
     }
   }
   async handleSubmit(event) {
     try {
-      event.preventDefault()
-      const formName = event.target.name
-      const email = event.target.email.value
-      const password = event.target.password.value
-      if (this.state.name === 'signup') {
-        const firstName = event.target.firstName.value
-        const lastName = event.target.lastName.value
-        await this.props.auth(firstName, lastName, email, password, formName)
+      event.preventDefault();
+      const formName = event.target.name;
+      const email = event.target.email.value;
+      const password = event.target.password.value;
+      if (this.state.name === "signup") {
+        const firstName = event.target.firstName.value;
+        const lastName = event.target.lastName.value;
+        await this.props.auth(firstName, lastName, email, password, formName);
       } else {
-        await this.props.login(email, password, formName)
+        await this.props.login(email, password, formName);
       }
     } catch (error) {
       this.setState({
         error
-      })
+      });
     }
   }
   render() {
     return (
       <div>
         <form name={this.state.name} onSubmit={this.handleSubmit}>
-          {this.state.name === 'signup' ? (
+          {this.state.name === "signup" ? (
             <React.Fragment>
               <input name="firstName" type="text" placeholder="First Name" />
               <input name="lastName" type="text" placeholder="Last Name" />
@@ -73,7 +73,7 @@ class AuthForm extends Component {
           )}
           <button type="submit">{this.state.displayName}</button>
         </form>
-        {this.state.name === 'signup' ? (
+        {this.state.name === "signup" ? (
           <a onClick={() => this.handleClick()}>
             Already registered? Log In Here!
           </a>
@@ -87,7 +87,7 @@ class AuthForm extends Component {
             Log Out
           </button>
         ) : (
-          ''
+          ""
         )}
 
         <Link to="/profile">Profile</Link>
@@ -96,7 +96,7 @@ class AuthForm extends Component {
           <button type="submit">Login with Google</button>
         </form>
       </div>
-    )
+    );
   }
 }
 
@@ -104,8 +104,8 @@ const mapState = state => {
   return {
     error: state.user.error,
     user: state.user
-  }
-}
+  };
+};
 
 const mapDispatch = dispatch => {
   return {
@@ -114,10 +114,10 @@ const mapDispatch = dispatch => {
     login: (email, password, formName) =>
       dispatch(login(email, password, formName)),
     logout: () => dispatch(logout())
-  }
-}
+  };
+};
 
 export default connect(
   mapState,
   mapDispatch
-)(AuthForm)
+)(AuthForm);
