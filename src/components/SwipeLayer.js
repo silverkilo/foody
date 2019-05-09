@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import ReactSwipe from "react-swipe";
+import ReactSwipe, { reactSwipeEl } from "react-swipe";
 import "./mapstyles.css";
 import { connect } from "react-redux";
 import { FoodDetails } from "./FoodDetails";
 import { setFood } from "../store/food";
+
 const customStyles = {
   container: {
     overflow: "hidden",
@@ -27,42 +28,54 @@ const customStyles = {
     color: "black"
   }
 };
+
 export class SwipeLayer extends Component {
   constructor(props) {
     super(props);
-    this.checkYes = this.checkYes.bind(this);
   }
 
-  checkYes(venueId) {
+  checkYes = venueId => {
     // change the background color and pin color when selected
     // notify the other user when you select that food
     console.log("selected", venueId);
     this.props.pickFoodPlace(venueId);
-  }
+  };
 
   render() {
     let reactSwipeEl;
-    console.log("all Venues", this.props.allVenues);
     return (
-      <React.Fragment>
+      <div>
         <ReactSwipe
-          swipeOptions={{ continuous: true }}
-          ref={el => (reactSwipeEl = el)}
+          ref={el => {
+            reactSwipeEl = el;
+          }}
+          swipeOptions={{
+            continuous: true,
+            callback: (idx, ele) => {
+              this.props.highlightPin(idx);
+            }
+          }}
           childCount={this.props.allVenues.length}
           style={customStyles}
         >
-          {this.props.allVenues.map(venue => (
+          {this.props.allVenues.map((venue, idx) => (
             <div key={venue.id}>
+              venue.id
               <FoodDetails venueId={venue.id} />
               {!this.props.food.includes(venue.id) && (
-                <button onClick={() => this.checkYes(venue.id)}>
+                <button
+                  onClick={() => {
+                    this.checkYes(venue.id);
+                  }}
+                >
                   pick me!
                 </button>
               )}
             </div>
           ))}
         </ReactSwipe>
-      </React.Fragment>
+        <button onClick={() => reactSwipeEl.prev()}>Previous</button>
+      </div>
     );
   }
 }

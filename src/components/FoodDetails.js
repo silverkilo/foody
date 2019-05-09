@@ -16,8 +16,6 @@ export class FoodDetails extends Component {
       photoHeight: "",
       categories: ""
     };
-    this.getVenuesDetails = this.getVenuesDetails.bind(this);
-    this.getVenuesPhoto = this.getVenuesPhoto.bind(this);
   }
 
   componentDidMount() {
@@ -25,13 +23,13 @@ export class FoodDetails extends Component {
     this.getVenuesPhoto();
   }
 
-  getVenuesDetails() {
+  getVenuesDetails = () => {
     const venueId = this.props.venueId;
     const venuesEndpoint = `https://api.foursquare.com/v2/venues/${venueId}?`;
 
     const params = {
-      client_id: "NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ",
-      client_secret: "YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM",
+      client_id: "KNZLRCLACQGMZEXF3KBCR3XNLOL3NSYCAZVMMOC43FEI3KDA",
+      client_secret: "31RKGQ323YRWSTTZLRIN1YCAG2BV2CR12NEXNLJGO4GS1YHI",
       v: "20130619"
     };
 
@@ -69,15 +67,15 @@ export class FoodDetails extends Component {
           });
         }
       });
-  }
+  };
 
-  getVenuesPhoto() {
+  getVenuesPhoto = () => {
     const venueId = this.props.venueId;
     const venuesEndpoint = `https://api.foursquare.com/v2/venues/${venueId}/photos?`;
 
     const params = {
-      client_id: "NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ",
-      client_secret: "YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM",
+      client_id: "KNZLRCLACQGMZEXF3KBCR3XNLOL3NSYCAZVMMOC43FEI3KDA",
+      client_secret: "31RKGQ323YRWSTTZLRIN1YCAG2BV2CR12NEXNLJGO4GS1YHI",
       v: "20130619"
     };
 
@@ -99,7 +97,7 @@ export class FoodDetails extends Component {
           });
         }
       });
-  }
+  };
 
   render() {
     return (
