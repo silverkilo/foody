@@ -7,7 +7,7 @@ const setUserLL = userLL => ({ type: SET_USER_LATLONG, userLL})
 const getMatchLL = matchLL => ({ type: GET_MATCH_LATLONG, matchLL })
 
 
-export const setUserLatLong = (userLL) => async dispatch => {
+export const setUserLatLong = (userLL) => dispatch => {
   try {
     dispatch(setUserLL(userLL))
   } catch (err) {
@@ -32,7 +32,7 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case SET_USER_LATLONG:
-      return {...state, user: action.useLL}
+      return {...state, user: action.userLL}
     case GET_MATCH_LATLONG:
       return {...state, match: action.matchLL}
     default:

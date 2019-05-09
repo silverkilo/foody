@@ -14,7 +14,8 @@ export const Chat = (props) =>{
         <p>Chat Room</p>
         <ul id="messages"></ul>
           <form action="">
-            <input id="m" autocomplete="off" /><button>Send</button>
+            <input id="m" autocomplete="off" placeholder="Discuss where you want to go!"/><button>Send</button>
+
           </form>
         <button onClick={props.handleCloseChat}> Close Chat </button>
       </ReactModal>

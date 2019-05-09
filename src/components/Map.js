@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import MapGL, {Marker} from 'react-map-gl';
-import { SwipeLayer } from './Layer';
+import SwipeLayer from './Layer';
 import { connect } from 'react-redux';
 import { setUserLatLong, getMatchLatLong } from '../store/location'
 import { getMatchPreference } from '../store/matchPreference'
 import { Chat } from './Chat'
 import './mapstyles.css'
-
-
+import ReactModal from 'react-modal';
 // const mapAccess = {
 //   mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 // }
@@ -63,8 +62,8 @@ export class Map extends Component {
     const venuesEndpoint = 'https://api.foursquare.com/v2/venues/search?';
 
     const params = {
-      client_id: 'NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ',
-      client_secret: 'YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM',
+      client_id: '5DQ4HC1WROBOH0SFRD4IULDTPLLRP4J5LWKMOG0SZ0LRV5K0',
+      client_secret: 'E5PLXEXQKZMQMPU02YDTSV0I1ZIAFK5LI0KPAEEZUCQQ5OJ3',
       limit: 20,
       query: 'Food',
       v: '20130619', // version of the API
@@ -91,8 +90,8 @@ export class Map extends Component {
     const venuesEndpoint = 'https://api.foursquare.com/v2/venues/search?';
 
     const params = {
-      client_id: 'NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ',
-      client_secret: 'YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM',
+      client_id: '5DQ4HC1WROBOH0SFRD4IULDTPLLRP4J5LWKMOG0SZ0LRV5K0',
+      client_secret: 'E5PLXEXQKZMQMPU02YDTSV0I1ZIAFK5LI0KPAEEZUCQQ5OJ3',
       limit: 5,
       query: 'Food',
       v: '20130619', // version of the API
@@ -145,13 +144,13 @@ export class Map extends Component {
   render(){
     return (
       <div>
-          <div className='chatBox'>
-            <button onClick={this.handleOpenChat}> Chat Room </button>
-            <Chat showChat={this.state.showChat} handleCloseChat={this.handleCloseChat}/>
-          </div>
+
+        <div className='chatBox'>
+          <button onClick={this.handleOpenChat}> Chat Room </button>
+          <Chat showChat={this.state.showChat} handleCloseChat={this.handleCloseChat}/>
+        </div>
 
           <MapGL
-
             {...this.state.viewport}
             mapStyle='mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu'
             onViewportChange={(viewport) => this.setState({viewport})}
@@ -176,6 +175,7 @@ export class Map extends Component {
               <div className={`foodMarker`}></div>
             </Marker>
             )}
+
 
             {this.state.loadedVenues &&
               <div>
