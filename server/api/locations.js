@@ -16,7 +16,7 @@ router.post('/:id', async (req, res, next) => {
         const id = Number(req.params.id)
         const [[result]] = await db.query(`
             UPDATE users 
-                SET coords='SRID=26918;POINT(? ?)'::geometry 
+                SET location='SRID=26918;POINT(? ?)'::geometry 
             WHERE id=? 
             returning *`,
             { replacements: [longitude, latitude, id] })

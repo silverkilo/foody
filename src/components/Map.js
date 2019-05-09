@@ -99,8 +99,8 @@ export class Map extends Component {
   }
 
   getCurrentLocation(position) {
-    let lat = position.coords.latitude
-    let long = position.coords.longitude
+    let lat = position.location.latitude
+    let long = position.location.longitude
     this.setState({
       viewport: { ...this.state.viewport, latitude: lat, longitude: long },
       lat: lat,

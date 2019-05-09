@@ -47,8 +47,8 @@ async function seed() {
       password: '123',
     }].concat(Array(11).fill('x').map((_, i) => {
       locations.push({
-        latitude: codyLoc.latitude + (i * ((Math.random() > 5 ? -1 : 1) * 1)),
-        longitude: codyLoc.longitude + (i * ((Math.random() > 5 ? -1 : 1) * 1))
+        latitude: codyLoc.latitude + (i * ((Math.random() > 5 ? -1 : 1) * .1)),
+        longitude: codyLoc.longitude + (i * ((Math.random() > 5 ? -1 : 1) * .1))
       })
       return ({
         firstName: faker.name.firstName(),
@@ -64,7 +64,7 @@ async function seed() {
   )
   for (let user of users) {
     const { longitude, latitude } = locations[user.id - 1]
-    await db.query(`UPDATE users SET coords='SRID=26918;POINT(? ?)'::geometry WHERE id=?`, { replacements: [longitude, latitude, user.id] })
+    await db.query(`UPDATE users SET location='SRID=26918;POINT(? ?)'::geometry WHERE id=?`, { replacements: [longitude, latitude, user.id] })
   }
   await UserPreference.bulkCreate(
     Array(users.length * 3).fill('x').map((_, i) => ({
