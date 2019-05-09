@@ -48,11 +48,12 @@ export class Map extends Component {
   componentDidMount() {
     window.navigator.geolocation.getCurrentPosition(this.getCurrentLocation)
     this.props.getMatchLatLong(this.props.userId)
+    // this.props.getMatchPreference(this.props.userId)
     this.setState({
       icon: randomIcon(),
       icon2: randomIcon(),
       // COMMENT THE BELOW BACK IN ONCE WE HAVE THE MATCH PREFERENCES
-      // matchPreferences: this.props.getMatchPreference(this.props.userId)
+      // matchPreferences: this.props.matchPreference
     })
     window.setTimeout(this.getVenuesUser, 9000)
     window.setTimeout(this.getVenuesMatch, 9000)
@@ -192,7 +193,8 @@ const mapStateToProps = state => {
   return {
     userId: state.user.id,
     matchLat: state.userMatchLatLong.match[0],
-    matchLong: state.userMatchLatLong.match[1]
+    matchLong: state.userMatchLatLong.match[1],
+    matchPreference: state.matchPreference
   }
 }
 

@@ -28,11 +28,15 @@ export class SwipeLayer extends Component {
             childCount={this.props.allVenues.length}
           >
             {this.props.allVenues.map(venue => (
-                <div key={venue.id}>
+
+               <div key={venue.id}>
                   <FoodDetails venueId={venue.id}/>
+                  {!this.props.food.includes(venue.id) &&
                   <button onClick={() => this.checkYes(venue.id)}>pick me!</button>
+                  }
                 </div>)
-            )}
+            )
+          }
           </ReactSwipe>
           <button onClick={() => reactSwipeEl.next()}>Next</button>
           <button onClick={() => reactSwipeEl.prev()}>Previous</button>
