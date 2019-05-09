@@ -34,8 +34,10 @@ const User = db.define('user', {
     }
   },
   hasMatched: {
-    type: Sequelize.BOOLEAN,
-    defaultValue: false
+    type: Sequelize.INTEGER,
+  },
+  socketId: {
+    type: Sequelize.STRING
   }
 })
 
