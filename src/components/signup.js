@@ -1,5 +1,5 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Signup() {
   return (
@@ -14,5 +14,5 @@ export default function Signup() {
         Log In
       </Link>
     </div>
-  )
+  );
 }

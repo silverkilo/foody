@@ -1,13 +1,13 @@
 const isAuthenticated = (req, res, next) => {
   try {
     if (req.user) {
-      return next()
+      return next();
     } else {
-      res.redirect('/home')
+      res.redirect("/home");
     }
   } catch (e) {
-    res.redirect('/home')
+    res.redirect("/home");
   }
-}
+};
 
-module.exports = {isAuthenticated}
+module.exports = { isAuthenticated };

@@ -1,14 +1,14 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {removePreference} from '../store'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { removePreference } from "../store";
 
 class UserPreference extends Component {
   constructor(props) {
-    super(props)
-    this.handleRemove = this.handleRemove.bind(this)
+    super(props);
+    this.handleRemove = this.handleRemove.bind(this);
   }
   handleRemove(preference) {
-    this.props.removePreference(preference)
+    this.props.removePreference(preference);
   }
   render() {
     return (
@@ -24,25 +24,25 @@ class UserPreference extends Component {
               <i className="fas fa-times-circle" />
               <h1 className="food__text">{preference.category}</h1>
             </button>
-          )
+          );
         })}
       </React.Fragment>
-    )
+    );
   }
 }
 
 const mapStateToProps = state => {
   return {
     preferences: state.preferences
-  }
-}
+  };
+};
 const mapDispatchToProps = dispatch => {
   return {
     removePreference: preference => dispatch(removePreference(preference))
-  }
-}
+  };
+};
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(UserPreference)
+)(UserPreference);
