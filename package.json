@@ -42,7 +42,8 @@
     "test": "export NODE_ENV=test && jest",
     "test-w": "export NODE_ENV=test && jest --watch",
     "eject": "react-scripts eject",
-    "seed": "node server/seed.js"
+    "seed": "node server/seed.js",
+    "pretty": "onchange '**/*.js' -- prettier --write {{changed}}"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -66,6 +67,7 @@
     "faker": "^4.1.0",
     "jest": "^24.7.1",
     "morgan": "^1.9.1",
+    "onchange": "^5.2.0",
     "prettier": "^1.17.0",
     "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6",

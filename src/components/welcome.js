@@ -1,24 +1,24 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {logout} from '../store'
-import {Link, withRouter} from 'react-router-dom'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { logout } from "../store";
+import { Link, withRouter } from "react-router-dom";
 
 class Welcome extends Component {
   constructor(props) {
-    super(props)
-    this.handleLogOut = this.handleLogOut.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    super(props);
+    this.handleLogOut = this.handleLogOut.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleLogOut() {
-    this.props.logout()
-    this.props.history.push('/')
+    this.props.logout();
+    this.props.history.push("/");
   }
   handleSubmit() {
-    this.props.history.push('/Preference')
+    this.props.history.push("/Preference");
   }
   render() {
-    const {firstName, lastName} = this.props.user
+    const { firstName, lastName } = this.props.user;
     return (
       <div className="welcome">
         <h1 className="welcome__title">Welcome to Foody,</h1>
@@ -39,7 +39,7 @@ class Welcome extends Component {
         </Link>
         <div className="email__footer">
           <p>
-            Already have an account?{' '}
+            Already have an account?{" "}
             <button
               className="email__footer__link"
               onClick={() => this.handleLogOut()}
@@ -49,25 +49,25 @@ class Welcome extends Component {
           </p>
         </div>
       </div>
-    )
+    );
   }
 }
 
 const mapState = state => {
   return {
     user: state.user
-  }
-}
+  };
+};
 
 const mapDispatch = dispatch => {
   return {
     logout: () => dispatch(logout())
-  }
-}
+  };
+};
 
 export default withRouter(
   connect(
     mapState,
     mapDispatch
   )(Welcome)
-)
+);

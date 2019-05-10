@@ -6,12 +6,6 @@
   cursor: pointer;
 }
 
-.chatBox {
-  background-size: cover;
-  /* background: rgba(0, 181, 204, 0.5);
-  padding: 100px; */
-}
-
 .foodMarker {
   background-size: cover;
   width: 20px;

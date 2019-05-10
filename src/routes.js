@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withRouter, Route, Switch } from 'react-router-dom'
-
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { withRouter, Route, Switch } from "react-router-dom";
 
 import {
   Login,
@@ -17,23 +16,29 @@ import {
   Matching,
   Map,
   UserPreference
-} from './components'
-import { me, createConnection, errorListener, potentialMatchesListener, getPotentialMatches, didMatchListener } from './store'
-
+} from "./components";
+import {
+  me,
+  createConnection,
+  errorListener,
+  potentialMatchesListener,
+  getPotentialMatches,
+  didMatchListener,
+  haveIMatched
+} from "./store";
 
 class Routes extends Component {
   componentDidMount() {
-    this.props.me()
-
+    this.props.me();
   }
   componentDidUpdate() {
     if (this.props.user && this.props.user.id) {
-      this.props.createConnection()
-      this.props.errorListener()
-      this.props.potentialMatchesListener()
-      this.props.getPotentialMatches()
-      console.log(this.props.didMatchListener)
-      this.props.didMatchListener()
+      this.props.createConnection();
+      this.props.errorListener();
+      this.props.didMatchListener();
+      this.props.haveIMatched();
+      this.props.potentialMatchesListener();
+      this.props.getPotentialMatches();
     }
   }
   render() {
@@ -52,15 +57,23 @@ class Routes extends Component {
         <Route path="/matches" component={Matching} />
         <Route path="/map" component={Map} />
       </Switch>
-    )
+    );
   }
 }
 
-const mapStateToProps = ({ user }) => ({ user })
+const mapStateToProps = ({ user }) => ({ user });
 
 export default withRouter(
   connect(
     mapStateToProps,
-    { me, createConnection, errorListener, potentialMatchesListener, getPotentialMatches, didMatchListener }
+    {
+      me,
+      createConnection,
+      errorListener,
+      potentialMatchesListener,
+      getPotentialMatches,
+      didMatchListener,
+      haveIMatched
+    }
   )(Routes)
-)
+);

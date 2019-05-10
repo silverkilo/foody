@@ -1,26 +1,26 @@
-const router = require('express').Router()
-const {User} = require('../db/models')
-module.exports = router
-const {userGateway} = require('./gateway')
+const router = require("express").Router();
+const { User } = require("../db/models");
+module.exports = router;
+const { userGateway } = require("./gateway");
 
-router.get('/:userId', userGateway, async (req, res, next) => {
+router.get("/:userId", userGateway, async (req, res, next) => {
   try {
-    const userId = await Number(req.params.userId)
+    const userId = await Number(req.params.userId);
     if (userId === Number(req.session.passport.user)) {
-      const user = await User.findByPk(userId)
+      const user = await User.findByPk(userId);
       res.json({
         id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email
-      })
+      });
     }
   } catch (err) {
-    next(err)
+    next(err);
   }
-})
+});
 
-router.post('/', async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
     const newUser = await User.create({
       firstName: req.body.firstName,
@@ -28,32 +28,32 @@ router.post('/', async (req, res, next) => {
       email: req.body.email,
       googleId: null,
       password: req.body.password
-    })
-    res.status(201).send(newUser)
+    });
+    res.status(201).send(newUser);
   } catch (err) {
-    next(err)
+    next(err);
   }
-})
+});
 
 router.put(
-  '/:userId',
+  "/:userId",
   // userGateway,
   async (req, res, next) => {
     try {
-      const user = await User.findByPk(req.params.userId)
+      const user = await User.findByPk(req.params.userId);
       if (!user) {
-        res.sendStatus(404)
+        res.sendStatus(404);
       } else {
         const updatedUser = await user.update({
           firstName: req.body.firstName,
           lastName: req.body.lastName,
           email: req.body.email,
           password: req.body.password
-        })
-        res.send(updatedUser)
+        });
+        res.send(updatedUser);
       }
     } catch (err) {
-      next(err)
+      next(err);
     }
   }
-)
+);

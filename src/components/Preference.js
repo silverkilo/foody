@@ -1,65 +1,65 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   getAllCategories,
   sendUserPreference,
   logout,
   addPreference
-} from '../store'
-import UserPreference from './User-Preference'
-import Nav from './Nav'
+} from "../store";
+import UserPreference from "./User-Preference";
+import Nav from "./Nav";
 
 class Preference extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       loaded: false,
       selected: []
-    }
-    this.handleSelect = this.handleSelect.bind(this)
-    this.handleClick = this.handleClick.bind(this)
-    this.formatPreferences = this.formatPreferences.bind(this)
+    };
+    this.handleSelect = this.handleSelect.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.formatPreferences = this.formatPreferences.bind(this);
   }
 
   componentDidMount() {
-    this.reload()
+    this.reload();
   }
 
   componentDidUpdate(prevState) {
     if (prevState === this.props.categories) {
-      this.reload()
+      this.reload();
     }
   }
 
   async reload() {
-    this.setState({loaded: false})
+    this.setState({ loaded: false });
     await this.props.getAllCategories().then(() =>
       this.setState({
         loaded: true
       })
-    )
+    );
   }
 
   handleSelect(preference) {
-    this.props.addPreference(preference)
+    this.props.addPreference(preference);
   }
 
   formatPreferences(preferences) {
-    let prefIds = []
+    let prefIds = [];
     for (let preference of preferences) {
-      prefIds.push(preference.id)
+      prefIds.push(preference.id);
     }
-    return prefIds
+    return prefIds;
   }
 
   handleClick() {
-    const preferences = this.formatPreferences(this.props.preferences)
-    this.props.sendUserPreference(this.props.user.id, preferences)
+    const preferences = this.formatPreferences(this.props.preferences);
+    this.props.sendUserPreference(this.props.user.id, preferences);
   }
 
   render() {
     if (!this.state.loaded) {
-      return <h1>Loading...</h1>
+      return <h1>Loading...</h1>;
     }
     return (
       <div className="preference">
@@ -81,7 +81,7 @@ class Preference extends Component {
               >
                 {category.category}
               </button>
-            )
+            );
           })}
         </div>
         <button
@@ -92,7 +92,7 @@ class Preference extends Component {
           Match Me
         </button>
       </div>
-    )
+    );
   }
 }
 
@@ -101,8 +101,8 @@ const mapStateToProps = state => {
     categories: state.categories,
     user: state.user,
     preferences: state.preferences
-  }
-}
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -110,10 +110,10 @@ const mapDispatchToProps = dispatch => {
     sendUserPreference: (id, pref) => dispatch(sendUserPreference(id, pref)),
     logout: () => dispatch(logout()),
     addPreference: preference => dispatch(addPreference(preference))
-  }
-}
+  };
+};
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Preference)
+)(Preference);

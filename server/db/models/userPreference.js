@@ -1,9 +1,9 @@
-const Sequelize = require('sequelize')
-const db = require('../db')
+const Sequelize = require("sequelize");
+const db = require("../db");
 
-const UserPreference = db.define('user_preference', {
-    userId: Sequelize.INTEGER,
-    preferenceId: Sequelize.INTEGER
-})
+const UserPreference = db.define("user_preference", {
+  userId: Sequelize.INTEGER,
+  preferenceId: Sequelize.INTEGER
+});
 
-module.exports = UserPreference
+module.exports = UserPreference;

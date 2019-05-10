@@ -58,8 +58,8 @@ export class Map extends Component {
       // COMMENT THE BELOW BACK IN ONCE WE HAVE THE MATCH PREFERENCES
       // matchPreferences: this.props.matchPreference
     });
-    window.setTimeout(this.getVenuesUser, 9000);
-    window.setTimeout(this.getVenuesMatch, 9000);
+    window.setTimeout(this.getVenuesUser, 4000);
+    window.setTimeout(this.getVenuesMatch, 6000);
   }
 
   getVenuesUser = () => {

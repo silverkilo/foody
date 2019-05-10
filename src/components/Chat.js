@@ -8,13 +8,47 @@ export const Chat = props => {
   return (
     <div className="chatBox">
       <div className="chatBox__inside">
-        <p>Chat Room</p>
-        <ul id="messages" />
-        <form action="">
-          <input id="m" autoComplete="off" placeholder="Discuss where you want to go!" />
-          <button>Send</button>
-        </form>
-        <button onClick={() => handleClose()}> Close Chat </button>
+        <div className="chatBox__header">
+          <h1>Chat</h1>
+          <button onClick={() => handleClose()}>
+            <i class="fas fa-times" />
+          </button>
+        </div>
+        <div className="chatBox__body">
+          <ul>
+            <li className="sender">hey</li>
+            <li className="receiver">whats up?</li>
+            <li className="sender">hey</li>
+            <li className="receiver">whats up?</li>
+            <li className="sender">hey</li>
+            <li className="receiver">whats up?</li>
+            <li className="receiver">whats up?</li>
+            <li className="receiver">whats up?</li>
+            <li className="sender">hey</li>
+            <li className="sender">hey</li>
+            <li className="receiver">whats up?</li>
+            <li className="sender">hey</li>
+            <li className="receiver">whats up?</li>
+            <li className="sender">hey</li>
+            <li className="receiver">whats up?</li>
+            <li className="receiver">whats up?</li>
+            <li className="receiver">whats up?</li>
+            <li className="sender">hey</li>
+            <li className="sender">hey</li>
+          </ul>
+        </div>
+        <div className="chatBox__message">
+          <form className="chatBox__form">
+            <input
+              className="chatBox__input"
+              type="text"
+              placeholder="Write your message"
+            />
+            <button className="chatBox__button" type="submit">
+              Send
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

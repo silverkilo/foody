@@ -1,38 +1,38 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {auth, logout} from '../store'
-import {withRouter} from 'react-router-dom'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { auth, logout } from "../store";
+import { withRouter } from "react-router-dom";
 
 class SignupEmail extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      error: ''
-    }
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleLogOut = this.handleLogOut.bind(this)
+      error: ""
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleLogOut = this.handleLogOut.bind(this);
   }
   handleLogOut() {
-    this.props.logout()
-    this.props.history.push('/')
+    this.props.logout();
+    this.props.history.push("/");
   }
   async handleSubmit(event) {
     try {
-      event.preventDefault()
-      const email = event.target.email.value
-      const formName = event.target.name
-      if (email) await this.props.auth(email, 'temp', formName)
+      event.preventDefault();
+      const email = event.target.email.value;
+      const formName = event.target.name;
+      if (email) await this.props.auth(email, "temp", formName);
       if (this.props.user.id) {
-        this.props.history.push('/signup-name')
+        this.props.history.push("/signup-name");
       }
     } catch (error) {
       this.setState({
         error
-      })
+      });
     }
   }
   render() {
-    const {error} = this.props
+    const { error } = this.props;
     return (
       <div className="email">
         <h1 className="email__title">Enter Your Email</h1>
@@ -55,7 +55,7 @@ class SignupEmail extends Component {
         </form>
         <div className="email__footer">
           <p>
-            Already have an account?{' '}
+            Already have an account?{" "}
             <button
               className="email__footer__link"
               onClick={() => this.handleLogOut()}
@@ -65,7 +65,7 @@ class SignupEmail extends Component {
           </p>
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -73,20 +73,20 @@ const mapState = state => {
   return {
     error: state.user.error,
     user: state.user
-  }
-}
+  };
+};
 
 const mapDispatch = dispatch => {
   return {
     auth: (email, password, formName) =>
       dispatch(auth(email, password, formName)),
     logout: () => dispatch(logout())
-  }
-}
+  };
+};
 
 export default withRouter(
   connect(
     mapState,
     mapDispatch
   )(SignupEmail)
-)
+);
