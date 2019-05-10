@@ -52,7 +52,7 @@ async function seed() {
         password: "123"
       }
     ].concat(
-      Array(11)
+      Array(35)
         .fill("x")
         .map((_, i) => {
           locations.push({
@@ -83,7 +83,7 @@ async function seed() {
     );
   }
   await UserPreference.bulkCreate(
-    Array(users.length * 3)
+    Array(users.length * 5)
       .fill("x")
       .map((_, i) => ({
         userId: (i % users.length) + 1,
@@ -102,16 +102,6 @@ async function seed() {
     {
       userId: 10,
       preferenceId: 13
-    }
-  ]);
-  await Match.bulkCreate([
-    {
-      matcherId: 7,
-      matcheeId: 1
-    },
-    {
-      matcherId: 10,
-      matcheeId: 1
     }
   ]);
   console.log(`seeded successfully`);

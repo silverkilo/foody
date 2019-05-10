@@ -1,6 +1,20 @@
 const db = require("../db");
 const { Op } = require("sequelize");
 const { Preference, User, Match } = require("../db/models");
+
+const inCommon = (arr1, arr2) => {
+  const hash = {};
+  const result = [];
+  for (let item of arr1) {
+    hash[item] = true;
+  }
+  for (let item of arr2) {
+    if (hash[item]) {
+      result.push(item);
+    }
+  }
+  return result;
+};
 module.exports = function(socket, userId, exclusions) {
   // CLIENT asks for potential matches
   // RETURNS a list of potential matches and their preferences
@@ -33,7 +47,7 @@ module.exports = function(socket, userId, exclusions) {
       const [matchers] = await db.query(
         `
                       SELECT 
-                          "user"."id", "user"."firstName", "user"."lastName", 
+                          "user"."id", "user"."firstName", "user"."lastName",
                           array_agg("preferences"."category") as preferences,
                           TRUE as match
                       FROM "users" AS "user" 
@@ -99,39 +113,55 @@ module.exports = function(socket, userId, exclusions) {
   // EMITS whether the user has matched (matched: boolean) and if true also emits the info of the matchee and matcher
   socket.on("haveIMatched", async () => {
     try {
-      const user = await User.findByPk(userId);
+      const [[user]] = await db.query(
+        `
+        SELECT
+            "users"."id" AS id, "firstName", "lastName", location, "socketId", "hasMatched",
+            array_agg("preferences"."category") as preferences
+        FROM users
+        INNER JOIN user_preferences
+            ON users.id = "user_preferences"."userId"
+        INNER JOIN preferences
+            ON "user_preferences"."preferenceId" = preferences.id
+        WHERE users.id IN (?)
+        GROUP BY users.id
+      `,
+        { replacements: [[userId]] }
+      );
       if (user.hasMatched) {
-        const matcherInfo = await User.findByPk(userId, {
-          attributes: ["id", "firstName", "lastName", "location", "hasMatched"],
-          include: [
-            {
-              model: Preference,
-              attributes: ["id", "category"]
-            }
-          ]
-        });
-        const matcheeInfo = await User.findByPk(matcherInfo.hasMatched, {
-          attributes: ["id", "firstName", "lastName", "location", "hasMatched"],
-          include: [
-            {
-              model: Preference,
-              where: {
-                id: {
-                  [Op.in]: matcherInfo.preferences.map(({ id }) => id)
-                }
-              },
-              attributes: ["id", "category"]
-            }
-          ]
-        });
+        const [[matcheeInfo]] = await db.query(
+          `
+            SELECT
+                "users"."id" AS id, "firstName", "lastName", location, "socketId", "hasMatched",
+                array_agg("preferences"."category") as preferences
+            FROM users
+            INNER JOIN user_preferences
+                ON users.id = "user_preferences"."userId"
+            INNER JOIN preferences
+                ON "user_preferences"."preferenceId" = preferences.id
+            WHERE users.id IN (?)
+            GROUP BY users.id
+          `,
+          { replacements: [[user.hasMatched]] }
+        );
         if (matcheeInfo.socketId) {
-          socket.emit("didMatch", { matched: true, matcheeInfo });
+          const commonPrefs = inCommon(
+            user.preferences,
+            matcheeInfo.preferences
+          );
+          user.preferences = commonPrefs;
+          matcheeInfo.preferences = commonPrefs;
+
+          socket.emit("haveYouMatched", {
+            matched: true,
+            info: matcheeInfo
+          });
           return socket
             .to(matcheeInfo.socketId)
-            .emit("didMatch", { matched: true, matcherInfo: user });
+            .emit("haveYouMatched", { matched: true, info: user });
         }
       }
-      return socket.emit({ matched: false });
+      return socket.emit("haveYouMatched", { matched: false });
     } catch (e) {
       console.log(e);
       socket.emit("errorMessage", "There was an error processing the swipe");
@@ -154,70 +184,56 @@ module.exports = function(socket, userId, exclusions) {
             }
           }));
         if (matched) {
-          await Promise.all([
-            User.update(
-              {
-                hasMatched: matchee
-              },
-              {
-                where: {
-                  id: userId
-                }
-              }
-            ),
-            User.update(
-              {
-                hasMatched: userId
-              },
-              {
-                where: {
-                  id: matchee
-                }
-              }
-            )
-          ]).catch(e => console.log(e));
-          const matcherInfo = await User.findByPk(userId, {
-            attributes: [
-              "id",
-              "firstName",
-              "lastName",
-              "location",
-              "hasMatched",
-              "socketId"
-            ],
-            include: [
-              {
-                model: Preference,
-                attributes: ["id", "category"]
-              }
-            ]
-          });
-          const matcheeInfo = await User.findByPk(matchee, {
-            attributes: [
-              "id",
-              "firstName",
-              "lastName",
-              "location",
-              "hasMatched",
-              "socketId"
-            ],
-            include: [
-              {
-                model: Preference,
-                where: {
-                  id: {
-                    [Op.in]: matcherInfo.preferences.map(({ id }) => id)
-                  }
-                },
-                attributes: ["id", "category"]
-              }
-            ]
-          });
-          if (matcherInfo.socketId && matcheeInfo.socketId) {
-            socket.emit("didMatch", { matched, matcheeInfo });
-            return socket
+          const [[matcher1, matcher2]] = await db.query(
+            `
+            SELECT
+                "users"."id" AS id, "firstName", "lastName", location, "socketId",
+                array_agg("preferences"."category") as preferences
+            FROM users
+            INNER JOIN user_preferences
+                ON users.id = "user_preferences"."userId"
+            INNER JOIN preferences
+                ON "user_preferences"."preferenceId" = preferences.id
+            WHERE users.id IN (?)
+            GROUP BY users.id
+          `,
+            { replacements: [[userId, matchee]] }
+          );
+          if (matcher1.socketId && matcher2.socketId) {
+            const commonPrefs = inCommon(
+              matcher1.preferences,
+              matcher2.preferences
+            );
+            matcher1.preferences = commonPrefs;
+            matcher2.preferences = commonPrefs;
+            const matcheeInfo = matcher1.id === matchee ? matcher1 : matcher2,
+              matcherInfo = matcher1.id === userId ? matcher1 : matcher2;
+            socket.emit("didMatch", { matched, info: matcheeInfo });
+            socket
               .to(matcheeInfo.socketId)
-              .emit("didMatch", { matched, matcherInfo });
+              .emit("didMatch", { matched, info: matcherInfo });
+            return Promise.all([
+              User.update(
+                {
+                  hasMatched: matchee
+                },
+                {
+                  where: {
+                    id: userId
+                  }
+                }
+              ),
+              User.update(
+                {
+                  hasMatched: userId
+                },
+                {
+                  where: {
+                    id: matchee
+                  }
+                }
+              )
+            ]).catch(e => console.log(e));
           } else {
             return socket.emit("didMatch", { matched: false });
           }
