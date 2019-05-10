@@ -10,10 +10,11 @@ const removeUser = () => ({ type: REMOVE_USER });
 const updateUserName = userInfo => ({ type: UPDATE_NAME, userInfo });
 const updateUserPassword = userInfo => ({ type: UPDATE_PASSWORD, userInfo });
 
-export const me = userId => async dispatch => {
+export const me = initSocket => async dispatch => {
   try {
     const res = await axios.get("/auth/me");
     dispatch(getUser(res.data || initialState));
+    initSocket();
   } catch (err) {
     console.error(err);
   }
