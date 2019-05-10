@@ -11,6 +11,7 @@ import userMatchLatLong from "./location";
 import matchPreference from "./matchPreference";
 import food from "./food";
 import selectedIdx from "./highlight";
+import chatHistory from "./chat";
 
 const reducer = combineReducers({
   user,
@@ -21,7 +22,8 @@ const reducer = combineReducers({
   socket,
   matchPreference,
   food,
-  selectedIdx
+  selectedIdx,
+  chatHistory
 });
 
 const middleware = composeWithDevTools(
