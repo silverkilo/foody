@@ -19,6 +19,7 @@ class Matching extends Component {
     if (!this.props.potentials.length) return <div>No Matches to show</div>;
 
     const user = this.props.potentials[0];
+    console.log(this.props.potentials);
     return (
       <div>
         <div key={user.id}>
@@ -29,8 +30,12 @@ class Matching extends Component {
           <p>{user.preferences.join(", ")}</p>
           <strong>{user.distance}</strong>
         </div>
-        <button onClick={() => this.props.swipe(false, user.id)}>Left</button>
-        <button onClick={() => this.props.swipe(true, user.id)}>Right</button>
+        <button onClick={() => this.props.swipe(false, user.id, user.match)}>
+          Left
+        </button>
+        <button onClick={() => this.props.swipe(true, user.id, user.match)}>
+          Right
+        </button>
       </div>
     );
   }
