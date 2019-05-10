@@ -19,6 +19,7 @@ const connect = connected => ({
   type: CONNECTED,
   connected
 });
+
 const err = message => ({
   type: ERROR,
   error: {

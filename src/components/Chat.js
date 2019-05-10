@@ -1,10 +1,26 @@
-import React, { Component } from "react";
+import React from "react";
 
 function handleClose() {
   let chat = document.querySelector(".chatBox");
   chat.classList.remove("is-visible");
 }
-export const Chat = props => {
+
+export class Chat extends Component {
+  constructor() {
+    super()
+    this.state = (
+      message: ''
+    )
+   
+  sendMessage(ev) => {
+    ev.preventDefault();
+    this.socket.emit('SEND_MESSAGE', {
+        // author: this.state.username,
+        message: this.state.message
+    });
+    this.setState({message: ''});
+  }
+  
   return (
     <div className="chatBox">
       <div className="chatBox__inside">
@@ -21,20 +37,6 @@ export const Chat = props => {
             <li className="sender">hey</li>
             <li className="receiver">whats up?</li>
             <li className="sender">hey</li>
-            <li className="receiver">whats up?</li>
-            <li className="receiver">whats up?</li>
-            <li className="receiver">whats up?</li>
-            <li className="sender">hey</li>
-            <li className="sender">hey</li>
-            <li className="receiver">whats up?</li>
-            <li className="sender">hey</li>
-            <li className="receiver">whats up?</li>
-            <li className="sender">hey</li>
-            <li className="receiver">whats up?</li>
-            <li className="receiver">whats up?</li>
-            <li className="receiver">whats up?</li>
-            <li className="sender">hey</li>
-            <li className="sender">hey</li>
           </ul>
         </div>
         <div className="chatBox__message">
@@ -44,7 +46,7 @@ export const Chat = props => {
               type="text"
               placeholder="Write your message"
             />
-            <button className="chatBox__button" type="submit">
+            <button onClick={this.sendMessage} className="chatBox__button" type="submit">
               Send
             </button>
           </form>
