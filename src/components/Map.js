@@ -90,8 +90,7 @@ export class Map extends Component {
             this.state.matchPreferences.indexOf(eachPlace.categories[0].name) >
             -1
         );
-        this.setState({ venuesUser: response.response.venues });
-        // this.setState({ venuesUser: filtered });
+        this.setState({ venuesUser: filtered });
       });
   };
 
@@ -123,8 +122,7 @@ export class Map extends Component {
             this.state.matchPreferences.indexOf(eachPlace.categories[0].name) >
             -1
         );
-        this.setState({ venuesUser: response.response.venues });
-        // this.setState({ venuesUser: filtered });
+        this.setState({ venuesUser: filtered });
         this.setState({
           allVenues: this.state.venuesUser.concat(this.state.venuesMatch)
         });
@@ -156,21 +154,6 @@ export class Map extends Component {
   handleCloseChat = () => {
     this.setState({ showChat: false });
   };
-
-  //highlight functions
-  // highlightPin = idx => {
-  //   this.setState({
-  //     highlightedPin: idx
-  //   });
-  //   console.log("highlightedPin", this.state.highlightedPin);
-  // };
-
-  // highlightRes = idx => {
-  //   this.setState({
-  //     highlightedRes: idx
-  //   });
-  //   console.log("highlightedRes", this.state.highlightedRes);
-  // };
 
   render() {
     return (
