@@ -1,33 +1,51 @@
-import axios from "axios";
+import { socket } from "./socket";
+const SWIPE = "SWIPE";
+const POTENTIAL_MATCHES = "POTENTIAL_MATCHES";
+const DID_MATCH = "DID_MATCH";
 
-const GET_ALL_MATCH_LIST = "GET_ALL_MATCH_LIST";
-
-const getList = array => ({ type: GET_ALL_MATCH_LIST, array });
-
-export const getAllMatchList = userId => async dispatch => {
-  try {
-    const res = await axios.get(`/api/match/${userId}`);
-    dispatch(getList(res.data));
-  } catch (err) {
-    console.error(err);
-  }
+const initialState = {
+  didMatch: null,
+  potentials: []
 };
 
-export const sendYesUser = (userId, yesUserId) => async dispatch => {
-  try {
-    const res = await axios.post(`/api/match/yes/${userId}/${yesUserId}`);
-  } catch (err) {
-    console.error(err);
-  }
+const potentialMatches = data => ({
+  type: POTENTIAL_MATCHES,
+  data
+});
+const didMatch = match => ({
+  type: DID_MATCH,
+  match
+});
+
+const swiped = (value, matchee) => ({
+  type: SWIPE,
+  value,
+  matchee
+});
+export const swipe = (value, matchee) => {
+  socket.emit("swipe", { value, matchee });
+  return swiped(value, matchee);
 };
 
-const initialState = [];
+export const initListeners = () => dispatch => {
+  socket.on("didMatch", data => {
+    dispatch(didMatch(data));
+  });
+  socket.emit("haveIMatched");
+  socket.on("potentialMatches", data => {
+    dispatch(potentialMatches(data));
+  });
 
-export default function matchlist(state = initialState, action) {
+  socket.emit("getPotentialMatches");
+};
+
+export default (state = initialState, action) => {
   switch (action.type) {
-    case GET_ALL_MATCH_LIST:
-      return action.array;
+    case DID_MATCH:
+      return { ...state, didMatch: action.match };
+    case POTENTIAL_MATCHES:
+      return { ...state, potentials: action.data };
     default:
       return state;
   }
-}
+};
