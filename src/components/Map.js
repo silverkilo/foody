@@ -3,6 +3,7 @@ import MapGL, { Marker } from "react-map-gl";
 import SwipeLayer from "./SwipeLayer";
 import { connect } from "react-redux";
 import { setUserLatLong, getMatchLatLong } from "../store/location";
+import { setSelectedIdx } from "../store/highlight";
 import { getMatchPreference } from "../store/matchPreference";
 import { Chat } from "./Chat";
 import "./mapstyles.css";
@@ -42,9 +43,9 @@ export class Map extends Component {
       ],
       loadedVenues: false,
       loadedUser: false,
-      showChat: false,
-      highlightedPin: 0,
-      highlightedRes: 0
+      showChat: false
+      // highlightedPin: 0,
+      // highlightedRes: 0
     };
   }
 
@@ -157,19 +158,19 @@ export class Map extends Component {
   };
 
   //highlight functions
-  highlightPin = idx => {
-    this.setState({
-      highlightedPin: idx
-    });
-    console.log("highlightedPin", this.state.highlightedPin);
-  };
+  // highlightPin = idx => {
+  //   this.setState({
+  //     highlightedPin: idx
+  //   });
+  //   console.log("highlightedPin", this.state.highlightedPin);
+  // };
 
-  highlightRes = idx => {
-    this.setState({
-      highlightedRes: idx
-    });
-    console.log("highlightedRes", this.state.highlightedRes);
-  };
+  // highlightRes = idx => {
+  //   this.setState({
+  //     highlightedRes: idx
+  //   });
+  //   console.log("highlightedRes", this.state.highlightedRes);
+  // };
 
   render() {
     return (
@@ -201,7 +202,14 @@ export class Map extends Component {
 
             {this.state.allVenues.map((item, index) => {
               let icon;
-              this.state.highlightedPin === index
+              console.log(
+                "selectedIdx",
+                this.props.selectedIdx,
+                "idx",
+                index,
+                this.props.selectedIdx === index
+              );
+              this.props.selectedIdx === index
                 ? (icon = `highlightedFooodMarker`)
                 : (icon = `foodMarker`);
               return (
@@ -215,7 +223,7 @@ export class Map extends Component {
                   )
                   <div
                     onClick={() => {
-                      this.highlightRes(index);
+                      this.props.setSelectedIdx(index);
                     }}
                     className={icon}
                   />
@@ -231,11 +239,7 @@ export class Map extends Component {
         {this.state.loadedVenues && (
           <div className="overlay">
             <div className="content">
-              <SwipeLayer
-                allVenues={this.state.allVenues}
-                highlightPin={this.highlightPin}
-                highlightedRes={this.state.highlightedRes}
-              />
+              <SwipeLayer allVenues={this.state.allVenues} />
             </div>
           </div>
         )}
@@ -249,7 +253,8 @@ const mapStateToProps = state => {
     userId: state.user.id,
     matchLat: state.userMatchLatLong.match[0],
     matchLong: state.userMatchLatLong.match[1],
-    matchPreference: state.matchPreference
+    matchPreference: state.matchPreference,
+    selectedIdx: state.selectedIdx
   };
 };
 
@@ -257,7 +262,8 @@ const mapDispatchToProps = dispatch => {
   return {
     setUserLatLong: arr => dispatch(setUserLatLong(arr)),
     getMatchLatLong: userId => dispatch(getMatchLatLong(userId)),
-    getMatchPreference: userId => dispatch(getMatchPreference(userId))
+    getMatchPreference: userId => dispatch(getMatchPreference(userId)),
+    setSelectedIdx: idx => dispatch(setSelectedIdx(idx))
   };
 };
 

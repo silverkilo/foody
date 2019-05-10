@@ -3,6 +3,7 @@ import ReactSwipe, { reactSwipeEl } from "react-swipe";
 import "./mapstyles.css";
 import { connect } from "react-redux";
 import { FoodDetails } from "./FoodDetails";
+import { setSelectedIdx } from "../store/highlight";
 import { setFood } from "../store/food";
 
 const customStyles = {
@@ -43,18 +44,25 @@ export class SwipeLayer extends Component {
 
   render() {
     let reactSwipeEl;
+    //3 ways to show the selected res:
+    // 1. startSlide
+    // 2. change attribute in callback and pass to ref
+    // 3. change in ref
     return (
       <div>
         <ReactSwipe
-          ref={el => {
-            reactSwipeEl = el;
-          }}
           swipeOptions={{
-            startSlide: this.props.highlightedRes,
+            startSlide: this.props.selectedIdx,
             continuous: true,
             callback: (idx, ele) => {
-              this.props.highlightPin(idx);
+              this.props.setSelectedIdx(idx);
+              ele.setAttribute("data-index", this.props.selectedIdx);
+              console.log(ele);
             }
+          }}
+          ref={element => {
+            console.log("element in ref", element);
+            reactSwipeEl = element;
           }}
           childCount={this.props.allVenues.length}
           style={customStyles}
@@ -74,9 +82,9 @@ export class SwipeLayer extends Component {
             </div>
           ))}
         </ReactSwipe>
-        <button onClick={() => reactSwipeEl.getPos()}>
+        {/* <button onClick={() => reactSwipeEl.getPos()}>
           Move res to center
-        </button>
+        </button> */}
       </div>
     );
   }
@@ -84,13 +92,15 @@ export class SwipeLayer extends Component {
 
 export const mapStateToProps = state => {
   return {
-    food: state.food
+    food: state.food,
+    selectedIdx: state.selectedIdx
   };
 };
 
 export const mapDispatchToProps = dispatch => {
   return {
-    pickFoodPlace: restaurantId => dispatch(setFood(restaurantId))
+    pickFoodPlace: restaurantId => dispatch(setFood(restaurantId)),
+    setSelectedIdx: idx => dispatch(setSelectedIdx(idx))
   };
 };
 
