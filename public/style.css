@@ -316,8 +316,8 @@
     position: absolute;
     z-index: 1;
     top: 0;
-    transition: height 1s ease;
-    background: rgba(255,255,255,0.3);
+    transition: all 0.5s ease;
+    background: rgba(255,255,255,0);
     overflow: hidden;
 }
 .chatBox__inside {
@@ -331,6 +331,9 @@
 }
 .is-visible {
     height: 100%;
+}
+.is-visible-bg {
+    background: rgba(255,255,255,0.3);
 }
 .chatBox__header {
     display: flex;
@@ -372,27 +375,28 @@
     padding: 20px;
 }
 .sender {
-    background: rgb(58, 124, 230);
+    background: rgb(168, 168, 168);
     border-radius: 10px;
     padding: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     max-width: 80%;
     align-self: flex-start;
     color: white;
     font-size: 1.2em;
 }
-.sender:last-child, .receiver:last-child {
-    margin-bottom: 0;
-}
 .receiver {
-    background: green;
+    background: rgb(58, 124, 230);
     border-radius: 10px;
     padding: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     max-width: 80%;
     align-self: flex-end;
     color: white;
     font-size: 1.2em;
+}
+.sender:last-of-type, .receiver:last-of-type {
+    margin-bottom: 20px;
+    background: red;
 }
 .chatBox__message {
     flex-basis: 10%;
