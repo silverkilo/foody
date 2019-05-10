@@ -44,10 +44,6 @@ export class SwipeLayer extends Component {
 
   render() {
     let reactSwipeEl;
-    //3 ways to show the selected res:
-    // 1. startSlide
-    // 2. change attribute in callback and pass to ref
-    // 3. change in ref
     return (
       <div>
         <ReactSwipe
@@ -57,11 +53,9 @@ export class SwipeLayer extends Component {
             callback: (idx, ele) => {
               this.props.setSelectedIdx(idx);
               ele.setAttribute("data-index", this.props.selectedIdx);
-              console.log(ele);
             }
           }}
           ref={element => {
-            console.log("element in ref", element);
             reactSwipeEl = element;
           }}
           childCount={this.props.allVenues.length}
@@ -82,9 +76,6 @@ export class SwipeLayer extends Component {
             </div>
           ))}
         </ReactSwipe>
-        {/* <button onClick={() => reactSwipeEl.getPos()}>
-          Move res to center
-        </button> */}
       </div>
     );
   }

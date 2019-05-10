@@ -66,8 +66,8 @@ export class Map extends Component {
     const venuesEndpoint = "https://api.foursquare.com/v2/venues/search?";
 
     const params = {
-      client_id: "5DQ4HC1WROBOH0SFRD4IULDTPLLRP4J5LWKMOG0SZ0LRV5K0",
-      client_secret: "E5PLXEXQKZMQMPU02YDTSV0I1ZIAFK5LI0KPAEEZUCQQ5OJ3",
+      client_id: "KUZ0H02M1VQNYUNKV40GFCICQUYGHRZJQVFLFS4MK01IHFYE",
+      client_secret: "ESQTWW5FJSPUDTTCM5JWQ1EO3T1GXNRVMS5XTKR3AKC4GNVJ",
       limit: 50,
       query: "Food",
       v: "20130619", // version of the API
@@ -99,8 +99,8 @@ export class Map extends Component {
     const venuesEndpoint = "https://api.foursquare.com/v2/venues/search?";
 
     const params = {
-      client_id: "5DQ4HC1WROBOH0SFRD4IULDTPLLRP4J5LWKMOG0SZ0LRV5K0",
-      client_secret: "E5PLXEXQKZMQMPU02YDTSV0I1ZIAFK5LI0KPAEEZUCQQ5OJ3",
+      client_id: "KUZ0H02M1VQNYUNKV40GFCICQUYGHRZJQVFLFS4MK01IHFYE",
+      client_secret: "ESQTWW5FJSPUDTTCM5JWQ1EO3T1GXNRVMS5XTKR3AKC4GNVJ",
       limit: 5,
       query: "Food",
       v: "20130619", // version of the API
@@ -202,13 +202,6 @@ export class Map extends Component {
 
             {this.state.allVenues.map((item, index) => {
               let icon;
-              console.log(
-                "selectedIdx",
-                this.props.selectedIdx,
-                "idx",
-                index,
-                this.props.selectedIdx === index
-              );
               this.props.selectedIdx === index
                 ? (icon = `highlightedFooodMarker`)
                 : (icon = `foodMarker`);

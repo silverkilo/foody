@@ -28,8 +28,8 @@ export class FoodDetails extends Component {
     const venuesEndpoint = `https://api.foursquare.com/v2/venues/${venueId}?`;
 
     const params = {
-      client_id: "KNZLRCLACQGMZEXF3KBCR3XNLOL3NSYCAZVMMOC43FEI3KDA",
-      client_secret: "31RKGQ323YRWSTTZLRIN1YCAG2BV2CR12NEXNLJGO4GS1YHI",
+      client_id: "KUZ0H02M1VQNYUNKV40GFCICQUYGHRZJQVFLFS4MK01IHFYE",
+      client_secret: "ESQTWW5FJSPUDTTCM5JWQ1EO3T1GXNRVMS5XTKR3AKC4GNVJ",
       v: "20130619"
     };
 
