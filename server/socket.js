@@ -11,15 +11,11 @@ User.findAll().then(users => {
       where: {
         matcherId: user.id
       }
-    })
-      .then(matches => {
-        exclusions[user.id] = [user.id].concat(
-          matches.map(({ matcheeId }) => matcheeId)
-        );
-      })
-      .then(() => {
-        console.log(exclusions[user.id]);
-      });
+    }).then(matches => {
+      exclusions[user.id] = [user.id].concat(
+        matches.map(({ matcheeId }) => matcheeId)
+      );
+    });
   }
 });
 
@@ -31,7 +27,6 @@ module.exports = function socketio(server, sessionMiddleware) {
 
   io.on("connect", async socket => {
     let userId;
-    console.log(socket.id);
     if (
       socket.request &&
       socket.request.session &&
@@ -48,6 +43,7 @@ module.exports = function socketio(server, sessionMiddleware) {
         }
       );
       exclusions[userId] = exclusions[userId] || [userId];
+      socket.emit("ready");
     } else return;
 
     // CLIENT asks for potential matches

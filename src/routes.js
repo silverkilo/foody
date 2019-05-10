@@ -14,33 +14,27 @@ import {
   UpdateUser,
   Preference,
   Matching,
-  Map,
-  UserPreference
+  Map
 } from "./components";
 import {
   me,
   createConnection,
-  errorListener,
-  potentialMatchesListener,
-  getPotentialMatches,
-  didMatchListener,
-  haveIMatched
+  disconnectListener,
+  initListeners,
+  readyToListen
 } from "./store";
 
 class Routes extends Component {
   componentDidMount() {
-    this.props.me();
-  }
-  componentDidUpdate() {
-    if (this.props.user && this.props.user.id) {
+    this.props.me(() => {
       this.props.createConnection();
-      this.props.errorListener();
-      this.props.didMatchListener();
-      this.props.haveIMatched();
-      this.props.potentialMatchesListener();
-      this.props.getPotentialMatches();
-    }
+      this.props.disconnectListener();
+      this.props.readyToListen(() => {
+        this.props.initListeners();
+      });
+    });
   }
+
   render() {
     return (
       <Switch>
@@ -69,11 +63,9 @@ export default withRouter(
     {
       me,
       createConnection,
-      errorListener,
-      potentialMatchesListener,
-      getPotentialMatches,
-      didMatchListener,
-      haveIMatched
+      disconnectListener,
+      initListeners,
+      readyToListen
     }
   )(Routes)
 );

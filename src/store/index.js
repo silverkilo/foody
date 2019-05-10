@@ -5,7 +5,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import user from "./user";
 import categories from "./categories";
 import preferences from "./preferences";
-import matchlist from "./match";
+import match from "./match";
 import socket from "./socket";
 import userMatchLatLong from "./location";
 import matchPreference from "./matchPreference";
@@ -15,7 +15,7 @@ const reducer = combineReducers({
   user,
   categories,
   preferences,
-  matchlist,
+  match,
   userMatchLatLong,
   socket,
   matchPreference,
@@ -34,3 +34,4 @@ export * from "./socket";
 export * from "./categories";
 export * from "./preferences";
 export * from "./food";
+export * from "./match";
