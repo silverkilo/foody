@@ -212,28 +212,6 @@ module.exports = function(socket, userId, exclusions) {
             socket
               .to(matcheeInfo.socketId)
               .emit("didMatch", { matched, info: matcherInfo });
-            // return Promise.all([
-            //   User.update(
-            //     {
-            //       hasMatched: matchee
-            //     },
-            //     {
-            //       where: {
-            //         id: userId
-            //       }
-            //     }
-            //   ),
-            //   User.update(
-            //     {
-            //       hasMatched: userId
-            //     },
-            //     {
-            //       where: {
-            //         id: matchee
-            //       }
-            //     }
-            //   )
-            // ]).catch(e => console.log(e));
             return db.query(
               `
                 UPDATE users

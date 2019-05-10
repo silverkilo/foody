@@ -19,7 +19,6 @@ class Matching extends Component {
     if (!this.props.potentials.length) return <div>No Matches to show</div>;
 
     const user = this.props.potentials[0];
-    console.log(this.props.potentials);
     return (
       <div>
         <div key={user.id}>
