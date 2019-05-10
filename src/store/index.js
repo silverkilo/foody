@@ -10,6 +10,7 @@ import socket from "./socket";
 import userMatchLatLong from "./location";
 import matchPreference from "./matchPreference";
 import food from "./food";
+import selectedIdx from "./highlight";
 
 const reducer = combineReducers({
   user,
@@ -19,7 +20,8 @@ const reducer = combineReducers({
   userMatchLatLong,
   socket,
   matchPreference,
-  food
+  food,
+  selectedIdx
 });
 
 const middleware = composeWithDevTools(

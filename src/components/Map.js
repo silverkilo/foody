@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import MapGL, { Marker } from "react-map-gl";
-import SwipeLayer from "./Layer";
+import SwipeLayer from "./SwipeLayer";
 import { connect } from "react-redux";
 import { setUserLatLong, getMatchLatLong } from "../store/location";
+import { setSelectedIdx } from "../store/highlight";
 import { getMatchPreference } from "../store/matchPreference";
 import { Chat } from "./Chat";
 import "./mapstyles.css";
@@ -34,14 +35,18 @@ export class Map extends Component {
       venuesMatch: [],
       allVenues: [],
       // THE BELOW MATCH PREFERENCES JUST HAS SOME PLACEHOLDER PREFERENCES FOR TESTING
-      matchPreferences: ["Food Truck", "Supermarket", "Food Stand"],
+      matchPreferences: [
+        "Food Truck",
+        "Supermarket",
+        "Food Stand",
+        "Asian Restaurant"
+      ],
       loadedVenues: false,
       loadedUser: false,
       showChat: false
+      // highlightedPin: 0,
+      // highlightedRes: 0
     };
-    this.getCurrentLocation = this.getCurrentLocation.bind(this);
-    this.getVenuesUser = this.getVenuesUser.bind(this);
-    this.getVenuesMatch = this.getVenuesMatch.bind(this);
   }
 
   componentDidMount() {
@@ -57,17 +62,17 @@ export class Map extends Component {
     window.setTimeout(this.getVenuesMatch, 6000);
   }
 
-  getVenuesUser() {
+  getVenuesUser = () => {
     const venuesEndpoint = "https://api.foursquare.com/v2/venues/search?";
 
     const params = {
-      client_id: "5DQ4HC1WROBOH0SFRD4IULDTPLLRP4J5LWKMOG0SZ0LRV5K0",
-      client_secret: "E5PLXEXQKZMQMPU02YDTSV0I1ZIAFK5LI0KPAEEZUCQQ5OJ3",
-      limit: 20,
+      client_id: "KUZ0H02M1VQNYUNKV40GFCICQUYGHRZJQVFLFS4MK01IHFYE",
+      client_secret: "ESQTWW5FJSPUDTTCM5JWQ1EO3T1GXNRVMS5XTKR3AKC4GNVJ",
+      limit: 50,
       query: "Food",
       v: "20130619", // version of the API
       ll: `${this.state.lat}, ${this.state.long}`,
-      radius: 600
+      radius: 700
     };
 
     fetch(venuesEndpoint + new URLSearchParams(params), {
@@ -87,14 +92,14 @@ export class Map extends Component {
         );
         this.setState({ venuesUser: filtered });
       });
-  }
+  };
 
-  getVenuesMatch() {
+  getVenuesMatch = () => {
     const venuesEndpoint = "https://api.foursquare.com/v2/venues/search?";
 
     const params = {
-      client_id: "5DQ4HC1WROBOH0SFRD4IULDTPLLRP4J5LWKMOG0SZ0LRV5K0",
-      client_secret: "E5PLXEXQKZMQMPU02YDTSV0I1ZIAFK5LI0KPAEEZUCQQ5OJ3",
+      client_id: "KUZ0H02M1VQNYUNKV40GFCICQUYGHRZJQVFLFS4MK01IHFYE",
+      client_secret: "ESQTWW5FJSPUDTTCM5JWQ1EO3T1GXNRVMS5XTKR3AKC4GNVJ",
       limit: 5,
       query: "Food",
       v: "20130619", // version of the API
@@ -117,7 +122,7 @@ export class Map extends Component {
             this.state.matchPreferences.indexOf(eachPlace.categories[0].name) >
             -1
         );
-        this.setState({ venuesMatch: filtered });
+        this.setState({ venuesUser: filtered });
         this.setState({
           allVenues: this.state.venuesUser.concat(this.state.venuesMatch)
         });
@@ -125,9 +130,9 @@ export class Map extends Component {
     this.setState({
       loadedVenues: true
     });
-  }
+  };
 
-  getCurrentLocation(position) {
+  getCurrentLocation = position => {
     let lat = position.coords.latitude;
     let long = position.coords.longitude;
     this.setState({
@@ -137,8 +142,9 @@ export class Map extends Component {
       loadedUser: true
     });
     this.props.setUserLatLong([this.state.lat, this.state.long]);
-  }
+  };
 
+  //chat functions
   handleOpenChat = () => {
     // this.setState({ showChat: true });
     let chat = document.querySelector(".chatBox");
@@ -165,7 +171,7 @@ export class Map extends Component {
               offsetLeft={-20}
               offsetTop={-10}
             >
-              <div className={`marker marker${this.state.icon}`} />{" "}
+              <div className={`marker marker${this.state.icon}`} />
             </Marker>
 
             <Marker
@@ -176,28 +182,30 @@ export class Map extends Component {
             >
               <div className={`marker marker${this.state.icon2}`} />
             </Marker>
-            {this.state.venuesUser.map(item => (
-              <Marker
-                latitude={item.location.lat}
-                longitude={item.location.lng}
-                offsetLeft={-20}
-                offsetTop={-10}
-                key={item.id}
-              >
-                <div className={`foodMarker`} />
-              </Marker>
-            ))}
-            {this.state.venuesMatch.map(item => (
-              <Marker
-                latitude={item.location.lat}
-                longitude={item.location.lng}
-                offsetLeft={-20}
-                offsetTop={-10}
-                key={item.id}
-              >
-                <div className={`foodMarker`} />
-              </Marker>
-            ))}
+
+            {this.state.allVenues.map((item, index) => {
+              let icon;
+              this.props.selectedIdx === index
+                ? (icon = `highlightedFooodMarker`)
+                : (icon = `foodMarker`);
+              return (
+                <Marker
+                  latitude={item.location.lat}
+                  longitude={item.location.lng}
+                  offsetLeft={-20}
+                  offsetTop={-10}
+                  key={item.id}
+                >
+                  )
+                  <div
+                    onClick={() => {
+                      this.props.setSelectedIdx(index);
+                    }}
+                    className={icon}
+                  />
+                </Marker>
+              );
+            })}
           </MapGL>
         </div>
         <button className="chatBubble" onClick={this.handleOpenChat}>
@@ -221,7 +229,8 @@ const mapStateToProps = state => {
     userId: state.user.id,
     matchLat: state.userMatchLatLong.match[0],
     matchLong: state.userMatchLatLong.match[1],
-    matchPreference: state.matchPreference
+    matchPreference: state.matchPreference,
+    selectedIdx: state.selectedIdx
   };
 };
 
@@ -229,7 +238,8 @@ const mapDispatchToProps = dispatch => {
   return {
     setUserLatLong: arr => dispatch(setUserLatLong(arr)),
     getMatchLatLong: userId => dispatch(getMatchLatLong(userId)),
-    getMatchPreference: userId => dispatch(getMatchPreference(userId))
+    getMatchPreference: userId => dispatch(getMatchPreference(userId)),
+    setSelectedIdx: idx => dispatch(setSelectedIdx(idx))
   };
 };
 

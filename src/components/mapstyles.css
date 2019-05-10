@@ -15,6 +15,15 @@
   background-image: url("./assets/foodPin.png");
 }
 
+.highlightedFooodMarker {
+  background-size: cover;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  background-image: url("./assets/selectedFoodPin.png");
+}
+
 /* .unselectedFoodPlace {
   background-size: cover;
   background: rgba(0, 181, 204, 0.8);
@@ -35,27 +44,35 @@
 .marker1 {
   background-image: url("./assets/chick.png");
 }
+
 .marker2 {
   background-image: url("./assets/crab.png");
 }
+
 .marker3 {
   background-image: url("./assets/fox.png");
 }
+
 .marker4 {
   background-image: url("./assets/hedgehog.png");
 }
+
 .marker5 {
   background-image: url("./assets/hippopotamus.png");
 }
+
 .marker6 {
   background-image: url("./assets/koala.png");
 }
+
 .marker7 {
   background-image: url("./assets/tiger.png");
 }
+
 .marker8 {
   background-image: url("./assets/whale.png");
 }
+
 .marker9 {
   background-image: url("./assets/zebra.png");
 }
