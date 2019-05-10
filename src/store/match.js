@@ -22,9 +22,12 @@ const swiped = (value, matchee) => ({
   value,
   matchee
 });
-export const swipe = (value, matchee) => {
-  socket.emit("swipe", { value, matchee });
-  return swiped(value, matchee);
+export const swipe = (value, matchee, matched) => (dispatch, getState) => {
+  socket.emit("swipe", { value, matchee, matched });
+  if (getState().match.potentials.length < 2) {
+    socket.emit("getPotentialMatches");
+  }
+  return dispatch(swiped(value, matchee));
 };
 
 export const matchListeners = () => dispatch => {

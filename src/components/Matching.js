@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { swipe } from "../store";
 class Matching extends Component {
   render() {
-    console.log(this.props.didMatch);
     if (this.props.didMatch.matched) {
       const match = this.props.didMatch.info;
       return (
@@ -28,6 +27,7 @@ class Matching extends Component {
           </h1>
 
           <p>{user.preferences.join(", ")}</p>
+          <strong>{user.distance}</strong>
         </div>
         <button onClick={() => this.props.swipe(false, user.id)}>Left</button>
         <button onClick={() => this.props.swipe(true, user.id)}>Right</button>

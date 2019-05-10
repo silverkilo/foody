@@ -52,7 +52,7 @@ async function seed() {
         password: "123"
       }
     ].concat(
-      Array(11)
+      Array(35)
         .fill("x")
         .map((_, i) => {
           locations.push({
@@ -83,7 +83,7 @@ async function seed() {
     );
   }
   await UserPreference.bulkCreate(
-    Array(users.length * 3)
+    Array(users.length * 5)
       .fill("x")
       .map((_, i) => ({
         userId: (i % users.length) + 1,
