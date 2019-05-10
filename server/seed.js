@@ -104,16 +104,6 @@ async function seed() {
       preferenceId: 13
     }
   ]);
-  await Match.bulkCreate([
-    {
-      matcherId: 7,
-      matcheeId: 1
-    },
-    {
-      matcherId: 10,
-      matcheeId: 1
-    }
-  ]);
   console.log(`seeded successfully`);
 }
 
