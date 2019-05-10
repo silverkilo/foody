@@ -43,7 +43,8 @@ export class Map extends Component {
       loadedVenues: false,
       loadedUser: false,
       showChat: false,
-      highlightedPin: 0
+      highlightedPin: 0,
+      highlightedRes: 0
     };
   }
 
@@ -160,7 +161,14 @@ export class Map extends Component {
     this.setState({
       highlightedPin: idx
     });
-    console.log("highlightedidx", this.state.highlightedPin);
+    console.log("highlightedPin", this.state.highlightedPin);
+  };
+
+  highlightRes = idx => {
+    this.setState({
+      highlightedRes: idx
+    });
+    console.log("highlightedRes", this.state.highlightedRes);
   };
 
   render() {
@@ -207,7 +215,7 @@ export class Map extends Component {
                   )
                   <div
                     onClick={() => {
-                      this.highlightPin({ index });
+                      this.highlightRes(index);
                     }}
                     className={icon}
                   />
@@ -226,7 +234,7 @@ export class Map extends Component {
               <SwipeLayer
                 allVenues={this.state.allVenues}
                 highlightPin={this.highlightPin}
-                highlightedPin={this.state.highlightedPin}
+                highlightedRes={this.state.highlightedRes}
               />
             </div>
           </div>

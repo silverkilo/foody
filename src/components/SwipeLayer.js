@@ -50,6 +50,7 @@ export class SwipeLayer extends Component {
             reactSwipeEl = el;
           }}
           swipeOptions={{
+            startSlide: this.props.highlightedRes,
             continuous: true,
             callback: (idx, ele) => {
               this.props.highlightPin(idx);
@@ -60,7 +61,6 @@ export class SwipeLayer extends Component {
         >
           {this.props.allVenues.map((venue, idx) => (
             <div key={venue.id}>
-              venue.id
               <FoodDetails venueId={venue.id} />
               {!this.props.food.includes(venue.id) && (
                 <button
@@ -74,7 +74,9 @@ export class SwipeLayer extends Component {
             </div>
           ))}
         </ReactSwipe>
-        <button onClick={() => reactSwipeEl.prev()}>Previous</button>
+        <button onClick={() => reactSwipeEl.getPos()}>
+          Move res to center
+        </button>
       </div>
     );
   }
