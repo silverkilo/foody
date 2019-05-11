@@ -1,11 +1,12 @@
-###Foody: Food Meets Tinder
+## Food Meets Tinder
 
 Foody is an app where nearby people with similar food preferences could meet up with each other for food. 
 
 
+### Matching
 
 
-
+### Restaurant Selection
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
