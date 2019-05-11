@@ -32,7 +32,6 @@ export class Chat extends Component {
   };
 
   render() {
-    console.log("did it get here", this.state.loaded);
     return (
       <div className="chatBox">
         <div className="chatBox__inside">

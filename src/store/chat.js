@@ -21,10 +21,12 @@ export const joinChatRoom = () => dispatch => {
 
 export const sendMessage = msg => dispatch => {
   socket.emit("send-client-message", msg);
+  console.log("client: sent it from client side");
 };
 
-export const receiveMessage = msg => dispatch => {
+export const chatListener = () => dispatch => {
   socket.on("messege-from-server", msg => {
+    console.log("client: got it from server side");
     dispatch(receiveChat(msg));
   });
 };
