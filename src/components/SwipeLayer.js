@@ -31,10 +31,6 @@ const customStyles = {
 };
 
 export class SwipeLayer extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   checkYes = venueId => {
     // change the background color and pin color when selected
     // notify the other user when you select that food

@@ -236,6 +236,7 @@
     overflow: scroll;
     margin-top: 210px;
     margin-bottom: 70px;
+    padding: 0 20px;
 }
 .preference__button {
     display: flex;
