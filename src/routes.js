@@ -67,7 +67,8 @@ export default withRouter(
       createConnection,
       disconnectListener,
       matchListeners,
-      readyToListen
+      readyToListen,
+      chatListener
     }
   )(Routes)
 );

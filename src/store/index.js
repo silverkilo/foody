@@ -39,3 +39,4 @@ export * from "./categories";
 export * from "./preferences";
 export * from "./food";
 export * from "./match";
+export * from "./chat";
