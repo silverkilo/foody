@@ -19,7 +19,7 @@ import {
   me,
   createConnection,
   disconnectListener,
-  initListeners,
+  matchListeners,
   readyToListen
 } from "./store";
 
@@ -29,7 +29,7 @@ class Routes extends Component {
       this.props.createConnection();
       this.props.disconnectListener();
       this.props.readyToListen(() => {
-        this.props.initListeners();
+        this.props.matchListeners();
       });
     });
   }
@@ -62,7 +62,7 @@ export default withRouter(
       me,
       createConnection,
       disconnectListener,
-      initListeners,
+      matchListeners,
       readyToListen
     }
   )(Routes)
