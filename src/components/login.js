@@ -13,7 +13,7 @@ class Login extends Component {
   }
   componentDidUpdate() {
     if (this.props.user && this.props.user.id) {
-      this.props.history.push("/profile");
+      this.props.history.push("/preference");
     }
   }
   async handleSubmit(event) {
@@ -24,7 +24,7 @@ class Login extends Component {
       const password = event.target.password.value;
       await this.props.login(email, password, formName);
       if (this.props.user.id) {
-        this.props.history.push("/Preference");
+        this.props.history.push("/preference");
       }
     } catch (error) {
       this.setState({

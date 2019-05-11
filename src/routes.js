@@ -9,7 +9,6 @@ import {
   SignupName,
   SignupPassword,
   Welcome,
-  AuthForm,
   UserProfile,
   UpdateUser,
   Preference,
@@ -46,7 +45,6 @@ class Routes extends Component {
         <Route path="/signup-name" component={SignupName} />
         <Route path="/signup-password" component={SignupPassword} />
         <Route path="/welcome" component={Welcome} />
-        <Route path="/authform" component={AuthForm} />
         <Route path="/profile" component={UserProfile} />
         <Route path="/editProfile" component={UpdateUser} />
         <Route path="/preference" component={Preference} />

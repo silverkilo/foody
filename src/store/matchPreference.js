@@ -1,5 +1,3 @@
-import axios from "axios";
-
 const MATCH_PREFERENCE = "MATCH_PREFERENCE";
 
 const matchPreference = preference => ({ type: MATCH_PREFERENCE, preference });
