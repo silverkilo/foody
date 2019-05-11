@@ -11,28 +11,28 @@ export class Chat extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      chatHistoryActive: false,
-      message: ""
+      message: "",
+      loaded: false
     };
-    this.sendMsg = this.sendMsg.bind(this);
   }
 
-  componenetDidMount() {
+  componentDidMount() {
     this.setState({
-      chatHistoryActive: true
+      loaded: true
     });
   }
 
-  sendMsg(event) {
+  sendMsg = event => {
     event.preventDefault();
     console.log("hi");
     this.props.sendMessage(this.state.message);
     this.setState({
       message: ""
     });
-  }
+  };
 
   render() {
+    console.log("did it get here", this.state.loaded);
     return (
       <div className="chatBox">
         <div className="chatBox__inside">
@@ -40,21 +40,22 @@ export class Chat extends Component {
             <h1> Chat </h1>{" "}
             <button onClick={() => handleClose()}>
               <i class="fas fa-times" />
-            </button>{" "}
-          </div>{" "}
+            </button>
+          </div>
           <div className="chatBox__body">
             <ul>
-              {" "}
-              {this.state.chatHistoryActive &&
+              {console.log(this.props.chatHistory)}
+              {this.state.loaded &&
                 this.props.chatHistory.map(array => {
+                  console.log(this.state.chatHistoryActive);
                   let className;
                   array[1] === this.props.userId
                     ? (className = "send")
                     : (className = "receiver");
                   return <li className={className}> {array[0]} </li>;
-                })}{" "}
-            </ul>{" "}
-          </div>{" "}
+                })}
+            </ul>
+          </div>
           <div className="chatBox__message">
             <form className="chatBox__form">
               <input
@@ -67,17 +68,17 @@ export class Chat extends Component {
                     message: ev.target.value
                   })
                 }
-              />{" "}
+              />
               <button
                 onClick={this.sendMsg}
                 className="chatBox__button"
                 type="submit"
               >
-                Send{" "}
-              </button>{" "}
-            </form>{" "}
-          </div>{" "}
-        </div>{" "}
+                Send
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
     );
   }
