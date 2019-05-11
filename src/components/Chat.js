@@ -9,9 +9,15 @@ function handleClose() {
 export class Chat extends Component {
   constructor() {
     super();
+    this.state = {
+      chatHistoryActive: false
+    };
   }
 
-  componenetDidMount() {}
+  componenetDidMount() {
+    this.setState({ chatHistoryActive: true });
+  }
+
   render() {
     return (
       <div className="chatBox">
@@ -24,13 +30,14 @@ export class Chat extends Component {
           </div>
           <div className="chatBox__body">
             <ul>
-              {this.props.chatHistory.map(array => {
-                let className;
-                array[1] === this.props.userId
-                  ? (className = "send")
-                  : (className = "receiver");
-                return <li className={className}>{array[0]}</li>;
-              })}
+              {this.state.chatHistoryActive &&
+                this.props.chatHistory.map(array => {
+                  let className;
+                  array[1] === this.props.userId
+                    ? (className = "send")
+                    : (className = "receiver");
+                  return <li className={className}>{array[0]}</li>;
+                })}
             </ul>
           </div>
           <div className="chatBox__message">

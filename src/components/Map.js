@@ -152,7 +152,7 @@ export class Map extends Component {
     // this.setState({ showChat: true });
     let chat = document.querySelector(".chatBox");
     chat.classList.add("is-visible");
-    joinChatRoom();
+    this.props.joinChatRoom();
   };
 
   handleCloseChat = () => {
