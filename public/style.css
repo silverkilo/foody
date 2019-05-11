@@ -289,8 +289,8 @@
     background: rgb(188, 228, 200);
 }
 .card__img {
-    width: 100px;
-    height: 100px;
+    width: 12vh;
+    height: 12vh;
     flex-basis: 30%;
 }
 .card__details {
@@ -325,13 +325,11 @@
 }
 .content {
     width: 100%;
-    min-height: 100px;
     display: flex;
     align-items: center;
 }
 .overlay {
     width: 100%;
-    min-height: 100px;
     background: none;
     z-index: 2;
     position: absolute;
@@ -367,7 +365,7 @@
     margin-top: 5%;
     background: white;
     width: 90%;
-    height: 75%;
+    height: 70vh;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
@@ -409,7 +407,7 @@
     font-size: 1.5em;
 }
 .chatBox__body {
-    flex-basis: 80%;
+    flex-basis: 75%;
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
@@ -445,7 +443,7 @@
     background: red;
 }
 .chatBox__message {
-    flex-basis: 10%;
+    flex-basis: 15%;
     background: rgb(58, 124, 230);
     display: flex;
     align-items: center;
