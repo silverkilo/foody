@@ -1,10 +1,11 @@
 ## Foody: Food Meets Tinder
 
-Foody is an app where nearby people with similar food preferences could meet up with each other for food. 
+Foody is an app where nearby people with similar food preferences could meet up with each other to grab a bite.
 
 
 ### Matching
 
+Swiping for matches
 
 
 ### Restaurant Selection
