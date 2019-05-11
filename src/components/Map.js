@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { setUserLatLong, getMatchLatLong } from "../store/location";
 import { setSelectedIdx } from "../store/highlight";
 import { getMatchPreference } from "../store/matchPreference";
+import { joinChatRoom } from "../store/chat";
 import { Chat } from "./Chat";
 import "./mapstyles.css";
 
@@ -90,7 +91,8 @@ export class Map extends Component {
             this.state.matchPreferences.indexOf(eachPlace.categories[0].name) >
             -1
         );
-        this.setState({ venuesUser: filtered });
+        // this.setState({ venuesUser: filtered });
+        this.setState({ venuesUser: response.response.venues });
       });
   };
 
@@ -122,7 +124,8 @@ export class Map extends Component {
             this.state.matchPreferences.indexOf(eachPlace.categories[0].name) >
             -1
         );
-        this.setState({ venuesUser: filtered });
+        // this.setState({ venuesUser: filtered });
+        this.setState({ venuesUser: response.response.venues });
         this.setState({
           allVenues: this.state.venuesUser.concat(this.state.venuesMatch)
         });
@@ -149,6 +152,7 @@ export class Map extends Component {
     // this.setState({ showChat: true });
     let chat = document.querySelector(".chatBox");
     chat.classList.add("is-visible");
+    this.props.joinChatRoom();
   };
 
   handleCloseChat = () => {
@@ -185,6 +189,7 @@ export class Map extends Component {
 
             {this.state.allVenues.map((item, index) => {
               let icon;
+              console.log("selectedidx", this.props.selectedIdx, "idx", index);
               this.props.selectedIdx === index
                 ? (icon = `highlightedFooodMarker`)
                 : (icon = `foodMarker`);
@@ -239,7 +244,8 @@ const mapDispatchToProps = dispatch => {
     setUserLatLong: arr => dispatch(setUserLatLong(arr)),
     getMatchLatLong: userId => dispatch(getMatchLatLong(userId)),
     getMatchPreference: userId => dispatch(getMatchPreference(userId)),
-    setSelectedIdx: idx => dispatch(setSelectedIdx(idx))
+    setSelectedIdx: idx => dispatch(setSelectedIdx(idx)),
+    joinChatRoom: () => dispatch(joinChatRoom())
   };
 };
 
