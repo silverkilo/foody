@@ -20,9 +20,7 @@ function addNewMessage(userId, msg){
 
 
 //info storage
-let matchId
 let roomId = 0;
-let socketId
 
 const roomInfo = {
   // user: {
@@ -57,6 +55,7 @@ const checkMatchId = async (socket, userId) => {
 module.exports = function(socket, userId) {
   //joining chatroom and sending back chat history
   socket.on("join-chatroom", () => {
+    console.log('the client had joined chatroom')
     checkMatchId(socket, userId)
     socket.join(roomInfo.userId.roomId)
     const chatHistory = getChatHistory(roomName);
@@ -66,7 +65,9 @@ module.exports = function(socket, userId) {
   // CLIENT send message
   socket.on('send-client-message', (msg) => {
     addNewMessage(userId, msg)
+    console.log("server: got it from client side")
     socket.broadcast.to(roomInfo[userId][roomId]).emit('messege-from-server', msg)
+    console.log("server: sent it from server side")
   })
 
 };
