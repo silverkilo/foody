@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { setFood } from "../store/food";
+import { select, deselect } from "../store/food";
 
 class FoodDetails extends Component {
   constructor(props) {
@@ -16,7 +16,8 @@ class FoodDetails extends Component {
       photoSuffix: "",
       photoWidth: "",
       photoHeight: "",
-      categories: ""
+      categories: "",
+      card: "card"
     };
   }
 
@@ -101,9 +102,17 @@ class FoodDetails extends Component {
       });
   };
 
-  checkYes = venueId => {
-    console.log("selected", venueId);
-    this.props.pickFoodPlace(venueId);
+  handleSelect = venueId => {
+    this.props.select(venueId);
+    this.setState({
+      card: "card selectedCard"
+    });
+  };
+  handleDeselect = venueId => {
+    this.props.deselect(venueId);
+    this.setState({
+      card: "card"
+    });
   };
   createStars = () => {
     if (this.state.rating === "n/a") {
@@ -118,7 +127,7 @@ class FoodDetails extends Component {
   };
   render() {
     return (
-      <div className="card">
+      <div className={this.state.card}>
         {/* <img
           src={this.state.photoPrefix + "100x100" + this.state.photoSuffix}
           alt=""
@@ -134,26 +143,42 @@ class FoodDetails extends Component {
             {this.state.city}, {this.state.state}
           </li>
         </ul>
-        <button
-          className="card__button"
-          onClick={() => {
-            this.checkYes(this.props.venueId);
-          }}
-        >
-          pick me!
-        </button>
+        {this.props.food.includes(this.props.venueId) ? (
+          <button
+            className="card__button"
+            onClick={() => {
+              this.handleDeselect(this.props.venueId);
+            }}
+          >
+            Remove
+          </button>
+        ) : (
+          <button
+            className="card__button"
+            onClick={() => {
+              this.handleSelect(this.props.venueId);
+            }}
+          >
+            pick me!
+          </button>
+        )}
       </div>
     );
   }
 }
-
+const mapStateToProps = state => {
+  return {
+    food: state.food
+  };
+};
 const mapDispatchToProps = dispatch => {
   return {
-    pickFoodPlace: restaurantId => dispatch(setFood(restaurantId))
+    select: restaurantId => dispatch(select(restaurantId)),
+    deselect: restaurantId => dispatch(deselect(restaurantId))
   };
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(FoodDetails);

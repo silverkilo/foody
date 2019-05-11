@@ -283,6 +283,10 @@
     display: flex;
     flex-flow: wrap;
     justify-content: space-between;
+    transition: background 0.3s ease;
+}
+.selectedCard {
+    background: rgb(188, 228, 200);
 }
 .card__img {
     width: 100px;
