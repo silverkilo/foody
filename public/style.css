@@ -1,5 +1,5 @@
 @import 'reset.css';
-@import url('https://fonts.googleapis.com/css?family=Lato:300,400|Pacifico');
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700|Pacifico');
 
 * {
     box-sizing: border-box;
@@ -280,6 +280,44 @@
     width: 80%;
     margin: 0 auto;
     padding: 5px;
+    display: flex;
+    flex-flow: wrap;
+    justify-content: space-between;
+}
+.card__img {
+    width: 100px;
+    height: 100px;
+    flex-basis: 30%;
+}
+.card__details {
+    flex-basis: 60%;
+    display: flex;
+    flex-direction: column;
+}
+.card__name {
+    font-weight: 700;
+    font-size: 1.2em;
+}
+.card__name, .card__rating {
+    margin-bottom: 5px;
+}
+.card__rating .fa-star {
+    color: 	rgb(255,215,0);
+}
+.card__address {
+    color: rgb(77, 77, 77);
+}
+.card__button {
+    flex-basis: 100%;
+    background: rgb(58, 124, 230);
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    color: white;
+    font-size: 1.2em;
+    padding: 5px;
+    text-transform: uppercase;
+    margin-top: 10px;
 }
 .content {
     width: 100%;
@@ -293,7 +331,7 @@
     background: none;
     z-index: 2;
     position: absolute;
-    bottom: 0;
+    bottom: 20px;
 }
 .chatBubble {
     width: 50px;

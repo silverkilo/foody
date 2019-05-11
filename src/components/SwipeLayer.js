@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import ReactSwipe, { reactSwipeEl } from "react-swipe";
 import "./mapstyles.css";
 import { connect } from "react-redux";
-import { FoodDetails } from "./FoodDetails";
+import FoodDetails from "./FoodDetails";
 import { setSelectedIdx } from "../store/highlight";
-import { setFood } from "../store/food";
 
 const customStyles = {
   container: {
@@ -31,13 +30,6 @@ const customStyles = {
 };
 
 export class SwipeLayer extends Component {
-  checkYes = venueId => {
-    // change the background color and pin color when selected
-    // notify the other user when you select that food
-    console.log("selected", venueId);
-    this.props.pickFoodPlace(venueId);
-  };
-
   render() {
     let reactSwipeEl;
     return (
@@ -60,15 +52,6 @@ export class SwipeLayer extends Component {
           {this.props.allVenues.map((venue, idx) => (
             <div key={venue.id}>
               <FoodDetails venueId={venue.id} />
-              {!this.props.food.includes(venue.id) && (
-                <button
-                  onClick={() => {
-                    this.checkYes(venue.id);
-                  }}
-                >
-                  pick me!
-                </button>
-              )}
             </div>
           ))}
         </ReactSwipe>
@@ -86,7 +69,7 @@ export const mapStateToProps = state => {
 
 export const mapDispatchToProps = dispatch => {
   return {
-    pickFoodPlace: restaurantId => dispatch(setFood(restaurantId)),
+    // pickFoodPlace: restaurantId => dispatch(setFood(restaurantId)),
     setSelectedIdx: idx => dispatch(setSelectedIdx(idx))
   };
 };
