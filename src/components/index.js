@@ -2,7 +2,7 @@ export { default as AuthForm } from "./authform";
 export { default as UserProfile } from "./UserProfile";
 export { default as Preference } from "./Preference";
 export { default as UpdateUser } from "./UpdateUser";
-export { default as Matching } from "./Matching";
+export { default as Matching } from "./Matching.js";
 export { default as Login } from "./login";
 export { default as Signup } from "./signup";
 export { default as SignupEmail } from "./signup-email";
