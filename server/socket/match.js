@@ -44,10 +44,29 @@ module.exports = function(socket, userId, exclusions) {
       // ** `ST_Distance("user"."location", 'SRID=26918;POINT(? ?)'::geometry) AS distance` <- for seeing the actual distance, we dont normally want Postgis to actually do this calculation
       // if doing ST_Distance, prepend user.location.coordiates[0] and user.location.coordiates[1] to the replacements array
       // this can also be done for the following query
+
+      const showDistance = true; //change to true to get distances
+      const userCoords = [
+        user.location.coordinates[0],
+        user.location.coordinates[1]
+      ];
+      const replacements = [
+        user.preferences,
+        user.id,
+        exclusions[userId],
+        user.location.coordinates[0],
+        user.location.coordinates[1]
+      ];
+      if (showDistance) replacements.unshift(...userCoords);
+      replacements.push(...userCoords);
       const [matchers] = await db.query(
         `
                       SELECT 
-                          "user"."id", "user"."firstName", "user"."lastName",
+                          "user"."id", "user"."firstName", "user"."lastName", "user"."photoURLs", ${
+                            showDistance
+                              ? `ST_Distance("user"."location", 'SRID=26918;POINT(? ?)'::geometry) AS distance,`
+                              : ``
+                          }
                           array_agg("preferences"."category") as preferences,
                           TRUE as match
                       FROM "users" AS "user" 
@@ -63,22 +82,25 @@ module.exports = function(socket, userId, exclusions) {
                       LIMIT 5;
                   ;
                   `,
-        {
-          replacements: [
-            user.preferences,
-            user.id,
-            exclusions[userId],
-            user.location.coordinates[0],
-            user.location.coordinates[1]
-          ]
-        }
+        { replacements }
       );
+      const moreReplacements = [
+        user.preferences,
+        exclusions[userId].concat(matchers.map(({ id }) => id)),
+        ...userCoords,
+        5 - matchers.length
+      ];
+      if (showDistance) moreReplacements.unshift(...userCoords);
       if (matchers.length < 5) {
         // get all users and their preferences who have at least one preference in common with the user, sort them by distance
         const [moreMatchers] = await db.query(
           `
                           SELECT 
-                              "user"."id",  "user"."firstName", "user"."lastName", 
+                              "user"."id",  "user"."firstName", "user"."lastName",  "user"."photoURLs", ${
+                                showDistance
+                                  ? `ST_Distance("user"."location", 'SRID=26918;POINT(? ?)'::geometry) AS distance,`
+                                  : ``
+                              }
                               array_agg("preferences"."category") AS preferences, 
                               FALSE AS match
                           FROM "users" AS "user" INNER JOIN (
@@ -92,13 +114,7 @@ module.exports = function(socket, userId, exclusions) {
                           LIMIT ?;
                   `,
           {
-            replacements: [
-              user.preferences,
-              exclusions[userId].concat(matchers.map(({ id }) => id)),
-              user.location.coordinates[0],
-              user.location.coordinates[1],
-              5 - matchers.length
-            ]
+            replacements: moreReplacements
           }
         );
         matchers.push(...moreMatchers);
@@ -116,7 +132,7 @@ module.exports = function(socket, userId, exclusions) {
       const [[user]] = await db.query(
         `
         SELECT
-            "users"."id" AS id, "firstName", "lastName", location, "socketId", "hasMatched",
+            "users"."id" AS id, "firstName", "lastName", location, "socketId", "hasMatched", "photoURLs",
             array_agg("preferences"."category") as preferences
         FROM users
         INNER JOIN user_preferences
@@ -132,7 +148,7 @@ module.exports = function(socket, userId, exclusions) {
         const [[matcheeInfo]] = await db.query(
           `
             SELECT
-                "users"."id" AS id, "firstName", "lastName", location, "socketId", "hasMatched",
+                "users"."id" AS id, "firstName", "lastName", location, "socketId", "hasMatched", "photoURLs",
                 array_agg("preferences"."category") as preferences
             FROM users
             INNER JOIN user_preferences
@@ -187,7 +203,7 @@ module.exports = function(socket, userId, exclusions) {
           const [[matcher1, matcher2]] = await db.query(
             `
             SELECT
-                "users"."id" AS id, "firstName", "lastName", location, "socketId",
+                "users"."id" AS id, "firstName", "lastName", location, "socketId", "photoURLs",
                 array_agg("preferences"."category") as preferences
             FROM users
             INNER JOIN user_preferences

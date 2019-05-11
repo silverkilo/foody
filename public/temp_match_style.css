@@ -1,0 +1,29 @@
+.match-container{
+    height: 85vh;
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+.match-card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid gray
+}
+.match-name{
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+}
+.match-image{
+    display: flex;
+    justify-content: center
+}
+.match-image img{
+    height: 40vh;
+    width: 70vw;
+}
+.match-distance {
+    font-size: 1.5rem
+}

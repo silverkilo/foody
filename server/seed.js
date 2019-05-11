@@ -49,7 +49,10 @@ async function seed() {
         firstName: "Cody",
         lastName: "The Pug",
         email: "cody@thepug.com",
-        password: "123"
+        password: "123",
+        photoURLs: [
+          "https://images-na.ssl-images-amazon.com/images/I/71gRnoHe%2BTL._UY550_.jpg"
+        ]
       }
     ].concat(
       Array(35)
@@ -65,7 +68,8 @@ async function seed() {
             firstName: faker.name.firstName(),
             lastName: faker.name.lastName(),
             email: "user" + String(i + 2) + "@email.com",
-            password: String(i + 2)
+            password: String(i + 2),
+            photoURLs: [faker.image.avatar()]
           };
         })
     ),
@@ -104,6 +108,18 @@ async function seed() {
       preferenceId: 13
     }
   ]);
+
+  await Promise.all(
+    categories.map((_, i) =>
+      UserPreference.create(
+        {
+          userId: 1,
+          preferenceId: i + 1
+        },
+        { ignoreDuplicates: true }
+      )
+    )
+  );
   console.log(`seeded successfully`);
 }
 
