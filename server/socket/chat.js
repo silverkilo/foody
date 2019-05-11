@@ -15,7 +15,7 @@ function getChatHistory (roomId) {
 
 function addNewMessage(userId, msg){
   let roomName = roomInfo.userId.roomId
-  allChats.roomName.push([msg, userId])
+  allChats[roomName].push([msg, userId])
 }
 
 
@@ -66,7 +66,7 @@ module.exports = function(socket, userId) {
   // CLIENT send message
   socket.on('send-client-message', (msg) => {
     addNewMessage(userId, msg)
-    socket.broadcast.to(roomInfo.userId.roomId).emit('messege-from-server', msg)
+    socket.broadcast.to(roomInfo[userId][roomId]).emit('messege-from-server', msg)
   })
 
 };
