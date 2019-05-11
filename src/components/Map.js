@@ -21,8 +21,8 @@ export class Map extends Component {
       viewport: {
         width: "100%",
         height: "100vh",
-        latitude: this.props.userLat,
-        longitude: this.props.userLong,
+        latitude: 40.754,
+        longitude: -73.984,
         zoom: 14
       },
       lat: 40.754,
@@ -236,8 +236,6 @@ export class Map extends Component {
 const mapStateToProps = state => {
   return {
     userId: state.user.id,
-    userLat: state.userMatchLatLong.user[0],
-    userLong: state.userMatchLatLong.user[1],
     matchLat: state.userMatchLatLong.match[0],
     matchLong: state.userMatchLatLong.match[1],
     matchPreference: state.matchPreference,
