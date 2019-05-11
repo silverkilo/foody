@@ -20,7 +20,7 @@ export class FoodDetails extends Component {
 
   componentDidMount() {
     this.getVenuesDetails();
-    this.getVenuesPhoto();
+    // this.getVenuesPhoto();
   }
 
   getVenuesDetails = () => {
@@ -102,18 +102,19 @@ export class FoodDetails extends Component {
   render() {
     return (
       <div className="card">
-        <img
-          src={this.state.photoPrefix + "100x100" + this.state.photoSuffix}
-          alt=""
-        />
-        <h2>{this.state.name}</h2>
-        <h2>{this.state.address}</h2>
-        <h2>
-          {this.state.city}, {this.state.state}
-        </h2>
-        <h2>Category: {this.state.categories}</h2>
-        <h2>Price: {this.state.price}</h2>
-        <h2>Rating: {this.state.rating}</h2>
+        {" "}
+        {/* <img
+                  src={this.state.photoPrefix + "100x100" + this.state.photoSuffix}
+                  alt=""
+                /> */}{" "}
+        <h2> {this.state.name} </h2>{" "}
+        {/* <h2>{this.state.address}</h2>
+                <h2>
+                  {this.state.city}, {this.state.state}
+                </h2>
+                <h2>Category: {this.state.categories}</h2>
+                <h2>Price: {this.state.price}</h2>
+                <h2>Rating: {this.state.rating}</h2> */}{" "}
       </div>
     );
   }

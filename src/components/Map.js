@@ -6,7 +6,7 @@ import { setUserLatLong, getMatchLatLong } from "../store/location";
 import { setSelectedIdx } from "../store/highlight";
 import { getMatchPreference } from "../store/matchPreference";
 import { joinChatRoom } from "../store/chat";
-import { Chat } from "./Chat";
+import Chat from "./Chat";
 import "./mapstyles.css";
 
 // const mapAccess = {
@@ -92,7 +92,9 @@ export class Map extends Component {
             -1
         );
         // this.setState({ venuesUser: filtered });
-        this.setState({ venuesUser: response.response.venues });
+        this.setState({
+          venuesUser: response.response.venues
+        });
       });
   };
 
@@ -125,7 +127,9 @@ export class Map extends Component {
             -1
         );
         // this.setState({ venuesUser: filtered });
-        this.setState({ venuesUser: response.response.venues });
+        this.setState({
+          venuesUser: response.response.venues
+        });
         this.setState({
           allVenues: this.state.venuesUser.concat(this.state.venuesMatch)
         });
@@ -139,7 +143,11 @@ export class Map extends Component {
     let lat = position.coords.latitude;
     let long = position.coords.longitude;
     this.setState({
-      viewport: { ...this.state.viewport, latitude: lat, longitude: long },
+      viewport: {
+        ...this.state.viewport,
+        latitude: lat,
+        longitude: long
+      },
       lat: lat,
       long: long,
       loadedUser: true
@@ -156,7 +164,9 @@ export class Map extends Component {
   };
 
   handleCloseChat = () => {
-    this.setState({ showChat: false });
+    this.setState({
+      showChat: false
+    });
   };
 
   render() {
@@ -166,7 +176,11 @@ export class Map extends Component {
           <MapGL
             {...this.state.viewport}
             mapStyle="mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
-            onViewportChange={viewport => this.setState({ viewport })}
+            onViewportChange={viewport =>
+              this.setState({
+                viewport
+              })
+            }
             mapboxApiAccessToken="pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg"
           >
             <Marker
@@ -175,18 +189,16 @@ export class Map extends Component {
               offsetLeft={-20}
               offsetTop={-10}
             >
-              <div className={`marker marker${this.state.icon}`} />
+              <div className={`marker marker${this.state.icon}`} />{" "}
             </Marker>
-
             <Marker
               latitude={this.props.matchLat}
               longitude={this.props.matchLong}
               offsetLeft={-20}
               offsetTop={-10}
             >
-              <div className={`marker marker${this.state.icon2}`} />
+              <div className={`marker marker${this.state.icon2}`} />{" "}
             </Marker>
-
             {this.state.allVenues.map((item, index) => {
               let icon;
               console.log("selectedidx", this.props.selectedIdx, "idx", index);
@@ -201,29 +213,29 @@ export class Map extends Component {
                   offsetTop={-10}
                   key={item.id}
                 >
-                  )
+                  ){" "}
                   <div
                     onClick={() => {
                       this.props.setSelectedIdx(index);
                     }}
                     className={icon}
-                  />
+                  />{" "}
                 </Marker>
               );
-            })}
-          </MapGL>
-        </div>
+            })}{" "}
+          </MapGL>{" "}
+        </div>{" "}
         <button className="chatBubble" onClick={this.handleOpenChat}>
           <i class="fas fa-comment-alt" />
-        </button>
-        <Chat />
+        </button>{" "}
+        <Chat />{" "}
         {this.state.loadedVenues && (
           <div className="overlay">
             <div className="content">
-              <SwipeLayer allVenues={this.state.allVenues} />
-            </div>
+              <SwipeLayer allVenues={this.state.allVenues} />{" "}
+            </div>{" "}
           </div>
-        )}
+        )}{" "}
       </React.Fragment>
     );
   }
