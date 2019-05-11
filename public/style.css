@@ -367,6 +367,7 @@
     border-radius: 5px;
     display: flex;
     flex-direction: column;
+    border-radius: 5px;
 }
 .is-visible {
     height: 100%;
@@ -383,6 +384,8 @@
     color: white;
     font-size: 1.5em;
     flex-basis: 10%;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 .chatBox__header button {
     background: white;
@@ -442,6 +445,8 @@
     background: rgb(58, 124, 230);
     display: flex;
     align-items: center;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 .chatBox__form {
     width: 100%;
