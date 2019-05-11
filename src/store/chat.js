@@ -2,10 +2,6 @@ import { socket } from "./socket";
 const SEND_HISTORY = "SEND_HISTORY";
 const RECEIVE_CHAT = "RECEIVE_CHAT";
 
-const initialState = {
-  chatHistory: []
-};
-
 const sendChatHistory = array => ({
   type: SEND_HISTORY,
   array
@@ -32,6 +28,8 @@ export const receiveMessage = msg => dispatch => {
     dispatch(receiveChat(msg));
   });
 };
+
+const initialState = [];
 
 export default (state = initialState, action) => {
   switch (action.type) {
