@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import MatchCards from "./MatchCards";
 import { swipe } from "../store";
 class Matching extends Component {
   componentDidMount() {
@@ -22,36 +23,10 @@ class Matching extends Component {
     }
     if (!this.props.potentials.length) return <div>No Matches to show</div>;
 
-    const user = this.props.potentials[0];
+    const users = this.props.potentials.reverse();
     return (
       <div className="match-container">
-        <div className="match-card" key={user.id}>
-          <h1 className="match-name">
-            {user.firstName} {user.lastName}
-          </h1>
-
-          <div className="match-image">
-            <img src={user.photoURLs[0]} alt={user.firstName} />
-          </div>
-
-          {/* match distance will be deleted, for debugging purposes only */}
-          <strong className="match-distance">{user.distance}</strong>
-          <p className="match-prefs">{user.preferences.join(", ")}</p>
-          <div className="match-buttons">
-            <button
-              className="match-button-left"
-              onClick={() => this.props.swipe(false, user.id, user.match)}
-            >
-              Left
-            </button>
-            <button
-              className="match-button-right"
-              onClick={() => this.props.swipe(true, user.id, user.match)}
-            >
-              Right
-            </button>
-          </div>
-        </div>
+        <MatchCards users={users} />
       </div>
     );
   }

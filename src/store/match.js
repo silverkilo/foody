@@ -23,8 +23,8 @@ const swiped = (value, matchee) => ({
   matchee
 });
 export const swipe = (value, matchee, matched) => (dispatch, getState) => {
-  if (value) socket.emit("swipe", { value, matchee, matched });
-  if (!value || getState().match.potentials.length < 2) {
+  if (value !== undefined) socket.emit("swipe", { value, matchee, matched });
+  if (value === undefined || getState().match.potentials.length < 2) {
     socket.emit("getPotentialMatches");
   }
   return dispatch(swiped(value, matchee));
