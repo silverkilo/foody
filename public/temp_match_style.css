@@ -1,12 +1,9 @@
 /* match-card-container absolutely necessary styles, do not change */
-html, body , #root{
-    /* max-width: 100%; */
-    /* overflow-x: hidden; */
-}
-.match-container{
+html, body , #root, .match-container{
     max-width: 100%;
-    overflow: hidden;
+    overflow: hidden !important;
 }
+
 .match-card-container{
     -webkit-touch-callout: none;
     -webkit-user-select: none; 

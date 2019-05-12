@@ -38,7 +38,6 @@ function MatchStack({ users, swipe }) {
         setState(index - 1);
         isGone = true;
       } // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
-      console.log(dir, isGone);
       set(i => {
         if (index !== i) {
           return;
