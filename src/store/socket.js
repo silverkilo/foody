@@ -18,6 +18,7 @@ const connect = connected => ({
   type: CONNECTED,
   connected
 });
+
 const err = message => ({
   type: ERROR,
   error: {
@@ -29,6 +30,7 @@ const err = message => ({
 const ready = () => ({
   type: READY
 });
+
 export const createConnection = () => dispatch => {
   socket.connect();
   socket.on("connect", () => {

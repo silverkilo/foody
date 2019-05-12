@@ -9,7 +9,6 @@ import {
   SignupName,
   SignupPassword,
   Welcome,
-  AuthForm,
   UserProfile,
   UpdateUser,
   Preference,
@@ -21,6 +20,7 @@ import {
   createConnection,
   disconnectListener,
   matchListeners,
+  chatListener,
   readyToListen
 } from "./store";
 
@@ -31,6 +31,7 @@ class Routes extends Component {
       this.props.disconnectListener();
       this.props.readyToListen(() => {
         this.props.matchListeners();
+        this.props.chatListener();
       });
     });
   }
@@ -44,7 +45,6 @@ class Routes extends Component {
         <Route path="/signup-name" component={SignupName} />
         <Route path="/signup-password" component={SignupPassword} />
         <Route path="/welcome" component={Welcome} />
-        <Route path="/authform" component={AuthForm} />
         <Route path="/profile" component={UserProfile} />
         <Route path="/editProfile" component={UpdateUser} />
         <Route path="/preference" component={Preference} />
@@ -65,7 +65,8 @@ export default withRouter(
       createConnection,
       disconnectListener,
       matchListeners,
-      readyToListen
+      readyToListen,
+      chatListener
     }
   )(Routes)
 );

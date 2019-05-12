@@ -15,7 +15,7 @@ class Welcome extends Component {
     this.props.history.push("/");
   }
   handleSubmit() {
-    this.props.history.push("/Preference");
+    this.props.history.push("/preference");
   }
   render() {
     const { firstName, lastName } = this.props.user;

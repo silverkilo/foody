@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { setFood } from "../store/food";
 
-export class FoodDetails extends Component {
+class FoodDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,7 +22,7 @@ export class FoodDetails extends Component {
 
   componentDidMount() {
     this.getVenuesDetails();
-    this.getVenuesPhoto();
+    // this.getVenuesPhoto();
   }
 
   getVenuesDetails = () => {
@@ -28,8 +30,8 @@ export class FoodDetails extends Component {
     const venuesEndpoint = `https://api.foursquare.com/v2/venues/${venueId}?`;
 
     const params = {
-      client_id: "KUZ0H02M1VQNYUNKV40GFCICQUYGHRZJQVFLFS4MK01IHFYE",
-      client_secret: "ESQTWW5FJSPUDTTCM5JWQ1EO3T1GXNRVMS5XTKR3AKC4GNVJ",
+      client_id: "5DQ4HC1WROBOH0SFRD4IULDTPLLRP4J5LWKMOG0SZ0LRV5K0",
+      client_secret: "E5PLXEXQKZMQMPU02YDTSV0I1ZIAFK5LI0KPAEEZUCQQ5OJ3",
       v: "20130619"
     };
 
@@ -99,22 +101,59 @@ export class FoodDetails extends Component {
       });
   };
 
+  checkYes = venueId => {
+    console.log("selected", venueId);
+    this.props.pickFoodPlace(venueId);
+  };
+  createStars = () => {
+    if (this.state.rating === "n/a") {
+      return "Rating Not Available";
+    }
+    const rating = Math.round(this.state.rating / 2);
+    let stars = [];
+    for (let i = 0; i < rating; i++) {
+      stars.push(<i class="fas fa-star" />);
+    }
+    return stars;
+  };
   render() {
     return (
       <div className="card">
-        <img
+        {/* <img
           src={this.state.photoPrefix + "100x100" + this.state.photoSuffix}
           alt=""
-        />
-        <h2>{this.state.name}</h2>
-        <h2>{this.state.address}</h2>
-        <h2>
-          {this.state.city}, {this.state.state}
-        </h2>
-        <h2>Category: {this.state.categories}</h2>
-        <h2>Price: {this.state.price}</h2>
-        <h2>Rating: {this.state.rating}</h2>
+        /> */}
+        <img className="card__img" src="./images/stock.jpg" alt="" />
+        <ul className="card__details">
+          <li className="card__name">{this.state.name}</li>
+          <li className="card__rating">
+            {this.createStars()} {this.state.category}
+          </li>
+          <li className="card__address">{this.state.address}</li>
+          <li className="card__address">
+            {this.state.city}, {this.state.state}
+          </li>
+        </ul>
+        <button
+          className="card__button"
+          onClick={() => {
+            this.checkYes(this.props.venueId);
+          }}
+        >
+          pick me!
+        </button>
       </div>
     );
   }
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    pickFoodPlace: restaurantId => dispatch(setFood(restaurantId))
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(FoodDetails);
