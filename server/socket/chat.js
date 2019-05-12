@@ -93,6 +93,7 @@ module.exports = function(socket, userId) {
       socket.broadcast
         .to(roomInfo.userId.roomId)
         .emit("send-chat-history", chatHistory);
+      socket.emit("send-chat-history", chatHistory);
       // .emit("message-from-server", msg);
     } catch (e) {
       console.log(e);
