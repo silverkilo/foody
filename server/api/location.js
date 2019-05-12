@@ -3,7 +3,7 @@ const db = require("../db");
 const { authGateWay } = require("./gateway");
 module.exports = router;
 
-router.post("/", async (req, res, next) => {
+router.post("/", authGateWay, async (req, res, next) => {
   try {
     let { latitude, longitude } = req.body;
     if (!latitude || !longitude) {
