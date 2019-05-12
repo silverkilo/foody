@@ -13,7 +13,8 @@ const receiveChat = msg => ({
 });
 
 export const joinChatRoom = () => dispatch => {
-  socket.emit("join-chat-rooom");
+  socket.emit("join-chatroom");
+  console.log("client joined chat room");
   socket.on("send-chat-history", chatHistory => {
     dispatch(sendChatHistory(chatHistory));
   });
@@ -36,10 +37,16 @@ const initialState = [];
 export default (state = initialState, action) => {
   switch (action.type) {
     case SEND_HISTORY:
-      return { ...state, chatHistory: action.array };
+      return {
+        ...state,
+        chatHistory: action.array
+      };
     case RECEIVE_CHAT:
       let newChatHistory = [...state.chatHistory, receiveChat.msg];
-      return { ...state, chatHistory: newChatHistory };
+      return {
+        ...state,
+        chatHistory: newChatHistory
+      };
     default:
       return state;
   }

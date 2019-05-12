@@ -30,7 +30,7 @@ class Routes extends Component {
       this.props.createConnection();
       this.props.disconnectListener();
       this.props.readyToListen(() => {
-        this.props.matchListeners();
+        // this.props.matchListeners();
         this.props.chatListener();
       });
     });
@@ -39,23 +39,25 @@ class Routes extends Component {
   render() {
     return (
       <Switch>
-        <Route exact path="/" component={Login} />
-        <Route path="/signup" component={Signup} />
-        <Route path="/signup-email" component={SignupEmail} />
-        <Route path="/signup-name" component={SignupName} />
-        <Route path="/signup-password" component={SignupPassword} />
-        <Route path="/welcome" component={Welcome} />
-        <Route path="/profile" component={UserProfile} />
-        <Route path="/editProfile" component={UpdateUser} />
-        <Route path="/preference" component={Preference} />
-        <Route path="/matches" component={Matching} />
-        <Route path="/map" component={Map} />
+        <Route exact path="/" component={Login} />{" "}
+        <Route path="/signup" component={Signup} />{" "}
+        <Route path="/signup-email" component={SignupEmail} />{" "}
+        <Route path="/signup-name" component={SignupName} />{" "}
+        <Route path="/signup-password" component={SignupPassword} />{" "}
+        <Route path="/welcome" component={Welcome} />{" "}
+        <Route path="/profile" component={UserProfile} />{" "}
+        <Route path="/editProfile" component={UpdateUser} />{" "}
+        <Route path="/preference" component={Preference} />{" "}
+        <Route path="/matches" component={Matching} />{" "}
+        <Route path="/map" component={Map} />{" "}
       </Switch>
     );
   }
 }
 
-const mapStateToProps = ({ user }) => ({ user });
+const mapStateToProps = ({ user }) => ({
+  user
+});
 
 export default withRouter(
   connect(
