@@ -14,6 +14,17 @@ export const setUserLatLong = userLL => dispatch => {
   }
 };
 
+export const postLocation = ({
+  coords: { longitude, latitude }
+}) => async dispatch => {
+  try {
+    const { data } = await axios.post("/api/location", { longitude, latitude });
+    dispatch(setUserLL(data.location.coordinates));
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const getMatchLatLong = userId => async dispatch => {
   try {
     let res = await axios.get(`/api/match/${userId}`);
@@ -24,8 +35,8 @@ export const getMatchLatLong = userId => async dispatch => {
 };
 
 const initialState = {
-  user: [40.712, -74.006],
-  match: [40.712, -74.006]
+  user: [-74.006, 40.712],
+  match: [-74.006, 40.712]
 };
 
 export default function(state = initialState, action) {

@@ -37,7 +37,7 @@
     "swipe-js-iso": "^2.1.5"
   },
   "scripts": {
-    "dev": "export NODE_ENV=development && concurrently \"HOST=0.0.0.0 npm run start-client\" \"nodemon server\"",
+    "dev": "export NODE_ENV=development && concurrently \" npm run start-client\" \"nodemon server\"",
     "start-client": "react-scripts start",
     "start": "node server",
     "build": "react-scripts build",
