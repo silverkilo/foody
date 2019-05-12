@@ -61,7 +61,11 @@ class Routes extends Component {
       window.navigator.geolocation.getCurrentPosition(
         this.props.postLocation,
         err => console.log(err),
-        { timeout: 10000, enableHighAccuracy: false, maximumAge: 10000 }
+        {
+          timeout: 10000,
+          enableHighAccuracy: false,
+          maximumAge: 10000
+        }
       );
       this.props.createConnection();
       this.props.disconnectListener();
@@ -75,23 +79,25 @@ class Routes extends Component {
   render() {
     return (
       <Switch>
-        <Route exact path="/" component={Login} />
-        <Route path="/signup" component={Signup} />
-        <Route path="/signup-email" component={SignupEmail} />
-        <Route path="/signup-name" component={SignupName} />
-        <Route path="/signup-password" component={SignupPassword} />
-        <Route path="/welcome" component={Welcome} />
-        <Route path="/profile" component={UserProfile} />
-        <Route path="/editProfile" component={UpdateUser} />
-        <Route path="/preference" component={Preference} />
-        <Route path="/matches" component={Matching} />
-        <Route path="/map" component={MapBox} />
+        <Route exact path="/" component={Login} />{" "}
+        <Route path="/signup" component={Signup} />{" "}
+        <Route path="/signup-email" component={SignupEmail} />{" "}
+        <Route path="/signup-name" component={SignupName} />{" "}
+        <Route path="/signup-password" component={SignupPassword} />{" "}
+        <Route path="/welcome" component={Welcome} />{" "}
+        <Route path="/profile" component={UserProfile} />{" "}
+        <Route path="/editProfile" component={UpdateUser} />{" "}
+        <Route path="/preference" component={Preference} />{" "}
+        <Route path="/matches" component={Matching} />{" "}
+        <Route path="/map" component={MapBox} />{" "}
       </Switch>
     );
   }
 }
 
-const mapStateToProps = ({ user }) => ({ user });
+const mapStateToProps = ({ user }) => ({
+  user
+});
 
 export default withRouter(
   connect(
