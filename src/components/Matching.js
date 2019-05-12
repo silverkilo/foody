@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import MatchCards from "./MatchCards";
+import MatchStack from "./MatchStack";
 import { swipe } from "../store";
+import NewMatch from "./NewMatch";
+import NoMatches from "./NoMatches";
 class Matching extends Component {
   componentDidMount() {
     this.props.swipe();
@@ -9,24 +11,13 @@ class Matching extends Component {
   render() {
     if (this.props.didMatch.matched) {
       const match = this.props.didMatch.info;
-      return (
-        <div>
-          <h2>Congrats, you matched with</h2>
-          <div key={match.id}>
-            <p>{match.firstName}</p>
-            <p>{match.lastName}</p>
-            <img src={match.photoURLs[0]} alt={match.firstName} />
-            <p>{match.preferences.join(", ")}</p>
-          </div>
-        </div>
-      );
+      return <NewMatch {...match} />;
     }
-    if (!this.props.potentials.length) return <div>No Matches to show</div>;
+    if (!this.props.potentials.length) return <NoMatches />;
     const users = this.props.potentials;
-    console.log(this.props.loading);
     return (
       <div className="match-container">
-        {this.props.loading ? null : <MatchCards users={users} />}
+        {this.props.loading ? null : <MatchStack users={users} />}
       </div>
     );
   }

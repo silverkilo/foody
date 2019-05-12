@@ -3,8 +3,9 @@ import { connect } from "react-redux";
 import { swipe } from "../store";
 import { useSprings, animated, interpolate } from "react-spring";
 import { useGesture } from "react-use-gesture";
+import MatchCard from "./MatchCard";
 
-function MatchCard({ users, swipe }) {
+function MatchStack({ users, swipe }) {
   const to = i => ({
     x: 0,
     y: i * -4,
@@ -60,15 +61,7 @@ function MatchCard({ users, swipe }) {
     }
   });
   return props.map(({ x, y, rot, scale }, i) => {
-    const {
-      firstName,
-      lastName,
-      photoURLs,
-      distance,
-      preferences,
-      id,
-      match
-    } = users[i];
+    const { id, match } = users[i];
     return (
       <animated.div
         className="all-matches"
@@ -88,19 +81,7 @@ function MatchCard({ users, swipe }) {
             transform: interpolate([rot, scale], trans)
           }}
         >
-          <div>
-            <h1 className="match-name">
-              {firstName} {lastName}
-            </h1>
-
-            <div className="match-image">
-              <img src={photoURLs[0]} alt={firstName} />
-            </div>
-
-            {/* match distance will be deleted, for debugging purposes only */}
-            <strong className="match-distance">{distance}</strong>
-            <p className="match-prefs">{preferences.join(", ")}</p>
-          </div>
+          <MatchCard {...users[i]} />
         </animated.div>
       </animated.div>
     );
@@ -110,4 +91,4 @@ function MatchCard({ users, swipe }) {
 export default connect(
   null,
   { swipe }
-)(MatchCard);
+)(MatchStack);

@@ -60,9 +60,9 @@ async function seed() {
         .map((_, i) => {
           locations.push({
             latitude:
-              codyLoc.latitude + i * ((Math.random() > 5 ? -1 : 1) * 0.1),
+              codyLoc.latitude + (i + 1) * ((Math.random() > 5 ? -1 : 1) * 0.1),
             longitude:
-              codyLoc.longitude + i * ((Math.random() > 5 ? -1 : 1) * 0.1)
+              codyLoc.longitude + (i + 1) * ((Math.random() > 5 ? -1 : 1) * 0.1)
           });
           return {
             firstName: faker.name.firstName(),

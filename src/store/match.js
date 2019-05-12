@@ -57,7 +57,7 @@ export default (state = initialState, action) => {
     case DID_MATCH:
       return { ...state, didMatch: action.match };
     case POTENTIAL_MATCHES:
-      return { ...state, potentials: action.data };
+      return { ...state, potentials: action.data.reverse() };
     case LOADING:
       return { ...state, loading: action.value };
     case SWIPE:
