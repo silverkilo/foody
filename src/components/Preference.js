@@ -54,7 +54,9 @@ class Preference extends Component {
 
   handleClick() {
     const preferences = this.formatPreferences(this.props.preferences);
-    this.props.sendUserPreference(this.props.user.id, preferences);
+    this.props.sendUserPreference(this.props.user.id, preferences, () => {
+      this.props.history.push("/matches");
+    });
   }
 
   render() {
@@ -107,7 +109,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getAllCategories: () => dispatch(getAllCategories()),
-    sendUserPreference: (id, pref) => dispatch(sendUserPreference(id, pref)),
+    sendUserPreference: (id, pref, callback) =>
+      dispatch(sendUserPreference(id, pref, callback)),
     logout: () => dispatch(logout()),
     addPreference: preference => dispatch(addPreference(preference))
   };

@@ -2,10 +2,11 @@ import { socket } from "./socket";
 const SWIPE = "SWIPE";
 const POTENTIAL_MATCHES = "POTENTIAL_MATCHES";
 const DID_MATCH = "DID_MATCH";
-
+const LOADING = "LOADING";
 const initialState = {
   didMatch: { matched: false },
-  potentials: []
+  potentials: [],
+  loading: false
 };
 
 const potentialMatches = data => ({
@@ -22,10 +23,11 @@ const swiped = (value, matchee) => ({
   value,
   matchee
 });
-export const swipe = (value, matchee, matched) => (dispatch, getState) => {
-  socket.emit("swipe", { value, matchee, matched });
-  if (getState().match.potentials.length < 2) {
+export const swipe = (value, matchee, matched, fetchMore) => dispatch => {
+  if (value !== undefined) socket.emit("swipe", { value, matchee, matched });
+  if (value === undefined || fetchMore) {
     socket.emit("getPotentialMatches");
+    dispatch(loading(true));
   }
   return dispatch(swiped(value, matchee));
 };
@@ -40,6 +42,7 @@ export const matchListeners = () => dispatch => {
       });
       socket.on("potentialMatches", data => {
         dispatch(potentialMatches(data));
+        dispatch(loading(false));
       });
 
       socket.emit("getPotentialMatches");
@@ -48,16 +51,19 @@ export const matchListeners = () => dispatch => {
   socket.emit("haveIMatched");
 };
 
+export const loading = value => ({ type: LOADING, value });
 export default (state = initialState, action) => {
   switch (action.type) {
     case DID_MATCH:
       return { ...state, didMatch: action.match };
     case POTENTIAL_MATCHES:
-      return { ...state, potentials: action.data };
+      return { ...state, potentials: action.data.reverse() };
+    case LOADING:
+      return { ...state, loading: action.value };
     case SWIPE:
       return {
-        ...state,
-        potentials: state.potentials.filter(user => user.id !== action.matchee)
+        ...state
+        // potentials: state.potentials.filter(user => user.id !== action.matchee)
       };
     default:
       return state;

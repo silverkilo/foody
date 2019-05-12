@@ -38,6 +38,9 @@ const User = db.define("user", {
   },
   socketId: {
     type: Sequelize.STRING
+  },
+  photoURLs: {
+    type: Sequelize.ARRAY(Sequelize.STRING)
   }
 });
 
