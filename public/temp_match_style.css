@@ -1,25 +1,29 @@
-/* .match-container{
-    height: 85vh;
-    
+/* match-card-container absolutely necessary styles, do not change */
+html, body , #root, .match-container{
+    max-width: 100%;
+    overflow: hidden !important;
 }
-.match-container, .match-container .draggable, .match-container .draggable-card{
-    display: flex;
-    justify-content: center;
-    align-items: center
-} */
-.all-matches{
+
+.match-card-container{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none; 
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none; 
+    user-select: none; 
     position: absolute;
-  width: 100vw;
-  height: 100vh;
-  will-change: transform;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    will-change: transform;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .match-card{
+    
     background-color: white;
     width: 45vh;
-    max-width: 300px;
+    max-width: 80%;
     height: 85vh;
     max-height: 570px;
     will-change: transform;
