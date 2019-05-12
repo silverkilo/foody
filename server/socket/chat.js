@@ -15,7 +15,6 @@ const roomInfo = {
   // }
 };
 
-//info storage
 let roomId = 0;
 
 function getChatHistory(roomId) {
@@ -43,11 +42,7 @@ const checkMatchId = async (socket, userId) => {
   //get matchId from database
   const { id } = socket;
   const userInfo = await User.findByPk(userId);
-
   const matchId = userInfo.hasMatched;
-  console.log("matchId", matchId);
-
-  console.log("ROOMINFO ALL OF IT BEFORE ADDING", roomInfo);
 
   // check if your match already has a room
   if (roomInfo.hasOwnProperty(matchId)) {
@@ -64,29 +59,17 @@ const checkMatchId = async (socket, userId) => {
     };
     roomId++;
   }
-  console.log("ROOMINFO ALL OF IT AFTER ADDING", roomInfo);
-  //create record
-
-  console.log("room infoooo", roomInfo);
-  console.log("roomId", roomId);
-  //check record
-  // if (roomInfo.hasOwnProperty(roomInfo.userId.matchId)) {
-  //   roomId += 1;
-  //   roomInfo.userId.roomId = roomId;
-  //   roomInfo.matchId.roomId = roomId;
-  // }
 };
 
 //socket
 module.exports = function(socket, userId) {
-  3; //joining chatroom and sending back chat history
+  //joining chatroom and sending back chat history
   socket.on("join-chatroom", async () => {
     try {
       console.log("server side - the client has joined chatroom");
       await checkMatchId(socket, userId);
       socket.join(roomInfo[userId].roomId);
       const chatHistory = getChatHistory(String(roomInfo[userId].roomId));
-      console.log("this is your chat history.......", chatHistory);
       socket.emit("send-chat-history", chatHistory);
     } catch (e) {
       console.log(e);

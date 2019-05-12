@@ -1,15 +1,9 @@
 import { socket } from "./socket";
 const SEND_HISTORY = "SEND_HISTORY";
-const RECEIVE_CHAT = "RECEIVE_CHAT";
 
 const sendChatHistory = array => ({
   type: SEND_HISTORY,
   array
-});
-
-const receiveChat = msg => ({
-  type: RECEIVE_CHAT,
-  msg
 });
 
 export const joinChatRoom = () => dispatch => {
@@ -29,7 +23,6 @@ export const sendMessage = msg => dispatch => {
 };
 
 export const chatListener = () => dispatch => {
-  // socket.on("message-from-server", msg => {
   socket.on("send-chat-history", chatHistory => {
     console.log("client receiving from server side");
     dispatch(sendChatHistory(chatHistory));
@@ -44,12 +37,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         chatHistory: action.array
-      };
-    case RECEIVE_CHAT:
-      let newChatHistory = [...state, action.msg];
-      return {
-        ...state,
-        chatHistory: newChatHistory
       };
     default:
       return state;

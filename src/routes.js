@@ -30,7 +30,7 @@ class Routes extends Component {
       this.props.createConnection();
       this.props.disconnectListener();
       this.props.readyToListen(() => {
-        // this.props.matchListeners();
+        this.props.matchListeners();
         this.props.chatListener();
       });
     });
