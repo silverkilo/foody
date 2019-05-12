@@ -2,8 +2,16 @@
 html, body , #root, .match-container{
     max-width: 100%;
     overflow: hidden !important;
+    overscroll-behavior-y: contain !important;
+    touch-action: none !important;
 }
-
+html,
+body {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+}
+/* match-card-container also essential styles */
 .match-card-container{
     -webkit-touch-callout: none;
     -webkit-user-select: none; 
@@ -18,18 +26,22 @@ html, body , #root, .match-container{
     display: flex;
     align-items: center;
     justify-content: center;
+
 }
+/* all felxible except for will-change */
 .match-card{
     
     background-color: white;
     width: 45vh;
-    max-width: 80%;
+    max-width: 95%;
     height: 85vh;
     max-height: 570px;
     will-change: transform;
     border-radius: 10px;
     box-shadow: 0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3);
 }
+
+/* blur effect stlyes and animations */
 .match-card.blurred > div{
     -webkit-filter: blur(20px);
     -moz-filter: blur(20px);
@@ -79,6 +91,10 @@ html, body , #root, .match-container{
         filter: blur(0px);
     }
 }
+/* end blur styles */
+
+
+/* below styles are all flexible */
 .match-name{
     text-align: center;
     font-size: 2rem;

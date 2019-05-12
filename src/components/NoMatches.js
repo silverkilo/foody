@@ -1,5 +1,11 @@
 import React from "react";
 
-export default function NoMatches() {
-  return <div>No Matches to show</div>;
+function NoMatches() {
+  return (
+    <div>
+      <div>No Matches to show</div>
+    </div>
+  );
 }
+
+export default NoMatches;

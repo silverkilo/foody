@@ -27,6 +27,36 @@ import {
 
 class Routes extends Component {
   componentDidMount() {
+    // disable pull to refresh for chrome IOS. Enabled for two fingers
+    function preventPullToRefresh(element) {
+      let prevent = false;
+      document
+        .querySelector(element)
+        .addEventListener("touchstart", function(e) {
+          if (e.touches.length !== 1) {
+            return;
+          }
+
+          const scrollY =
+            window.pageYOffset ||
+            document.body.scrollTop ||
+            document.documentElement.scrollTop;
+          prevent = scrollY === 0;
+        });
+
+      document
+        .querySelector(element)
+        .addEventListener("touchmove", function(e) {
+          if (prevent) {
+            prevent = false;
+            e.preventDefault();
+          }
+        });
+    }
+
+    preventPullToRefresh("html");
+    preventPullToRefresh("body");
+    preventPullToRefresh("#root");
     this.props.me(() => {
       window.navigator.geolocation.getCurrentPosition(
         this.props.postLocation,
