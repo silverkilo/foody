@@ -1,19 +1,22 @@
 import io from "socket.io-client";
-export const socket = io(process.env.SERVER_URL || "http://localhost:3001", {
-  autoConnect: false
-});
+export const socket = io(
+  `http://${window.location.hostname}${
+    process.env.NODE_ENV === "production" ? "" : ":3001"
+  }`,
+  {
+    autoConnect: false
+  }
+);
 const CONNECTED = "CONNECTED";
 const ERROR = "ERROR";
 const READY = "READY";
-const DEBUG_CONNECTION = "DEBUG_CONNECTION";
 const initialState = {
   connected: false,
   error: {
     exists: false,
     message: ""
   },
-  ready: false,
-  debugConnection: ""
+  ready: false
 };
 
 const connect = connected => ({
@@ -32,25 +35,18 @@ const err = message => ({
 const ready = () => ({
   type: READY
 });
-const debugConnection = message => ({
-  type: DEBUG_CONNECTION,
-  message
-});
 
 export const createConnection = () => dispatch => {
-  socket.connect();
+  socket.open();
   socket.on("connect", () => {
     dispatch(connect(socket.connected));
     console.log("SOCKET ", socket.connected);
-    dispatch(debugConnection(socket.connected ? "CONNECTED" : "NOT_CONNECTED"));
   });
-  dispatch(debugConnection("CONNECTING"));
 };
 
 export const disconnectListener = () => dispatch => {
   socket.on("disconnect", () => {
     dispatch(connect(socket.connected));
-    dispatch(debugConnection(socket.connected ? "CONNECTED" : "NOT_CONNECTED"));
   });
 };
 export const readyToListen = initListeners => dispatch => {
@@ -77,8 +73,6 @@ export default (state = initialState, action) => {
       return { ...state, error: action.error };
     case READY:
       return { ...state, ready: true };
-    case DEBUG_CONNECTION:
-      return { ...state, debugConnection: action.message };
     default:
       return state;
   }
