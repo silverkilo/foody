@@ -68,11 +68,20 @@ export const readyToListen = initListeners => dispatch => {
 export default (state = initialState, action) => {
   switch (action.type) {
     case CONNECTED:
-      return { ...state, connected: action.connected };
+      return {
+        ...state,
+        connected: action.connected
+      };
     case ERROR:
-      return { ...state, error: action.error };
+      return {
+        ...state,
+        error: action.error
+      };
     case READY:
-      return { ...state, ready: true };
+      return {
+        ...state,
+        ready: true
+      };
     default:
       return state;
   }

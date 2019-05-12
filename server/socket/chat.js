@@ -1,26 +1,11 @@
 const { User } = require("../db/models");
-//chat history
+
 const allChats = {
   // roomId: [
   //   [msg, id],
   //   [msg, id]
   // ]
 };
-
-function getChatHistory(roomId) {
-  if (allChats[roomId] === undefined) {
-    allChats[roomId] = [];
-  }
-  return allChats[roomId];
-}
-
-function addNewMessage(userId, msg) {
-  let roomName = roomInfo.userId.roomId;
-  allChats[roomName].push([msg, userId]);
-}
-
-//info storage
-let roomId = 0;
 
 const roomInfo = {
   // user: {
@@ -30,55 +15,83 @@ const roomInfo = {
   // }
 };
 
+let roomId = 0;
+
+function getChatHistory(roomId) {
+  if (allChats[roomId] === undefined) {
+    allChats[roomId] = [];
+  }
+  return allChats[roomId];
+}
+
+function addNewMessage(userId, msg) {
+  let roomName = roomInfo[userId].roomId;
+  console.log("room name", roomName);
+  console.log("allChats for this room", allChats[roomName]);
+  if (allChats[roomName] === []) {
+    allChats[roomName] = [[msg, userId]];
+    console.log("in here...");
+  } else {
+    allChats[roomName].push([msg, userId]);
+    console.log(allChats[roomName]);
+  }
+  console.log("allChats", allChats);
+}
+
 const checkMatchId = async (socket, userId) => {
   //get matchId from database
   const { id } = socket;
-  const userInfo = await User.findOne({
-    id: userId
-  });
+  const userInfo = await User.findByPk(userId);
   const matchId = userInfo.hasMatched;
 
-  //create record
-  roomInfo.userId = {
-    matchId,
-    id
-  };
-  //check record
-  if (roomInfo.hasOwnProperty(roomInfo.userId.matchId)) {
-    roomId += 1;
-    roomInfo.userId.roomId = roomId;
-    roomInfo.matchId.roomId = roomId;
+  // check if your match already has a room
+  if (roomInfo.hasOwnProperty(matchId)) {
+    roomInfo[userId] = {
+      matchId: matchId,
+      id: id,
+      roomId: roomInfo[matchId].roomId
+    };
+  } else {
+    roomInfo[userId] = {
+      matchId: matchId,
+      id: id,
+      roomId: String(roomId)
+    };
+    roomId++;
   }
 };
 
 //socket
 module.exports = function(socket, userId) {
   //joining chatroom and sending back chat history
-  socket.on("join-chatroom", () => {
+  socket.on("join-chatroom", async () => {
     try {
-      console.log("the client had joined chatroom");
-      checkMatchId(socket, userId);
-      socket.join(roomInfo.userId.roomId);
-      const chatHistory = getChatHistory(roomInfo.userId.roomId);
+      console.log("server side - the client has joined chatroom");
+      await checkMatchId(socket, userId);
+      socket.join(roomInfo[userId].roomId);
+      const chatHistory = getChatHistory(String(roomInfo[userId].roomId));
       socket.emit("send-chat-history", chatHistory);
     } catch (e) {
       console.log(e);
-      socket.emit("errorMessage", "There was an error joinging matches");
+      socket.emit("errorMessage", "There was an error joining matches");
     }
   });
 
   // CLIENT send message
   socket.on("send-client-message", msg => {
+    console.log("server: got it from client side", msg, userId);
     try {
-      addNewMessage(userId, msg);
-      console.log("server: got it from client side");
-      socket.broadcast
-        .to(roomInfo[userId][roomId])
-        .emit("messege-from-server", msg);
       console.log("server: sent it from server side");
+      addNewMessage(userId, msg);
+      console.log("about to broadcast...");
+      const chatHistory = getChatHistory(String(roomInfo[userId].roomId));
+      socket.broadcast
+        .to(roomInfo[userId].roomId)
+        .emit("send-chat-history", chatHistory);
+      socket.emit("send-chat-history", chatHistory);
     } catch (e) {
       console.log(e);
-      socket.emit("errorMessage", "There was an error joinging matches");
+      socket.emit("errorMessage", "There was an error joining matches");
     }
   });
 };
