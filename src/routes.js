@@ -32,7 +32,7 @@ class Routes extends Component {
       let prevent = false;
       document
         .querySelector(element)
-        .addEventListener("touchstart", function(e) {
+        .addEventListener("touchstart", function (e) {
           if (e.touches.length !== 1) {
             return;
           }
@@ -46,7 +46,7 @@ class Routes extends Component {
 
       document
         .querySelector(element)
-        .addEventListener("touchmove", function(e) {
+        .addEventListener("touchmove", function (e) {
           if (prevent) {
             prevent = false;
             e.preventDefault();
