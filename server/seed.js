@@ -1,7 +1,7 @@
 const faker = require("faker");
 const db = require("../server/db");
 const gis = require("./gis");
-const { Preference, User, UserPreference, Match } = require("./db/models");
+const { Preference, User, UserPreference } = require("./db/models");
 const categories = [
   "Bubble Tea Shop",
   "African Restaurant",
