@@ -22,11 +22,11 @@ class Matching extends Component {
       );
     }
     if (!this.props.potentials.length) return <div>No Matches to show</div>;
-
-    const users = this.props.potentials.reverse();
+    const users = this.props.potentials;
+    console.log(this.props.loading);
     return (
       <div className="match-container">
-        <MatchCards users={users} />
+        {this.props.loading ? null : <MatchCards users={users} />}
       </div>
     );
   }

@@ -78,7 +78,7 @@ module.exports = function(socket, userId, exclusions) {
                           INNER JOIN "matches" AS "match" ON "user"."id" = "match"."matcherId" AND "match"."matcheeId" = ? 
                       WHERE (("user"."id" NOT IN (?) AND "user"."hasMatched" IS NULL))
                       GROUP BY "user"."id"
-                      ORDER BY "user"."location" <-> 'SRID=26918;POINT(? ?)'::geometry
+                      ORDER BY "user"."location" <-> 'SRID=26918;POINT(? ?)'::geometry DESC
                       LIMIT 5;
                   ;
                   `,
@@ -110,7 +110,7 @@ module.exports = function(socket, userId, exclusions) {
                           ON "user"."id" = "preferences->user_preference"."userId" AND "preferences"."id" IN (?)
                           WHERE (("user"."id" NOT IN (?) AND "user"."hasMatched" IS NULL))
                           GROUP BY "user"."id"
-                          ORDER BY "user"."location" <-> 'SRID=26918;POINT(? ?)'::geometry
+                          ORDER BY "user"."location" <-> 'SRID=26918;POINT(? ?)'::geometry DESC
                           LIMIT ?;
                   `,
           {

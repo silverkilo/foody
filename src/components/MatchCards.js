@@ -18,7 +18,10 @@ function MatchCard({ users, swipe }) {
   const trans = (r, s) =>
     `perspective(1500px) rotateX(30deg) rotateY(${r / 10}deg) rotateZ(${r /
       2}deg) scale(${s})`;
-  const [gone] = React.useState(() => new Set());
+  const [{ current, fetching }, setState] = React.useState({
+    current: users.length - 1,
+    fetching: false
+  });
   const [props, set] = useSprings(users.length, i => ({
     ...to(i),
     from: from(i)
@@ -30,15 +33,19 @@ function MatchCard({ users, swipe }) {
       delta: [xDelta],
       direction: [xDir],
       velocity,
-      ...rest
+      currentTarget
     }) => {
-      console.log(rest);
       const trigger = velocity > 0.2; // If you flick hard enough it should trigger the card to fly out
       const dir = xDir < 0 ? -1 : 1; // Direction should either point left or right
       let isGone = false;
-      if (!down && trigger) isGone = true; // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
+      if (!down && trigger) {
+        setState({ current: index - 1, fetching });
+        isGone = true;
+      } // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
       set(i => {
-        if (index !== i) return; // We're only interested in changing spring-data for the current spring
+        if (index !== i) {
+          return;
+        } // We're only interested in changing spring-data for the current spring
         const x = isGone ? (200 + window.innerWidth) * dir : down ? xDelta : 0; // When a card is gone it flys out left or right, otherwise goes back to zero
         const rot = xDelta / 100 + (isGone ? dir * 10 * velocity : 0); // How much the card tilts, flicking it harder makes it rotate faster
         const scale = down ? 1.1 : 1; // Active cards lift up a bit
@@ -50,9 +57,13 @@ function MatchCard({ users, swipe }) {
           config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 }
         };
       });
-      console.log(!down && isGone);
       if (!down && isGone) {
-        swipe(dir === 1, id, match);
+        const shouldFetchMore = index === 0;
+        swipe(dir === 1, id, match, shouldFetchMore);
+        if (shouldFetchMore) {
+          // setState();
+        }
+        currentTarget.parentElement.style.display = "none";
       }
     }
   });
@@ -64,8 +75,7 @@ function MatchCard({ users, swipe }) {
       distance,
       preferences,
       id,
-      match,
-      swipe
+      match
     } = users[i];
     return (
       <animated.div
@@ -80,7 +90,7 @@ function MatchCard({ users, swipe }) {
       >
         {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
         <animated.div
-          className={`match-card ${i !== users.length - 1 && "blurred"}`}
+          className={`match-card ${i === current ? "clear" : "blurred"}`}
           {...bind(i, id, match)}
           style={{
             transform: interpolate([rot, scale], trans)
@@ -98,20 +108,6 @@ function MatchCard({ users, swipe }) {
             {/* match distance will be deleted, for debugging purposes only */}
             <strong className="match-distance">{distance}</strong>
             <p className="match-prefs">{preferences.join(", ")}</p>
-            <div className="match-buttons">
-              <button
-                className="match-button-left"
-                onClick={() => swipe(false, id, match)}
-              >
-                Left
-              </button>
-              <button
-                className="match-button-right"
-                onClick={() => swipe(true, id, match)}
-              >
-                Right
-              </button>
-            </div>
           </div>
         </animated.div>
       </animated.div>
