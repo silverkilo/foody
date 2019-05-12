@@ -11,7 +11,7 @@ router.post("/", authGateWay, async (req, res, next) => {
       err.status = 400;
       throw err;
     }
-    const id = Number(req.user.id);
+    const id = req.user.id;
     const [[result]] = await db.query(
       `
             UPDATE users 
