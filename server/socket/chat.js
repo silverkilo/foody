@@ -28,11 +28,13 @@ function getChatHistory(roomId) {
 function addNewMessage(userId, msg) {
   let roomName = roomInfo.userId.roomId;
   console.log("room name", roomName);
-  if ((allChats[roomName] = [])) {
-    allChats[roomName].push([msg, userId]);
-  } else {
-    console.log(allChats[roomName]);
+  console.log("allChats for this room", allChats[roomName]);
+  if (allChats[roomName] === []) {
     allChats[roomName] = [[msg, userId]];
+    console.log("in here...");
+  } else {
+    allChats[roomName].push([msg, userId]);
+    console.log(allChats[roomName]);
   }
   console.log("allChats", allChats);
 }
@@ -66,12 +68,13 @@ const checkMatchId = async (socket, userId) => {
 //socket
 module.exports = function(socket, userId) {
   //joining chatroom and sending back chat history
-  socket.on("join-chatroom", () => {
+  socket.on("join-chatroom", async () => {
     try {
       console.log("server side - the client has joined chatroom");
-      checkMatchId(socket, userId);
+      await checkMatchId(socket, userId);
       socket.join(roomInfo.userId.roomId);
       const chatHistory = getChatHistory(String(roomInfo.userId.roomId));
+      console.log("this is your chat history.......", chatHistory);
       socket.emit("send-chat-history", chatHistory);
     } catch (e) {
       console.log(e);
@@ -85,9 +88,12 @@ module.exports = function(socket, userId) {
     try {
       console.log("server: sent it from server side");
       addNewMessage(userId, msg);
+      console.log("about to broadcast...");
+      const chatHistory = getChatHistory(String(roomInfo.userId.roomId));
       socket.broadcast
-        .to(roomInfo[userId][roomId])
-        .emit("messege-from-server", msg);
+        .to(roomInfo.userId.roomId)
+        .emit("send-chat-history", chatHistory);
+      // .emit("message-from-server", msg);
     } catch (e) {
       console.log(e);
       socket.emit("errorMessage", "There was an error joining matches");

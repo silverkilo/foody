@@ -26,7 +26,7 @@ export const sendMessage = msg => dispatch => {
 };
 
 export const chatListener = () => dispatch => {
-  socket.on("messege-from-server", msg => {
+  socket.on("message-from-server", msg => {
     console.log("client: got it from server side");
     dispatch(receiveChat(msg));
   });
