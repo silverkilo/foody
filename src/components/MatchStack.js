@@ -32,12 +32,13 @@ function MatchStack({ users, swipe }) {
       currentTarget
     }) => {
       const trigger = velocity > 0.2; // If you flick hard enough it should trigger the card to fly out
-      const dir = xDir < 0 ? -1 : 1; // Direction should either point left or right
+      const dir = xDelta > 0 ? 1 : -1; // Direction should either point left or right
       let isGone = false;
       if (!down && trigger) {
         setState(index - 1);
         isGone = true;
       } // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
+      console.log(dir, isGone);
       set(i => {
         if (index !== i) {
           return;
@@ -56,7 +57,9 @@ function MatchStack({ users, swipe }) {
       if (!down && isGone) {
         const shouldFetchMore = index === 0;
         swipe(dir === 1, id, match, shouldFetchMore);
-        currentTarget.parentElement.style.display = "none";
+        setTimeout(() => {
+          currentTarget.parentElement.style.display = "none";
+        }, 250);
       }
     }
   });
@@ -64,7 +67,7 @@ function MatchStack({ users, swipe }) {
     const { id, match } = users[i];
     return (
       <animated.div
-        className="all-matches"
+        className="match-card-container"
         key={i}
         style={{
           transform: interpolate(
