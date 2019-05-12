@@ -17,7 +17,7 @@ function randomIcon() {
   return Math.floor(Math.random() * 8) + 1;
 }
 
-export class Map extends Component {
+export class MapBox extends Component {
   constructor() {
     super();
     this.state = {
@@ -152,7 +152,7 @@ export class Map extends Component {
       long: long,
       loadedUser: true
     });
-    this.props.setUserLatLong([this.state.lat, this.state.long]);
+    this.props.setUserLatLong([this.state.long, this.state.lat]);
   };
 
   //chat functions
@@ -244,8 +244,8 @@ export class Map extends Component {
 const mapStateToProps = state => {
   return {
     userId: state.user.id,
-    matchLat: state.userMatchLatLong.match[0],
-    matchLong: state.userMatchLatLong.match[1],
+    matchLat: state.userMatchLatLong.match[1],
+    matchLong: state.userMatchLatLong.match[2],
     matchPreference: state.matchPreference,
     selectedIdx: state.selectedIdx
   };
@@ -264,4 +264,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Map);
+)(MapBox);

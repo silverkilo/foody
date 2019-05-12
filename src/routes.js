@@ -13,7 +13,7 @@ import {
   UpdateUser,
   Preference,
   Matching,
-  Map
+  MapBox
 } from "./components";
 import {
   me,
@@ -21,12 +21,52 @@ import {
   disconnectListener,
   matchListeners,
   chatListener,
-  readyToListen
+  readyToListen,
+  postLocation
 } from "./store";
 
 class Routes extends Component {
   componentDidMount() {
+    // disable pull to refresh for chrome IOS. Enabled for two fingers
+    function preventPullToRefresh(element) {
+      let prevent = false;
+      document
+        .querySelector(element)
+        .addEventListener("touchstart", function(e) {
+          if (e.touches.length !== 1) {
+            return;
+          }
+
+          const scrollY =
+            window.pageYOffset ||
+            document.body.scrollTop ||
+            document.documentElement.scrollTop;
+          prevent = scrollY === 0;
+        });
+
+      document
+        .querySelector(element)
+        .addEventListener("touchmove", function(e) {
+          if (prevent) {
+            prevent = false;
+            e.preventDefault();
+          }
+        });
+    }
+
+    preventPullToRefresh("html");
+    preventPullToRefresh("body");
+    preventPullToRefresh("#root");
     this.props.me(() => {
+      window.navigator.geolocation.getCurrentPosition(
+        this.props.postLocation,
+        err => console.log(err),
+        {
+          timeout: 10000,
+          enableHighAccuracy: false,
+          maximumAge: 10000
+        }
+      );
       this.props.createConnection();
       this.props.disconnectListener();
       this.props.readyToListen(() => {
@@ -49,7 +89,7 @@ class Routes extends Component {
         <Route path="/editProfile" component={UpdateUser} />{" "}
         <Route path="/preference" component={Preference} />{" "}
         <Route path="/matches" component={Matching} />{" "}
-        <Route path="/map" component={Map} />{" "}
+        <Route path="/map" component={MapBox} />{" "}
       </Switch>
     );
   }
@@ -68,7 +108,8 @@ export default withRouter(
       disconnectListener,
       matchListeners,
       readyToListen,
-      chatListener
+      chatListener,
+      postLocation
     }
   )(Routes)
 );

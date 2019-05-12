@@ -28,6 +28,7 @@ module.exports = function socketio(server, sessionMiddleware) {
 
   io.on("connect", async socket => {
     let userId;
+    console.log(socket.id);
     if (
       socket.request &&
       socket.request.session &&
@@ -48,7 +49,7 @@ module.exports = function socketio(server, sessionMiddleware) {
       exclusions[userId] = exclusions[userId] || [userId];
       socket.emit("ready");
     } else return;
-
+    console.log(userId);
     //removes socketIds from disconnected users
 
     matchListeners(socket, userId, exclusions);
