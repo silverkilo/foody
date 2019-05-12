@@ -40,3 +40,4 @@ export * from "./preferences";
 export * from "./food";
 export * from "./match";
 export * from "./chat";
+export * from "./location";
