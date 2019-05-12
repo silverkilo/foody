@@ -5,11 +5,6 @@ html, body , #root, .match-container{
     overscroll-behavior-y: contain !important;
     touch-action: none !important;
 }
-/* html,
-body {
-  position: fixed;
-  overflow: hidden;
-} */
 html,
 body {
   height: 100%;
