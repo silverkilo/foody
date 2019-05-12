@@ -3,7 +3,7 @@ const db = require("../db");
 const { authGateWay } = require("./gateway");
 module.exports = router;
 
-router.post("/:id", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
     let { latitude, longitude } = req.body;
     if (!latitude || !longitude) {
@@ -13,7 +13,7 @@ router.post("/:id", async (req, res, next) => {
       err.status = 400;
       throw err;
     }
-    const id = Number(req.params.id);
+    const id = Number(req.user.id);
     const [[result]] = await db.query(
       `
             UPDATE users 
