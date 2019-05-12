@@ -244,8 +244,8 @@ export class MapBox extends Component {
 const mapStateToProps = state => {
   return {
     userId: state.user.id,
-    matchLat: state.userMatchLatLong.match[0],
-    matchLong: state.userMatchLatLong.match[1],
+    matchLat: state.userMatchLatLong.match[1],
+    matchLong: state.userMatchLatLong.match[2],
     matchPreference: state.matchPreference,
     selectedIdx: state.selectedIdx
   };
