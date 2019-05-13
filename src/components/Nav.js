@@ -22,7 +22,7 @@ class Nav extends Component {
           </button>
         ) : (
           <button
-            className="logout"
+            className="settings"
             type="button"
             onClick={() => this.handleProfile()}
           >

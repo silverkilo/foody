@@ -264,7 +264,7 @@
     font-size: 2em;
 }
 
-.logout, .back__button {
+.settings, .back__button {
     font-size: 2em;
     flex-basis: 30%;
     text-align: left;
