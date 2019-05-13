@@ -70,7 +70,6 @@ export class MapBox extends Component {
         { maximumAge: 60000, timeout: 10000, enableHighAccuracy: false }
       );
     });
-    // this.props.getMatchLocation();
     this.props.setIconImg();
     this.props.joinChatRoom();
 
@@ -83,6 +82,9 @@ export class MapBox extends Component {
     let midpointLong = (long + this.props.matchLong) / 2;
 
     await this.getVenues(midpointLat, midpointLong, 600);
+    console.log(this.props.matchInfo);
+    this.props.getMatchLocation();
+
     this.setState(
       {
         matchPreferences: this.props.matchInfo
