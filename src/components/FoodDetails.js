@@ -1,159 +1,154 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { setFood } from "../store/food";
+import { select, deselect } from "../store/food";
+import t from "typy";
+import axios from "axios";
 
 class FoodDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: "",
-      price: "n/a",
       address: "",
       city: "",
       state: "",
-      rating: "n/a",
-      photoPrefix: "",
-      photoSuffix: "",
-      photoWidth: "",
-      photoHeight: "",
-      categories: ""
+      price: "",
+      currency: "",
+      rating: "",
+      categories: "",
+      photo: "",
+      card: "card"
     };
   }
 
   componentDidMount() {
     this.getVenuesDetails();
-    // this.getVenuesPhoto();
   }
-
-  getVenuesDetails = () => {
+  getVenuesDetails = async () => {
     const venueId = this.props.venueId;
-    const venuesEndpoint = `https://api.foursquare.com/v2/venues/${venueId}?`;
-
     const params = {
-      client_id: "5DQ4HC1WROBOH0SFRD4IULDTPLLRP4J5LWKMOG0SZ0LRV5K0",
-      client_secret: "E5PLXEXQKZMQMPU02YDTSV0I1ZIAFK5LI0KPAEEZUCQQ5OJ3",
+      client_id: "KUZ0H02M1VQNYUNKV40GFCICQUYGHRZJQVFLFS4MK01IHFYE",
+      client_secret: "ESQTWW5FJSPUDTTCM5JWQ1EO3T1GXNRVMS5XTKR3AKC4GNVJ",
       v: "20130619"
     };
+    const venuesEndpoint = `https://api.foursquare.com/v2/venues/${venueId}?&client_id=${
+      params.client_id
+    }&client_secret=${params.client_secret}&v=${params.v}`;
 
-    fetch(venuesEndpoint + new URLSearchParams(params), {
-      method: "GET"
-    })
-      .then(response => response.json())
-      .then(response => {
-        console.log("ADDITIONAL DETAILS", response.response.venue);
-        this.setState({
-          name: response.response.venue.name,
-          address: response.response.venue.location.address,
-          city: response.response.venue.location.city,
-          state: response.response.venue.location.state
-        });
-
-        if (
-          response.response.venue.price !== undefined &&
-          response.response.venue.price.message !== undefined
-        ) {
-          this.setState({
-            price: response.response.venue.price.message
-          });
-        }
-
-        if (response.response.venue.rating !== undefined) {
-          this.setState({
-            rating: response.response.venue.rating
-          });
-        }
-
-        if (response.response.venue.categories[0] !== undefined) {
-          this.setState({
-            categories: response.response.venue.categories[0].name
-          });
-        }
-      });
+    const res = await axios.get(venuesEndpoint);
+    const { venue } = res.data.response;
+    console.log(venue);
+    this.setState({
+      name: t(venue, "name").safeObject,
+      address: t(venue, "location.address").safeObject,
+      city: t(venue, "location.city").safeObject,
+      state: t(venue, "location.state").safeObject,
+      price: t(venue, "price.tier").safeObject,
+      currency: t(venue, "price.currency").safeObject,
+      rating: t(venue, "rating").safeObject,
+      categories: t(venue, "categories[0].shortName").safeObject,
+      photo: t(venue, "bestPhoto").safeObject
+    });
   };
 
-  getVenuesPhoto = () => {
-    const venueId = this.props.venueId;
-    const venuesEndpoint = `https://api.foursquare.com/v2/venues/${venueId}/photos?`;
-
-    const params = {
-      client_id: "KNZLRCLACQGMZEXF3KBCR3XNLOL3NSYCAZVMMOC43FEI3KDA",
-      client_secret: "31RKGQ323YRWSTTZLRIN1YCAG2BV2CR12NEXNLJGO4GS1YHI",
-      v: "20130619"
-    };
-
-    fetch(venuesEndpoint + new URLSearchParams(params), {
-      method: "GET"
-    })
-      .then(response => response.json())
-      .then(response => {
-        console.log("ADDITIONAL PHOTOS", response.response.photos);
-        if (
-          response.response.photos.items !== undefined &&
-          response.response.photos.items.length > 0
-        ) {
-          this.setState({
-            photoPrefix: response.response.photos.items[0].prefix,
-            photoSuffix: response.response.photos.items[0].suffix,
-            photoWidth: response.response.photos.items[0].width,
-            photoHeight: response.response.photos.items[0].height
-          });
-        }
-      });
+  handleSelect = venueId => {
+    this.props.select(venueId);
+    this.setState({
+      card: "card selectedCard"
+    });
   };
 
-  checkYes = venueId => {
-    console.log("selected", venueId);
-    this.props.pickFoodPlace(venueId);
+  handleDeselect = venueId => {
+    this.props.deselect(venueId);
+    this.setState({
+      card: "card"
+    });
   };
+
   createStars = () => {
-    if (this.state.rating === "n/a") {
-      return "Rating Not Available";
-    }
     const rating = Math.round(this.state.rating / 2);
-    let stars = [];
+    let stars = [
+      <i className="fas fa-star empty" />,
+      <i className="fas fa-star empty" />,
+      <i className="fas fa-star empty" />,
+      <i className="fas fa-star empty" />,
+      <i className="fas fa-star empty" />
+    ];
     for (let i = 0; i < rating; i++) {
-      stars.push(<i class="fas fa-star" />);
+      stars[i] = <i className="fas fa-star" />;
     }
     return stars;
   };
+
+  createCurrency = () => {
+    let signs = "";
+    const price = this.state.price;
+    const currency = this.state.currency;
+    for (let i = 0; i < price; i++) {
+      signs += currency;
+    }
+    return signs;
+  };
+
   render() {
     return (
-      <div className="card">
-        {/* <img
-          src={this.state.photoPrefix + "100x100" + this.state.photoSuffix}
-          alt=""
-        /> */}
-        <img className="card__img" src="./images/stock.jpg" alt="" />
+      <div className={this.state.card}>
+        {this.state.photo !== undefined ? (
+          <img
+            className="card__img"
+            src={this.state.photo.prefix + "200x200" + this.state.photo.suffix}
+            alt=""
+          />
+        ) : (
+          <img className="card__img" src="./images/stock.jpg" alt="" />
+        )}
         <ul className="card__details">
           <li className="card__name">{this.state.name}</li>
-          <li className="card__rating">
-            {this.createStars()} {this.state.category}
+          <li className="card__rating">{this.createStars()}</li>
+          <li className="card__price">
+            {this.createCurrency()} {this.state.category}
           </li>
           <li className="card__address">{this.state.address}</li>
           <li className="card__address">
             {this.state.city}, {this.state.state}
           </li>
         </ul>
-        <button
-          className="card__button"
-          onClick={() => {
-            this.checkYes(this.props.venueId);
-          }}
-        >
-          pick me!
-        </button>
+        {this.props.food.includes(this.props.venueId) ? (
+          <button
+            className="card__button"
+            onClick={() => {
+              this.handleDeselect(this.props.venueId);
+            }}
+          >
+            Remove
+          </button>
+        ) : (
+          <button
+            className="card__button"
+            onClick={() => {
+              this.handleSelect(this.props.venueId);
+            }}
+          >
+            pick me!
+          </button>
+        )}
       </div>
     );
   }
 }
-
+const mapStateToProps = state => {
+  return {
+    food: state.food
+  };
+};
 const mapDispatchToProps = dispatch => {
   return {
-    pickFoodPlace: restaurantId => dispatch(setFood(restaurantId))
+    select: restaurantId => dispatch(select(restaurantId)),
+    deselect: restaurantId => dispatch(deselect(restaurantId))
   };
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(FoodDetails);

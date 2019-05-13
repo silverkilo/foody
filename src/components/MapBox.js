@@ -42,8 +42,14 @@ export class MapBox extends Component {
         "Asian Restaurant"
       ],
       loadedVenues: false,
+<<<<<<< HEAD
       loadedUser: false,
       showChat: false
+=======
+      loadedUser: false
+      // highlightedPin: 0,
+      // highlightedRes: 0
+>>>>>>> master
     };
   }
 
@@ -153,16 +159,9 @@ export class MapBox extends Component {
 
   //chat functions
   handleOpenChat = () => {
-    // this.setState({ showChat: true });
+    this.props.joinChatRoom();
     let chat = document.querySelector(".chatBox");
     chat.classList.add("is-visible");
-    this.props.joinChatRoom();
-  };
-
-  handleCloseChat = () => {
-    this.setState({
-      showChat: false
-    });
   };
 
   render() {
@@ -223,8 +222,8 @@ export class MapBox extends Component {
         </div>{" "}
         <button className="chatBubble" onClick={this.handleOpenChat}>
           <i class="fas fa-comment-alt" />
-        </button>{" "}
-        <Chat />{" "}
+        </button>
+        <Chat />
         {this.state.loadedVenues && (
           <div className="overlay">
             <div className="content">
