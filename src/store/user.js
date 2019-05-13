@@ -4,11 +4,13 @@ const GET_USER = "GET_USER";
 const REMOVE_USER = "REMOVE_USER";
 const UPDATE_NAME = "UPDATE_NAME";
 const UPDATE_PASSWORD = "UPDATE_PASSWORD";
+const UPDATE_USER = "UPDATE_USER";
 
 const getUser = user => ({ type: GET_USER, user });
 const removeUser = () => ({ type: REMOVE_USER });
 const updateUserName = userInfo => ({ type: UPDATE_NAME, userInfo });
 const updateUserPassword = userInfo => ({ type: UPDATE_PASSWORD, userInfo });
+const updateUser = userInfo => ({ type: UPDATE_USER, userInfo });
 
 export const me = initSocket => async dispatch => {
   try {
@@ -70,7 +72,9 @@ export const logout = () => async dispatch => {
 export const updateUserThunk = (userId, userInfo) => async dispatch => {
   try {
     await axios.put(`/api/users/${userId}`, userInfo);
-    if (userInfo.firstName && userInfo.lastName) {
+    if (userInfo.firstName && userInfo.lastName && userInfo.email) {
+      dispatch(updateUser(userInfo));
+    } else if (userInfo.firstName && userInfo.lastName) {
       dispatch(updateUserName(userInfo));
     } else if (userInfo.password) {
       dispatch(updateUserPassword(userInfo));
@@ -98,6 +102,13 @@ export default function(state = initialState, action) {
       return {
         ...state,
         password: action.userInfo.password
+      };
+    case UPDATE_USER:
+      return {
+        ...state,
+        firstName: action.userInfo.firstName,
+        lastName: action.userInfo.lastName,
+        email: action.userInfo.email
       };
     default:
       return state;

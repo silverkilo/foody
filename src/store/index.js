@@ -12,6 +12,7 @@ import matchPreference from "./matchPreference";
 import food from "./food";
 import selectedIdx from "./highlight";
 import chatHistory from "./chat";
+import icon from "./icon";
 
 const reducer = combineReducers({
   user,
@@ -23,7 +24,8 @@ const reducer = combineReducers({
   matchPreference,
   food,
   selectedIdx,
-  chatHistory
+  chatHistory,
+  icon
 });
 
 const middleware = composeWithDevTools(

@@ -1,4 +1,6 @@
-const { User } = require("../db/models");
+const {
+  User
+} = require("../db/models");
 
 const allChats = {
   // roomId: [
@@ -18,32 +20,27 @@ const roomInfo = {
 let roomId = 0;
 
 function getChatHistory(roomId) {
+  console.log("getCHatHistory - roomId", roomId);
   if (allChats[roomId] === undefined) {
     allChats[roomId] = [];
   }
   return allChats[roomId];
 }
 
-function addNewMessage(userId, msg) {
-  let roomName = roomInfo[userId].roomId;
-  console.log("room name", roomName);
-  console.log("allChats for this room", allChats[roomName]);
-  if (allChats[roomName] === []) {
-    allChats[roomName] = [[msg, userId]];
-    console.log("in here...");
-  } else {
-    allChats[roomName].push([msg, userId]);
-    console.log(allChats[roomName]);
-  }
-  console.log("allChats", allChats);
+function clearRecord(userId, roomId) {
+  delete allChats[roomId];
+  delete roomInfo[userId];
 }
 
 const checkMatchId = async (socket, userId) => {
   //get matchId from database
-  const { id } = socket;
+  const {
+    id
+  } = socket;
   const userInfo = await User.findByPk(userId);
+  console.log("userInfo", userInfo);
   const matchId = userInfo.hasMatched;
-
+  console.log("matchId", matchId);
   // check if your match already has a room
   if (roomInfo.hasOwnProperty(matchId)) {
     roomInfo[userId] = {
@@ -59,39 +56,61 @@ const checkMatchId = async (socket, userId) => {
     };
     roomId++;
   }
+  console.log("chatMatchId - roomInfo", roomInfo);
 };
+
+function addNewMessage(userId, msg) {
+  let roomName = roomInfo[userId].roomId;
+  if (allChats[roomName] === []) {
+    allChats[roomName] = [
+      [msg, userId]
+    ];
+  } else {
+    allChats[roomName].push([msg, userId]);
+  }
+  console.log("addNewMessage - allchats", allChats);
+}
 
 //socket
-module.exports = function(socket, userId) {
-  //joining chatroom and sending back chat history
-  socket.on("join-chatroom", async () => {
-    try {
-      console.log("server side - the client has joined chatroom");
-      await checkMatchId(socket, userId);
-      socket.join(roomInfo[userId].roomId);
-      const chatHistory = getChatHistory(String(roomInfo[userId].roomId));
-      socket.emit("send-chat-history", chatHistory);
-    } catch (e) {
-      console.log(e);
-      socket.emit("errorMessage", "There was an error joining matches");
-    }
-  });
+module.exports = function (socket, userId) {
+    //joining chatroom and sending back chat history
+    socket.on("join-chatroom", async () => {
+      try {
+        console.log(userId, "joined chat room on he backend");
+        await checkMatchId(socket, userId);
+        socket.join(roomInfo[userId].roomId);
+        const chatHistory = getChatHistory(String(roomInfo[userId].roomId));
+        socket.emit("send-chat-history", chatHistory);
+      } catch (e) {
+        console.log(e);
+        socket.emit("errorMessage", "There was an error joining chatroom");
+      }
+    });
 
-  // CLIENT send message
-  socket.on("send-client-message", msg => {
-    console.log("server: got it from client side", msg, userId);
-    try {
-      console.log("server: sent it from server side");
-      addNewMessage(userId, msg);
-      console.log("about to broadcast...");
-      const chatHistory = getChatHistory(String(roomInfo[userId].roomId));
-      socket.broadcast
-        .to(roomInfo[userId].roomId)
-        .emit("send-chat-history", chatHistory);
-      socket.emit("send-chat-history", chatHistory);
-    } catch (e) {
-      console.log(e);
-      socket.emit("errorMessage", "There was an error joining matches");
-    }
-  });
-};
+    // CLIENT send message
+    socket.on("send-client-message", msg => {
+        try {
+          addNewMessage(userId, msg);
+          socket.broadcast
+            .to(roomInfo[userId].roomId)
+            .emit("send-others-messege", (msg, roomInfo[userId].matchId);
+            }
+          catch (e) {
+            console.log(e);
+            socket.emit(
+              "errorMessage",
+              "There was an error getting-sending client messages."
+            );
+          }
+        });
+
+      socket.on("disconnect-chat", () => {
+        try {
+          let roomId = roomInfo[userId].roomId;
+          clearRecord(userId, roomId);
+        } catch (e) {
+          console.log(e);
+          socket.emit("errorMessage", "There was an error disconnecting chats.");
+        }
+      });
+    };

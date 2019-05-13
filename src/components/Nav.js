@@ -1,44 +1,44 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { logout } from "../store";
 
 class Nav extends Component {
-  constructor(props) {
-    super(props);
-    this.handleLogOut = this.handleLogOut.bind(this);
-  }
-  handleLogOut() {
-    this.props.logout();
-    this.props.history.push("/");
-  }
-
+  handleProfile = () => {
+    this.props.history.push("/profile");
+  };
+  handleBack = () => {
+    this.props.history.goBack();
+  };
   render() {
     return (
       <header className="header">
-        <div />
+        {this.props.currentPage !== undefined ? (
+          <button
+            className="back__button"
+            type="button"
+            onClick={() => this.handleBack()}
+          >
+            <i className="fas fa-arrow-circle-left" />
+          </button>
+        ) : (
+          <button
+            className="settings"
+            type="button"
+            onClick={() => this.handleProfile()}
+          >
+            <i className="fas fa-cog" />
+          </button>
+        )}
         <h1 className="header__title">Foody</h1>
-        <button
-          className="logout"
-          type="button"
-          onClick={() => this.handleLogOut()}
-        >
-          <i className="fas fa-cog" />
-        </button>
+        <div />
       </header>
     );
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    logout: () => dispatch(logout())
-  };
-};
-
 export default withRouter(
   connect(
     null,
-    mapDispatchToProps
+    null
   )(Nav)
 );
