@@ -8,7 +8,7 @@
     font-family: 'Lato', sans-serif;
     font-size: 12px;
     min-height: 100vh;
-    max-height: 100%;
+    max-height: 100%; 
     /* padding: 0 20px; */
 }
 .login, .signup {
@@ -302,11 +302,14 @@
     font-weight: 700;
     font-size: 1.2em;
 }
-.card__name, .card__rating {
+.card__name, .card__rating, .card__price {
     margin-bottom: 5px;
 }
-.card__rating .fa-star {
+.fa-star {
     color: 	rgb(255,215,0);
+}
+.empty {
+    color: rgb(218, 218, 218);
 }
 .card__address {
     color: rgb(77, 77, 77);

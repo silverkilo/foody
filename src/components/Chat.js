@@ -2,11 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { sendMessage } from "../store/chat";
 
-function handleClose() {
-  let chat = document.querySelector(".chatBox");
-  chat.classList.remove("is-visible");
-}
-
 export class Chat extends Component {
   constructor(props) {
     super(props);
@@ -21,7 +16,10 @@ export class Chat extends Component {
       loaded: true
     });
   }
-
+  handleClose = () => {
+    let chat = document.querySelector(".chatBox");
+    chat.classList.remove("is-visible");
+  };
   sendMsg = event => {
     event.preventDefault();
     console.log("hi");
@@ -37,7 +35,7 @@ export class Chat extends Component {
         <div className="chatBox__inside">
           <div className="chatBox__header">
             <h1> Chat </h1>{" "}
-            <button onClick={() => handleClose()}>
+            <button onClick={() => this.handleClose()}>
               <i class="fas fa-times" />
             </button>
           </div>
