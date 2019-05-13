@@ -25,7 +25,9 @@ const customStyles = {
     position: "relative",
     transitionProperty: "transform",
     background: "none",
-    color: "black"
+    color: "black",
+    border: "none",
+    outline: "none"
   }
 };
 
