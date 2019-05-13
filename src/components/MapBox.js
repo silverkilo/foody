@@ -71,7 +71,6 @@ export class MapBox extends Component {
       );
     });
     this.props.setIconImg();
-    this.props.joinChatRoom();
 
     const [long, lat] = await this.getLoc;
     let distance = Math.sqrt(
@@ -84,7 +83,7 @@ export class MapBox extends Component {
     await this.getVenues(midpointLat, midpointLong, 600);
     console.log(this.props.matchInfo);
     this.props.getMatchLocation();
-
+    this.props.joinChatRoom();
     this.setState(
       {
         matchPreferences: this.props.matchInfo
