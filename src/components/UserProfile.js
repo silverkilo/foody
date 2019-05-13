@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 // import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { updateUserThunk } from "../store/user";
+import { updateUserThunk, logout } from "../store/user";
 
 class UserProfile extends Component {
   constructor(props) {
@@ -30,6 +30,10 @@ class UserProfile extends Component {
   handleSubmit = event => {
     event.preventDefault();
     this.props.update(this.props.user.id, this.state);
+  };
+  handleLogout = () => {
+    this.props.logout();
+    this.props.history.push("/");
   };
   render() {
     return (
@@ -77,6 +81,15 @@ class UserProfile extends Component {
             </form>
           </div>
         </div>
+        <div className="profile__actions">
+          <button
+            className="profile__logout"
+            type="button"
+            onClick={() => this.handleLogout()}
+          >
+            Log Out
+          </button>
+        </div>
       </div>
     );
   }
@@ -89,7 +102,8 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    update: (id, user) => dispatch(updateUserThunk(id, user))
+    update: (id, user) => dispatch(updateUserThunk(id, user)),
+    logout: () => dispatch(logout())
   };
 };
 

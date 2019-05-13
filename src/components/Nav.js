@@ -4,14 +4,9 @@ import { connect } from "react-redux";
 import { logout } from "../store";
 
 class Nav extends Component {
-  constructor(props) {
-    super(props);
-    this.handleLogOut = this.handleLogOut.bind(this);
-  }
-  handleLogOut() {
-    this.props.logout();
-    this.props.history.push("/");
-  }
+  handleProfile = () => {
+    this.props.history.push("/profile");
+  };
 
   render() {
     return (
@@ -21,7 +16,7 @@ class Nav extends Component {
         <button
           className="logout"
           type="button"
-          onClick={() => this.handleLogOut()}
+          onClick={() => this.handleProfile()}
         >
           <i className="fas fa-cog" />
         </button>
