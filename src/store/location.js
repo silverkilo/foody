@@ -1,34 +1,30 @@
 import axios from "axios";
 
-const SET_USER_LATLONG = "SET_USER_LATLONG";
-const GET_MATCH_LATLONG = "GET_MATCH_LATLONG";
+const SET_USER_LOC = "SET_USER_LOC";
+const GET_MATCH_LOC = "GET_MATCH_LOC";
 
-const setUserLL = userLL => ({ type: SET_USER_LATLONG, userLL });
-const getMatchLL = matchLL => ({ type: GET_MATCH_LATLONG, matchLL });
+const setUserLoc = location => ({ type: SET_USER_LOC, location });
+const getMatchLoc = location => ({ type: GET_MATCH_LOC, location });
 
-export const setUserLatLong = userLL => dispatch => {
-  try {
-    dispatch(setUserLL(userLL));
-  } catch (err) {
-    console.error(err);
-  }
-};
+export const setUserLocation = location => setUserLoc(location);
 
 export const postLocation = ({
   coords: { longitude, latitude }
 }) => async dispatch => {
   try {
     const { data } = await axios.post("/api/location", { longitude, latitude });
-    dispatch(setUserLL(data.location.coordinates));
+    dispatch(setUserLoc(data.location.coordinates));
   } catch (e) {
     console.log(e);
   }
 };
 
-export const getMatchLatLong = userId => async dispatch => {
+export const getMatchLocation = () => (dispatch, getState) => {
   try {
-    let res = await axios.get(`/api/match/${userId}`);
-    dispatch(getMatchLL(res.data));
+    // let res = await axios.get(`/api/match/${userId}`);
+    // dispatch(getMatchLoc(res.data));
+    const { location } = getState().match.didMatch.info;
+    dispatch(getMatchLoc(location.coordinates));
   } catch (err) {
     console.error(err);
   }
@@ -41,10 +37,10 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case SET_USER_LATLONG:
-      return { ...state, user: action.userLL };
-    case GET_MATCH_LATLONG:
-      return { ...state, match: action.matchLL };
+    case SET_USER_LOC:
+      return { ...state, user: action.location };
+    case GET_MATCH_LOC:
+      return { ...state, match: action.location };
     default:
       return state;
   }
