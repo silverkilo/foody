@@ -14,10 +14,15 @@ export const removePreference = preference => ({
 });
 const sendPreferences = () => ({ type: SEND_PREFERENCES });
 
-export const sendUserPreference = (id, preferences) => async dispatch => {
+export const sendUserPreference = (
+  id,
+  preferences,
+  callback
+) => async dispatch => {
   try {
     await axios.post(`/api/preferences/`, { preferences });
     dispatch(sendPreferences());
+    callback();
   } catch (err) {
     console.error(err);
   }

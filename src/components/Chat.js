@@ -39,22 +39,21 @@ export class Chat extends Component {
             <h1> Chat </h1>{" "}
             <button onClick={() => handleClose()}>
               <i class="fas fa-times" />
-            </button>
-          </div>
+            </button>{" "}
+          </div>{" "}
           <div className="chatBox__body">
             <ul>
-              {console.log(this.props.chatHistory)}
-              {this.state.loaded &&
-                this.props.chatHistory.map(array => {
-                  console.log(this.state.chatHistoryActive);
+              {" "}
+              {this.props.chatHistory.chatHistory &&
+                this.props.chatHistory.chatHistory.map(array => {
                   let className;
                   array[1] === this.props.userId
                     ? (className = "send")
                     : (className = "receiver");
                   return <li className={className}> {array[0]} </li>;
-                })}
-            </ul>
-          </div>
+                })}{" "}
+            </ul>{" "}
+          </div>{" "}
           <div className="chatBox__message">
             <form className="chatBox__form">
               <input
@@ -67,17 +66,17 @@ export class Chat extends Component {
                     message: ev.target.value
                   })
                 }
-              />
+              />{" "}
               <button
                 onClick={this.sendMsg}
                 className="chatBox__button"
                 type="submit"
               >
-                Send
-              </button>
-            </form>
-          </div>
-        </div>
+                Send{" "}
+              </button>{" "}
+            </form>{" "}
+          </div>{" "}
+        </div>{" "}
       </div>
     );
   }
