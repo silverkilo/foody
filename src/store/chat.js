@@ -1,32 +1,37 @@
 import { socket } from "./socket";
 const SEND_HISTORY = "SEND_HISTORY";
+const ADD_NEW_MSG = "ADD_NEW_MSG";
 
 const sendChatHistory = array => ({
   type: SEND_HISTORY,
   array
 });
 
+const addNewMessage = array => ({
+  type: ADD_NEW_MSG,
+  array
+});
+
 export const joinChatRoom = () => dispatch => {
   socket.emit("join-chatroom");
-  console.log("client joined chat room");
   socket.on("send-chat-history", chatHistory => {
     dispatch(sendChatHistory(chatHistory));
   });
 };
 
-export const sendMessage = msg => dispatch => {
-  socket.on("send-chat-history", chatHistory => {
-    dispatch(sendChatHistory(chatHistory));
-  });
+export const sendMessage = (msg, userId) => dispatch => {
   socket.emit("send-client-message", msg);
-  console.log("client: sent it from client side");
+  dispatch(addNewMessage([msg, userId]));
 };
 
 export const chatListener = () => dispatch => {
-  socket.on("send-chat-history", chatHistory => {
-    console.log("client receiving from server side");
-    dispatch(sendChatHistory(chatHistory));
+  socket.on("send-others-messege", msg => {
+    dispatch(addNewMessage(msg));
   });
+};
+
+export const disconnectChat = () => dispatch => {
+  socket.emit("disconnect-chat");
 };
 
 const initialState = [];
@@ -34,10 +39,9 @@ const initialState = [];
 export default (state = initialState, action) => {
   switch (action.type) {
     case SEND_HISTORY:
-      return {
-        ...state,
-        chatHistory: action.array
-      };
+      return action.array;
+    case ADD_NEW_MSG:
+      return [...state, action.array];
     default:
       return state;
   }

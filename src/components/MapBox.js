@@ -50,6 +50,7 @@ export class MapBox extends Component {
     window.navigator.geolocation.getCurrentPosition(this.getCurrentLocation);
     this.props.getMatchLatLong(this.props.userId);
     this.props.setIconImg();
+    this.props.joinChatRoom();
     this.setState({
       // COMMENT THE BELOW BACK IN ONCE WE HAVE THE MATCH PREFERENCES
       // matchPreferences: this.props.matchPreference
@@ -152,7 +153,6 @@ export class MapBox extends Component {
 
   //chat functions
   handleOpenChat = () => {
-    this.props.joinChatRoom();
     let chat = document.querySelector(".chatBox");
     chat.classList.add("is-visible");
   };
