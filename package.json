@@ -34,7 +34,8 @@
     "sequelize": "^5.8.1",
     "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0",
-    "swipe-js-iso": "^2.1.5"
+    "swipe-js-iso": "^2.1.5",
+    "typy": "^3.1.0"
   },
   "scripts": {
     "dev": "export NODE_ENV=development && concurrently \"npm run start-client\" \"nodemon server\"",
