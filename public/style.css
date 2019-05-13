@@ -473,3 +473,65 @@
     border-radius: 10px;
     background: white;
 }
+.profile {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    max-height: 100%;
+    background: rgb(241, 241, 241);
+}
+.profile__photo {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid rgb(202, 202, 202);
+    padding-bottom: 10px;
+    background: white;
+    margin-bottom: 20px;
+}
+.profile__title {
+    font-size: 1.2em;
+    font-weight: 700;
+    padding: 15px 10px;
+    border-bottom: 1px solid rgb(202, 202, 202);
+}
+.profile__text {
+    padding: 10px;
+    color: rgb(63, 63, 63);
+}
+.profile__img {
+    align-self: center;
+    font-size: 10em;
+    color: rgb(207, 207, 207);
+}
+.profile__details {
+    display: flex;
+    flex-direction: column;
+    background: white;
+}
+.profile__container {
+    margin: 0 10px 10px 10px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid rgb(202, 202, 202);
+}
+.profile__list {
+    display: flex;
+    flex-direction: column;
+}
+.profile__input {
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    outline: none;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    border-bottom: 1px solid rgb(221, 221, 221);
+}
+.profile__submit {
+    padding: 10px;
+    background: white;
+    border: 1px solid rgb(202, 202, 202);
+    border-radius: 10px;
+    font-size: 1.1em;
+}
+
