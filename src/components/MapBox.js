@@ -42,14 +42,7 @@ export class MapBox extends Component {
         "Asian Restaurant"
       ],
       loadedVenues: false,
-<<<<<<< HEAD
-      loadedUser: false,
-      showChat: false
-=======
       loadedUser: false
-      // highlightedPin: 0,
-      // highlightedRes: 0
->>>>>>> master
     };
   }
 
