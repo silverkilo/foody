@@ -52,7 +52,7 @@ export class MapBox extends Component {
 
   componentDidMount() {
     window.navigator.geolocation.getCurrentPosition(this.getCurrentLocation);
-    this.props.getMatchLatLong(this.props.userId);
+    // this.props.getMatchLatLong(this.props.userId);
     this.setState({
       icon: randomIcon(),
       icon2: randomIcon()
@@ -82,15 +82,15 @@ export class MapBox extends Component {
       .then(response => response.json())
       .then(response => {
         // filter out those places without category names
-        let filteredWithoutCategories = response.response.venues.filter(
-          eachPlace => eachPlace.categories[0] !== undefined
-        );
+        // let filteredWithoutCategories = response.response.venues.filter(
+        //   eachPlace => eachPlace.categories[0] !== undefined
+        // );
         // filter out places with categories that don't match the user's preferences
-        let filtered = filteredWithoutCategories.filter(
-          eachPlace =>
-            this.state.matchPreferences.indexOf(eachPlace.categories[0].name) >
-            -1
-        );
+        // let filtered = filteredWithoutCategories.filter(
+        //   eachPlace =>
+        //     this.state.matchPreferences.indexOf(eachPlace.categories[0].name) >
+        //     -1
+        // );
         // this.setState({ venuesUser: filtered });
         this.setState({
           venuesUser: response.response.venues
@@ -245,7 +245,7 @@ const mapStateToProps = state => {
   return {
     userId: state.user.id,
     matchLat: state.userMatchLatLong.match[1],
-    matchLong: state.userMatchLatLong.match[2],
+    matchLong: state.userMatchLatLong.match[0],
     matchPreference: state.matchPreference,
     selectedIdx: state.selectedIdx
   };

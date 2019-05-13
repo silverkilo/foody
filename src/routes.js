@@ -56,11 +56,9 @@ class Routes extends Component {
 
     preventPullToRefresh("html");
     preventPullToRefresh("body");
-    // preventPullToRefresh("#root");
     this.props.me(this.initSocket);
   }
   initSocket = () => {
-    console.log("INIT SOCEKT");
     window.navigator.geolocation.getCurrentPosition(
       this.props.postLocation,
       err => console.log(err),
