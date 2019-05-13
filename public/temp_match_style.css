@@ -4,8 +4,7 @@ html, body , #root, .match-container{
     overscroll-behavior-y: contain !important;
     touch-action: none !important;
 }
-html,
-body {
+html, body {
   height: 100%;
   width: 100%;
   /* position: fixed; */

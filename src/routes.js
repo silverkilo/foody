@@ -32,7 +32,7 @@ class Routes extends Component {
       let prevent = false;
       document
         .querySelector(element)
-        .addEventListener("touchstart", function (e) {
+        .addEventListener("touchstart", function(e) {
           if (e.touches.length !== 1) {
             return;
           }
@@ -46,7 +46,7 @@ class Routes extends Component {
 
       document
         .querySelector(element)
-        .addEventListener("touchmove", function (e) {
+        .addEventListener("touchmove", function(e) {
           if (prevent) {
             prevent = false;
             e.preventDefault();
@@ -56,30 +56,35 @@ class Routes extends Component {
 
     preventPullToRefresh("html");
     preventPullToRefresh("body");
-    preventPullToRefresh("#root");
-    this.props.me(() => {
-      window.navigator.geolocation.getCurrentPosition(
-        this.props.postLocation,
-        err => console.log(err),
-        {
-          timeout: 10000,
-          enableHighAccuracy: false,
-          maximumAge: 10000
-        }
-      );
-      this.props.createConnection();
-      this.props.disconnectListener();
-      this.props.readyToListen(() => {
-        this.props.matchListeners();
-        this.props.chatListener();
-      });
-    });
+    // preventPullToRefresh("#root");
+    this.props.me(this.initSocket);
   }
-
+  initSocket = () => {
+    console.log("INIT SOCEKT");
+    window.navigator.geolocation.getCurrentPosition(
+      this.props.postLocation,
+      err => console.log(err),
+      {
+        timeout: 10000,
+        enableHighAccuracy: false,
+        maximumAge: 10000
+      }
+    );
+    this.props.createConnection();
+    this.props.disconnectListener();
+    this.props.readyToListen(() => {
+      this.props.matchListeners();
+      this.props.chatListener();
+    });
+  };
   render() {
     return (
       <Switch>
-        <Route exact path="/" component={Login} />{" "}
+        <Route
+          exact
+          path="/"
+          render={() => <Login initSocket={() => this.initSocket()} />}
+        />{" "}
         <Route path="/signup" component={Signup} />{" "}
         <Route path="/signup-email" component={SignupEmail} />{" "}
         <Route path="/signup-name" component={SignupName} />{" "}

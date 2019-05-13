@@ -55,8 +55,8 @@ function MatchStack({ users, swipe }) {
       });
       if (!down && isGone) {
         const shouldFetchMore = index === 0;
-        swipe(dir === 1, id, match, shouldFetchMore);
         setTimeout(() => {
+          swipe(dir === 1, id, match, shouldFetchMore);
           currentTarget.parentElement.style.display = "none";
         }, 250);
       }

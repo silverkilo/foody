@@ -7,6 +7,8 @@ import NoMatches from "./NoMatches";
 class Matching extends Component {
   componentDidMount() {
     this.props.swipe();
+    document.querySelector("html").style.position = "fixed";
+    document.querySelector("body").style.position = "fixed";
   }
   render() {
     if (this.props.didMatch.matched) {
