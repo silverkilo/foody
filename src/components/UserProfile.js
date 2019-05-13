@@ -45,6 +45,9 @@ class UserProfile extends Component {
             match.
           </p>
           <i className="fas fa-user-circle profile__img" />
+          <button className="profile__upload" type="button">
+            Upload
+          </button>
         </div>
         <div className="profile__details">
           <h1 className="profile__title">Details</h1>

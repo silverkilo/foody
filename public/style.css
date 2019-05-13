@@ -555,3 +555,16 @@
     border-radius: 10px;
     font-size: 1.1em;
 }
+.profile__upload {
+    outline: none;
+    border: none;
+    background: rgb(58, 124, 230);
+    padding: 10px 0;
+    font-size: 1.2em;
+    color: white;
+    width: 80px;
+    border-radius: 10px;
+    text-align: center;
+    align-self: center;
+    margin-top: 10px;
+}
