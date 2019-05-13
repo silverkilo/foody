@@ -76,7 +76,7 @@ module.exports = function (socket, userId) {
     //joining chatroom and sending back chat history
     socket.on("join-chatroom", async () => {
       try {
-        console.log(userId, "joined chat room on he backend");
+        console.log(userId, "joined chat room on the backend");
         await checkMatchId(socket, userId);
         socket.join(roomInfo[userId].roomId);
         const chatHistory = getChatHistory(String(roomInfo[userId].roomId));
