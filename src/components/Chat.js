@@ -44,6 +44,7 @@ export class Chat extends Component {
           <div className="chatBox__body">
             <ul>
               {" "}
+              {console.log("CHAT HISTORY", this.props.chatHistory)}{" "}
               {this.state.loaded &&
                 this.props.chatHistory.map(array => {
                   let className;
