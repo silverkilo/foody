@@ -45,12 +45,16 @@ export class Chat extends Component {
             <ul>
               {" "}
               {console.log("CHAT HISTORY", this.props.chatHistory)}{" "}
+              {console.log("THIS.PROPS.USERID", this.props.userId)}{" "}
               {this.state.loaded &&
                 this.props.chatHistory.map(array => {
                   let className;
                   array[1] === this.props.userId
                     ? (className = "receiver")
                     : (className = "sender");
+                  {
+                    console.log("CLASSNAME", className);
+                  }
                   return <li className={className}> {array[0]} </li>;
                 })}{" "}
             </ul>{" "}
