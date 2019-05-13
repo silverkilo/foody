@@ -1,36 +1,23 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import MatchStack from "./MatchStack";
 import { swipe } from "../store";
+import NewMatch from "./NewMatch";
+import NoMatches from "./NoMatches";
 class Matching extends Component {
+  componentDidMount() {
+    this.props.swipe();
+  }
   render() {
     if (this.props.didMatch.matched) {
       const match = this.props.didMatch.info;
-      return (
-        <div>
-          <h2>Congrats, you matched with</h2>
-          <div key={match.id}>
-            <p>{match.firstName}</p>
-            <p>{match.lastName}</p>
-            <p>{match.preferences.join(", ")}</p>
-          </div>
-        </div>
-      );
+      return <NewMatch {...match} />;
     }
-    if (!this.props.potentials.length) return <div>No Matches to show</div>;
-
-    const user = this.props.potentials[0];
+    if (!this.props.potentials.length) return <NoMatches />;
+    const users = this.props.potentials;
     return (
-      <div>
-        <div key={user.id}>
-          <h1>
-            {user.firstName} {user.lastName}
-          </h1>
-
-          <p>{user.preferences.join(", ")}</p>
-          <strong>{user.distance}</strong>
-        </div>
-        <button onClick={() => this.props.swipe(false, user.id)}>Left</button>
-        <button onClick={() => this.props.swipe(true, user.id)}>Right</button>
+      <div className="match-container">
+        {this.props.loading ? null : <MatchStack users={users} />}
       </div>
     );
   }

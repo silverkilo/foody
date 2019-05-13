@@ -1,7 +1,12 @@
 import io from "socket.io-client";
-export const socket = io(process.env.SERVER_URL || "http://localhost:3001", {
-  autoConnect: false
-});
+export const socket = io(
+  `http://${window.location.hostname}${
+    process.env.NODE_ENV === "production" ? "" : ":3001"
+  }`,
+  {
+    autoConnect: false
+  }
+);
 const CONNECTED = "CONNECTED";
 const ERROR = "ERROR";
 const READY = "READY";
@@ -32,7 +37,7 @@ const ready = () => ({
 });
 
 export const createConnection = () => dispatch => {
-  socket.connect();
+  socket.open();
   socket.on("connect", () => {
     dispatch(connect(socket.connected));
     console.log("SOCKET ", socket.connected);
@@ -48,7 +53,12 @@ export const readyToListen = initListeners => dispatch => {
   socket.on("ready", () => {
     dispatch(ready());
     socket.on("errorMessage", message => {
-      console.log(message);
+      dispatch(err(message));
+    });
+    socket.on("connect_error", ({ message }) => {
+      dispatch(err(message));
+    });
+    socket.on("reconnect_error", ({ message }) => {
       dispatch(err(message));
     });
     initListeners();
@@ -58,11 +68,20 @@ export const readyToListen = initListeners => dispatch => {
 export default (state = initialState, action) => {
   switch (action.type) {
     case CONNECTED:
-      return { ...state, connected: action.connected };
+      return {
+        ...state,
+        connected: action.connected
+      };
     case ERROR:
-      return { ...state, error: action.error };
+      return {
+        ...state,
+        error: action.error
+      };
     case READY:
-      return { ...state, ready: true };
+      return {
+        ...state,
+        ready: true
+      };
     default:
       return state;
   }

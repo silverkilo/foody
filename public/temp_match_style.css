@@ -1,0 +1,113 @@
+/* match-card-container absolutely necessary styles, do not change */
+html, body , #root, .match-container{
+    max-width: 100%;
+    overflow: hidden !important;
+    overscroll-behavior-y: contain !important;
+    touch-action: none !important;
+}
+html,
+body {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+}
+/* match-card-container also essential styles */
+.match-card-container{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none; 
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none; 
+    user-select: none; 
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    will-change: transform;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+/* all felxible except for will-change */
+.match-card{
+    
+    background-color: white;
+    width: 45vh;
+    max-width: 95%;
+    height: 85vh;
+    max-height: 570px;
+    will-change: transform;
+    border-radius: 10px;
+    box-shadow: 0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3);
+}
+
+/* blur effect stlyes and animations */
+.match-card.blurred > div{
+    -webkit-filter: blur(20px);
+    -moz-filter: blur(20px);
+    -o-filter: blur(20px);
+    -ms-filter: blur(20px);
+    filter: blur(20px);
+}
+
+.match-card.clear > div {
+    animation-name: unblur;
+    animation-duration: 250ms;
+}
+@keyframes unblur{
+    0%{
+        -webkit-filter: blur(20px);
+        -moz-filter: blur(20px);
+        -o-filter: blur(20px);
+        -ms-filter: blur(20px);
+        filter: blur(20px);
+    }
+    25%{
+        -webkit-filter: blur(15px);
+        -moz-filter: blur(15px);
+        -o-filter: blur(15px);
+        -ms-filter: blur(15px);
+        filter: blur(15px);
+    }
+    50%{
+        -webkit-filter: blur(10px);
+        -moz-filter: blur(10px);
+        -o-filter: blur(10px);
+        -ms-filter: blur(10px);
+        filter: blur(10px);
+    }
+    75%{
+        -webkit-filter: blur(5px);
+        -moz-filter: blur(5px);
+        -o-filter: blur(5px);
+        -ms-filter: blur(5px);
+        filter: blur(5px);
+    }
+    100%{
+        -webkit-filter: blur(0px);
+        -moz-filter: blur(0px);
+        -o-filter: blur(0px);
+        -ms-filter: blur(0px);
+        filter: blur(0px);
+    }
+}
+/* end blur styles */
+
+
+/* below styles are all flexible */
+.match-name{
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+}
+.match-image{
+    display: flex;
+    justify-content: center
+}
+.match-image img{
+    height: 40vh;
+    width: 70vw;
+}
+.match-distance {
+    font-size: 1.5rem
+}

@@ -1,7 +1,7 @@
 const faker = require("faker");
 const db = require("../server/db");
 const gis = require("./gis");
-const { Preference, User, UserPreference, Match } = require("./db/models");
+const { Preference, User, UserPreference } = require("./db/models");
 const categories = [
   "Bubble Tea Shop",
   "African Restaurant",
@@ -49,7 +49,10 @@ async function seed() {
         firstName: "Cody",
         lastName: "The Pug",
         email: "cody@thepug.com",
-        password: "123"
+        password: "123",
+        photoURLs: [
+          "https://images-na.ssl-images-amazon.com/images/I/71gRnoHe%2BTL._UY550_.jpg"
+        ]
       }
     ].concat(
       Array(35)
@@ -57,15 +60,16 @@ async function seed() {
         .map((_, i) => {
           locations.push({
             latitude:
-              codyLoc.latitude + i * ((Math.random() > 5 ? -1 : 1) * 0.1),
+              codyLoc.latitude + (i + 1) * ((Math.random() > 5 ? -1 : 1) * 0.1),
             longitude:
-              codyLoc.longitude + i * ((Math.random() > 5 ? -1 : 1) * 0.1)
+              codyLoc.longitude + (i + 1) * ((Math.random() > 5 ? -1 : 1) * 0.1)
           });
           return {
             firstName: faker.name.firstName(),
             lastName: faker.name.lastName(),
             email: "user" + String(i + 2) + "@email.com",
-            password: String(i + 2)
+            password: String(i + 2),
+            photoURLs: [faker.image.avatar()]
           };
         })
     ),
@@ -104,6 +108,18 @@ async function seed() {
       preferenceId: 13
     }
   ]);
+
+  await Promise.all(
+    categories.map((_, i) =>
+      UserPreference.create(
+        {
+          userId: 1,
+          preferenceId: i + 1
+        },
+        { ignoreDuplicates: true }
+      )
+    )
+  );
   console.log(`seeded successfully`);
 }
 
