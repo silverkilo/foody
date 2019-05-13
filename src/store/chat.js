@@ -34,10 +34,7 @@ const initialState = [];
 export default (state = initialState, action) => {
   switch (action.type) {
     case SEND_HISTORY:
-      return {
-        ...state,
-        chatHistory: action.array
-      };
+      return [...state, action.array];
     default:
       return state;
   }

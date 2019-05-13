@@ -94,20 +94,6 @@ async function seed() {
         preferenceId: (i % 20) + 1
       }))
   );
-  await UserPreference.bulkCreate([
-    {
-      userId: 7,
-      preferenceId: 13
-    },
-    {
-      userId: 10,
-      preferenceId: 1
-    },
-    {
-      userId: 10,
-      preferenceId: 13
-    }
-  ]);
 
   await Promise.all(
     categories.map((_, i) =>

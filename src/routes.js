@@ -65,7 +65,7 @@ class Routes extends Component {
       {
         timeout: 10000,
         enableHighAccuracy: false,
-        maximumAge: 10000
+        maximumAge: 600000
       }
     );
     this.props.createConnection();

@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { socket } from "./socket";
 const GET_USER = "GET_USER";
 const REMOVE_USER = "REMOVE_USER";
 const UPDATE_NAME = "UPDATE_NAME";
@@ -61,6 +61,7 @@ export const logout = () => async dispatch => {
   try {
     await axios.post("/auth/logout");
     dispatch(removeUser());
+    socket.close();
   } catch (err) {
     console.error(err);
   }
