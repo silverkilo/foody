@@ -16,14 +16,16 @@ export class Chat extends Component {
       loaded: true
     });
   }
+
   handleClose = () => {
     let chat = document.querySelector(".chatBox");
     chat.classList.remove("is-visible");
   };
+
   sendMsg = event => {
     event.preventDefault();
-    console.log("hi");
-    this.props.sendMessage(this.state.message);
+    console.log(this.state.message);
+    this.props.sendMessage(this.state.message, this.props.userId);
     this.setState({
       message: ""
     });
@@ -42,12 +44,12 @@ export class Chat extends Component {
           <div className="chatBox__body">
             <ul>
               {" "}
-              {this.props.chatHistory.chatHistory &&
-                this.props.chatHistory.chatHistory.map(array => {
+              {this.state.loaded &&
+                this.props.chatHistory.map(array => {
                   let className;
                   array[1] === this.props.userId
-                    ? (className = "send")
-                    : (className = "receiver");
+                    ? (className = "receiver")
+                    : (className = "sender");
                   return <li className={className}> {array[0]} </li>;
                 })}{" "}
             </ul>{" "}
@@ -89,7 +91,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    sendMessage: msg => dispatch(sendMessage(msg))
+    sendMessage: (msg, userId) => dispatch(sendMessage(msg, userId))
   };
 };
 

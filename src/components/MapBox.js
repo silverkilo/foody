@@ -6,6 +6,7 @@ import { setUserLatLong, getMatchLatLong } from "../store/location";
 import { setSelectedIdx } from "../store/highlight";
 import { getMatchPreference } from "../store/matchPreference";
 import { joinChatRoom } from "../store/chat";
+import { setIconImg } from "../store/icon";
 import Chat from "./Chat";
 import "./mapstyles.css";
 
@@ -24,12 +25,10 @@ export class MapBox extends Component {
       viewport: {
         width: "100%",
         height: "100vh",
-        latitude: 40.7128,
-        longitude: -74.006,
+        latitude: 40.754,
+        longitude: -73.984,
         zoom: 14
       },
-      icon: randomIcon(),
-      icon2: randomIcon(),
       lat: 40.754,
       long: -73.984,
       venuesUser: [],
@@ -44,17 +43,15 @@ export class MapBox extends Component {
       ],
       loadedVenues: false,
       loadedUser: false
-      // highlightedPin: 0,
-      // highlightedRes: 0
     };
   }
 
   componentDidMount() {
     window.navigator.geolocation.getCurrentPosition(this.getCurrentLocation);
     this.props.getMatchLatLong(this.props.userId);
+    this.props.setIconImg();
+    this.props.joinChatRoom();
     this.setState({
-      icon: randomIcon(),
-      icon2: randomIcon()
       // COMMENT THE BELOW BACK IN ONCE WE HAVE THE MATCH PREFERENCES
       // matchPreferences: this.props.matchPreference
     });
@@ -156,7 +153,6 @@ export class MapBox extends Component {
 
   //chat functions
   handleOpenChat = () => {
-    this.props.joinChatRoom();
     let chat = document.querySelector(".chatBox");
     chat.classList.add("is-visible");
   };
@@ -181,7 +177,7 @@ export class MapBox extends Component {
               offsetLeft={-20}
               offsetTop={-10}
             >
-              <div className={`marker marker${this.state.icon}`} />{" "}
+              <div className={`marker marker${this.props.icon1}`} />{" "}
             </Marker>
             <Marker
               latitude={this.props.matchLat}
@@ -189,7 +185,7 @@ export class MapBox extends Component {
               offsetLeft={-20}
               offsetTop={-10}
             >
-              <div className={`marker marker${this.state.icon2}`} />{" "}
+              <div className={`marker marker${this.props.icon2}`} />{" "}
             </Marker>
             {this.state.allVenues.map((item, index) => {
               let icon;
@@ -239,7 +235,9 @@ const mapStateToProps = state => {
     matchLat: state.userMatchLatLong.match[1],
     matchLong: state.userMatchLatLong.match[0],
     matchPreference: state.matchPreference,
-    selectedIdx: state.selectedIdx
+    selectedIdx: state.selectedIdx,
+    icon1: state.icon.icon1,
+    icon2: state.icon.icon2
   };
 };
 
@@ -249,7 +247,8 @@ const mapDispatchToProps = dispatch => {
     getMatchLatLong: userId => dispatch(getMatchLatLong(userId)),
     getMatchPreference: userId => dispatch(getMatchPreference(userId)),
     setSelectedIdx: idx => dispatch(setSelectedIdx(idx)),
-    joinChatRoom: () => dispatch(joinChatRoom())
+    joinChatRoom: () => dispatch(joinChatRoom()),
+    setIconImg: () => dispatch(setIconImg())
   };
 };
 
