@@ -12,8 +12,9 @@ class UserProfile extends Component {
       email: ""
     };
   }
+
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.user.firstName !== this.props.user.firstName) {
+    if (prevProps.user.id !== this.props.user.id) {
       this.setState({
         firstName: this.props.user.firstName,
         lastName: this.props.user.lastName,
@@ -25,6 +26,10 @@ class UserProfile extends Component {
     this.setState({
       [event.target.name]: event.target.value
     });
+  };
+  handleSubmit = event => {
+    event.preventDefault();
+    this.props.update(this.props.user.id, this.state);
   };
   render() {
     return (
@@ -41,7 +46,7 @@ class UserProfile extends Component {
           <h1 className="profile__title">Details</h1>
           <p className="profile__text">Keep your information up-to-date.</p>
           <div className="profile__container">
-            <form className="profile__list">
+            <form className="profile__list" onSubmit={this.handleSubmit}>
               <input
                 className="profile__input"
                 type="text"
