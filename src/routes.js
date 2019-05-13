@@ -10,7 +10,6 @@ import {
   SignupPassword,
   Welcome,
   UserProfile,
-  UpdateUser,
   Preference,
   Matching,
   MapBox
@@ -86,7 +85,6 @@ class Routes extends Component {
         <Route path="/signup-password" component={SignupPassword} />{" "}
         <Route path="/welcome" component={Welcome} />{" "}
         <Route path="/profile" component={UserProfile} />{" "}
-        <Route path="/editProfile" component={UpdateUser} />{" "}
         <Route path="/preference" component={Preference} />{" "}
         <Route path="/matches" component={Matching} />{" "}
         <Route path="/map" component={MapBox} />{" "}
