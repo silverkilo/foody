@@ -22,7 +22,7 @@ class Login extends Component {
       const formName = event.target.name;
       const email = event.target.email.value;
       const password = event.target.password.value;
-      await this.props.login(email, password, formName);
+      await this.props.login(email, password, formName, this.props.initSocket);
       if (this.props.user.id) {
         this.props.history.push("/preference");
       }
@@ -90,16 +90,9 @@ const mapState = state => {
   };
 };
 
-const mapDispatch = dispatch => {
-  return {
-    login: (email, password, formName) =>
-      dispatch(login(email, password, formName))
-  };
-};
-
 export default withRouter(
   connect(
     mapState,
-    mapDispatch
+    { login }
   )(Login)
 );

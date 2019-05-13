@@ -1,31 +1,48 @@
-/* .match-container{
-    height: 85vh;
-    
+/* match-card-container absolutely necessary styles, do not change */
+html, body , #root, .match-container{
+    max-width: 100%;
+    overscroll-behavior-y: contain !important;
+    touch-action: none !important;
 }
-.match-container, .match-container .draggable, .match-container .draggable-card{
-    display: flex;
-    justify-content: center;
-    align-items: center
-} */
-.all-matches{
+html, body {
+  height: 100%;
+  width: 100%;
+  /* position: fixed; */
+}
+.match-container{
+     overflow: hidden !important;
+}
+/* match-card-container also essential styles */
+.match-card-container{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none; 
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none; 
+    user-select: none; 
     position: absolute;
-  width: 100vw;
-  height: 100vh;
-  will-change: transform;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    will-change: transform;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
 }
+/* all felxible except for will-change */
 .match-card{
+    
     background-color: white;
     width: 45vh;
-    max-width: 300px;
+    max-width: 95%;
     height: 85vh;
     max-height: 570px;
     will-change: transform;
     border-radius: 10px;
     box-shadow: 0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3);
 }
+
+/* blur effect stlyes and animations */
 .match-card.blurred > div{
     -webkit-filter: blur(20px);
     -moz-filter: blur(20px);
@@ -75,6 +92,10 @@
         filter: blur(0px);
     }
 }
+/* end blur styles */
+
+
+/* below styles are all flexible */
 .match-name{
     text-align: center;
     font-size: 2rem;

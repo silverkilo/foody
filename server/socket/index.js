@@ -3,7 +3,7 @@ const db = require("../db");
 const { Op } = require("sequelize");
 const { Preference, User, Match } = require("../db/models");
 const matchListeners = require("./match");
-const chatListeners = require("./chat");
+const chatListener = require("./chat");
 const exclusions = {};
 
 User.findAll().then(users => {
@@ -28,6 +28,7 @@ module.exports = function socketio(server, sessionMiddleware) {
 
   io.on("connect", async socket => {
     let userId;
+    console.log(socket.id);
     if (
       socket.request &&
       socket.request.session &&
@@ -36,7 +37,9 @@ module.exports = function socketio(server, sessionMiddleware) {
     ) {
       userId = socket.request.session.passport.user;
       await User.update(
-        { socketId: socket.id },
+        {
+          socketId: socket.id
+        },
         {
           where: {
             id: userId
@@ -46,16 +49,18 @@ module.exports = function socketio(server, sessionMiddleware) {
       exclusions[userId] = exclusions[userId] || [userId];
       socket.emit("ready");
     } else return;
-
+    console.log(userId);
     //removes socketIds from disconnected users
 
     matchListeners(socket, userId, exclusions);
-    chatListeners(socket, userId);
+    chatListener(socket, userId);
 
     socket.on("disconnect", async () => {
       console.log("disconnected", socket.id);
       await User.update(
-        { socketId: null },
+        {
+          socketId: null
+        },
         {
           where: {
             id: userId

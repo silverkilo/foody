@@ -14,7 +14,9 @@ export const me = initSocket => async dispatch => {
   try {
     const res = await axios.get("/auth/me");
     dispatch(getUser(res.data || initialState));
-    initSocket();
+    if (res.data) {
+      initSocket();
+    }
   } catch (err) {
     console.error(err);
   }
@@ -35,13 +37,21 @@ export const auth = (email, password, method) => async dispatch => {
     return dispatch(getUser({ error: authError }));
   }
 };
-export const login = (email, password, method) => async dispatch => {
+export const login = (
+  email,
+  password,
+  method,
+  initSocket
+) => async dispatch => {
   try {
     const res = await axios.post(`/auth/${method}`, {
       email,
       password
     });
     dispatch(getUser(res.data));
+    if (res.data) {
+      initSocket();
+    }
   } catch (authError) {
     return dispatch(getUser({ error: authError }));
   }
