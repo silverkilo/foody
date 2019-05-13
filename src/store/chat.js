@@ -25,8 +25,9 @@ export const sendMessage = (msg, userId) => dispatch => {
 };
 
 export const chatListener = () => dispatch => {
-  socket.on("send-others-messege", (msg, matchId) => {
-    dispatch(addNewMessage([msg, matchId]));
+  socket.on("send-others-messege", data => {
+    let { msg, userId } = data;
+    dispatch(addNewMessage([msg, userId]));
   });
 };
 
