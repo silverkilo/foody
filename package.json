@@ -29,6 +29,7 @@
     "react-spring": "^8.0.20",
     "react-swipe": "^6.0.4",
     "react-use-gesture": "^5.0.1",
+    "reactjs-popup": "^1.4.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "sequelize": "^5.8.1",

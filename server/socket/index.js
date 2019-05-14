@@ -4,6 +4,7 @@ const { Op } = require("sequelize");
 const { Preference, User, Match } = require("../db/models");
 const matchListeners = require("./match");
 const chatListener = require("./chat");
+const venueListener = require("./chat");
 const exclusions = {};
 
 User.findAll().then(users => {
@@ -54,6 +55,7 @@ module.exports = function socketio(server, sessionMiddleware) {
 
     matchListeners(socket, userId, exclusions);
     chatListener(socket, userId);
+    venueListener(socket, userId);
 
     socket.on("disconnect", async () => {
       console.log("disconnected", socket.id);

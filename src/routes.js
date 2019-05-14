@@ -20,6 +20,7 @@ import {
   disconnectListener,
   matchListeners,
   chatListener,
+  resListener,
   readyToListen,
   postLocation
 } from "./store";
@@ -71,6 +72,7 @@ class Routes extends Component {
       this.props.readyToListen(() => {
         this.props.matchListeners();
         this.props.chatListener();
+        this.props.resListener();
       });
     });
   }
@@ -107,7 +109,8 @@ export default withRouter(
       matchListeners,
       readyToListen,
       chatListener,
-      postLocation
+      postLocation,
+      resListener
     }
   )(Routes)
 );

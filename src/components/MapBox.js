@@ -1,22 +1,22 @@
 import React, { Component } from "react";
 import MapGL, { Marker } from "react-map-gl";
+import { Link } from "react-router-dom";
 import SwipeLayer from "./SwipeLayer";
 import { connect } from "react-redux";
 import { setUserLatLong, getMatchLatLong } from "../store/location";
 import { setSelectedIdx } from "../store/highlight";
 import { getMatchPreference } from "../store/matchPreference";
 import { joinChatRoom } from "../store/chat";
+import { createVenueList } from "../store/food";
 import { setIconImg } from "../store/icon";
+import Popup from "reactjs-popup";
+import Navigation from "./Navigation";
 import Chat from "./Chat";
 import "./mapstyles.css";
 
 // const mapAccess = {
 //   mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 // }
-
-function randomIcon() {
-  return Math.floor(Math.random() * 8) + 1;
-}
 
 export class MapBox extends Component {
   constructor() {
@@ -51,6 +51,7 @@ export class MapBox extends Component {
     this.props.getMatchLatLong(this.props.userId);
     this.props.setIconImg();
     this.props.joinChatRoom();
+    this.props.createVenueList(this.props.userId);
     this.setState({
       // COMMENT THE BELOW BACK IN ONCE WE HAVE THE MATCH PREFERENCES
       // matchPreferences: this.props.matchPreference
@@ -158,6 +159,7 @@ export class MapBox extends Component {
   };
 
   render() {
+    console.log(this.state.selectedRestaurant);
     return (
       <React.Fragment>
         <div className="map">
@@ -217,6 +219,10 @@ export class MapBox extends Component {
           <i class="fas fa-comment-alt" />
         </button>
         <Chat />
+        {/* <Popup trigger={this.props.selectedRestaurant} position="right center">
+          <div>You are going to this restaurant: !!</div>
+          <Link>Navigate me to the restaurant</Link>
+        </Popup> */}
         {this.state.loadedVenues && (
           <div className="overlay">
             <div className="content">
@@ -237,7 +243,8 @@ const mapStateToProps = state => {
     matchPreference: state.matchPreference,
     selectedIdx: state.selectedIdx,
     icon1: state.icon.icon1,
-    icon2: state.icon.icon2
+    icon2: state.icon.icon2,
+    selectedRestaurant: state.selectedRestaurant
   };
 };
 
@@ -248,7 +255,8 @@ const mapDispatchToProps = dispatch => {
     getMatchPreference: userId => dispatch(getMatchPreference(userId)),
     setSelectedIdx: idx => dispatch(setSelectedIdx(idx)),
     joinChatRoom: () => dispatch(joinChatRoom()),
-    setIconImg: () => dispatch(setIconImg())
+    setIconImg: () => dispatch(setIconImg()),
+    createVenueList: userId => dispatch(createVenueList(userId))
   };
 };
 

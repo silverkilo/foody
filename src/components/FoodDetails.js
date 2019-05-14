@@ -24,6 +24,7 @@ class FoodDetails extends Component {
   componentDidMount() {
     this.getVenuesDetails();
   }
+
   getVenuesDetails = async () => {
     const venueId = this.props.venueId;
     const params = {

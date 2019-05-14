@@ -15,6 +15,11 @@ const roomInfo = {
   // }
 };
 
+const venueList = {
+  //user1: [ resId ],
+  //user2: [ resId ]
+};
+
 let roomId = 0;
 
 function getChatHistory(roomId) {
@@ -65,23 +70,20 @@ function addNewMessage(userId, msg) {
   console.log("addNewMessage - allchats", allChats);
 }
 
+function createVenueList(userId) {
+  venueList[userId] = [];
+}
+
+function checkVenueList(userId, restaurantId) {
+  const matchId = roomInfo[userId].matchId;
+  console.log(matchId);
+  if (venueList[matchId].includes(restaurantId)) {
+    return true;
+  } else {
+    return false;
+  }
+}
 //socket
-<<<<<<< HEAD
-module.exports = function (socket, userId) {
-    //joining chatroom and sending back chat history
-    socket.on("join-chatroom", async () => {
-      try {
-        console.log(userId, "joined chat room on the backend");
-        await checkMatchId(socket, userId);
-        socket.join(roomInfo[userId].roomId);
-        const chatHistory = getChatHistory(String(roomInfo[userId].roomId));
-        socket.emit("send-chat-history", chatHistory);
-      } catch (e) {
-        console.log(e);
-        socket.emit("errorMessage", "There was an error joining chatroom");
-      }
-    });
-=======
 module.exports = function(socket, userId) {
   //joining chatroom and sending back chat history
   socket.on("join-chatroom", async () => {
@@ -96,7 +98,6 @@ module.exports = function(socket, userId) {
       socket.emit("errorMessage", "There was an error joining chatroom");
     }
   });
->>>>>>> ff36d336c4a5004bf1925d1f0f5d97ac96be7acc
 
   // CLIENT send message
   socket.on("send-client-message", msg => {
@@ -122,6 +123,34 @@ module.exports = function(socket, userId) {
     } catch (e) {
       console.log(e);
       socket.emit("errorMessage", "There was an error disconnecting chats.");
+    }
+  });
+
+  socket.on("start-choosing-res", userId => {
+    try {
+      createVenueList(userId);
+    } catch (e) {
+      console.log(e);
+      socket.emit(
+        "errorMessage",
+        "There was an error creating empty venue list."
+      );
+    }
+  });
+
+  socket.on("send-client-res", restaurantId => {
+    try {
+      venueList[userId].push(restaurantId);
+      console.log("venue list", venueList);
+      if (checkVenueList(userId, restaurantId)) {
+        socket.emit("matched", restaurantId);
+      }
+    } catch (e) {
+      console.log(e);
+      socket.emit(
+        "errorMessage",
+        "There was an error sending client res choice."
+      );
     }
   });
 };

@@ -16,104 +16,26 @@ export class Navigation extends Component {
   constructor() {
     super();
     this.state = {
-      viewport: {
-        width: "100%",
-        height: "40vh",
-        latitude: this.props.userLat,
-        longitude: this.props.userLat,
-        zoom: 14
-      },
-      showChat: false
+      // viewport: {
+      //   width: "100%",
+      //   height: "40vh",
+      //   latitude: this.props.userLat,
+      //   longitude: this.props.userLat,
+      //   zoom: 14
+      // },
+      // showChat: false
     };
   }
 
   componentDidMount() {
-    window.navigator.geolocation.getCurrentPosition(this.getCurrentLocation);
-    this.props.getMatchLatLong(this.props.userId);
+    // window.navigator.geolocation.getCurrentPosition(this.getCurrentLocation);
+    // this.props.getMatchLatLong(this.props.userId);
   }
-
-  getCurrentLocation = position => {
-    let lat = position.coords.latitude;
-    let long = position.coords.longitude;
-    this.setState({
-      viewport: {
-        ...this.state.viewport,
-        latitude: lat,
-        longitude: long
-      },
-      lat: lat,
-      long: long,
-      loadedUser: true
-    });
-    this.props.setUserLatLong([this.state.lat, this.state.long]);
-  };
-
-  getRestaurantLocation = () => {
-    let lat = position.coords.latitude;
-    let long = position.coords.longitude;
-    this.setState({
-      viewport: {
-        ...this.state.viewport,
-        latitude: lat,
-        longitude: long
-      },
-      lat: lat,
-      long: long,
-      loadedUser: true
-    });
-    this.props.setUserLatLong([this.state.lat, this.state.long]);
-  };
-  //chat functions
-  handleOpenChat = () => {
-    // this.setState({ showChat: true });
-    let chat = document.querySelector(".chatBox");
-    chat.classList.add("is-visible");
-    this.props.joinChatRoom();
-  };
-
-  handleCloseChat = () => {
-    this.setState({
-      showChat: false
-    });
-  };
 
   render() {
     return (
       <React.Fragment>
-        <div className="map">
-          <MapGL
-            {...this.state.viewport}
-            mapStyle="mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
-            onViewportChange={viewport =>
-              this.setState({
-                viewport
-              })
-            }
-            mapboxApiAccessToken="pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg"
-          >
-            <Marker
-              latitude={this.state.lat}
-              longitude={this.state.long}
-              offsetLeft={-20}
-              offsetTop={-10}
-            >
-              <div className={`marker marker${this.props.icon1}`} />
-            </Marker>
-            <Marker
-              latitude={this.props.matchLat}
-              longitude={this.props.matchLong}
-              offsetLeft={-20}
-              offsetTop={-10}
-            >
-              <div className={`marker marker${this.props.icon2}`} />
-            </Marker>
-            })}
-          </MapGL>
-        </div>
-        <button className="chatBubble" onClick={this.handleOpenChat}>
-          <i class="fas fa-comment-alt" />
-        </button>
-        <Chat />
+        <h1>it's working</h1>
       </React.Fragment>
     );
   }
