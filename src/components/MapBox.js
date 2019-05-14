@@ -10,7 +10,6 @@ import { joinChatRoom } from "../store/chat";
 import { createVenueList } from "../store/food";
 import { setIconImg } from "../store/icon";
 import Popup from "reactjs-popup";
-import Navigation from "./Navigation";
 import Chat from "./Chat";
 import "./mapstyles.css";
 

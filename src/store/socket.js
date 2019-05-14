@@ -38,30 +38,33 @@ const ready = () => ({
 
 export const createConnection = () => dispatch => {
   socket.open();
-  socket.on("connect", () => {
-    dispatch(connect(socket.connected));
-    console.log("SOCKET ", socket.connected);
+  return new Promise(resolve => {
+    socket.on("connect", () => {
+      dispatch(connect(socket.connected));
+      resolve(socket.connected);
+      console.log("SOCKET ", socket.connected);
+    });
+    socket.on("disconnect", () => {
+      dispatch(connect(socket.connected));
+    });
   });
 };
 
-export const disconnectListener = () => dispatch => {
-  socket.on("disconnect", () => {
-    dispatch(connect(socket.connected));
-  });
-};
-export const readyToListen = initListeners => dispatch => {
-  socket.on("ready", () => {
-    dispatch(ready());
-    socket.on("errorMessage", message => {
-      dispatch(err(message));
+export const readyToListen = () => dispatch => {
+  return new Promise(resolve => {
+    socket.on("ready", val => {
+      dispatch(ready());
+      resolve(val);
+      socket.on("errorMessage", message => {
+        dispatch(err(message));
+      });
+      socket.on("connect_error", ({ message }) => {
+        dispatch(err(message));
+      });
+      socket.on("reconnect_error", ({ message }) => {
+        dispatch(err(message));
+      });
     });
-    socket.on("connect_error", ({ message }) => {
-      dispatch(err(message));
-    });
-    socket.on("reconnect_error", ({ message }) => {
-      dispatch(err(message));
-    });
-    initListeners();
   });
 };
 

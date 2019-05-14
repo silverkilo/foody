@@ -26,9 +26,6 @@ class Preference extends Component {
   }
 
   componentDidUpdate(prevState) {
-    if (this.props.user && this.props.user.id && this.props.matched) {
-      this.props.history.push("/matches");
-    }
     if (prevState === this.props.categories) {
       this.reload();
     }

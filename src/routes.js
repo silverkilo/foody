@@ -14,16 +14,6 @@ import {
   Matching,
   MapBox
 } from "./components";
-import {
-  me,
-  createConnection,
-  disconnectListener,
-  matchListeners,
-  chatListener,
-  resListener,
-  readyToListen,
-  postLocation
-} from "./store";
 
 class Routes extends Component {
   componentDidMount() {
@@ -56,25 +46,11 @@ class Routes extends Component {
 
     preventPullToRefresh("html");
     preventPullToRefresh("body");
-    preventPullToRefresh("#root");
-    this.props.me(() => {
-      window.navigator.geolocation.getCurrentPosition(
-        this.props.postLocation,
-        err => console.log(err),
-        {
-          timeout: 10000,
-          enableHighAccuracy: false,
-          maximumAge: 10000
-        }
-      );
-      this.props.createConnection();
-      this.props.disconnectListener();
-      this.props.readyToListen(() => {
-        this.props.matchListeners();
-        this.props.chatListener();
-        this.props.resListener();
-      });
-    });
+    if (this.props.matched) {
+      this.props.history.push("/matches");
+    } else if (this.props.user && this.props.user.id) {
+      this.props.history.push("/preference");
+    }
   }
   componentDidUpdate() {
     if (this.props.location.pathname === "/matches") {
@@ -108,22 +84,14 @@ class Routes extends Component {
   }
 }
 
-const mapStateToProps = ({ user }) => ({
-  user
+const mapStateToProps = ({
+  user,
+  match: {
+    didMatch: { matched }
+  }
+}) => ({
+  user,
+  matched
 });
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    {
-      me,
-      createConnection,
-      disconnectListener,
-      matchListeners,
-      readyToListen,
-      chatListener,
-      postLocation,
-      resListener
-    }
-  )(Routes)
-);
+export default withRouter(connect(mapStateToProps)(Routes));
