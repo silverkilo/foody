@@ -45,7 +45,6 @@ module.exports = function socketio(server, sessionMiddleware) {
         }
       );
       exclusions[userId] = exclusions[userId] || [userId];
-      console.log("rEADYYYY");
       socket.emit("ready", true);
     } else return socket.emit("ready", false);
     console.log(userId);
