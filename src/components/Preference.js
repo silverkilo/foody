@@ -26,6 +26,9 @@ class Preference extends Component {
   }
 
   componentDidUpdate(prevState) {
+    if (this.props.user && this.props.user.id && this.props.matched) {
+      this.props.history.push("/matches");
+    }
     if (prevState === this.props.categories) {
       this.reload();
     }
@@ -104,7 +107,8 @@ const mapStateToProps = state => {
   return {
     categories: state.categories,
     user: state.user,
-    preferences: state.preferences
+    preferences: state.preferences,
+    matched: state.match.didMatch.matched
   };
 };
 

@@ -86,7 +86,8 @@ class Login extends Component {
 const mapState = state => {
   return {
     error: state.user.error,
-    user: state.user
+    user: state.user,
+    matched: state.match.didMatch.matched
   };
 };
 

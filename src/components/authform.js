@@ -55,6 +55,7 @@ class AuthForm extends Component {
     }
   }
   render() {
+    let prod = process.env.NODE_ENV === "production";
     return (
       <div>
         <form name={this.state.name} onSubmit={this.handleSubmit}>
@@ -92,7 +93,12 @@ class AuthForm extends Component {
 
         <Link to="/profile">Profile</Link>
 
-        <form method="get" action="http://localhost:3001/auth/google">
+        <form
+          method="get"
+          action={`http${prod ? "s" : ""}://${window.location.hostname}${
+            prod ? "" : ":3001"
+          }/auth/google`}
+        >
           <button type="submit">Login with Google</button>
         </form>
       </div>
