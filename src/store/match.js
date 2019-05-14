@@ -38,10 +38,11 @@ export const swipe = (value, matchee, matched, fetchMore) => dispatch => {
   return dispatch(swiped(value, matchee));
 };
 
-export const matchListeners = () => dispatch => {
+export const matchListeners = resolveAppStart => dispatch => {
   socket.on("haveYouMatched", data => {
     if (data.matched) {
       dispatch(didMatch(data));
+      resolveAppStart();
     } else {
       socket.on("didMatch", data => {
         dispatch(didMatch(data));
@@ -53,6 +54,7 @@ export const matchListeners = () => dispatch => {
       });
 
       socket.emit("getPotentialMatches");
+      resolveAppStart();
     }
   });
   socket.emit("haveIMatched");
