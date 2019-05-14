@@ -27,6 +27,7 @@ import {
 class Routes extends Component {
   componentDidMount() {
     // disable pull to refresh for chrome IOS. Enabled for two fingers
+    console.log("PROPS: ", this.props);
     function preventPullToRefresh(element) {
       let prevent = false;
       document

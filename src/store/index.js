@@ -7,7 +7,7 @@ import categories from "./categories";
 import preferences from "./preferences";
 import match from "./match";
 import socket from "./socket";
-import userMatchLatLong from "./location";
+import location from "./location";
 import matchPreference from "./matchPreference";
 import food from "./food";
 import selectedIdx from "./highlight";
@@ -19,7 +19,7 @@ const reducer = combineReducers({
   categories,
   preferences,
   match,
-  userMatchLatLong,
+  location,
   socket,
   matchPreference,
   food,

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import MapGL, { Marker } from "react-map-gl";
 import SwipeLayer from "./SwipeLayer";
 import { connect } from "react-redux";
-import { setUserLatLong, getMatchLatLong } from "../store/location";
+import { setUserLocation, getMatchLocation } from "../store";
 import { setSelectedIdx } from "../store/highlight";
 import { getMatchPreference } from "../store/matchPreference";
 import { joinChatRoom } from "../store/chat";
@@ -14,9 +14,9 @@ import "./mapstyles.css";
 //   mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 // }
 
-function randomIcon() {
-  return Math.floor(Math.random() * 8) + 1;
-}
+// function randomIcon() {
+//   return Math.floor(Math.random() * 8) + 1;
+// }
 
 export class MapBox extends Component {
   constructor() {
@@ -31,8 +31,8 @@ export class MapBox extends Component {
       },
       lat: 40.754,
       long: -73.984,
-      venuesUser: [],
-      venuesMatch: [],
+      // venuesUser: [],
+      // venuesMatch: [],
       allVenues: [],
       // THE BELOW MATCH PREFERENCES JUST HAS SOME PLACEHOLDER PREFERENCES FOR TESTING
       matchPreferences: [
@@ -44,61 +44,59 @@ export class MapBox extends Component {
       loadedVenues: false,
       loadedUser: false
     };
+    this.getLoc = null;
   }
 
-  componentDidMount() {
-    window.navigator.geolocation.getCurrentPosition(this.getCurrentLocation);
-<<<<<<< HEAD
-    // this.props.getMatchLatLong(this.props.userId);
-=======
-    this.props.getMatchLatLong(this.props.userId);
-    this.props.setIconImg();
-    this.props.joinChatRoom();
->>>>>>> master
-    this.setState({
-      // COMMENT THE BELOW BACK IN ONCE WE HAVE THE MATCH PREFERENCES
-      // matchPreferences: this.props.matchPreference
+  async componentDidMount() {
+    this.getLoc = new Promise((resolve, reject) => {
+      window.navigator.geolocation.getCurrentPosition(
+        ({ coords }) => {
+          let lat = coords.latitude;
+          let long = coords.longitude;
+          resolve([long, lat]);
+          this.setState({
+            viewport: {
+              ...this.state.viewport,
+              latitude: lat,
+              longitude: long
+            },
+            lat: lat,
+            long: long,
+            loadedUser: true
+          });
+          this.props.setUserLocation([long, lat]);
+        },
+        err => console.log(err),
+        { maximumAge: 60000, timeout: 10000, enableHighAccuracy: false }
+      );
     });
-    window.setTimeout(this.getVenuesUser, 4000);
-    window.setTimeout(this.getVenuesMatch, 6000);
+    this.props.setIconImg();
+
+    const [long, lat] = await this.getLoc;
+    let distance = Math.sqrt(
+      (lat - this.props.matchLat) ** 2 + (long - this.props.matchLong) ** 2
+    );
+    console.log("DISTANCE", distance);
+    let midpointLat = (lat + this.props.matchLat) / 2;
+    let midpointLong = (long + this.props.matchLong) / 2;
+
+    await this.getVenues(midpointLat, midpointLong, 600);
+    console.log(this.props.matchInfo);
+    this.props.getMatchLocation();
+    this.props.joinChatRoom();
+    this.setState(
+      {
+        matchPreferences: this.props.matchInfo
+          ? this.props.matchInfo.preferences
+          : this.state.matchPreferences
+      },
+      () => {
+        console.log(this.state);
+      }
+    );
   }
 
-  getVenuesUser = () => {
-    const venuesEndpoint = "https://api.foursquare.com/v2/venues/search?";
-
-    const params = {
-      client_id: "KUZ0H02M1VQNYUNKV40GFCICQUYGHRZJQVFLFS4MK01IHFYE",
-      client_secret: "ESQTWW5FJSPUDTTCM5JWQ1EO3T1GXNRVMS5XTKR3AKC4GNVJ",
-      limit: 50,
-      query: "Food",
-      v: "20130619", // version of the API
-      ll: `${this.state.lat}, ${this.state.long}`,
-      radius: 700
-    };
-
-    fetch(venuesEndpoint + new URLSearchParams(params), {
-      method: "GET"
-    })
-      .then(response => response.json())
-      .then(response => {
-        // filter out those places without category names
-        // let filteredWithoutCategories = response.response.venues.filter(
-        //   eachPlace => eachPlace.categories[0] !== undefined
-        // );
-        // filter out places with categories that don't match the user's preferences
-        // let filtered = filteredWithoutCategories.filter(
-        //   eachPlace =>
-        //     this.state.matchPreferences.indexOf(eachPlace.categories[0].name) >
-        //     -1
-        // );
-        // this.setState({ venuesUser: filtered });
-        this.setState({
-          venuesUser: response.response.venues
-        });
-      });
-  };
-
-  getVenuesMatch = () => {
+  getVenues = async (lat, long, radius) => {
     const venuesEndpoint = "https://api.foursquare.com/v2/venues/search?";
 
     const params = {
@@ -107,11 +105,11 @@ export class MapBox extends Component {
       limit: 5,
       query: "Food",
       v: "20130619", // version of the API
-      ll: `${this.props.matchLat}, ${this.props.matchLong}`,
-      radius: 600
+      ll: `${lat}, ${long}`,
+      radius
     };
 
-    fetch(venuesEndpoint + new URLSearchParams(params), {
+    await fetch(venuesEndpoint + new URLSearchParams(params), {
       method: "GET"
     })
       .then(response => response.json())
@@ -126,33 +124,13 @@ export class MapBox extends Component {
             this.state.matchPreferences.indexOf(eachPlace.categories[0].name) >
             -1
         );
-        // this.setState({ venuesUser: filtered });
         this.setState({
-          venuesUser: response.response.venues
-        });
-        this.setState({
-          allVenues: this.state.venuesUser.concat(this.state.venuesMatch)
+          allVenues: filtered
         });
       });
     this.setState({
       loadedVenues: true
     });
-  };
-
-  getCurrentLocation = position => {
-    let lat = position.coords.latitude;
-    let long = position.coords.longitude;
-    this.setState({
-      viewport: {
-        ...this.state.viewport,
-        latitude: lat,
-        longitude: long
-      },
-      lat: lat,
-      long: long,
-      loadedUser: true
-    });
-    this.props.setUserLatLong([this.state.long, this.state.lat]);
   };
 
   //chat functions
@@ -236,27 +214,25 @@ export class MapBox extends Component {
 const mapStateToProps = state => {
   return {
     userId: state.user.id,
-    matchLat: state.userMatchLatLong.match[1],
-    matchLong: state.userMatchLatLong.match[0],
-    matchPreference: state.matchPreference,
+    userLat: state.location.user[1],
+    userLong: state.location.user[0],
+    matchLat: state.location.match[1],
+    matchLong: state.location.match[0],
+    matchInfo: state.match.didMatch.info,
     selectedIdx: state.selectedIdx,
     icon1: state.icon.icon1,
     icon2: state.icon.icon2
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setUserLatLong: arr => dispatch(setUserLatLong(arr)),
-    getMatchLatLong: userId => dispatch(getMatchLatLong(userId)),
-    getMatchPreference: userId => dispatch(getMatchPreference(userId)),
-    setSelectedIdx: idx => dispatch(setSelectedIdx(idx)),
-    joinChatRoom: () => dispatch(joinChatRoom()),
-    setIconImg: () => dispatch(setIconImg())
-  };
-};
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  {
+    setUserLocation,
+    getMatchLocation,
+    getMatchPreference,
+    setSelectedIdx,
+    joinChatRoom,
+    setIconImg
+  }
 )(MapBox);
