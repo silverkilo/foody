@@ -14,15 +14,6 @@ import {
   Matching,
   MapBox
 } from "./components";
-import {
-  me,
-  createConnection,
-  disconnectListener,
-  matchListeners,
-  chatListener,
-  readyToListen,
-  postLocation
-} from "./store";
 
 class Routes extends Component {
   componentDidMount() {
@@ -55,6 +46,11 @@ class Routes extends Component {
 
     preventPullToRefresh("html");
     preventPullToRefresh("body");
+    if (this.props.matched) {
+      this.props.history.push("/matches");
+    } else if (this.props.user && this.props.user.id) {
+      this.props.history.push("/preference");
+    }
   }
   componentDidUpdate() {
     if (this.props.location.pathname === "/matches") {
@@ -88,21 +84,14 @@ class Routes extends Component {
   }
 }
 
-const mapStateToProps = ({ user }) => ({
-  user
+const mapStateToProps = ({
+  user,
+  match: {
+    didMatch: { matched }
+  }
+}) => ({
+  user,
+  matched
 });
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    {
-      me,
-      createConnection,
-      disconnectListener,
-      matchListeners,
-      readyToListen,
-      chatListener,
-      postLocation
-    }
-  )(Routes)
-);
+export default withRouter(connect(mapStateToProps)(Routes));
