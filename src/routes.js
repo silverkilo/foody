@@ -48,7 +48,10 @@ class Routes extends Component {
     preventPullToRefresh("body");
 
     if (this.props.matched) {
-      if (this.props.location.pathname === "/preference") {
+      if (
+        this.props.location.pathname === "/preference" ||
+        this.props.location.pathname === "/"
+      ) {
         this.props.history.push("/matches");
       }
     } else if (
