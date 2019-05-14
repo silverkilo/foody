@@ -1,21 +1,20 @@
 import React, { Component } from "react";
 import MapGL, { Marker } from "react-map-gl";
+import { Link } from "react-router-dom";
+import ReactModal from "react-modal";
 import SwipeLayer from "./SwipeLayer";
 import { connect } from "react-redux";
 import { setUserLocation, getMatchLocation } from "../store";
 import { setSelectedIdx } from "../store/highlight";
 import { getMatchPreference } from "../store/matchPreference";
 import { joinChatRoom } from "../store/chat";
+import { createVenueList } from "../store/food";
 import { setIconImg } from "../store/icon";
 import Chat from "./Chat";
 import "./mapstyles.css";
 
 // const mapAccess = {
 //   mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
-// }
-
-// function randomIcon() {
-//   return Math.floor(Math.random() * 8) + 1;
 // }
 
 export class MapBox extends Component {
@@ -66,20 +65,18 @@ export class MapBox extends Component {
         resolve
       );
     });
-    this.props.setIconImg();
 
     const [long, lat] = await this.getLoc;
     let distance = Math.sqrt(
       (lat - this.props.matchLat) ** 2 + (long - this.props.matchLong) ** 2
     );
-    console.log("DISTANCE", distance);
     let midpointLat = (lat + this.props.matchLat) / 2;
     let midpointLong = (long + this.props.matchLong) / 2;
 
     await this.getVenues(midpointLat, midpointLong, 600);
-    console.log(this.props.matchInfo);
-    this.props.getMatchLocation();
     this.props.joinChatRoom();
+    this.props.setIconImg();
+    this.props.createVenueList();
     this.setState(
       {
         matchPreferences: this.props.matchInfo
@@ -135,6 +132,10 @@ export class MapBox extends Component {
     chat.classList.add("is-visible");
   };
 
+  handlePopupClose = () => {
+    this.props.history.push("/navigation");
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -167,7 +168,6 @@ export class MapBox extends Component {
             </Marker>
             {this.state.allVenues.map((item, index) => {
               let icon;
-              console.log("selectedidx", this.props.selectedIdx, "idx", index);
               this.props.selectedIdx === index
                 ? (icon = `highlightedFooodMarker`)
                 : (icon = `foodMarker`);
@@ -201,7 +201,30 @@ export class MapBox extends Component {
               <SwipeLayer allVenues={this.state.allVenues} />{" "}
             </div>{" "}
           </div>
-        )}{" "}
+        )}
+        <ReactModal
+          isOpen={this.props.selectedRestaurant}
+          shouldCloseOnOverlayClick={true}
+          closeTimeoutMS={5000}
+          contentLabel="Restaurant Selected Modal"
+          // style={{ overlay: {}, content: "hi is this working" }}
+          // portalClassName="ReactModalPortal"
+          // overlayClassName="ReactModal__Overlay"
+          // className="ReactModal__Content"
+          // bodyOpenClassName="ReactModal__Body--open"
+          // htmlOpenClassName="ReactModal__Html--open"
+          // ariaHideApp={true}
+          // role="dialog"
+          // parentSelector={() => document.body}
+          // data={{
+          //   background: "blue"
+          // }}
+        >
+          <p> You both chose restaurant {this.props.selectedRestaurant} </p>
+          <button onClick={this.handlePopupClose}>
+            Navigate to the restaurant
+          </button>
+        </ReactModal>
       </React.Fragment>
     );
   }
@@ -217,18 +240,24 @@ const mapStateToProps = state => {
     matchInfo: state.match.didMatch.info,
     selectedIdx: state.selectedIdx,
     icon1: state.icon.icon1,
-    icon2: state.icon.icon2
+    icon2: state.icon.icon2,
+    selectedRestaurant: state.selectedRestaurant
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setUserLocation: arr => dispatch(setUserLocation(arr)),
+    getMatchLocation: userId => dispatch(getMatchLocation(userId)),
+    getMatchPreference: userId => dispatch(getMatchPreference(userId)),
+    setSelectedIdx: idx => dispatch(setSelectedIdx(idx)),
+    joinChatRoom: () => dispatch(joinChatRoom()),
+    setIconImg: () => dispatch(setIconImg()),
+    createVenueList: () => dispatch(createVenueList())
   };
 };
 
 export default connect(
   mapStateToProps,
-  {
-    setUserLocation,
-    getMatchLocation,
-    getMatchPreference,
-    setSelectedIdx,
-    joinChatRoom,
-    setIconImg
-  }
+  mapDispatchToProps
 )(MapBox);

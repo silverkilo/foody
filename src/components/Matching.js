@@ -4,10 +4,12 @@ import MatchStack from "./MatchStack";
 import { swipe } from "../store";
 import NewMatch from "./NewMatch";
 import NoMatches from "./NoMatches";
+
 class Matching extends Component {
   componentDidMount() {
     this.props.swipe();
   }
+
   componentDidUpdate() {
     if (this.props.didMatch.matched) {
       setTimeout(() => {
@@ -22,6 +24,7 @@ class Matching extends Component {
     }
     if (!this.props.potentials.length) return <NoMatches />;
     const users = this.props.potentials;
+
     return (
       <div className="match-container">
         {this.props.loading ? null : <MatchStack users={users} />}

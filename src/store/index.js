@@ -9,10 +9,11 @@ import match from "./match";
 import socket from "./socket";
 import location from "./location";
 import matchPreference from "./matchPreference";
-import food from "./food";
 import selectedIdx from "./highlight";
 import chatHistory from "./chat";
 import icon from "./icon";
+import { food } from "./food";
+import { selectedRestaurant } from "./food";
 
 const reducer = combineReducers({
   user,
@@ -25,7 +26,8 @@ const reducer = combineReducers({
   food,
   selectedIdx,
   chatHistory,
-  icon
+  icon,
+  selectedRestaurant
 });
 
 const middleware = composeWithDevTools(

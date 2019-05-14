@@ -2,6 +2,7 @@ const socketIO = require("socket.io");
 const { User, Match } = require("../db/models");
 const matchListeners = require("./match");
 const chatListener = require("./chat");
+const venueListener = require("./chat");
 const exclusions = {};
 
 User.findAll().then(users => {
@@ -26,7 +27,6 @@ module.exports = function socketio(server, sessionMiddleware) {
 
   io.on("connect", async socket => {
     let userId;
-    console.log(socket.id);
     if (
       socket.request &&
       socket.request.session &&
@@ -47,7 +47,6 @@ module.exports = function socketio(server, sessionMiddleware) {
       exclusions[userId] = exclusions[userId] || [userId];
       socket.emit("ready", true);
     } else return socket.emit("ready", false);
-    console.log(userId);
 
     matchListeners(socket, userId, exclusions);
     chatListener(socket, userId);

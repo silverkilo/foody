@@ -7,7 +7,8 @@ import {
   matchListeners,
   chatListener,
   readyToListen,
-  postLocation
+  postLocation,
+  resListener
 } from "./store";
 
 class App extends React.Component {
@@ -33,6 +34,7 @@ class App extends React.Component {
     ]);
     await this.props.matchListeners();
     this.props.chatListener();
+    this.props.resListener();
   };
   render() {
     return this.state.init ? (
@@ -55,6 +57,7 @@ export default connect(
     matchListeners,
     readyToListen,
     chatListener,
-    postLocation
+    postLocation,
+    resListener
   }
 )(App);

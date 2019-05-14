@@ -15,6 +15,11 @@ const roomInfo = {
   // }
 };
 
+const venueList = {
+  //user1: [ resId ],
+  //user2: [ resId ]
+};
+
 let roomId = 0;
 
 function getChatHistory(roomId) {
@@ -65,16 +70,28 @@ function addNewMessage(userId, msg) {
   console.log("addNewMessage - allchats", allChats);
 }
 
+function createVenueList(userId) {
+  venueList[userId] = [];
+}
+
+function checkVenueList(userId, restaurantId) {
+  const matchId = roomInfo[userId].matchId;
+  if (venueList[matchId].includes(restaurantId)) {
+    return true;
+  } else {
+    return false;
+  }
+}
 //socket
 module.exports = function(socket, userId) {
   //joining chatroom and sending back chat history
   socket.on("join-chatroom", async () => {
     try {
-      console.log(userId, "joined chat room on he backend");
       await checkMatchId(socket, userId);
       socket.join(roomInfo[userId].roomId);
-      const chatHistory = getChatHistory(String(roomInfo[userId].roomId));
-      socket.emit("send-chat-history", chatHistory);
+      let chatHistory = allChats[roomId];
+      console.log(chatHistory);
+      socket.emit("send-chat-history", []);
     } catch (e) {
       console.log(e);
       socket.emit("errorMessage", "There was an error joining chatroom");
@@ -105,6 +122,38 @@ module.exports = function(socket, userId) {
     } catch (e) {
       console.log(e);
       socket.emit("errorMessage", "There was an error disconnecting chats.");
+    }
+  });
+
+  socket.on("start-choosing-res", () => {
+    try {
+      createVenueList(userId);
+    } catch (e) {
+      console.log(e);
+      socket.emit(
+        "errorMessage",
+        "There was an error creating empty venue list."
+      );
+    }
+  });
+
+  socket.on("send-client-res", restaurantId => {
+    try {
+      venueList[userId].push(restaurantId);
+      if (checkVenueList(userId, restaurantId)) {
+        socket.broadcast
+          .to(roomInfo[userId].roomId)
+          .emit("matched", restaurantId);
+        socket.emit("matched", restaurantId);
+        console.log("resId in chat backend", restaurantId);
+        console.log("venue list", venueList);
+      }
+    } catch (e) {
+      console.log(e);
+      socket.emit(
+        "errorMessage",
+        "There was an error sending client res choice."
+      );
     }
   });
 };
