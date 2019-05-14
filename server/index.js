@@ -25,7 +25,15 @@ passport.serializeUser((user, done) => done(null, user.id));
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await User.findByPk(id);
+    const [[user]] = await db.query(
+      `
+      SELECT 
+          id, "firstName", "lastName", email, "hasMatched", "photoURLs", location
+      FROM users
+      WHERE id = ?
+    `,
+      { replacements: [id] }
+    );
     done(null, user);
   } catch (err) {
     done(err);

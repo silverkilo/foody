@@ -8,14 +8,20 @@ import {
   chatListener,
   readyToListen,
   postLocation,
-  resListener
+  resListener,
+  setUserLocation
 } from "./store";
 
 class App extends React.Component {
   state = { init: false };
   async componentDidMount() {
-    const me = await this.props.me(this.initSocket);
-    if (me) await this.initSocket();
+    const user = await this.props.me(this.initSocket);
+    if (user) {
+      await this.initSocket();
+      if (user.location) {
+        this.props.setUserLocation(user.location.coordinates);
+      }
+    }
     this.setState({ init: true });
   }
   initSocket = async () => {
@@ -58,6 +64,7 @@ export default connect(
     readyToListen,
     chatListener,
     postLocation,
-    resListener
+    resListener,
+    setUserLocation
   }
 )(App);
