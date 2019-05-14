@@ -593,3 +593,28 @@
     margin-bottom: 20px;
     border-bottom: 1px solid rgb(202, 202, 202);
 }
+.match__card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+}
+.match__img {
+    height: 100vw;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.match__details {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+.match__name {
+    font-size: 2em;
+    font-weight: 700;
+    color: rgb(77, 77, 77);
+}
+.match__preference {
+    font-size: 1.2em;
+    color: rgb(77, 77, 77));
+}

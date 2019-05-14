@@ -30,15 +30,14 @@ body {
 }
 /* all felxible except for will-change */
 .match-card{
-    
-    background-color: white;
-    width: 45vh;
-    max-width: 95%;
-    height: 85vh;
-    max-height: 570px;
-    will-change: transform;
     border-radius: 10px;
-    box-shadow: 0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3);
+    border: 1px solid rgb(202, 202, 202);
+    background-color: white;
+    max-width: 95%;
+    height: 50vh;
+    /* max-height: 570px; */
+    will-change: transform;
+    overflow: hidden;
 }
 
 /* blur effect stlyes and animations */
