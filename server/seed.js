@@ -1,7 +1,8 @@
 const faker = require("faker");
 const db = require("../server/db");
 const gis = require("./gis");
-const { Preference, User, UserPreference } = require("./db/models");
+const { Op } = require("sequelize");
+const { Preference, User, UserPreference, Match } = require("./db/models");
 const categories = [
   "Bubble Tea Shop",
   "African Restaurant",
@@ -60,9 +61,11 @@ async function seed() {
         .map((_, i) => {
           locations.push({
             latitude:
-              codyLoc.latitude + (i + 1) * ((Math.random() > 5 ? -1 : 1) * 0.1),
+              codyLoc.latitude +
+              (i + 1) * ((Math.random() > 5 ? -1 : 1) * 0.001),
             longitude:
-              codyLoc.longitude + (i + 1) * ((Math.random() > 5 ? -1 : 1) * 0.1)
+              codyLoc.longitude +
+              (i + 1) * ((Math.random() > 5 ? -1 : 1) * 0.001)
           });
           return {
             firstName: faker.name.firstName(),
@@ -108,7 +111,18 @@ async function seed() {
       preferenceId: 13
     }
   ]);
-
+  await Match.bulkCreate([
+    {
+      matcherId: 2,
+      matcheeId: 10
+    },
+    {
+      matcherId: 10,
+      matcheeId: 2
+    }
+  ]);
+  await User.update({ hasMatched: 2 }, { where: { id: 10 } });
+  await User.update({ hasMatched: 10 }, { where: { id: 2 } });
   await Promise.all(
     categories.map((_, i) =>
       UserPreference.create(

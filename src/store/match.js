@@ -23,32 +23,42 @@ const swiped = (value, matchee) => ({
   value,
   matchee
 });
+let timeout;
 export const swipe = (value, matchee, matched, fetchMore) => dispatch => {
   if (value !== undefined) socket.emit("swipe", { value, matchee, matched });
   if (value === undefined || fetchMore) {
     socket.emit("getPotentialMatches");
-    dispatch(loading(true));
+    timeout = new Promise(resolve => {
+      setTimeout(() => {
+        dispatch(loading(true));
+        resolve();
+      }, 250);
+    });
   }
   return dispatch(swiped(value, matchee));
 };
 
 export const matchListeners = () => dispatch => {
-  socket.on("haveYouMatched", data => {
-    if (data.matched) {
-      dispatch(didMatch(data));
-    } else {
-      socket.on("didMatch", data => {
+  return new Promise(resolve => {
+    socket.on("haveYouMatched", data => {
+      if (data.matched) {
         dispatch(didMatch(data));
-      });
-      socket.on("potentialMatches", data => {
-        dispatch(potentialMatches(data));
-        dispatch(loading(false));
-      });
+      } else {
+        socket.on("didMatch", data => {
+          dispatch(didMatch(data));
+        });
+        socket.on("potentialMatches", async data => {
+          await timeout;
+          dispatch(potentialMatches(data));
+          dispatch(loading(false));
+        });
 
-      socket.emit("getPotentialMatches");
-    }
+        socket.emit("getPotentialMatches");
+      }
+      resolve(data.matched);
+    });
+    socket.emit("haveIMatched");
   });
-  socket.emit("haveIMatched");
 };
 
 export const loading = value => ({ type: LOADING, value });

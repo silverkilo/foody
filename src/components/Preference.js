@@ -104,7 +104,8 @@ const mapStateToProps = state => {
   return {
     categories: state.categories,
     user: state.user,
-    preferences: state.preferences
+    preferences: state.preferences,
+    matched: state.match.didMatch.matched
   };
 };
 

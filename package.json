@@ -38,7 +38,7 @@
     "typy": "^3.1.0"
   },
   "scripts": {
-    "dev": "export NODE_ENV=development && concurrently \"npm run start-client\" \"nodemon server\"",
+    "dev": "export NODE_ENV=development && concurrently \"npm run start-client\" \"nodemon --watch server server\"",
     "start-client": "react-scripts start",
     "start": "node server",
     "build": "react-scripts build",
