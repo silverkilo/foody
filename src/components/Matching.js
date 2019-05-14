@@ -8,6 +8,13 @@ class Matching extends Component {
   componentDidMount() {
     this.props.swipe();
   }
+  componentDidUpdate() {
+    if (this.props.didMatch.matched) {
+      setTimeout(() => {
+        this.props.history.push("/map");
+      }, 1000);
+    }
+  }
   render() {
     if (this.props.didMatch.matched) {
       const match = this.props.didMatch.info;
