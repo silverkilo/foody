@@ -38,26 +38,27 @@ export const swipe = (value, matchee, matched, fetchMore) => dispatch => {
   return dispatch(swiped(value, matchee));
 };
 
-export const matchListeners = resolveAppStart => dispatch => {
-  socket.on("haveYouMatched", data => {
-    if (data.matched) {
-      dispatch(didMatch(data));
-      resolveAppStart();
-    } else {
-      socket.on("didMatch", data => {
+export const matchListeners = () => dispatch => {
+  return new Promise(resolve => {
+    socket.on("haveYouMatched", data => {
+      if (data.matched) {
         dispatch(didMatch(data));
-      });
-      socket.on("potentialMatches", async data => {
-        await timeout;
-        dispatch(potentialMatches(data));
-        dispatch(loading(false));
-      });
+      } else {
+        socket.on("didMatch", data => {
+          dispatch(didMatch(data));
+        });
+        socket.on("potentialMatches", async data => {
+          await timeout;
+          dispatch(potentialMatches(data));
+          dispatch(loading(false));
+        });
 
-      socket.emit("getPotentialMatches");
-      resolveAppStart();
-    }
+        socket.emit("getPotentialMatches");
+      }
+      resolve(data.matched);
+    });
+    socket.emit("haveIMatched");
   });
-  socket.emit("haveIMatched");
 };
 
 export const loading = value => ({ type: LOADING, value });

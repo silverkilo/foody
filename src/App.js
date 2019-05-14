@@ -4,7 +4,6 @@ import Routes from "./routes";
 import {
   me,
   createConnection,
-  disconnectListener,
   matchListeners,
   chatListener,
   readyToListen,
@@ -14,27 +13,26 @@ import {
 class App extends React.Component {
   state = { init: false };
   async componentDidMount() {
-    await this.props.me(this.initSocket);
+    const me = await this.props.me(this.initSocket);
+    if (me) await this.initSocket();
     this.setState({ init: true });
   }
   initSocket = async () => {
-    return new Promise((resolve, reject) => {
-      window.navigator.geolocation.getCurrentPosition(
-        this.props.postLocation,
-        err => console.log(err),
-        {
-          timeout: 30000,
-          enableHighAccuracy: false,
-          maximumAge: 600000
-        }
-      );
-      this.props.createConnection();
-      this.props.disconnectListener();
-      this.props.readyToListen(() => {
-        this.props.matchListeners(resolve);
-        this.props.chatListener();
-      });
-    });
+    window.navigator.geolocation.getCurrentPosition(
+      this.props.postLocation,
+      err => console.log(err),
+      {
+        timeout: 30000,
+        enableHighAccuracy: false,
+        maximumAge: 600000
+      }
+    );
+    await Promise.all([
+      this.props.createConnection(),
+      this.props.readyToListen()
+    ]);
+    await this.props.matchListeners();
+    this.props.chatListener();
   };
   render() {
     return this.state.init ? (
@@ -54,7 +52,6 @@ export default connect(
   {
     me,
     createConnection,
-    disconnectListener,
     matchListeners,
     readyToListen,
     chatListener,

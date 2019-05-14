@@ -17,7 +17,6 @@ import {
 import {
   me,
   createConnection,
-  disconnectListener,
   matchListeners,
   chatListener,
   readyToListen,
@@ -98,7 +97,6 @@ export default withRouter(
     {
       me,
       createConnection,
-      disconnectListener,
       matchListeners,
       readyToListen,
       chatListener,

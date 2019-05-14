@@ -1,7 +1,5 @@
 const socketIO = require("socket.io");
-const db = require("../db");
-const { Op } = require("sequelize");
-const { Preference, User, Match } = require("../db/models");
+const { User, Match } = require("../db/models");
 const matchListeners = require("./match");
 const chatListener = require("./chat");
 const exclusions = {};
@@ -47,10 +45,10 @@ module.exports = function socketio(server, sessionMiddleware) {
         }
       );
       exclusions[userId] = exclusions[userId] || [userId];
-      socket.emit("ready");
-    } else return;
+      console.log("rEADYYYY");
+      socket.emit("ready", true);
+    } else return socket.emit("ready", false);
     console.log(userId);
-    //removes socketIds from disconnected users
 
     matchListeners(socket, userId, exclusions);
     chatListener(socket, userId);
