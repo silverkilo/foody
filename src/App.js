@@ -24,7 +24,7 @@ class App extends React.Component {
       {
         timeout: 30000,
         enableHighAccuracy: false,
-        maximumAge: 600000
+        maximumAge: 60000
       }
     );
     await Promise.all([

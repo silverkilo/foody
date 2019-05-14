@@ -111,24 +111,18 @@ async function seed() {
       preferenceId: 13
     }
   ]);
-  // await Match.bulkCreate([
-  //   {
-  //     matcherId: 2,
-  //     matcheeId: 10
-  //   },
-  //   {
-  //     matcherId: 10,
-  //     matcheeId: 2
-  //   }
-  // ]);
-  // await User.update(
-  //   { socketId: "socketID", hasMatched: 2 },
-  //   { where: { id: 10 } }
-  // );
-  // await User.update(
-  //   { socketId: "socketID", hasMatched: 10 },
-  //   { where: { id: 2 } }
-  // );
+  await Match.bulkCreate([
+    {
+      matcherId: 2,
+      matcheeId: 10
+    },
+    {
+      matcherId: 10,
+      matcheeId: 2
+    }
+  ]);
+  await User.update({ hasMatched: 2 }, { where: { id: 10 } });
+  await User.update({ hasMatched: 10 }, { where: { id: 2 } });
   await Promise.all(
     categories.map((_, i) =>
       UserPreference.create(
