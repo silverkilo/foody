@@ -26,6 +26,9 @@ class Preference extends Component {
   }
 
   componentDidUpdate(prevState) {
+    if (this.props.user && this.props.user.id && this.props.matched) {
+      this.props.history.push("/matches");
+    }
     if (prevState === this.props.categories) {
       this.reload();
     }
@@ -64,36 +67,38 @@ class Preference extends Component {
       return <h1>Loading...</h1>;
     }
     return (
-      <div className="preference">
+      <React.Fragment>
         <Nav />
-        <div className="preference__selection">
-          <h1 className="preference__text">
-            What type of food are you feeling today?
-          </h1>
-          <UserPreference />
+        <div className="preference">
+          <div className="preference__selection">
+            <h1 className="preference__text">
+              What type of food are you feeling today?
+            </h1>
+            <UserPreference />
+          </div>
+          <div className="preference__list">
+            {this.props.categories.map(category => {
+              return (
+                <button
+                  className="preference__button"
+                  type="button"
+                  key={category.id}
+                  onClick={() => this.handleSelect(category)}
+                >
+                  {category.category}
+                </button>
+              );
+            })}
+          </div>
+          <button
+            className="match"
+            type="button"
+            onClick={() => this.handleClick()}
+          >
+            Match Me
+          </button>
         </div>
-        <div className="preference__list">
-          {this.props.categories.map(category => {
-            return (
-              <button
-                className="preference__button"
-                type="button"
-                key={category.id}
-                onClick={() => this.handleSelect(category)}
-              >
-                {category.category}
-              </button>
-            );
-          })}
-        </div>
-        <button
-          className="match"
-          type="button"
-          onClick={() => this.handleClick()}
-        >
-          Match Me
-        </button>
-      </div>
+      </React.Fragment>
     );
   }
 }
@@ -102,7 +107,8 @@ const mapStateToProps = state => {
   return {
     categories: state.categories,
     user: state.user,
-    preferences: state.preferences
+    preferences: state.preferences,
+    matched: state.match.didMatch.matched
   };
 };
 
