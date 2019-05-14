@@ -76,11 +76,24 @@ class Routes extends Component {
       });
     });
   }
+  componentDidUpdate() {
+    if (this.props.location.pathname === "/matches") {
+      document.querySelector("html").style.position = "fixed";
+      document.querySelector("body").style.position = "fixed";
+    } else {
+      document.querySelector("html").style.position = "static";
+      document.querySelector("body").style.position = "static";
+    }
+  }
 
   render() {
     return (
       <Switch>
-        <Route exact path="/" component={Login} />{" "}
+        <Route
+          exact
+          path="/"
+          render={() => <Login initSocket={() => this.props.initSocket()} />}
+        />{" "}
         <Route path="/signup" component={Signup} />{" "}
         <Route path="/signup-email" component={SignupEmail} />{" "}
         <Route path="/signup-name" component={SignupName} />{" "}

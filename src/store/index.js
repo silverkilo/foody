@@ -7,7 +7,7 @@ import categories from "./categories";
 import preferences from "./preferences";
 import match from "./match";
 import socket from "./socket";
-import userMatchLatLong from "./location";
+import location from "./location";
 import matchPreference from "./matchPreference";
 import selectedIdx from "./highlight";
 import chatHistory from "./chat";
@@ -20,7 +20,7 @@ const reducer = combineReducers({
   categories,
   preferences,
   match,
-  userMatchLatLong,
+  location,
   socket,
   matchPreference,
   food,

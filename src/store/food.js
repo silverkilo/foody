@@ -18,8 +18,8 @@ const decideRestaurant = restaurantId => ({
   restaurantId
 });
 
-export const createVenueList = userId => dispatch => {
-  socket.emit("start-choosing-res", userId);
+export const createVenueList = () => {
+  socket.emit("start-choosing-res");
 };
 
 export const select = restaurantId => dispatch => {
@@ -41,6 +41,7 @@ export const deselect = restaurantId => dispatch => {
 
 export const decide = restaurantId => dispatch => {
   try {
+    console.log("we went into decide", restaurantId);
     dispatch(decideRestaurant(restaurantId));
   } catch (err) {
     console.error(err);
@@ -49,6 +50,7 @@ export const decide = restaurantId => dispatch => {
 
 export const resListener = () => dispatch => {
   socket.on("matched", restaurantId => {
+    console.log("we went into listener", restaurantId);
     dispatch(decide(restaurantId));
   });
 };
