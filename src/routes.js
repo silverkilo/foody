@@ -27,7 +27,6 @@ import {
 class Routes extends Component {
   componentDidMount() {
     // disable pull to refresh for chrome IOS. Enabled for two fingers
-    console.log("PROPS: ", this.props);
     function preventPullToRefresh(element) {
       let prevent = false;
       document
@@ -57,6 +56,15 @@ class Routes extends Component {
     preventPullToRefresh("html");
     preventPullToRefresh("body");
     this.props.me(this.initSocket);
+  }
+  componentDidUpdate() {
+    if (this.props.location.pathname === "/matches") {
+      document.querySelector("html").style.position = "fixed";
+      document.querySelector("body").style.position = "fixed";
+    } else {
+      document.querySelector("html").style.position = "static";
+      document.querySelector("body").style.position = "static";
+    }
   }
   initSocket = () => {
     window.navigator.geolocation.getCurrentPosition(

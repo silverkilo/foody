@@ -23,8 +23,6 @@ class Preference extends Component {
 
   componentDidMount() {
     this.reload();
-    document.querySelector("html").style.position = "static";
-    document.querySelector("body").style.position = "static";
   }
 
   componentDidUpdate(prevState) {

@@ -40,11 +40,8 @@ const initialState = [];
 export default (state = initialState, action) => {
   switch (action.type) {
     case SEND_HISTORY:
-<<<<<<< HEAD
-=======
       return action.array;
     case ADD_NEW_MSG:
->>>>>>> master
       return [...state, action.array];
     default:
       return state;
