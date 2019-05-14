@@ -48,26 +48,21 @@ export class MapBox extends Component {
 
   async componentDidMount() {
     this.getLoc = new Promise((resolve, reject) => {
-      window.navigator.geolocation.getCurrentPosition(
-        ({ coords }) => {
-          let lat = coords.latitude;
-          let long = coords.longitude;
-          resolve([long, lat]);
-          this.setState({
-            viewport: {
-              ...this.state.viewport,
-              latitude: lat,
-              longitude: long
-            },
-            lat: lat,
-            long: long,
-            loadedUser: true
-          });
-          this.props.setUserLocation([long, lat]);
-          this.props.getMatchLocation();
+      let lat = this.props.userLat;
+      let long = this.props.userLong;
+      resolve([long, lat]);
+      this.setState(
+        {
+          viewport: {
+            ...this.state.viewport,
+            latitude: lat,
+            longitude: long
+          },
+          lat,
+          long,
+          loadedUser: true
         },
-        err => console.log(err),
-        { maximumAge: 60000, timeout: 10000, enableHighAccuracy: false }
+        resolve
       );
     });
 

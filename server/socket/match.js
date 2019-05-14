@@ -144,6 +144,7 @@ module.exports = function(socket, userId, exclusions) {
       `,
         { replacements: [[userId]] }
       );
+
       if (user.hasMatched) {
         const [[matcheeInfo]] = await db.query(
           `
