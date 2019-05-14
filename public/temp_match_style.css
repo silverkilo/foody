@@ -1,15 +1,16 @@
 /* match-card-container absolutely necessary styles, do not change */
 html, body , #root, .match-container{
     max-width: 100%;
-    overflow: hidden !important;
     overscroll-behavior-y: contain !important;
     touch-action: none !important;
 }
-html,
-body {
+html, body {
   height: 100%;
   width: 100%;
-  position: fixed;
+  /* position: fixed; */
+}
+.match-container{
+     overflow: hidden !important;
 }
 /* match-card-container also essential styles */
 .match-card-container{

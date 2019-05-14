@@ -55,30 +55,25 @@ class Routes extends Component {
 
     preventPullToRefresh("html");
     preventPullToRefresh("body");
-    preventPullToRefresh("#root");
-    this.props.me(() => {
-      window.navigator.geolocation.getCurrentPosition(
-        this.props.postLocation,
-        err => console.log(err),
-        {
-          timeout: 10000,
-          enableHighAccuracy: false,
-          maximumAge: 10000
-        }
-      );
-      this.props.createConnection();
-      this.props.disconnectListener();
-      this.props.readyToListen(() => {
-        this.props.matchListeners();
-        this.props.chatListener();
-      });
-    });
+  }
+  componentDidUpdate() {
+    if (this.props.location.pathname === "/matches") {
+      document.querySelector("html").style.position = "fixed";
+      document.querySelector("body").style.position = "fixed";
+    } else {
+      document.querySelector("html").style.position = "static";
+      document.querySelector("body").style.position = "static";
+    }
   }
 
   render() {
     return (
       <Switch>
-        <Route exact path="/" component={Login} />{" "}
+        <Route
+          exact
+          path="/"
+          render={() => <Login initSocket={() => this.props.initSocket()} />}
+        />{" "}
         <Route path="/signup" component={Signup} />{" "}
         <Route path="/signup-email" component={SignupEmail} />{" "}
         <Route path="/signup-name" component={SignupName} />{" "}
