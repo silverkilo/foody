@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import MapGL, { Marker } from "react-map-gl";
 import { Link } from "react-router-dom";
+import ReactModal from "react-modal";
 import SwipeLayer from "./SwipeLayer";
 import { connect } from "react-redux";
 import { setUserLocation, getMatchLocation } from "../store";
@@ -9,7 +10,6 @@ import { getMatchPreference } from "../store/matchPreference";
 import { joinChatRoom } from "../store/chat";
 import { createVenueList } from "../store/food";
 import { setIconImg } from "../store/icon";
-import Popup from "reactjs-popup";
 import Chat from "./Chat";
 import "./mapstyles.css";
 
@@ -75,12 +75,10 @@ export class MapBox extends Component {
     let distance = Math.sqrt(
       (lat - this.props.matchLat) ** 2 + (long - this.props.matchLong) ** 2
     );
-    console.log("DISTANCE", distance);
     let midpointLat = (lat + this.props.matchLat) / 2;
     let midpointLong = (long + this.props.matchLong) / 2;
 
     await this.getVenues(midpointLat, midpointLong, 600);
-    console.log(this.props.matchInfo);
     this.props.joinChatRoom();
     this.props.setIconImg();
     this.props.createVenueList();
@@ -139,8 +137,11 @@ export class MapBox extends Component {
     chat.classList.add("is-visible");
   };
 
+  handlePopupClose = () => {
+    this.props.history.push("/navigation");
+  };
+
   render() {
-    console.log(this.state.selectedRestaurant);
     return (
       <React.Fragment>
         <div className="map">
@@ -172,7 +173,6 @@ export class MapBox extends Component {
             </Marker>
             {this.state.allVenues.map((item, index) => {
               let icon;
-              console.log("selectedidx", this.props.selectedIdx, "idx", index);
               this.props.selectedIdx === index
                 ? (icon = `highlightedFooodMarker`)
                 : (icon = `foodMarker`);
@@ -200,17 +200,36 @@ export class MapBox extends Component {
           <i class="fas fa-comment-alt" />
         </button>
         <Chat />
-        {/* <Popup trigger={this.props.selectedRestaurant} position="right center">
-          <div>You are going to this restaurant: !!</div>
-          <Link>Navigate me to the restaurant</Link>
-        </Popup> */}
         {this.state.loadedVenues && (
           <div className="overlay">
             <div className="content">
               <SwipeLayer allVenues={this.state.allVenues} />{" "}
             </div>{" "}
           </div>
-        )}{" "}
+        )}
+        <ReactModal
+          isOpen={this.props.selectedRestaurant}
+          shouldCloseOnOverlayClick={true}
+          closeTimeoutMS={5000}
+          contentLabel="Restaurant Selected Modal"
+          // style={{ overlay: {}, content: "hi is this working" }}
+          // portalClassName="ReactModalPortal"
+          // overlayClassName="ReactModal__Overlay"
+          // className="ReactModal__Content"
+          // bodyOpenClassName="ReactModal__Body--open"
+          // htmlOpenClassName="ReactModal__Html--open"
+          // ariaHideApp={true}
+          // role="dialog"
+          // parentSelector={() => document.body}
+          // data={{
+          //   background: "blue"
+          // }}
+        >
+          <p> You both chose restaurant {this.props.selectedRestaurant} </p>
+          <button onClick={this.handlePopupClose}>
+            Navigate to the restaurant
+          </button>
+        </ReactModal>
       </React.Fragment>
     );
   }

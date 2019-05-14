@@ -27,7 +27,6 @@ module.exports = function socketio(server, sessionMiddleware) {
 
   io.on("connect", async socket => {
     let userId;
-    console.log(socket.id);
     if (
       socket.request &&
       socket.request.session &&
@@ -48,11 +47,9 @@ module.exports = function socketio(server, sessionMiddleware) {
       exclusions[userId] = exclusions[userId] || [userId];
       socket.emit("ready", true);
     } else return socket.emit("ready", false);
-    console.log(userId);
 
     matchListeners(socket, userId, exclusions);
     chatListener(socket, userId);
-    venueListener(socket, userId);
 
     socket.on("disconnect", async () => {
       console.log("disconnected", socket.id);
