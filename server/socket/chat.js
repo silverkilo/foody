@@ -66,22 +66,6 @@ function addNewMessage(userId, msg) {
 }
 
 //socket
-<<<<<<< HEAD
-module.exports = function (socket, userId) {
-    //joining chatroom and sending back chat history
-    socket.on("join-chatroom", async () => {
-      try {
-        console.log(userId, "joined chat room on the backend");
-        await checkMatchId(socket, userId);
-        socket.join(roomInfo[userId].roomId);
-        const chatHistory = getChatHistory(String(roomInfo[userId].roomId));
-        socket.emit("send-chat-history", chatHistory);
-      } catch (e) {
-        console.log(e);
-        socket.emit("errorMessage", "There was an error joining chatroom");
-      }
-    });
-=======
 module.exports = function(socket, userId) {
   //joining chatroom and sending back chat history
   socket.on("join-chatroom", async () => {
@@ -96,7 +80,6 @@ module.exports = function(socket, userId) {
       socket.emit("errorMessage", "There was an error joining chatroom");
     }
   });
->>>>>>> ff36d336c4a5004bf1925d1f0f5d97ac96be7acc
 
   // CLIENT send message
   socket.on("send-client-message", msg => {
