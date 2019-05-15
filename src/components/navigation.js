@@ -23,9 +23,9 @@ const dummyResData = [-73.977, 40.731];
 const initialViewState = {
   latitude: 40.7128,
   longitude: -74.006,
-  zoom: 14,
-  pitch: 0,
-  bearing: 0
+  zoom: 14
+  // pitch: 0,
+  // bearing: 0
 };
 
 export class Navigation extends Component {
@@ -39,14 +39,16 @@ export class Navigation extends Component {
         pitch: 0,
         bearing: 0
       },
+      // restaurantLat: 40.731,
+      // restaurantLong: -73.977,
       restaurantLat: "",
       restaurantLong: "",
       coordinatesLoaded: false
     };
   }
 
-  componentDidMount() {
-    this.getCoordinates();
+  async componentDidMount() {
+    this.getRestaurantCoords();
   }
 
   componentDidUpdate() {
@@ -62,14 +64,38 @@ export class Navigation extends Component {
         }
       });
     }
+    this.getCoordinates();
   }
+
+  getRestaurantCoords = async () => {
+    // const venueId = this.props.selectedRestaurant;
+
+    // BELOW ID IS FOR TEST. COMMENT BACK IN ABOVE LINE
+    const venueId = "412d2800f964a520df0c1fe3";
+    const params = {
+      client_id: "KUZ0H02M1VQNYUNKV40GFCICQUYGHRZJQVFLFS4MK01IHFYE",
+      client_secret: "ESQTWW5FJSPUDTTCM5JWQ1EO3T1GXNRVMS5XTKR3AKC4GNVJ",
+      v: "20130619"
+    };
+    const venuesEndpoint = `https://api.foursquare.com/v2/venues/${venueId}?&client_id=${
+      params.client_id
+    }&client_secret=${params.client_secret}&v=${params.v}`;
+
+    const res = await axios.get(venuesEndpoint);
+    const { venue } = res.data.response;
+    this.setState({
+      name: venue.name,
+      restaurantLat: venue.location.lat,
+      restaurantLong: venue.location.lng
+    });
+  };
 
   getCoordinates = async () => {
     const endpoint = `https://api.mapbox.com/directions/v5/mapbox/cycling/${
       this.state.viewport.longitude
-    },${
-      this.state.viewport.latitude
-    };-73.977,40.731?geometries=geojson&access_token=pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg`;
+    },${this.state.viewport.latitude};${this.state.restaurantLong},${
+      this.state.restaurantLat
+    }?geometries=geojson&access_token=pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg`;
     const res = await axios.get(endpoint);
     data[0].path = res.data.routes[0].geometry.coordinates;
     this.setState({
@@ -104,32 +130,8 @@ export class Navigation extends Component {
             />
           )}{" "}
           <button className="hereButton" onClick={() => this.clickedHere()}>
-            {" "}
             Click me{" "}
           </button>{" "}
-          {/* <MapGL
-                                                                                                                                                      mapStyle="mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
-                                                                                                                                                      mapboxApiAccessToken="pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg"
-                                                                                                                                                    >
-                                                                                                                                                      <Marker
-                                                                                                                                                                                        latitude={this.props.userLat}
-                                                                                                                                                                                        longitude={this.props.userLong}
-                                                                                                                                                                                        offsetLeft={-20}
-                                                                                                                                                                                        offsetTop={-10}
-                                                                                                                                                                                      >
-                                                                                                                                                                                      <div className={`marker marker1`} />{" "}
-                                                                                                                                                                                      </Marker>{" "}{" "}{" "}
-                                                                                                                                                      <Marker
-                                                                                                                                                        latitude={dummyResData[1]}
-                                                                                                                                                        longitude={dummyResData[0]}
-                                                                                                                                                        offsetLeft={-20}
-                                                                                                                                                        offsetTop={-10}
-                                                                                                                                                      >
-                                                                                                                                                        <div className={`marker marker2`} />{" "}
-                                                                                                                                                      </Marker>
-                                                                                                                                                      }) }{" "}
-                                                                                                                                                    </MapGL>{" "} */}{" "}
-          {/* </DeckGL>{" "} */}{" "}
         </div>{" "}
       </React.Fragment>
     );
@@ -141,7 +143,8 @@ const mapStateToProps = state => {
     userLong: state.location.user[0],
     userLat: state.location.user[1],
     icon1: state.icon.icon1,
-    icon2: state.icon.icon2
+    icon2: state.icon.icon2,
+    selectedRestaurant: state.selectedRestaurant
   };
 };
 
