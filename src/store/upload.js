@@ -17,7 +17,11 @@ const uploadFail = error => ({
 export const uploadPhoto = photo => async dispatch => {
   try {
     dispatch(uploading());
-    const { data } = axios.post("/photos", photo);
+    const file = new FormData();
+    file.append("file", photo);
+    file.append("name", "photo");
+    file.append("description", "description");
+    const { data } = axios.post("/api/photos", file);
     dispatch(uploadSuccess(data));
   } catch (e) {
     dispatch(uploadFail(e));

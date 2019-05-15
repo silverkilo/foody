@@ -24,28 +24,12 @@ class UploadPhoto extends Component {
     this.props.setPreviewImage(file);
   };
   handleSubmit = async e => {
-    const image = this.state.file;
     e.preventDefault();
+    const image = this.state.file;
+
     if (image && this.state.valid) {
-      //   const { data } = await uploadImage({
-      //     variables: { image, type: "profile" }
-      //   });
-      //   if (data && data.uploadImage) {
-      //     const photo_path = data.uploadImage;
-      //     // await client.mutate({
-      //     //   mutation: UPDATE_PROFILE,
-      //     //   variables: { input: { photo_path } },
-      //     //   update
-      //     // });
-      //     this.props.cancelEdit();
-      //   }
+      await this.props.uploadPhoto(image);
     } else if (this.state.delete) {
-      const photo_path = null;
-      //   await client.mutate({
-      //     mutation: UPDATE_PROFILE,
-      //     variables: { input: { photo_path } },
-      //     update
-      //   });
       this.props.cancelEdit(this.props.original);
     } else {
       this.props.cancelEdit(this.props.original);
@@ -71,13 +55,13 @@ class UploadPhoto extends Component {
       return "Invalid Image";
     }
     if (this.state.valid && this.state.fileName) {
-      return "Do you like it?";
+      return null;
     }
     return null;
   };
   render() {
     return (
-      <form>
+      <form onSubmit={this.handleSubmit}>
         <input
           className="file-input"
           type="file"
@@ -85,7 +69,7 @@ class UploadPhoto extends Component {
           accept=".jpeg,.jpg,.png"
           onChange={this.onChange}
         />
-        {this.getText || <button type="submit">Submit</button>}
+        {this.getText() || <button className="button">Submit</button>}
       </form>
     );
   }

@@ -24,7 +24,7 @@ export default function MatchCard({
   );
   return (
     <div className="match__card">
-      <img className="match__img" src={photoURLs[0]} alt="" />
+      <img className="match__img" draggable={false} src={photoURLs[0]} alt="" />
       <div className="match__details">
         <h1 className="match__name">
           <i className="fas fa-user-circle match__person" /> {firstName}{" "}

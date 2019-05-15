@@ -4,26 +4,26 @@ const gis = require("./gis");
 const { Op } = require("sequelize");
 const { Preference, User, UserPreference, Match } = require("./db/models");
 const categories = [
-  "Bubble Tea Shop",
-  "African Restaurant",
-  "American Restaurant",
-  "Japanese Restaurant",
-  "Chinese Restaurant",
-  "Malay Restaurant",
-  "Coffee Shop",
-  "Vietnamese Restaurant",
-  "Australian Restaurant",
-  "Brazilian Restaurant",
-  "Burmese Restaurant",
-  "Cajun / Creole Restaurant",
-  "Dessert Shop",
-  "French Restaurant",
-  "Bakery",
-  "German Restaurant",
-  "Greek Restaurant",
-  "Persian Restaurant",
-  "Peruvian Restaurant",
-  "Vegetarian / Vegan Restaurant"
+  ["Bubble Tea", "52e81612bcbc57f1066b7a0c"],
+  ["African", "4bf58dd8d48988d1c8941735"],
+  ["American", "4bf58dd8d48988d14e941735"],
+  ["Japanese", "4bf58dd8d48988d111941735"],
+  ["Chinese", "4bf58dd8d48988d145941735"],
+  ["Comfort Food", "52e81612bcbc57f1066b7a00"],
+  ["Coffee Shop", "4bf58dd8d48988d1e0931735"],
+  ["Vietnamese", "4bf58dd8d48988d14a941735"],
+  ["Australian", "4bf58dd8d48988d169941735"],
+  ["Brazilian", "4bf58dd8d48988d16b941735"],
+  ["Soul Food", "4bf58dd8d48988d14f941735"],
+  ["Cajun/Creole", "4bf58dd8d48988d17a941735"],
+  ["Dessert Shop", "4bf58dd8d48988d1d0941735"],
+  ["French", "4bf58dd8d48988d10c941735"],
+  ["Bakery", "4bf58dd8d48988d16a941735"],
+  ["German", "4bf58dd8d48988d10d941735"],
+  ["Greek", "4bf58dd8d48988d10e941735"],
+  ["Persian", "52e81612bcbc57f1066b79f7"],
+  ["Peruvian", "4eb1bfa43b7b52c0e1adc2e8"],
+  ["Vegetarian/Vegan", "4bf58dd8d48988d1d3941735"]
 ];
 async function seed() {
   await db.sync({
@@ -33,8 +33,9 @@ async function seed() {
   console.log("db synced!");
 
   await Preference.bulkCreate(
-    categories.map(category => ({
-      category
+    categories.map(([category, fsId]) => ({
+      category,
+      fsId
     }))
   );
   const codyLoc = {

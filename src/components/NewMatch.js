@@ -14,7 +14,6 @@ export default function NewMatch({
         <p>{firstName}</p>
         <p>{lastName}</p>
         <img src={photoURLs[0]} alt={firstName} />
-        <p>{preferences.join(", ")}</p>
       </div>
     </div>
   );

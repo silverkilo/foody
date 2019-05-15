@@ -6,10 +6,10 @@ module.exports = router;
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-const storeCloud = ({ stream, type }) => {
+const storeCloud = file => {
   return new Promise((resolve, reject) => {
-    const uploadStream = cloudinary.uploader.upload_stream(
-      { tags: type, folder: process.env.CLOUD_FOLDER },
+    cloudinary.uploader.unsigned_upload(
+      { tags: "profile", folder: process.env.CLOUD_FOLDER },
       (err, image) => {
         if (err) {
           reject(err);
@@ -17,7 +17,6 @@ const storeCloud = ({ stream, type }) => {
         resolve(image);
       }
     );
-    stream.pipe(uploadStream);
   });
 };
 const cloudRegex = /cloudinary/;
@@ -43,5 +42,5 @@ const deleteCloud = path => {
 };
 
 router.post("/", upload.single("file"), (req, res) => {
-  console.log(req);
+  console.log(req.file);
 });
