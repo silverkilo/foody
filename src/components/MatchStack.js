@@ -8,7 +8,7 @@ import MatchCard from "./MatchCard";
 function MatchStack({ users, swipe }) {
   const to = i => ({
     x: 0,
-    y: i * -10,
+    y: i * -5,
     scale: 1,
     rot: 0,
     delay: i * 100

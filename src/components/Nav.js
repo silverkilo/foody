@@ -26,7 +26,7 @@ class Nav extends Component {
             type="button"
             onClick={() => this.handleProfile()}
           >
-            <i className="fas fa-cog" />
+            <i className="fas fa-bars" />
           </button>
         )}
         <h1 className="header__title">Foody</h1>

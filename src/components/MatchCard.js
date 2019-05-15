@@ -27,7 +27,8 @@ export default function MatchCard({
       <img className="match__img" src={photoURLs[0]} alt="" />
       <div className="match__details">
         <h1 className="match__name">
-          {firstName} {lastName}
+          <i className="fas fa-user-circle match__person" /> {firstName}{" "}
+          {lastName}
         </h1>
         <ul className="match__preferences">
           {preferences.map(preference => (
@@ -36,19 +37,5 @@ export default function MatchCard({
         </ul>
       </div>
     </div>
-    // <div>
-    //   {/* displaying id for debugging purposes only */}
-
-    //   <h1 className="match-name">
-    //     {id}: {firstName} {lastName}
-    //   </h1>
-
-    //   <div className="match-image">
-    //     <img src={photoURLs[0]} alt={firstName} />
-    //   </div>
-    //   {/* match distance will be deleted, for debugging purposes only */}
-    //   <strong className="match-distance">{distance}</strong>
-    //   <p className="match-prefs">{preferences.join(", ")}</p>
-    // </div>
   );
 }
