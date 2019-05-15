@@ -12,7 +12,7 @@ import "./mapstyles.css";
 
 let data = [
   {
-    name: "fake-name",
+    // name: "fake-name",
     color: [0, 0, 255],
     path: []
   }
@@ -39,6 +39,8 @@ export class Navigation extends Component {
         pitch: 0,
         bearing: 0
       },
+      restaurantLat: "",
+      restaurantLong: "",
       coordinatesLoaded: false
     };
   }
@@ -65,13 +67,18 @@ export class Navigation extends Component {
   getCoordinates = async () => {
     const endpoint = `https://api.mapbox.com/directions/v5/mapbox/cycling/${
       this.state.viewport.longitude
-    },40.7077;-73.977,40.731?geometries=geojson&access_token=pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg`;
+    },${
+      this.state.viewport.latitude
+    };-73.977,40.731?geometries=geojson&access_token=pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg`;
     const res = await axios.get(endpoint);
     data[0].path = res.data.routes[0].geometry.coordinates;
-    console.log(data);
     this.setState({
       coordinatesLoaded: true
     });
+  };
+
+  clickedHere = () => {
+    console.log("here!");
   };
 
   render() {
@@ -83,10 +90,6 @@ export class Navigation extends Component {
         getColor: data => data.color,
         widthMinPixels: 5
       })
-      //
-      // widthScale: 100,
-      //
-      // getPath: data => data.path,
     ];
 
     return (
@@ -100,29 +103,32 @@ export class Navigation extends Component {
               controller={true}
             />
           )}{" "}
-          }{" "}
+          <button className="hereButton" onClick={() => this.clickedHere()}>
+            {" "}
+            Click me{" "}
+          </button>{" "}
           {/* <MapGL
-                                                      mapStyle="mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
-                                                      mapboxApiAccessToken="pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg"
-                                                    >
-                                                      <Marker
-                                                                                        latitude={this.props.userLat}
-                                                                                        longitude={this.props.userLong}
-                                                                                        offsetLeft={-20}
-                                                                                        offsetTop={-10}
-                                                                                      >
-                                                                                      <div className={`marker marker1`} />{" "}
-                                                                                      </Marker>{" "}{" "}{" "}
-                                                      <Marker
-                                                        latitude={dummyResData[1]}
-                                                        longitude={dummyResData[0]}
-                                                        offsetLeft={-20}
-                                                        offsetTop={-10}
-                                                      >
-                                                        <div className={`marker marker2`} />{" "}
-                                                      </Marker>
-                                                      }) }{" "}
-                                                    </MapGL>{" "} */}{" "}
+                                                                                                                                                      mapStyle="mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
+                                                                                                                                                      mapboxApiAccessToken="pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg"
+                                                                                                                                                    >
+                                                                                                                                                      <Marker
+                                                                                                                                                                                        latitude={this.props.userLat}
+                                                                                                                                                                                        longitude={this.props.userLong}
+                                                                                                                                                                                        offsetLeft={-20}
+                                                                                                                                                                                        offsetTop={-10}
+                                                                                                                                                                                      >
+                                                                                                                                                                                      <div className={`marker marker1`} />{" "}
+                                                                                                                                                                                      </Marker>{" "}{" "}{" "}
+                                                                                                                                                      <Marker
+                                                                                                                                                        latitude={dummyResData[1]}
+                                                                                                                                                        longitude={dummyResData[0]}
+                                                                                                                                                        offsetLeft={-20}
+                                                                                                                                                        offsetTop={-10}
+                                                                                                                                                      >
+                                                                                                                                                        <div className={`marker marker2`} />{" "}
+                                                                                                                                                      </Marker>
+                                                                                                                                                      }) }{" "}
+                                                                                                                                                    </MapGL>{" "} */}{" "}
           {/* </DeckGL>{" "} */}{" "}
         </div>{" "}
       </React.Fragment>
