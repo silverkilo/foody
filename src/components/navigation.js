@@ -118,14 +118,14 @@ export class Navigation extends Component {
       <React.Fragment>
         <div className="map">
           {" "}
-          {this.state.coordinatesLoaded && (
+          {this.state.coordinatesLoaded &&
             <DeckGL
               initialViewState={initialViewState}
               layers={layer}
               controller={true}
-            />
-          )}{" "}
-          {/* <MapGL
+            >
+          {/* )}{" "} */}
+          <MapGL
                       mapStyle="mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
                       mapboxApiAccessToken="pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg"
                     >
@@ -137,20 +137,21 @@ export class Navigation extends Component {
                       >
                         <div className={`marker marker1`} />
                       </Marker>
-                      <Marker
+                      {/* <Marker
                         latitude={dummyResData[1]}
                         longitude={dummyResData[0]}
                         offsetLeft={-20}
                         offsetTop={-10}
                       >
                         <div className={`marker marker2`} />{" "}
-                      </Marker>
+                      </Marker> */}
                       }) }
                     </MapGL>
-                  </DeckGL> */}
-          <button className="hereButton" onClick={() => this.clickedHere()}>
+                  </DeckGL>
+                }
+          {/* <button className="hereButton" onClick={() => this.clickedHere()}>
             I 'm here!{" "}
-          </button>{" "}
+          </button>{" "} */}
         </div>{" "}
       </React.Fragment>
     );
