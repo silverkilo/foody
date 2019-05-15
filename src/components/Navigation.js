@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import MapGL, { Marker } from "react-map-gl";
 import { connect } from "react-redux";
-import "./mapstyles.css";
 import axios from "axios";
 import DeckGL from "@deck.gl/react";
 import { PathLayer } from "@deck.gl/layers";
