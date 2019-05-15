@@ -36,12 +36,7 @@ export class MapBox extends Component {
       // venuesMatch: [],
       allVenues: [],
       // THE BELOW MATCH PREFERENCES JUST HAS SOME PLACEHOLDER PREFERENCES FOR TESTING
-      matchPreferences: [
-        "Food Truck",
-        "Supermarket",
-        "Food Stand",
-        "Asian Restaurant"
-      ],
+      matchPreferences: [],
       loadedVenues: false,
       loadedUser: false,
       selectedRestaurant: {}
@@ -89,6 +84,7 @@ export class MapBox extends Component {
       },
       async () => {
         console.log("STATE AFTER SETTING MATCH PREFERENCES", this.state);
+        console.log("this.props.matchInfo", this.props.matchInfo);
         await this.getVenues(
           midpointLat,
           midpointLong,
@@ -145,7 +141,8 @@ export class MapBox extends Component {
       query: "Food",
       v: "20130619", // version of the API
       ll: `${lat}, ${long}`,
-      radius
+      radius,
+      categoryId: this.state.matchPreferences.join(",")
     };
 
     await fetch(venuesEndpoint + new URLSearchParams(params), {
@@ -154,7 +151,6 @@ export class MapBox extends Component {
       .then(response => response.json())
       .then(response => {
         // filter out those places without category names
-
         this.setState({
           allVenues: response.response.venues,
           loadedVenues: true
