@@ -81,8 +81,8 @@ export class Navigation extends Component {
     // BELOW ID IS FOR TEST. COMMENT BACK IN ABOVE LINE AND DELETE BELOW LINE
     // const venueId = "412d2800f964a520df0c1fe3";
     const params = {
-      client_id: "KUZ0H02M1VQNYUNKV40GFCICQUYGHRZJQVFLFS4MK01IHFYE",
-      client_secret: "ESQTWW5FJSPUDTTCM5JWQ1EO3T1GXNRVMS5XTKR3AKC4GNVJ",
+      client_id: "NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ",
+      client_secret: "YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM",
       v: "20130619"
     };
     const venuesEndpoint = `https://api.foursquare.com/v2/venues/${venueId}?&client_id=${
@@ -113,6 +113,7 @@ export class Navigation extends Component {
       this.state.restaurantLat
     }?geometries=geojson&access_token=pk.eyJ1IjoicmhlYXJhbyIsImEiOiJjanY3NGloZm4wYzR5NGVxcGU4MXhwaTJtIn0.d_-A1vz2gnk_h1GbTchULA`;
     const res = await axios.get(endpoint);
+    console.log("GEOJSON", res);
     data[0].path = res.data.routes[0].geometry.coordinates;
     this.setState({
       coordinatesLoaded: true

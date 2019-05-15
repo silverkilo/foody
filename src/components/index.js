@@ -11,3 +11,4 @@ export { default as MapBox } from "./MapBox";
 export { default as FoodDetails } from "./FoodDetails";
 export { default as Navigation } from "./Navigation";
 export { default as FinalPage } from "./FinalPage";
+export { default as NewMatch } from "./NewMatch";
