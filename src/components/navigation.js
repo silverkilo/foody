@@ -18,8 +18,6 @@ let data = [
   }
 ];
 
-const dummyResData = [-73.977, 40.731];
-
 const initialViewState = {
   latitude: 40.7128,
   longitude: -74.006,
@@ -39,8 +37,6 @@ export class Navigation extends Component {
         pitch: 0,
         bearing: 0
       },
-      // restaurantLat: 40.731,
-      // restaurantLong: -73.977,
       restaurantLat: "",
       restaurantLong: "",
       coordinatesLoaded: false
@@ -70,7 +66,7 @@ export class Navigation extends Component {
   getRestaurantCoords = async () => {
     // const venueId = this.props.selectedRestaurant;
 
-    // BELOW ID IS FOR TEST. COMMENT BACK IN ABOVE LINE
+    // BELOW ID IS FOR TEST. COMMENT BACK IN ABOVE LINE AND DELETE BELOW LINE
     const venueId = "412d2800f964a520df0c1fe3";
     const params = {
       client_id: "KUZ0H02M1VQNYUNKV40GFCICQUYGHRZJQVFLFS4MK01IHFYE",
@@ -130,7 +126,7 @@ export class Navigation extends Component {
             />
           )}{" "}
           <button className="hereButton" onClick={() => this.clickedHere()}>
-            Click me{" "}
+            I 'm here!{" "}
           </button>{" "}
         </div>{" "}
       </React.Fragment>
@@ -153,6 +149,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Navigation);
