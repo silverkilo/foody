@@ -26,15 +26,19 @@ class App extends React.Component {
     this.setState({ init: true });
   }
   initSocket = async () => {
-    window.navigator.geolocation.getCurrentPosition(
-      this.props.postLocation,
-      err => console.log(err),
-      {
-        timeout: 30000,
-        enableHighAccuracy: false,
-        maximumAge: 60000
-      }
-    );
+    const locationPromise = new Promise(resolve => {
+      window.navigator.geolocation.getCurrentPosition(
+        pos => {
+          this.props.postLocation(pos);
+          resolve();
+        },
+        err => console.log(err),
+        {
+          timeout: 60000,
+          enableHighAccuracy: false
+        }
+      );
+    });
     await Promise.all([
       this.props.createConnection(),
       this.props.readyToListen()
@@ -43,6 +47,19 @@ class App extends React.Component {
     if (matched) this.props.getMatchLocation();
     this.props.chatListener();
     this.props.resListener();
+    locationPromise.then(() => {
+      window.navigator.geolocation.watchPosition(
+        ({ coords: { latitude, longitude } }) => {
+          this.props.setUserLocation([longitude, latitude]);
+        },
+        err => console.log(err),
+        {
+          enableHighAccuracy: false,
+          timeout: 5000,
+          maximumAge: 5000
+        }
+      );
+    });
   };
   render() {
     return this.state.init ? (

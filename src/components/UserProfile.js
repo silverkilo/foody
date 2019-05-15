@@ -11,18 +11,18 @@ class UserProfile extends Component {
       firstName: "",
       lastName: "",
       email: "",
-      currentPage: "profile"
+      currentPage: "profile",
+      photoURLs: []
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.user.id !== this.props.user.id) {
-      this.setState({
-        firstName: this.props.user.firstName,
-        lastName: this.props.user.lastName,
-        email: this.props.user.email
-      });
-    }
+  componentDidMount() {
+    this.setState({
+      firstName: this.props.firstName,
+      lastName: this.props.lastName,
+      email: this.props.email,
+      photoURLs: this.props.photoURLs
+    });
   }
   handleChange = event => {
     this.setState({
@@ -45,6 +45,7 @@ class UserProfile extends Component {
   };
 
   render() {
+    console.log(this.props.photoURLs);
     return (
       <React.Fragment>
         <Nav currentPage={this.state.currentPage} />
@@ -55,7 +56,8 @@ class UserProfile extends Component {
               Upload a recent photo of yourself. This helps everyone find a
               great match.
             </p>
-            <i className="fas fa-user-circle profile__img" />
+            {/* <i className="fas fa-user-circle profile__img" /> */}
+            <img src={this.state.photoURLs[0]} alt={this.state.firstName} />
             <button
               className="profile__upload"
               type="button"
@@ -114,12 +116,8 @@ class UserProfile extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    user: state.user
-  };
-};
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = ({ user }) => ({ ...user });
+const mapDispatchToProps = (dispatch, props) => {
   return {
     update: (id, user) => dispatch(updateUserThunk(id, user)),
     logout: () => dispatch(logout())
