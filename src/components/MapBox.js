@@ -78,11 +78,6 @@ export class MapBox extends Component {
     let midpointLat = (lat + this.props.matchLat) / 2;
     let midpointLong = (long + this.props.matchLong) / 2;
 
-    await this.getVenues(
-      midpointLat,
-      midpointLong,
-      distance > 1000 ? distance : 1000
-    );
     this.props.joinChatRoom();
     this.props.setIconImg();
     this.props.createVenueList();
@@ -92,8 +87,13 @@ export class MapBox extends Component {
           ? this.props.matchInfo.preferences
           : this.state.matchPreferences
       },
-      () => {
+      async () => {
         console.log(this.state);
+        await this.getVenues(
+          midpointLat,
+          midpointLong,
+          distance > 1000 ? distance : 1000
+        );
       }
     );
   }
@@ -139,8 +139,8 @@ export class MapBox extends Component {
     const venuesEndpoint = "https://api.foursquare.com/v2/venues/search?";
 
     const params = {
-      client_id: "KUZ0H02M1VQNYUNKV40GFCICQUYGHRZJQVFLFS4MK01IHFYE",
-      client_secret: "ESQTWW5FJSPUDTTCM5JWQ1EO3T1GXNRVMS5XTKR3AKC4GNVJ",
+      client_id: "5DQ4HC1WROBOH0SFRD4IULDTPLLRP4J5LWKMOG0SZ0LRV5K0",
+      client_secret: "E5PLXEXQKZMQMPU02YDTSV0I1ZIAFK5LI0KPAEEZUCQQ5OJ3",
       limit: 5,
       query: "Food",
       v: "20130619", // version of the API
