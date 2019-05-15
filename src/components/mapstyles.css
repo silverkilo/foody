@@ -15,6 +15,12 @@
   background-image: url("./assets/foodPin.png");
 }
 
+.hereButton {
+  background-size: cover;
+  /* width: 20px;
+  height: 20px; */
+}
+
 .highlightedFooodMarker {
   background-size: cover;
   width: 20px;
@@ -23,23 +29,6 @@
   cursor: pointer;
   background-image: url("./assets/selectedFoodPin.png");
 }
-
-/* .unselectedFoodPlace {
-  background-size: cover;
-  background: rgba(0, 181, 204, 0.8);
-  color: white;
-  padding: 10px;
-  text-align: center;
-  align-self: flex-end;
-} */
-
-/* .selectedFoodPlace {
-  background-size: cover;
-  background: rgba(255, 148, 120, 0.5);
-  color: white;
-  padding: 10px;
-  text-align: center;
-} */
 
 .marker1 {
   background-image: url("./assets/chick.png");

@@ -12,7 +12,8 @@ import {
   UserProfile,
   Preference,
   Matching,
-  MapBox
+  MapBox,
+  Navigation
 } from "./components";
 
 class Routes extends Component {
@@ -46,9 +47,19 @@ class Routes extends Component {
 
     preventPullToRefresh("html");
     preventPullToRefresh("body");
+
     if (this.props.matched) {
-      this.props.history.push("/matches");
-    } else if (this.props.user && this.props.user.id) {
+      if (
+        this.props.location.pathname === "/preference" ||
+        this.props.location.pathname === "/"
+      ) {
+        this.props.history.push("/matches");
+      }
+    } else if (
+      this.props.user &&
+      this.props.user.id &&
+      this.props.location.pathname === "/"
+    ) {
       this.props.history.push("/preference");
     }
   }
@@ -79,6 +90,7 @@ class Routes extends Component {
         <Route path="/preference" component={Preference} />{" "}
         <Route path="/matches" component={Matching} />{" "}
         <Route path="/map" component={MapBox} />{" "}
+        <Route path="/navigation" component={Navigation} />{" "}
       </Switch>
     );
   }

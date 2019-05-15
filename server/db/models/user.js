@@ -40,7 +40,10 @@ const User = db.define("user", {
     type: Sequelize.STRING
   },
   photoURLs: {
-    type: Sequelize.ARRAY(Sequelize.STRING)
+    type: Sequelize.ARRAY(Sequelize.STRING),
+    defaultValue: [
+      "https://res.cloudinary.com/omarjuice/image/upload/v1557884957/foody-dev/user_image.png"
+    ]
   }
 });
 

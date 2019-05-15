@@ -1,21 +1,22 @@
 import React, { Component } from "react";
 import MapGL, { Marker } from "react-map-gl";
+import { Link } from "react-router-dom";
+import ReactModal from "react-modal";
 import SwipeLayer from "./SwipeLayer";
 import { connect } from "react-redux";
 import { setUserLocation, getMatchLocation } from "../store";
 import { setSelectedIdx } from "../store/highlight";
 import { getMatchPreference } from "../store/matchPreference";
 import { joinChatRoom } from "../store/chat";
+import { createVenueList } from "../store/food";
 import { setIconImg } from "../store/icon";
 import Chat from "./Chat";
 import "./mapstyles.css";
+import Nav from "./Nav";
+import t from "typy";
 
 // const mapAccess = {
 //   mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
-// }
-
-// function randomIcon() {
-//   return Math.floor(Math.random() * 8) + 1;
 // }
 
 export class MapBox extends Component {
@@ -42,7 +43,8 @@ export class MapBox extends Component {
         "Asian Restaurant"
       ],
       loadedVenues: false,
-      loadedUser: false
+      loadedUser: false,
+      selectedRestaurant: {}
     };
     this.getLoc = null;
   }
@@ -66,20 +68,24 @@ export class MapBox extends Component {
         resolve
       );
     });
-    this.props.setIconImg();
 
     const [long, lat] = await this.getLoc;
-    let distance = Math.sqrt(
-      (lat - this.props.matchLat) ** 2 + (long - this.props.matchLong) ** 2
-    );
+    let distance =
+      Math.sqrt(
+        (lat - this.props.matchLat) ** 2 + (long - this.props.matchLong) ** 2
+      ) * 111000;
     console.log("DISTANCE", distance);
     let midpointLat = (lat + this.props.matchLat) / 2;
     let midpointLong = (long + this.props.matchLong) / 2;
 
-    await this.getVenues(midpointLat, midpointLong, 600);
-    console.log(this.props.matchInfo);
-    this.props.getMatchLocation();
+    await this.getVenues(
+      midpointLat,
+      midpointLong,
+      distance > 1000 ? distance : 1000
+    );
     this.props.joinChatRoom();
+    this.props.setIconImg();
+    this.props.createVenueList();
     this.setState(
       {
         matchPreferences: this.props.matchInfo
@@ -90,6 +96,43 @@ export class MapBox extends Component {
         console.log(this.state);
       }
     );
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.userLat !== this.state.lat ||
+      this.props.userLong !== this.state.long
+    ) {
+      this.setState({
+        lat: this.props.userLat,
+        long: this.props.userLong,
+        viewport: {
+          ...this.state.viewport,
+          latitude: this.props.userLat,
+          longitude: this.props.userLong
+        }
+      });
+    }
+    if (prevProps.selectedRestaurant !== this.props.selectedRestaurant) {
+      let selected = this.state.allVenues.filter(
+        venue => venue.id === this.props.selectedRestaurant
+      );
+      console.log("venues", this.state.allVenues);
+      console.log("selected", selected);
+      this.setState({
+        selectedRestaurant: {
+          name: t(selected[0], "name").safeObject,
+          address: t(selected[0], "location.address").safeObject,
+          city: t(selected[0], "location.city").safeObject,
+          state: t(selected[0], "location.state").safeObject,
+          price: t(selected[0], "price.tier").safeObject,
+          currency: t(selected[0], "price.currency").safeObject,
+          rating: t(selected[0], "rating").safeObject,
+          categories: t(selected[0], "categories[0].shortName").safeObject,
+          photo: t(selected[0], "bestPhoto").safeObject
+        }
+      });
+    }
   }
 
   getVenues = async (lat, long, radius) => {
@@ -135,9 +178,37 @@ export class MapBox extends Component {
     chat.classList.add("is-visible");
   };
 
+  handlePopupClose = () => {
+    this.props.history.push("/navigation");
+  };
+  createStars = () => {
+    const rating = Math.round(this.state.selectedRestaurant.rating / 2);
+    let stars = [
+      <i className="fas fa-star empty" />,
+      <i className="fas fa-star empty" />,
+      <i className="fas fa-star empty" />,
+      <i className="fas fa-star empty" />,
+      <i className="fas fa-star empty" />
+    ];
+    for (let i = 0; i < rating; i++) {
+      stars[i] = <i className="fas fa-star" />;
+    }
+    return stars;
+  };
+
+  createCurrency = () => {
+    let signs = "";
+    const price = this.state.selectedRestaurant.price;
+    const currency = this.state.selectedRestaurant.currency;
+    for (let i = 0; i < price; i++) {
+      signs += currency;
+    }
+    return signs;
+  };
   render() {
     return (
       <React.Fragment>
+        <Nav />
         <div className="map">
           <MapGL
             {...this.state.viewport}
@@ -150,8 +221,8 @@ export class MapBox extends Component {
             mapboxApiAccessToken="pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg"
           >
             <Marker
-              latitude={this.state.lat}
-              longitude={this.state.long}
+              latitude={this.props.userLat}
+              longitude={this.props.userLong}
               offsetLeft={-20}
               offsetTop={-10}
             >
@@ -167,7 +238,6 @@ export class MapBox extends Component {
             </Marker>
             {this.state.allVenues.map((item, index) => {
               let icon;
-              console.log("selectedidx", this.props.selectedIdx, "idx", index);
               this.props.selectedIdx === index
                 ? (icon = `highlightedFooodMarker`)
                 : (icon = `foodMarker`);
@@ -201,7 +271,54 @@ export class MapBox extends Component {
               <SwipeLayer allVenues={this.state.allVenues} />{" "}
             </div>{" "}
           </div>
-        )}{" "}
+        )}
+        <ReactModal
+          isOpen={this.props.selectedRestaurant ? true : false}
+          shouldCloseOnOverlayClick={true}
+          closeTimeoutMS={5000}
+          contentLabel="Restaurant Selected Modal"
+          className="congrats__content"
+          overlayClassName="congrats__overlay"
+          // style={{ overlay: {}, content: "hi is this working" }}
+          // portalClassName="ReactModalPortal"
+          // overlayClassName="ReactModal__Overlay"
+          // className="ReactModal__Content"
+          // bodyOpenClassName="ReactModal__Body--open"
+          // htmlOpenClassName="ReactModal__Html--open"
+          // ariaHideApp={true}
+          // role="dialog"
+          // parentSelector={() => document.body}
+          // data={{
+          //   background: "blue"
+          // }}
+        >
+          <i className="fas fa-utensils congrats__icon" />
+          <h1 className="congrats__title">Congratulations!</h1>
+          <p className="congrats__text">
+            You have both selected {this.state.selectedRestaurant.name}
+          </p>
+          <span className="congrats__text">{this.createStars()}</span>
+          {this.createCurrency() !== "" ? (
+            <span className="congrats__text">{this.createCurrency()}</span>
+          ) : (
+            ""
+          )}
+          <span className="congrats__text">
+            {this.state.selectedRestaurant.address}
+          </span>
+          <span className="congrats__text">
+            {this.state.selectedRestaurant.city},{" "}
+            {this.state.selectedRestaurant.state}
+          </span>
+          <button
+            className="congrats__button"
+            onClick={() => {
+              this.handlePopupClose();
+            }}
+          >
+            Lets Go!
+          </button>
+        </ReactModal>
       </React.Fragment>
     );
   }
@@ -217,18 +334,24 @@ const mapStateToProps = state => {
     matchInfo: state.match.didMatch.info,
     selectedIdx: state.selectedIdx,
     icon1: state.icon.icon1,
-    icon2: state.icon.icon2
+    icon2: state.icon.icon2,
+    selectedRestaurant: state.selectedRestaurant
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setUserLocation: arr => dispatch(setUserLocation(arr)),
+    getMatchLocation: userId => dispatch(getMatchLocation(userId)),
+    getMatchPreference: userId => dispatch(getMatchPreference(userId)),
+    setSelectedIdx: idx => dispatch(setSelectedIdx(idx)),
+    joinChatRoom: () => dispatch(joinChatRoom()),
+    setIconImg: () => dispatch(setIconImg()),
+    createVenueList: () => dispatch(createVenueList())
   };
 };
 
 export default connect(
   mapStateToProps,
-  {
-    setUserLocation,
-    getMatchLocation,
-    getMatchPreference,
-    setSelectedIdx,
-    joinChatRoom,
-    setIconImg
-  }
+  mapDispatchToProps
 )(MapBox);

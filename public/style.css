@@ -184,7 +184,7 @@
     position: fixed;
     top: 0;
     background: white;
-    z-index: 2;
+    z-index: 3;
 }
 .header div {
     flex-basis: 30%;
@@ -628,7 +628,7 @@
 }
 .match__preference {
     font-size: 1.2em;
-    color: rgb(77, 77, 77));
+    color: rgb(77, 77, 77);
 }
 .match__preferences {
     display: flex;
@@ -638,4 +638,60 @@
     margin-right: 10px;
     font-size: 1.5rem;
     color: rgb(202, 202, 202);
+}
+
+.congrats__overlay {
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.congrats__content {
+    outline: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 40vh;
+    background: white;
+    padding: 40px 20px 20px 20px;
+    width: 95vw;
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+    color: rgb(77, 77, 77);
+    border-radius: 5px;
+    box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.25);
+}
+.congrats__icon {
+    font-size: 4rem;
+    margin-bottom: 40px;
+}
+.congrats__title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+.congrats__text {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+.congrats__button {
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    background: rgb(58, 124, 230);
+    color: white;
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-top: 10px;
+    width: 100%;
+    text-transform: uppercase;
 }

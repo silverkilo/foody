@@ -10,6 +10,7 @@ class Matching extends Component {
   componentDidMount() {
     this.props.swipe();
   }
+
   componentDidUpdate() {
     if (this.props.didMatch.matched) {
       setTimeout(() => {
@@ -24,6 +25,7 @@ class Matching extends Component {
     }
     if (!this.props.potentials.length) return <NoMatches />;
     const users = this.props.potentials;
+
     return (
       <React.Fragment>
         <Nav />

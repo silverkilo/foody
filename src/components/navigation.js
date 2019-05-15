@@ -1,119 +1,157 @@
 import React, { Component } from "react";
 import MapGL, { Marker } from "react-map-gl";
 import { connect } from "react-redux";
-import { setUserLatLong, getMatchLatLong } from "../store/location";
-import { setSelectedIdx } from "../store/highlight";
-import { getMatchPreference } from "../store/matchPreference";
-import { joinChatRoom } from "../store/chat";
-import Chat from "./Chat";
 import "./mapstyles.css";
-
+import axios from "axios";
+import DeckGL from "@deck.gl/react";
+import { PathLayer } from "@deck.gl/layers";
+import "./mapstyles.css";
 // const mapAccess = {
 //   mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
-// }
+// };
+
+let data = [
+  {
+    // name: "fake-name",
+    color: [0, 0, 255],
+    path: []
+  }
+];
+
+const initialViewState = {
+  latitude: 40.7128,
+  longitude: -74.006,
+  zoom: 14
+  // pitch: 0,
+  // bearing: 0
+};
 
 export class Navigation extends Component {
   constructor() {
     super();
     this.state = {
       viewport: {
-        width: "100%",
-        height: "40vh",
-        latitude: this.props.userLat,
-        longitude: this.props.userLat,
-        zoom: 14
+        latitude: 40.7128,
+        longitude: -74.006,
+        zoom: 14,
+        pitch: 0,
+        bearing: 0
       },
-      showChat: false
+      restaurantLat: "",
+      restaurantLong: "",
+      coordinatesLoaded: false
     };
   }
 
-  componentDidMount() {
-    window.navigator.geolocation.getCurrentPosition(this.getCurrentLocation);
-    this.props.getMatchLatLong(this.props.userId);
+  async componentDidMount() {
+    this.getRestaurantCoords();
   }
 
-  getCurrentLocation = position => {
-    let lat = position.coords.latitude;
-    let long = position.coords.longitude;
+  componentDidUpdate() {
+    if (
+      this.props.userLat !== this.state.viewport.latitude ||
+      this.props.userLong !== this.state.viewport.longitude
+    ) {
+      this.setState({
+        viewport: {
+          ...this.state.viewport,
+          latitude: this.props.userLat,
+          longitude: this.props.userLong
+        }
+      });
+    }
+    this.getCoordinates();
+  }
+
+  getRestaurantCoords = async () => {
+    // const venueId = this.props.selectedRestaurant;
+
+    // BELOW ID IS FOR TEST. COMMENT BACK IN ABOVE LINE AND DELETE BELOW LINE
+    const venueId = "412d2800f964a520df0c1fe3";
+    const params = {
+      client_id: "KUZ0H02M1VQNYUNKV40GFCICQUYGHRZJQVFLFS4MK01IHFYE",
+      client_secret: "ESQTWW5FJSPUDTTCM5JWQ1EO3T1GXNRVMS5XTKR3AKC4GNVJ",
+      v: "20130619"
+    };
+    const venuesEndpoint = `https://api.foursquare.com/v2/venues/${venueId}?&client_id=${
+      params.client_id
+    }&client_secret=${params.client_secret}&v=${params.v}`;
+
+    const res = await axios.get(venuesEndpoint);
+    const { venue } = res.data.response;
     this.setState({
-      viewport: {
-        ...this.state.viewport,
-        latitude: lat,
-        longitude: long
-      },
-      lat: lat,
-      long: long,
-      loadedUser: true
+      name: venue.name,
+      restaurantLat: venue.location.lat,
+      restaurantLong: venue.location.lng
     });
-    this.props.setUserLatLong([this.state.lat, this.state.long]);
   };
 
-  getRestaurantLocation = () => {
-    let lat = position.coords.latitude;
-    let long = position.coords.longitude;
+  getCoordinates = async () => {
+    const endpoint = `https://api.mapbox.com/directions/v5/mapbox/cycling/${
+      this.state.viewport.longitude
+    },${this.state.viewport.latitude};${this.state.restaurantLong},${
+      this.state.restaurantLat
+    }?geometries=geojson&access_token=pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg`;
+    const res = await axios.get(endpoint);
+    data[0].path = res.data.routes[0].geometry.coordinates;
     this.setState({
-      viewport: {
-        ...this.state.viewport,
-        latitude: lat,
-        longitude: long
-      },
-      lat: lat,
-      long: long,
-      loadedUser: true
+      coordinatesLoaded: true
     });
-    this.props.setUserLatLong([this.state.lat, this.state.long]);
-  };
-  //chat functions
-  handleOpenChat = () => {
-    // this.setState({ showChat: true });
-    let chat = document.querySelector(".chatBox");
-    chat.classList.add("is-visible");
-    this.props.joinChatRoom();
   };
 
-  handleCloseChat = () => {
-    this.setState({
-      showChat: false
-    });
+  clickedHere = () => {
+    console.log("here!");
   };
 
   render() {
+    const layer = [
+      new PathLayer({
+        id: "path-layer",
+        data,
+        getWidth: data => 3,
+        getColor: data => data.color,
+        widthMinPixels: 5
+      })
+    ];
+
     return (
       <React.Fragment>
         <div className="map">
-          <MapGL
-            {...this.state.viewport}
-            mapStyle="mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
-            onViewportChange={viewport =>
-              this.setState({
-                viewport
-              })
-            }
-            mapboxApiAccessToken="pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg"
+          {" "}
+          {/* {this.state.coordinatesLoaded && ( */}
+          <DeckGL
+            initialViewState={initialViewState}
+            layers={layer}
+            controller={true}
           >
-            <Marker
-              latitude={this.state.lat}
-              longitude={this.state.long}
-              offsetLeft={-20}
-              offsetTop={-10}
+            {/* )}{" "} */}
+            <MapGL
+              mapStyle="mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
+              mapboxApiAccessToken="pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg"
             >
-              <div className={`marker marker${this.props.icon1}`} />
-            </Marker>
-            <Marker
-              latitude={this.props.matchLat}
-              longitude={this.props.matchLong}
-              offsetLeft={-20}
-              offsetTop={-10}
-            >
-              <div className={`marker marker${this.props.icon2}`} />
-            </Marker>
-            })}
-          </MapGL>
-        </div>
-        <button className="chatBubble" onClick={this.handleOpenChat}>
-          <i class="fas fa-comment-alt" />
-        </button>
-        <Chat />
+              <Marker
+                latitude={this.props.userLat}
+                longitude={this.props.userLong}
+                offsetLeft={-20}
+                offsetTop={-10}
+              >
+                <div className={`marker marker1`} />
+              </Marker>
+              {/* <Marker
+                latitude={dummyResData[1]}
+                longitude={dummyResData[0]}
+                offsetLeft={-20}
+                offsetTop={-10}
+              >
+                <div className={`marker marker2`} />{" "}
+              </Marker> */}
+              }) }
+            </MapGL>
+          </DeckGL>
+          {/* <button className="hereButton" onClick={() => this.clickedHere()}>
+            I 'm here!{" "}
+          </button>{" "} */}
+        </div>{" "}
       </React.Fragment>
     );
   }
@@ -121,24 +159,16 @@ export class Navigation extends Component {
 
 const mapStateToProps = state => {
   return {
-    userId: state.user.id,
-    userLat: state.userMatchLatLong.user[0],
-    userLong: state.userMatchLatLong.user[1],
-    matchLat: state.userMatchLatLong.match[0],
-    matchLong: state.userMatchLatLong.match[1],
+    userLong: state.location.user[0],
+    userLat: state.location.user[1],
     icon1: state.icon.icon1,
-    icon2: state.icon.icon2
+    icon2: state.icon.icon2,
+    selectedRestaurant: state.selectedRestaurant
   };
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-    setUserLatLong: arr => dispatch(setUserLatLong(arr)),
-    getMatchLatLong: userId => dispatch(getMatchLatLong(userId)),
-    getMatchPreference: userId => dispatch(getMatchPreference(userId)),
-    setSelectedIdx: idx => dispatch(setSelectedIdx(idx)),
-    joinChatRoom: () => dispatch(joinChatRoom())
-  };
+  return {};
 };
 
 export default connect(

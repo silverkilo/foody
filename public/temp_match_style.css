@@ -11,6 +11,9 @@ html, body {
 }
 .match-container{
      overflow: hidden !important;
+     width: 100vw;
+     height: 100vh;
+     background: rgb(241, 241, 241);
 }
 /* match-card-container also essential styles */
 .match-card-container{
@@ -27,7 +30,6 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgb(241, 241, 241);
 }
 @media only screen 
 and (min-device-width : 320px) 

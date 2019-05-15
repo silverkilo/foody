@@ -18,7 +18,7 @@ export const me = initSocket => async dispatch => {
     dispatch(getUser(res.data || initialState));
     if (res.data) {
       // await initSocket();
-      return true;
+      return res.data;
     }
     return false;
   } catch (err) {
