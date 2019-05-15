@@ -9,7 +9,8 @@ import {
   readyToListen,
   postLocation,
   resListener,
-  setUserLocation
+  setUserLocation,
+  getMatchLocation
 } from "./store";
 
 class App extends React.Component {
@@ -38,7 +39,8 @@ class App extends React.Component {
       this.props.createConnection(),
       this.props.readyToListen()
     ]);
-    await this.props.matchListeners();
+    const matched = await this.props.matchListeners();
+    if (matched) this.props.getMatchLocation();
     this.props.chatListener();
     this.props.resListener();
   };
@@ -65,6 +67,7 @@ export default connect(
     chatListener,
     postLocation,
     resListener,
-    setUserLocation
+    setUserLocation,
+    getMatchLocation
   }
 )(App);
