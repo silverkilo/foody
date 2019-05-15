@@ -13,7 +13,8 @@ import {
   Preference,
   Matching,
   MapBox,
-  Navigation
+  Navigation,
+  FinalPage
 } from "./components";
 
 class Routes extends Component {
@@ -68,8 +69,8 @@ class Routes extends Component {
       document.querySelector("html").style.position = "fixed";
       document.querySelector("body").style.position = "fixed";
     } else {
-      document.querySelector("html").style.position = "static";
-      document.querySelector("body").style.position = "static";
+      document.querySelector("html").style.position = "";
+      document.querySelector("body").style.position = "";
     }
   }
 
@@ -91,6 +92,7 @@ class Routes extends Component {
         <Route path="/matches" component={Matching} />{" "}
         <Route path="/map" component={MapBox} />{" "}
         <Route path="/navigation" component={Navigation} />{" "}
+        <Route path="/finalpage" component={FinalPage} />{" "}
       </Switch>
     );
   }

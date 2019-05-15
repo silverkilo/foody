@@ -4,6 +4,7 @@ import MatchStack from "./MatchStack";
 import { swipe } from "../store";
 import NewMatch from "./NewMatch";
 import NoMatches from "./NoMatches";
+import Nav from "./Nav";
 
 class Matching extends Component {
   componentDidMount() {
@@ -26,9 +27,12 @@ class Matching extends Component {
     const users = this.props.potentials;
 
     return (
-      <div className="match-container">
-        {this.props.loading ? null : <MatchStack users={users} />}
-      </div>
+      <React.Fragment>
+        <Nav />
+        <div className="match-container">
+          {this.props.loading ? null : <MatchStack users={users} />}
+        </div>
+      </React.Fragment>
     );
   }
 }

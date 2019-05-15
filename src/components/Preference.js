@@ -87,13 +87,17 @@ class Preference extends Component {
               );
             })}
           </div>
-          <button
-            className="match"
-            type="button"
-            onClick={() => this.handleClick()}
-          >
-            Match Me
-          </button>
+          {this.props.preferences.length > 0 ? (
+            <button
+              className="match"
+              type="button"
+              onClick={() => this.handleClick()}
+            >
+              <i class="fas fa-users" />
+            </button>
+          ) : (
+            ""
+          )}
         </div>
       </React.Fragment>
     );
