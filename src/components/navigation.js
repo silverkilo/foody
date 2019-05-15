@@ -6,6 +6,7 @@ import axios from "axios";
 import DeckGL from "@deck.gl/react";
 import { PathLayer } from "@deck.gl/layers";
 import "./mapstyles.css";
+import t from "typy";
 // const mapAccess = {
 //   mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 // };
@@ -19,6 +20,8 @@ let data = [
 ];
 
 const initialViewState = {
+  height: 600,
+  width: 500,
   latitude: 40.7128,
   longitude: -74.006,
   zoom: 14
@@ -37,9 +40,18 @@ export class Navigation extends Component {
         pitch: 0,
         bearing: 0
       },
+      coordinatesLoaded: false,
+      name: "",
+      address: "",
+      city: "",
+      state: "",
+      price: "",
+      currency: "",
+      rating: "",
+      categories: "",
+      photo: "",
       restaurantLat: "",
-      restaurantLong: "",
-      coordinatesLoaded: false
+      restaurantLong: ""
     };
   }
 
@@ -80,7 +92,15 @@ export class Navigation extends Component {
     const res = await axios.get(venuesEndpoint);
     const { venue } = res.data.response;
     this.setState({
-      name: venue.name,
+      name: t(venue, "name").safeObject,
+      address: t(venue, "location.address").safeObject,
+      city: t(venue, "location.city").safeObject,
+      state: t(venue, "location.state").safeObject,
+      price: t(venue, "price.tier").safeObject,
+      currency: t(venue, "price.currency").safeObject,
+      rating: t(venue, "rating").safeObject,
+      categories: t(venue, "categories[0].shortName").safeObject,
+      photo: t(venue, "bestPhoto").safeObject,
       restaurantLat: venue.location.lat,
       restaurantLong: venue.location.lng
     });
@@ -88,10 +108,10 @@ export class Navigation extends Component {
 
   getCoordinates = async () => {
     const endpoint = `https://api.mapbox.com/directions/v5/mapbox/cycling/${
-      this.state.viewport.longitude
-    },${this.state.viewport.latitude};${this.state.restaurantLong},${
+      this.props.userLong
+    },${this.props.userLat};${this.state.restaurantLong},${
       this.state.restaurantLat
-    }?geometries=geojson&access_token=pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg`;
+    }?geometries=geojson&access_token=pk.eyJ1IjoicmhlYXJhbyIsImEiOiJjanY3NGloZm4wYzR5NGVxcGU4MXhwaTJtIn0.d_-A1vz2gnk_h1GbTchULA`;
     const res = await axios.get(endpoint);
     data[0].path = res.data.routes[0].geometry.coordinates;
     this.setState({
@@ -99,8 +119,33 @@ export class Navigation extends Component {
     });
   };
 
+  createStars = () => {
+    const rating = Math.round(this.state.rating / 2);
+    let stars = [
+      <i className="fas fa-star empty" />,
+      <i className="fas fa-star empty" />,
+      <i className="fas fa-star empty" />,
+      <i className="fas fa-star empty" />,
+      <i className="fas fa-star empty" />
+    ];
+    for (let i = 0; i < rating; i++) {
+      stars[i] = <i className="fas fa-star" />;
+    }
+    return stars;
+  };
+
+  createCurrency = () => {
+    let signs = "";
+    const price = this.state.price;
+    const currency = this.state.currency;
+    for (let i = 0; i < price; i++) {
+      signs += currency;
+    }
+    return signs;
+  };
+
   clickedHere = () => {
-    console.log("here!");
+    this.props.history.push("/finalpage");
   };
 
   render() {
@@ -118,41 +163,56 @@ export class Navigation extends Component {
       <React.Fragment>
         <div className="map">
           {" "}
-          {this.state.coordinatesLoaded &&
+          {this.state.coordinatesLoaded && (
             <DeckGL
+              height={600}
+              width={500}
               initialViewState={initialViewState}
               layers={layer}
               controller={true}
             >
-          {/* )}{" "} */}
-          <MapGL
-                      mapStyle="mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
-                      mapboxApiAccessToken="pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg"
-                    >
-                      <Marker
-                        latitude={this.props.userLat}
-                        longitude={this.props.userLong}
-                        offsetLeft={-20}
-                        offsetTop={-10}
-                      >
-                        <div className={`marker marker1`} />
-                      </Marker>
-                      {/* <Marker
+              {/* )}{" "} */}
+              <MapGL
+                mapStyle="mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
+                mapboxApiAccessToken="pk.eyJ1IjoicmhlYXJhbyIsImEiOiJjanY3NGloZm4wYzR5NGVxcGU4MXhwaTJtIn0.d_-A1vz2gnk_h1GbTchULA"
+              >
+                <Marker
+                  latitude={this.props.userLat}
+                  longitude={this.props.userLong}
+                  offsetLeft={-20}
+                  offsetTop={-10}
+                >
+                  <div className={`marker marker1`} />
+                </Marker>
+                {/* <Marker
                         latitude={dummyResData[1]}
                         longitude={dummyResData[0]}
                         offsetLeft={-20}
                         offsetTop={-10}
-                      >
+                        >
                         <div className={`marker marker2`} />{" "}
                       </Marker> */}
-                      }) }
-                    </MapGL>
-                  </DeckGL>
-                }
-          {/* <button className="hereButton" onClick={() => this.clickedHere()}>
-            I 'm here!{" "}
-          </button>{" "} */}
-        </div>{" "}
+              </MapGL>
+            </DeckGL>
+          )}
+          <div className="detailsTemp">
+            <div>Restaurant Details</div>
+            <ul className="card__details">
+              <li className="card__name">{this.state.name}</li>
+              <li className="card__rating">{this.createStars()}</li>
+              <li className="card__price">
+                {this.createCurrency()} {this.state.category}
+              </li>
+              <li className="card__address">{this.state.address}</li>
+              <li className="card__address">
+                {this.state.city}, {this.state.state}
+              </li>
+            </ul>
+            <button className="hereButton" onClick={() => this.clickedHere()}>
+              I 'm here!
+            </button>
+          </div>
+        </div>
       </React.Fragment>
     );
   }

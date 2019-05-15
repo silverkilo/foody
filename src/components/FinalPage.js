@@ -8,21 +8,17 @@ class FinalPage extends Component {
     this.state = {};
   }
 
-  componentDidMount() {
-    this.getVenuesDetails();
-  }
-
   render() {
     return (
       <div>
         <button
           onClick={() => {
             this.props.disconnectChat();
+            this.props.history.push("/preference");
           }}
         >
           I'm done with the meal!
         </button>
-        )}
       </div>
     );
   }
