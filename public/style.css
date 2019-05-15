@@ -4,14 +4,17 @@
 * {
     box-sizing: border-box;
 }
+
 #root {
     font-family: 'Lato', sans-serif;
     font-size: 12px;
     min-height: 100vh;
-    max-height: 100%; 
+    max-height: 100%;
     /* padding: 0 20px; */
 }
-.login, .signup {
+
+.login,
+.signup {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -19,7 +22,9 @@
     min-height: 100vh;
     padding: 0 20px;
 }
-.email, .welcome {
+
+.email,
+.welcome {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -27,42 +32,53 @@
     margin-top: 40px;
     padding: 0 20px;
 }
-.login__title, .signup__title {
+
+.login__title,
+.signup__title {
     font-family: 'Pacifico', cursive;
     font-size: 2.5em;
     margin-bottom: 50px;
 }
+
 .signup__link {
     width: 100%;
 }
+
 .email__title {
     font-size: 1.5em;
     margin-bottom: 40px;
     font-weight: 300;
 }
-.welcome__title, .welcome__user {
+
+.welcome__title,
+.welcome__user {
     font-size: 1.5em;
     font-weight: 300;
     line-height: 1.5em;
 }
+
 .welcome__user {
     margin-bottom: 20px;
 }
-.login__form, .email__form {
+
+.login__form,
+.email__form {
     display: flex;
     flex-direction: column;
     width: 100%;
     margin-bottom: 20px;
     position: relative;
 }
-.login__input, .email__input {
+
+.login__input,
+.email__input {
     padding: 10px;
     border-radius: 5px;
     background: rgb(240, 240, 240);
     color: rgb(99, 99, 99);
     border: 1px solid rgb(231, 231, 231);
     border-top: 1px solid rgb(211, 211, 211);
-    box-shadow: inset 0px 0px 1px 0px rgba(255,255,255,1);
+    box-shadow: inset 0px 0px 1px 0px rgba(255, 255, 255, 1);
     margin-bottom: 20px;
     outline: none;
 }
@@ -91,26 +107,38 @@
     font-weight: 300;
     line-height: 1.5em;
 }
+
 .welcome__text:nth-child(2n) {
     margin-bottom: 20px;
 }
-.login__option, .signup__option, .welcome__option {
+
+.login__option,
+.signup__option,
+.welcome__option {
     color: rgb(58, 124, 230);
     text-decoration: none;
     align-self: flex-end;
     margin-bottom: 20px;
 }
-.signup__option, .welcome__option {
+
+.signup__option,
+.welcome__option {
     align-self: center;
 }
-.login__button, .signup__button, .email__button, .welcome__button {
+
+.login__button,
+.signup__button,
+.email__button,
+.welcome__button {
     background: rgb(58, 124, 230);
     padding: 10px;
     border-radius: 5px;
     color: white;
     outline: none;
 }
-.signup__button, .welcome__button {
+
+.signup__button,
+.welcome__button {
     width: 100%;
     margin-bottom: 20px;
     opacity: 1;
@@ -123,29 +151,36 @@
     align-items: center;
     margin-bottom: 20px;
 }
+
 .login__divider span {
     flex-basis: 40%;
     background: rgb(231, 231, 231);
     height: 1px;
 }
+
 .login__divider p {
     color: rgb(99, 99, 99);
     font-size: 0.8em;
     text-transform: uppercase;
 }
+
 .login__oauth {
     display: flex;
     color: rgb(58, 124, 230);
     justify-content: center;
     align-items: center;
 }
+
 .login__oauth__logo {
     margin-right: 5px;
 }
+
 .login__oauth__text {
     letter-spacing: 0.2px;
 }
-.login__footer, .email__footer {
+
+.login__footer,
+.email__footer {
     position: fixed;
     bottom: 0px;
     height: 15%;
@@ -157,7 +192,9 @@
     color: rgb(99, 99, 99);
     font-weight: 300;
 }
-.login__footer__link, .email__footer__link {
+
+.login__footer__link,
+.email__footer__link {
     font-weight: 400;
     text-decoration: none;
     color: rgb(58, 124, 230);
@@ -173,6 +210,7 @@
     margin-top: 80px;
     background: rgb(241, 241, 241);
 }
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -186,15 +224,18 @@
     background: white;
     z-index: 3;
 }
+
 .header div {
     flex-basis: 30%;
 }
+
 .header__title {
     flex-basis: 30%;
     font-family: 'Pacifico', cursive;
     font-size: 2.5em;
     text-align: center;
 }
+
 .preference__selection {
     display: flex;
     flex-wrap: wrap;
@@ -205,12 +246,14 @@
     border-bottom: 1px solid rgb(231, 231, 231);
     background: white;
 }
+
 .preference__text {
     flex-basis: 100%;
     text-align: center;
     font-size: 1.5em;
     margin-bottom: 20px;
 }
+
 .selectedPreferences {
     display: flex;
     flex-flow: wrap;
@@ -218,11 +261,13 @@
     height: 100%;
     flex-direction: row;
 }
+
 .selectedPreferences__grid {
     flex-basis: 50%;
     padding: 5px;
     display: flex;
 }
+
 .food {
     background: rgb(58, 124, 230);
     border: none;
@@ -234,18 +279,21 @@
     justify-content: space-between;
     min-width: 100%;
 }
+
 .fa-times-circle {
     font-size: 1.2em;
     margin-right: 10px;
     color: white;
     flex-basis: 20%;
 }
+
 .food__text {
     color: white;
     font-size: 1.2em;
     text-transform: uppercase;
     flex-basis: 80%;
 }
+
 .preference__list {
     display: flex;
     flex-direction: column;
@@ -256,6 +304,7 @@
     margin-bottom: 70px;
     padding: 0 20px;
 }
+
 .preference__button {
     display: flex;
     align-items: center;
@@ -271,6 +320,7 @@
     border-radius: 5px;
     box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
 }
+
 .match {
     outline: none;
     border: none;
@@ -286,7 +336,8 @@
     box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.25)
 }
 
-.settings, .back__button {
+.settings,
+.back__button {
     font-size: 2em;
     flex-basis: 30%;
     text-align: left;
@@ -308,35 +359,46 @@
     justify-content: space-between;
     transition: background 0.3s ease;
 }
+
 .selectedCard {
     background: rgb(188, 228, 200);
 }
+
 .card__img {
     width: 12vh;
     height: 12vh;
     flex-basis: 30%;
 }
+
 .card__details {
     flex-basis: 60%;
     display: flex;
     flex-direction: column;
 }
+
 .card__name {
     font-weight: 700;
     font-size: 1.2em;
 }
-.card__name, .card__rating, .card__price {
+
+.card__name,
+.card__rating,
+.card__price {
     margin-bottom: 5px;
 }
+
 .fa-star {
-    color: 	rgb(255,215,0);
+    color: rgb(255, 215, 0);
 }
+
 .empty {
     color: rgb(218, 218, 218);
 }
+
 .card__address {
     color: rgb(77, 77, 77);
 }
+
 .card__button {
     flex-basis: 100%;
     background: rgb(58, 124, 230);
@@ -349,11 +411,13 @@
     text-transform: uppercase;
     margin-top: 10px;
 }
+
 .content {
     width: 100%;
     display: flex;
     align-items: center;
 }
+
 .overlay {
     width: 100%;
     background: none;
@@ -361,6 +425,7 @@
     position: absolute;
     bottom: 20px;
 }
+
 .chatBubble {
     width: 50px;
     height: 50px;
@@ -375,18 +440,20 @@
     top: 5%;
     right: 10%;
 }
+
 .chatBox {
     display: flex;
     justify-content: center;
     width: 100%;
     height: 0;
     position: absolute;
-    z-index: 1;
+    z-index: 11;
     top: 0;
     transition: all 0.5s ease;
-    background: rgba(255,255,255,0);
+    background: rgba(255, 255, 255, 0);
     overflow: hidden;
 }
+
 .chatBox__inside {
     margin-top: 5%;
     background: white;
@@ -397,12 +464,15 @@
     flex-direction: column;
     border-radius: 5px;
 }
+
 .is-visible {
     height: 100%;
 }
+
 .is-visible-bg {
-    background: rgba(255,255,255,0.3);
+    background: rgba(255, 255, 255, 0.3);
 }
+
 .chatBox__header {
     display: flex;
     justify-content: space-between;
@@ -415,6 +485,7 @@
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
+
 .chatBox__header button {
     background: white;
     border: none;
@@ -428,10 +499,12 @@
     padding: 0;
     margin: 0;
 }
+
 .fa-times {
     color: rgb(58, 124, 230);
     font-size: 1.5em;
 }
+
 .chatBox__body {
     flex-basis: 75%;
     display: flex;
@@ -439,11 +512,13 @@
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
 }
+
 .chatBox__body ul {
     display: flex;
     flex-direction: column;
     padding: 20px;
 }
+
 .sender {
     background: rgb(168, 168, 168);
     border-radius: 10px;
@@ -454,6 +529,7 @@
     color: white;
     font-size: 1.2em;
 }
+
 .receiver {
     background: rgb(58, 124, 230);
     border-radius: 10px;
@@ -464,10 +540,13 @@
     color: white;
     font-size: 1.2em;
 }
-.sender:last-of-type, .receiver:last-of-type {
+
+.sender:last-of-type,
+.receiver:last-of-type {
     margin-bottom: 20px;
     background: red;
 }
+
 .chatBox__message {
     flex-basis: 15%;
     background: rgb(58, 124, 230);
@@ -476,12 +555,14 @@
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
+
 .chatBox__form {
     width: 100%;
     padding: 0 20px;
     display: flex;
     justify-content: space-between;
 }
+
 .chatBox__input {
     outline: none;
     border: none;
@@ -489,6 +570,7 @@
     border-radius: 10px;
     flex-basis: 70%;
 }
+
 .chatBox__button {
     outline: none;
     border: none;
@@ -496,6 +578,7 @@
     border-radius: 10px;
     background: white;
 }
+
 .profile {
     display: flex;
     flex-direction: column;
@@ -505,6 +588,7 @@
     -webkit-overflow-scrolling: touch;
     margin-top: 80px;
 }
+
 .profile__photo {
     display: flex;
     flex-direction: column;
@@ -513,21 +597,25 @@
     background: white;
     margin-bottom: 20px;
 }
+
 .profile__title {
     font-size: 1.2em;
     font-weight: 700;
     padding: 15px 10px;
     border-bottom: 1px solid rgb(202, 202, 202);
 }
+
 .profile__text {
     padding: 10px;
     color: rgb(63, 63, 63);
 }
+
 .profile__img {
     align-self: center;
     font-size: 10em;
     color: rgb(207, 207, 207);
 }
+
 .profile__details {
     display: flex;
     flex-direction: column;
@@ -535,16 +623,19 @@
     margin-bottom: 20px;
     border-bottom: 1px solid rgb(202, 202, 202);
 }
+
 .profile__container {
     margin: 0 10px 10px 10px;
     padding: 20px;
     border-radius: 10px;
     border: 1px solid rgb(202, 202, 202);
 }
+
 .profile__list {
     display: flex;
     flex-direction: column;
 }
+
 .profile__input {
     margin-bottom: 20px;
     font-size: 1.2em;
@@ -554,6 +645,7 @@
     border-radius: 10px;
     border-bottom: 1px solid rgb(221, 221, 221);
 }
+
 .profile__submit {
     padding: 10px;
     background: white;
@@ -561,6 +653,7 @@
     border-radius: 10px;
     font-size: 1.1em;
 }
+
 .profile__actions {
     display: flex;
     flex-direction: column;
@@ -569,6 +662,7 @@
     border-bottom: 1px solid rgb(202, 202, 202);
     padding: 20px;
 }
+
 .profile__logout {
     padding: 10px;
     background: rgb(58, 124, 230);
@@ -580,6 +674,7 @@
     border-radius: 10px;
     font-size: 1.1em;
 }
+
 .profile__upload {
     outline: none;
     border: none;
@@ -593,6 +688,7 @@
     align-self: center;
     margin-top: 10px;
 }
+
 .back {
     display: flex;
     background: white;

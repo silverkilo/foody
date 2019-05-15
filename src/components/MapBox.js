@@ -226,7 +226,7 @@ export class MapBox extends Component {
               offsetLeft={-20}
               offsetTop={-10}
             >
-              <div className={`marker marker${this.props.icon1}`} />{" "}
+              <div className={`marker marker${this.props.icon1}`} />
             </Marker>
             <Marker
               latitude={this.props.matchLat}
@@ -234,7 +234,7 @@ export class MapBox extends Component {
               offsetLeft={-20}
               offsetTop={-10}
             >
-              <div className={`marker marker${this.props.icon2}`} />{" "}
+              <div className={`marker marker${this.props.icon2}`} />
             </Marker>
             {this.state.allVenues.map((item, index) => {
               let icon;
@@ -249,7 +249,6 @@ export class MapBox extends Component {
                   offsetTop={-10}
                   key={item.id}
                 >
-                  ){" "}
                   <div
                     onClick={() => {
                       this.props.setSelectedIdx(index);
