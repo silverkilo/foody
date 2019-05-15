@@ -36,12 +36,7 @@ export class MapBox extends Component {
       // venuesMatch: [],
       allVenues: [],
       // THE BELOW MATCH PREFERENCES JUST HAS SOME PLACEHOLDER PREFERENCES FOR TESTING
-      matchPreferences: [
-        "Food Truck",
-        "Supermarket",
-        "Food Stand",
-        "Asian Restaurant"
-      ],
+      matchPreferences: [],
       loadedVenues: false,
       loadedUser: false,
       selectedRestaurant: {}
@@ -88,11 +83,7 @@ export class MapBox extends Component {
           : this.state.matchPreferences
       },
       async () => {
-<<<<<<< HEAD
-        console.log(this.state);
-=======
         console.log("STATE AFTER SETTING MATCH PREFERENCES", this.state);
->>>>>>> master
         await this.getVenues(
           midpointLat,
           midpointLong,
@@ -145,15 +136,12 @@ export class MapBox extends Component {
     const params = {
       client_id: "5DQ4HC1WROBOH0SFRD4IULDTPLLRP4J5LWKMOG0SZ0LRV5K0",
       client_secret: "E5PLXEXQKZMQMPU02YDTSV0I1ZIAFK5LI0KPAEEZUCQQ5OJ3",
-<<<<<<< HEAD
-      limit: 5,
-=======
       limit: 30,
->>>>>>> master
       query: "Food",
       v: "20130619", // version of the API
       ll: `${lat}, ${long}`,
-      radius
+      radius,
+      categoryId: this.state.matchPreferences.join(",")
     };
 
     await fetch(venuesEndpoint + new URLSearchParams(params), {
@@ -162,18 +150,8 @@ export class MapBox extends Component {
       .then(response => response.json())
       .then(response => {
         // filter out those places without category names
-        let filteredWithoutCategories = response.response.venues.filter(
-          eachPlace => eachPlace.categories[0] !== undefined
-        );
-        console.log("filteredWithoutCategories", filteredWithoutCategories);
-        // filter out places with categories that don't match the user's preferences
-        let filtered = filteredWithoutCategories.filter(
-          eachPlace =>
-            this.state.matchPreferences.indexOf(eachPlace.categories[0].name) >
-            -1
-        );
         this.setState({
-          allVenues: filtered,
+          allVenues: response.response.venues,
           loadedVenues: true
         });
       });
