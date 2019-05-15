@@ -139,7 +139,7 @@ module.exports = function(socket, userId, exclusions) {
             ON users.id = "user_preferences"."userId"
         LEFT JOIN preferences
             ON "user_preferences"."preferenceId" = preferences.id
-        WHERE users.id IN (37)
+        WHERE users.id IN (?)
         GROUP BY users.id
       `,
         { replacements: [userId] }
