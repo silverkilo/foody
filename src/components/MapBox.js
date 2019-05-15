@@ -89,6 +89,23 @@ export class MapBox extends Component {
     );
   }
 
+  componentDidUpdate() {
+    if (
+      this.props.userLat !== this.state.lat ||
+      this.props.userLong !== this.state.long
+    ) {
+      this.setState({
+        lat: this.props.userLat,
+        long: this.props.userLong,
+        viewport: {
+          ...this.state.viewport,
+          latitude: this.props.userLat,
+          longitude: this.props.userLong
+        }
+      });
+    }
+  }
+
   getVenues = async (lat, long, radius) => {
     const venuesEndpoint = "https://api.foursquare.com/v2/venues/search?";
 
@@ -151,8 +168,8 @@ export class MapBox extends Component {
             mapboxApiAccessToken="pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg"
           >
             <Marker
-              latitude={this.state.lat}
-              longitude={this.state.long}
+              latitude={this.props.userLat}
+              longitude={this.props.userLong}
               offsetLeft={-20}
               offsetTop={-10}
             >
