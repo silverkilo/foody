@@ -22,7 +22,7 @@ module.exports = function(socket, userId, exclusions) {
       //get the current user, aggregate their preferences into an array, get their location
       const [[user]] = await db.query(
         `
-                      SELECT 
+                      SELECT
                           users.id, location,
                           array_agg(preferences.id) as preferences
                       FROM users
@@ -60,7 +60,7 @@ module.exports = function(socket, userId, exclusions) {
       replacements.push(...userCoords);
       const [matchers] = await db.query(
         `
-                      SELECT 
+                      SELECT
                           "user"."id", "user"."firstName", "user"."lastName", "user"."photoURLs", ${
                             showDistance
                               ? `ST_Distance("user"."location", 'SRID=26918;POINT(? ?)'::geometry) AS distance,`
@@ -68,13 +68,13 @@ module.exports = function(socket, userId, exclusions) {
                           }
                           array_agg("preferences"."category") as preferences,
                           TRUE as match
-                      FROM "users" AS "user" 
+                      FROM "users" AS "user"
                           INNER JOIN (
                               "user_preferences" AS "preferences->user_preference"
                               INNER JOIN "preferences" AS "preferences" ON "preferences"."id" = "preferences->user_preference"."preferenceId"
-                              ) 
-                          ON "user"."id" = "preferences->user_preference"."userId" AND "preferences"."id" IN (?) 
-                          INNER JOIN "matches" AS "match" ON "user"."id" = "match"."matcherId" AND "match"."matcheeId" = ? 
+                              )
+                          ON "user"."id" = "preferences->user_preference"."userId" AND "preferences"."id" IN (?)
+                          INNER JOIN "matches" AS "match" ON "user"."id" = "match"."matcherId" AND "match"."matcheeId" = ?
                       WHERE (("user"."id" NOT IN (?) AND "user"."hasMatched" IS NULL))
                       GROUP BY "user"."id"
                       ORDER BY "user"."location" <-> 'SRID=26918;POINT(? ?)'::geometry
@@ -94,13 +94,13 @@ module.exports = function(socket, userId, exclusions) {
         // get all users and their preferences who have at least one preference in common with the user, sort them by distance
         const [moreMatchers] = await db.query(
           `
-                          SELECT 
+                          SELECT
                               "user"."id",  "user"."firstName", "user"."lastName",  "user"."photoURLs", ${
                                 showDistance
                                   ? `ST_Distance("user"."location", 'SRID=26918;POINT(? ?)'::geometry) AS distance,`
                                   : ``
                               }
-                              array_agg("preferences"."category") AS preferences, 
+                              array_agg("preferences"."category") AS preferences,
                               FALSE AS match
                           FROM "users" AS "user" INNER JOIN (
                           "user_preferences" AS "preferences->user_preference"
@@ -233,7 +233,7 @@ module.exports = function(socket, userId, exclusions) {
             return db.query(
               `
                 UPDATE users
-                SET 
+                SET
                     "hasMatched" = CASE WHEN id=? THEN ? ELSE ? END
                 WHERE id IN (?)
             `,
