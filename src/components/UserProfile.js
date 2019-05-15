@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { updateUserThunk, logout } from "../store/user";
 import Nav from "./Nav";
+import UploadPhoto from "./UploadPhoto";
 
 class UserProfile extends Component {
   constructor(props) {
@@ -12,7 +13,9 @@ class UserProfile extends Component {
       lastName: "",
       email: "",
       currentPage: "profile",
-      photoURLs: []
+      editingPhoto: false,
+      photoURL: null,
+      image: null
     };
   }
 
@@ -21,7 +24,20 @@ class UserProfile extends Component {
       firstName: this.props.firstName,
       lastName: this.props.lastName,
       email: this.props.email,
-      photoURLs: this.props.photoURLs
+      photoURL: this.props.photoURLs[0]
+    });
+  }
+  setPreviewImage(image) {
+    if (image) {
+      this.setState({ image: URL.createObjectURL(image) });
+    } else {
+      this.setState({ image: "/static/user_image.png" });
+    }
+  }
+  cancelEdit(image) {
+    this.setState({
+      editingPhoto: false,
+      image: null
     });
   }
   handleChange = event => {
@@ -41,11 +57,12 @@ class UserProfile extends Component {
     this.props.history.goBack();
   };
   handleUpload = () => {
-    alert("how?");
+    this.setState({
+      editingPhoto: true
+    });
   };
 
   render() {
-    console.log(this.props.photoURLs);
     return (
       <React.Fragment>
         <Nav currentPage={this.state.currentPage} />
@@ -58,15 +75,26 @@ class UserProfile extends Component {
             </p>
             {/* <i className="fas fa-user-circle profile__img" /> */}
             <img
-              src={this.state.photoURLs && this.state.photoURLs[0]}
+              src={this.state.image || this.state.photoURL}
               alt={this.state.firstName}
+              className="profile__img"
             />
+            {this.state.editingPhoto && (
+              <UploadPhoto
+                original={this.props.photoURLs[0]}
+                setPreviewImage={this.setPreviewImage.bind(this)}
+              />
+            )}
             <button
               className="profile__upload"
               type="button"
-              onClick={() => this.handleUpload()}
+              onClick={() =>
+                this.state.editingPhoto
+                  ? this.cancelEdit()
+                  : this.handleUpload()
+              }
             >
-              Upload
+              {this.state.editingPhoto ? "Cancel" : "Upload"}
             </button>
           </div>
           <div className="profile__details">

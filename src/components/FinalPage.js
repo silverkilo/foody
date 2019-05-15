@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { disconnectChat } from "../store/chat";
+import "./finalpage.css";
 
 class FinalPage extends Component {
   constructor(props) {
@@ -10,14 +11,15 @@ class FinalPage extends Component {
 
   render() {
     return (
-      <div>
+      <div className="finalContainer">
         <button
           onClick={() => {
             this.props.disconnectChat();
             this.props.history.push("/preference");
           }}
+          className="finalButton"
         >
-          I'm done with the meal!
+          I'm done. <br /> Take me back!
         </button>
       </div>
     );
