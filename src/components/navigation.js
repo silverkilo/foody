@@ -209,7 +209,7 @@ export class Navigation extends Component {
               </li>
             </ul>
             <button className="hereButton" onClick={() => this.clickedHere()}>
-              I 'm here!
+              I'm here!
             </button>
           </div>
         </div>
