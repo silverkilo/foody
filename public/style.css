@@ -519,7 +519,8 @@
 }
 .profile__img {
     align-self: center;
-    font-size: 10em;
+    max-width: 70%;
+    height: auto;
     color: rgb(207, 207, 207);
 }
 .profile__details {

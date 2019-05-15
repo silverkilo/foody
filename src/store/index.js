@@ -12,6 +12,7 @@ import matchPreference from "./matchPreference";
 import selectedIdx from "./highlight";
 import chatHistory from "./chat";
 import icon from "./icon";
+import upload from "./upload";
 import { food } from "./food";
 import { selectedRestaurant } from "./food";
 
@@ -27,7 +28,8 @@ const reducer = combineReducers({
   selectedIdx,
   chatHistory,
   icon,
-  selectedRestaurant
+  selectedRestaurant,
+  upload
 });
 
 const middleware = composeWithDevTools(
@@ -45,3 +47,4 @@ export * from "./food";
 export * from "./match";
 export * from "./chat";
 export * from "./location";
+export * from "./upload";
