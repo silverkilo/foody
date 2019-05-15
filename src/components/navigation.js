@@ -125,6 +125,29 @@ export class Navigation extends Component {
               controller={true}
             />
           )}{" "}
+          {/* <MapGL
+                      mapStyle="mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
+                      mapboxApiAccessToken="pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg"
+                    >
+                      <Marker
+                        latitude={this.props.userLat}
+                        longitude={this.props.userLong}
+                        offsetLeft={-20}
+                        offsetTop={-10}
+                      >
+                        <div className={`marker marker1`} />
+                      </Marker>
+                      <Marker
+                        latitude={dummyResData[1]}
+                        longitude={dummyResData[0]}
+                        offsetLeft={-20}
+                        offsetTop={-10}
+                      >
+                        <div className={`marker marker2`} />{" "}
+                      </Marker>
+                      }) }
+                    </MapGL>
+                  </DeckGL> */}
           <button className="hereButton" onClick={() => this.clickedHere()}>
             I 'm here!{" "}
           </button>{" "}
