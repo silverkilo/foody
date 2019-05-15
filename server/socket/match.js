@@ -44,7 +44,7 @@ module.exports = function(socket, userId, exclusions) {
       // if doing ST_Distance, prepend user.location.coordiates[0] and user.location.coordiates[1] to the replacements array
       // this can also be done for the following query
 
-      const showDistance = true; //change to true to get distances
+      const showDistance = false; //change to true to get distances
       const userCoords = [
         user.location.coordinates[0],
         user.location.coordinates[1]
@@ -132,7 +132,7 @@ module.exports = function(socket, userId, exclusions) {
         `
         SELECT
             "users"."id" AS id, "firstName", "lastName", location, "socketId", "hasMatched", "photoURLs",
-            array_agg("preferences"."category") as preferences
+            array_agg("preferences"."fsId") as preferences
         FROM users
         INNER JOIN user_preferences
             ON users.id = "user_preferences"."userId"
@@ -149,7 +149,7 @@ module.exports = function(socket, userId, exclusions) {
           `
             SELECT
                 "users"."id" AS id, "firstName", "lastName", location, "socketId", "hasMatched", "photoURLs",
-                array_agg("preferences"."category") as preferences
+                array_agg("preferences"."fsId") as preferences
             FROM users
             INNER JOIN user_preferences
                 ON users.id = "user_preferences"."userId"
@@ -204,7 +204,7 @@ module.exports = function(socket, userId, exclusions) {
             `
             SELECT
                 "users"."id" AS id, "firstName", "lastName", location, "socketId", "photoURLs",
-                array_agg("preferences"."category") as preferences
+                array_agg("preferences"."fsId") as preferences
             FROM users
             INNER JOIN user_preferences
                 ON users.id = "user_preferences"."userId"
