@@ -165,7 +165,7 @@ export class MapBox extends Component {
   };
 
   handlePopupClose = () => {
-    this.props.history.push("/navigation");
+    this.props.history.push("/finalpage");
   };
   createStars = () => {
     const rating = Math.round(this.state.selectedRestaurant.rating / 2);
@@ -204,7 +204,7 @@ export class MapBox extends Component {
                 viewport
               })
             }
-            mapboxApiAccessToken="pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg"
+            mapboxApiAccessToken="pk.eyJ1IjoicmhlYXJhbyIsImEiOiJjanY3NGloZm4wYzR5NGVxcGU4MXhwaTJtIn0.d_-A1vz2gnk_h1GbTchULA"
           >
             <Marker
               latitude={this.props.userLat}
