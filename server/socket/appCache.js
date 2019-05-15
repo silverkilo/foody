@@ -6,7 +6,7 @@ class AppCache {
     this.venueList = {};
   }
   createRoom(user1, user2) {
-    const { roomId } = this;
+    const roomId = String(this.roomId);
     if (!this.roomInfo[user1] || !this.roomInfo[user2]) {
       this.roomInfo[user1] = {
         matchId: user2,
@@ -21,7 +21,7 @@ class AppCache {
     }
   }
   getRoom(userId) {
-    return this.roomInfo[userId].roomId;
+    return String(this.roomInfo[userId].roomId);
   }
   createVenueList(userId) {
     this.venueList[userId] = [];

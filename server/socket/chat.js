@@ -102,7 +102,8 @@ module.exports = function(socket, userId) {
   socket.on("send-client-message", msg => {
     try {
       cache.addMessage(msg, userId);
-      socket.broadcast.to(cache.getRoom(userId)).emit("send-others-messege", {
+      console.log(cache.getChatHistory(userId));
+      socket.broadcast.to(cache.getRoom(userId)).emit("send-others-message", {
         msg,
         userId
       });
