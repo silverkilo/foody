@@ -46,7 +46,9 @@ module.exports = function socketio(server, sessionMiddleware) {
       );
       exclusions[userId] = exclusions[userId] || [userId];
       socket.emit("ready", true);
-    } else return socket.emit("ready", false);
+    } else {
+      return socket.emit("ready", false);
+    }
 
     matchListeners(socket, userId, exclusions);
     chatListener(socket, userId);

@@ -83,7 +83,12 @@ class Routes extends Component {
           render={() => <Login initSocket={() => this.props.initSocket()} />}
         />{" "}
         <Route path="/signup" component={Signup} />{" "}
-        <Route path="/signup-email" component={SignupEmail} />{" "}
+        <Route
+          path="/signup-email"
+          render={() => (
+            <SignupEmail initSocket={() => this.props.initSocket()} />
+          )}
+        />{" "}
         <Route path="/signup-name" component={SignupName} />{" "}
         <Route path="/signup-password" component={SignupPassword} />{" "}
         <Route path="/welcome" component={Welcome} />{" "}
