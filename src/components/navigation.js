@@ -14,24 +14,7 @@ let data = [
   {
     name: "fake-name",
     color: [0, 0, 255],
-    path: [
-      [-74.008293, 40.707696],
-      [-74.008016, 40.707988],
-      [-74.008893, 40.709044],
-      [-74.005847, 40.711688],
-      [-74.006039, 40.711916],
-      [-74.00519, 40.711983],
-      [-74.004486, 40.711528],
-      [-74.002307, 40.712682],
-      [-73.997981, 40.713673],
-      [-73.997536, 40.71345],
-      [-73.984704, 40.714517],
-      [-73.981221, 40.720812],
-      [-73.974729, 40.72977],
-      [-73.975874, 40.730251],
-      [-73.976002, 40.730656],
-      [-73.97683, 40.731161]
-    ]
+    path: []
   }
 ];
 
@@ -46,8 +29,8 @@ const initialViewState = {
 };
 
 export class Navigation extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       viewport: {
         latitude: 40.7128,
@@ -55,7 +38,8 @@ export class Navigation extends Component {
         zoom: 14,
         pitch: 0,
         bearing: 0
-      }
+      },
+      coordinatesLoaded: false
     };
   }
 
@@ -79,10 +63,15 @@ export class Navigation extends Component {
   }
 
   getCoordinates = async () => {
-    const endpoint = `https://api.mapbox.com/directions/v5/mapbox/cycling/-74.0083,40.7077;-73.977,40.731?geometries=geojson&access_token=pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg`;
+    const endpoint = `https://api.mapbox.com/directions/v5/mapbox/cycling/${
+      this.state.viewport.longitude
+    },40.7077;-73.977,40.731?geometries=geojson&access_token=pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg`;
     const res = await axios.get(endpoint);
     data[0].path = res.data.routes[0].geometry.coordinates;
     console.log(data);
+    this.setState({
+      coordinatesLoaded: true
+    });
   };
 
   render() {
@@ -103,40 +92,39 @@ export class Navigation extends Component {
     return (
       <React.Fragment>
         <div className="map">
-          <DeckGL
-            initialViewState={initialViewState}
-            layers={layer}
-            controller={true}
-            // onViewportChange={viewport =>
-            //   this.setState({
-            //     viewport
-            //   })
-            // }
-          >
-            <MapGL
-              mapStyle="mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
-              mapboxApiAccessToken="pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg"
-            >
-              <Marker
-                latitude={this.props.userLat}
-                longitude={this.props.userLong}
-                offsetLeft={-20}
-                offsetTop={-10}
-              >
-                <div className={`marker marker1`} />
-              </Marker>
-              <Marker
-                latitude={dummyResData[1]}
-                longitude={dummyResData[0]}
-                offsetLeft={-20}
-                offsetTop={-10}
-              >
-                <div className={`marker marker2`} />{" "}
-              </Marker>
-              }) }
-            </MapGL>
-          </DeckGL>
-        </div>
+          {" "}
+          {this.state.coordinatesLoaded && (
+            <DeckGL
+              initialViewState={initialViewState}
+              layers={layer}
+              controller={true}
+            />
+          )}{" "}
+          }{" "}
+          {/* <MapGL
+                                                      mapStyle="mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
+                                                      mapboxApiAccessToken="pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg"
+                                                    >
+                                                      <Marker
+                                                                                        latitude={this.props.userLat}
+                                                                                        longitude={this.props.userLong}
+                                                                                        offsetLeft={-20}
+                                                                                        offsetTop={-10}
+                                                                                      >
+                                                                                      <div className={`marker marker1`} />{" "}
+                                                                                      </Marker>{" "}{" "}{" "}
+                                                      <Marker
+                                                        latitude={dummyResData[1]}
+                                                        longitude={dummyResData[0]}
+                                                        offsetLeft={-20}
+                                                        offsetTop={-10}
+                                                      >
+                                                        <div className={`marker marker2`} />{" "}
+                                                      </Marker>
+                                                      }) }{" "}
+                                                    </MapGL>{" "} */}{" "}
+          {/* </DeckGL>{" "} */}{" "}
+        </div>{" "}
       </React.Fragment>
     );
   }
@@ -156,6 +144,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(Navigation);
