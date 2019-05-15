@@ -67,13 +67,19 @@ export class MapBox extends Component {
     });
 
     const [long, lat] = await this.getLoc;
-    let distance = Math.sqrt(
-      (lat - this.props.matchLat) ** 2 + (long - this.props.matchLong) ** 2
-    );
+    let distance =
+      Math.sqrt(
+        (lat - this.props.matchLat) ** 2 + (long - this.props.matchLong) ** 2
+      ) * 111000;
+    console.log("DISTANCE", distance);
     let midpointLat = (lat + this.props.matchLat) / 2;
     let midpointLong = (long + this.props.matchLong) / 2;
 
-    await this.getVenues(midpointLat, midpointLong, 600);
+    await this.getVenues(
+      midpointLat,
+      midpointLong,
+      distance > 1000 ? distance : 1000
+    );
     this.props.joinChatRoom();
     this.props.setIconImg();
     this.props.createVenueList();

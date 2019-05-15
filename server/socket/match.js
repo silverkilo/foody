@@ -1,7 +1,6 @@
 const db = require("../db");
-const { Op } = require("sequelize");
-const { Preference, User, Match } = require("../db/models");
-
+const { Match } = require("../db/models");
+const cache = require("./appCache");
 const inCommon = (arr1, arr2) => {
   const hash = {};
   const result = [];
@@ -168,7 +167,7 @@ module.exports = function(socket, userId, exclusions) {
           );
           user.preferences = commonPrefs;
           matcheeInfo.preferences = commonPrefs;
-
+          cache.createRoom(user.id, matcheeInfo.id);
           socket.emit("haveYouMatched", {
             matched: true,
             info: matcheeInfo
@@ -225,6 +224,7 @@ module.exports = function(socket, userId, exclusions) {
             matcher2.preferences = commonPrefs;
             const matcheeInfo = matcher1.id === matchee ? matcher1 : matcher2,
               matcherInfo = matcher1.id === userId ? matcher1 : matcher2;
+            cache.createRoom(matcher1.id, matcher2.id);
             socket.emit("didMatch", { matched, info: matcheeInfo });
             socket
               .to(matcheeInfo.socketId)
