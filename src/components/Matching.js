@@ -7,10 +7,6 @@ import NoMatches from "./NoMatches";
 import Nav from "./Nav";
 
 class Matching extends Component {
-  componentDidMount() {
-    this.props.swipe();
-  }
-
   componentDidUpdate() {
     if (this.props.didMatch.matched) {
       setTimeout(() => {

@@ -23,6 +23,7 @@ class SignupEmail extends Component {
       const formName = event.target.name;
       if (email) await this.props.auth(email, "temp", formName);
       if (this.props.user.id) {
+        this.props.initSocket();
         this.props.history.push("/signup-name");
       }
     } catch (error) {

@@ -26,9 +26,9 @@ module.exports = function(socket, userId, exclusions) {
                           users.id, location,
                           array_agg(preferences.id) as preferences
                       FROM users
-                      INNER JOIN user_preferences
+                      LEFT JOIN user_preferences
                           ON "user_preferences"."userId" = users.id
-                      INNER JOIN preferences 
+                      LEFT JOIN preferences 
                           ON "preferences"."id" = "user_preferences"."preferenceId"
                       WHERE users.id = ?
                       GROUP BY users.id
@@ -128,22 +128,23 @@ module.exports = function(socket, userId, exclusions) {
   // EMITS whether the user has matched (matched: boolean) and if true also emits the info of the matchee and matcher
   socket.on("haveIMatched", async () => {
     try {
+      console.log(userId);
       const [[user]] = await db.query(
         `
         SELECT
             "users"."id" AS id, "firstName", "lastName", location, "socketId", "hasMatched", "photoURLs",
             array_agg("preferences"."fsId") as preferences
         FROM users
-        INNER JOIN user_preferences
+        LEFT JOIN user_preferences
             ON users.id = "user_preferences"."userId"
-        INNER JOIN preferences
+        LEFT JOIN preferences
             ON "user_preferences"."preferenceId" = preferences.id
-        WHERE users.id IN (?)
+        WHERE users.id IN (37)
         GROUP BY users.id
       `,
-        { replacements: [[userId]] }
+        { replacements: [userId] }
       );
-
+      console.log(user);
       if (user.hasMatched) {
         const [[matcheeInfo]] = await db.query(
           `
@@ -151,9 +152,9 @@ module.exports = function(socket, userId, exclusions) {
                 "users"."id" AS id, "firstName", "lastName", location, "socketId", "hasMatched", "photoURLs",
                 array_agg("preferences"."fsId") as preferences
             FROM users
-            INNER JOIN user_preferences
+            LEFT JOIN user_preferences
                 ON users.id = "user_preferences"."userId"
-            INNER JOIN preferences
+            LEFT JOIN preferences
                 ON "user_preferences"."preferenceId" = preferences.id
             WHERE users.id IN (?)
             GROUP BY users.id
