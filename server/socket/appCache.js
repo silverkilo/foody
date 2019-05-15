@@ -53,7 +53,8 @@ class AppCache {
     const matchId = this.roomInfo[userId].matchId;
     return this.venueList[matchId].includes(restaurantId);
   }
-  clearRecord = async userId => {
+
+  async clearRecord(userId) {
     if (this.roomInfo[userId]) {
       const { roomId, matchId } = this.roomInfo[userId];
 
@@ -68,7 +69,7 @@ class AppCache {
         }
       });
     }
-  };
+  }
 }
 
 module.exports = new AppCache();

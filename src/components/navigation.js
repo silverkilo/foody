@@ -76,10 +76,10 @@ export class Navigation extends Component {
   }
 
   getRestaurantCoords = async () => {
-    // const venueId = this.props.selectedRestaurant;
+    const venueId = this.props.selectedRestaurant;
 
     // BELOW ID IS FOR TEST. COMMENT BACK IN ABOVE LINE AND DELETE BELOW LINE
-    const venueId = "412d2800f964a520df0c1fe3";
+    // const venueId = "412d2800f964a520df0c1fe3";
     const params = {
       client_id: "KUZ0H02M1VQNYUNKV40GFCICQUYGHRZJQVFLFS4MK01IHFYE",
       client_secret: "ESQTWW5FJSPUDTTCM5JWQ1EO3T1GXNRVMS5XTKR3AKC4GNVJ",
