@@ -2,6 +2,15 @@
 
 Foody is an app where nearby people with similar food preferences could meet up with each other to grab a bite.
 
+### Logging In
+
+Swiping for matches
+
+
+### Preferences
+
+Swiping for matches
+
 
 ### Matching
 
