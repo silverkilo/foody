@@ -7,12 +7,21 @@ import NoMatches from "./NoMatches";
 import Nav from "./Nav";
 
 class Matching extends Component {
+  componentDidMount() {
+    // if (this.props.didMatch.matched) {
+    //   console.log("MATCHED");
+    //   setTimeout(() => {
+    //     this.props.history.push("/map");
+    //   }, Infinity);
+    // }
+  }
   componentDidUpdate() {
-    if (this.props.didMatch.matched) {
-      setTimeout(() => {
-        this.props.history.push("/map");
-      }, 1000);
-    }
+    // if (this.props.didMatch.matched) {
+    //   console.log("MATCHED");
+    //   setTimeout(() => {
+    //     this.props.history.push("/map");
+    //   }, Infinity);
+    // }
   }
   render() {
     if (this.props.didMatch.matched) {
