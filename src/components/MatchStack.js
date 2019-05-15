@@ -8,14 +8,14 @@ import MatchCard from "./MatchCard";
 function MatchStack({ users, swipe }) {
   const to = i => ({
     x: 0,
-    y: i * -4,
+    y: i * -5,
     scale: 1,
     rot: 0,
     delay: i * 100
   });
   const from = _ => ({ x: 0, rot: 0, scale: 1.5, y: -1000 });
   const trans = (r, s) =>
-    `perspective(1500px) rotateX(30deg) rotateY(${r / 10}deg) rotateZ(${r /
+    `perspective(1500px) rotateX(0deg) rotateY(${r / 10}deg) rotateZ(${r /
       2}deg) scale(${s})`;
   const [current, setState] = React.useState(users.length - 1);
   const [props, set] = useSprings(users.length, i => ({

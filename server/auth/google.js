@@ -61,7 +61,7 @@ passport.serializeUser((user, done) => {
 // If we've serialized the user on our session with an id, we look it up here
 // and attach it as 'req.user'.
 passport.deserializeUser((id, done) => {
-  User.findById(id)
+  User.findByPk(id)
     .then(user => {
       done(null, user);
     })

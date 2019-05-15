@@ -12,6 +12,8 @@ import { createVenueList } from "../store/food";
 import { setIconImg } from "../store/icon";
 import Chat from "./Chat";
 import "./mapstyles.css";
+import Nav from "./Nav";
+import t from "typy";
 
 // const mapAccess = {
 //   mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
@@ -41,7 +43,8 @@ export class MapBox extends Component {
         "Asian Restaurant"
       ],
       loadedVenues: false,
-      loadedUser: false
+      loadedUser: false,
+      selectedRestaurant: {}
     };
     this.getLoc = null;
   }
@@ -95,7 +98,7 @@ export class MapBox extends Component {
     );
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     if (
       this.props.userLat !== this.state.lat ||
       this.props.userLong !== this.state.long
@@ -107,6 +110,26 @@ export class MapBox extends Component {
           ...this.state.viewport,
           latitude: this.props.userLat,
           longitude: this.props.userLong
+        }
+      });
+    }
+    if (prevProps.selectedRestaurant !== this.props.selectedRestaurant) {
+      let selected = this.state.allVenues.filter(
+        venue => venue.id === this.props.selectedRestaurant
+      );
+      console.log("venues", this.state.allVenues);
+      console.log("selected", selected);
+      this.setState({
+        selectedRestaurant: {
+          name: t(selected[0], "name").safeObject,
+          address: t(selected[0], "location.address").safeObject,
+          city: t(selected[0], "location.city").safeObject,
+          state: t(selected[0], "location.state").safeObject,
+          price: t(selected[0], "price.tier").safeObject,
+          currency: t(selected[0], "price.currency").safeObject,
+          rating: t(selected[0], "rating").safeObject,
+          categories: t(selected[0], "categories[0].shortName").safeObject,
+          photo: t(selected[0], "bestPhoto").safeObject
         }
       });
     }
@@ -158,10 +181,34 @@ export class MapBox extends Component {
   handlePopupClose = () => {
     this.props.history.push("/navigation");
   };
+  createStars = () => {
+    const rating = Math.round(this.state.selectedRestaurant.rating / 2);
+    let stars = [
+      <i className="fas fa-star empty" />,
+      <i className="fas fa-star empty" />,
+      <i className="fas fa-star empty" />,
+      <i className="fas fa-star empty" />,
+      <i className="fas fa-star empty" />
+    ];
+    for (let i = 0; i < rating; i++) {
+      stars[i] = <i className="fas fa-star" />;
+    }
+    return stars;
+  };
 
+  createCurrency = () => {
+    let signs = "";
+    const price = this.state.selectedRestaurant.price;
+    const currency = this.state.selectedRestaurant.currency;
+    for (let i = 0; i < price; i++) {
+      signs += currency;
+    }
+    return signs;
+  };
   render() {
     return (
       <React.Fragment>
+        <Nav />
         <div className="map">
           <MapGL
             {...this.state.viewport}
@@ -225,10 +272,12 @@ export class MapBox extends Component {
           </div>
         )}
         <ReactModal
-          isOpen={this.props.selectedRestaurant}
+          isOpen={this.props.selectedRestaurant ? true : false}
           shouldCloseOnOverlayClick={true}
           closeTimeoutMS={5000}
           contentLabel="Restaurant Selected Modal"
+          className="congrats__content"
+          overlayClassName="congrats__overlay"
           // style={{ overlay: {}, content: "hi is this working" }}
           // portalClassName="ReactModalPortal"
           // overlayClassName="ReactModal__Overlay"
@@ -242,9 +291,31 @@ export class MapBox extends Component {
           //   background: "blue"
           // }}
         >
-          <p> You both chose restaurant {this.props.selectedRestaurant} </p>
-          <button onClick={this.handlePopupClose}>
-            Navigate to the restaurant
+          <i className="fas fa-utensils congrats__icon" />
+          <h1 className="congrats__title">Congratulations!</h1>
+          <p className="congrats__text">
+            You have both selected {this.state.selectedRestaurant.name}
+          </p>
+          <span className="congrats__text">{this.createStars()}</span>
+          {this.createCurrency() !== "" ? (
+            <span className="congrats__text">{this.createCurrency()}</span>
+          ) : (
+            ""
+          )}
+          <span className="congrats__text">
+            {this.state.selectedRestaurant.address}
+          </span>
+          <span className="congrats__text">
+            {this.state.selectedRestaurant.city},{" "}
+            {this.state.selectedRestaurant.state}
+          </span>
+          <button
+            className="congrats__button"
+            onClick={() => {
+              this.handlePopupClose();
+            }}
+          >
+            Lets Go!
           </button>
         </ReactModal>
       </React.Fragment>

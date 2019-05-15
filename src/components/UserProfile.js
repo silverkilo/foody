@@ -57,7 +57,10 @@ class UserProfile extends Component {
               great match.
             </p>
             {/* <i className="fas fa-user-circle profile__img" /> */}
-            <img src={this.state.photoURLs[0]} alt={this.state.firstName} />
+            <img
+              src={this.state.photoURLs && this.state.photoURLs[0]}
+              alt={this.state.firstName}
+            />
             <button
               className="profile__upload"
               type="button"
