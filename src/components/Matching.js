@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import MatchStack from "./MatchStack";
 import { swipe } from "../store";
 import ReactModal from "react-modal";
-import NewMatch from "./NewMatch";
 import NoMatches from "./NoMatches";
 import Nav from "./Nav";
 
@@ -60,7 +59,7 @@ class Matching extends Component {
         >
           <i className="fas fa-utensils congrats__icon" />
           <h1 className="congrats__title"> Congratulations! </h1>{" "}
-          <div key={this.props.didMatch.info.id}>
+          <div>
             <p className="congrats__text">
               You have matched with {this.props.didMatch.info.firstName}{" "}
               {this.props.didMatch.info.lastName}
