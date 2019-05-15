@@ -1,9 +1,24 @@
+const { Match, User } = require("../db/models");
+const { Op } = require("sequelize");
+
 class AppCache {
   constructor() {
     this.roomId = 0;
-    this.roomInfo = {};
-    this.allChats = {};
-    this.venueList = {};
+    this.roomInfo = {
+      // userId: {
+      //   matchId,
+      //   roomId,
+      //   socketId
+      // }
+    };
+    this.allChats = {
+      // roomId: [
+      //   [msg, id]
+      // ]
+    };
+    this.venueList = {
+      // user: ""
+    };
   }
   createRoom(user1, user2) {
     const roomId = String(this.roomId);
@@ -38,15 +53,22 @@ class AppCache {
     const matchId = this.roomInfo[userId].matchId;
     return this.venueList[matchId].includes(restaurantId);
   }
-  clearRecord(userId) {
+  clearRecord = async userId => {
     if (this.roomInfo[userId]) {
       const { roomId, matchId } = this.roomInfo[userId];
 
       delete this.allChats[roomId];
       delete this.roomInfo[userId];
       delete this.roomInfo[matchId];
+      delete this.venueList[userId];
+      delete this.venueList[matchId];
+      await Match.destroy({
+        where: {
+          matcheeId: userId
+        }
+      });
     }
-  }
+  };
 }
 
 module.exports = new AppCache();

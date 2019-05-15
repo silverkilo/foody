@@ -184,14 +184,14 @@ export class Navigation extends Component {
                 >
                   <div className={`marker marker1`} />
                 </Marker>
-                {/* <Marker
-                        latitude={dummyResData[1]}
-                        longitude={dummyResData[0]}
-                        offsetLeft={-20}
-                        offsetTop={-10}
-                        >
-                        <div className={`marker marker2`} />{" "}
-                      </Marker> */}
+                <Marker
+                  latitude={this.state.restaurantLat}
+                  longitude={this.state.restaurantLong}
+                  offsetLeft={-20}
+                  offsetTop={-10}
+                >
+                  <div className={`foodMarker`} />{" "}
+                </Marker>
               </MapGL>
             </DeckGL>
           )}
