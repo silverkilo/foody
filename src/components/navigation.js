@@ -12,42 +12,23 @@ import "./mapstyles.css";
 
 let data = [
   {
-    name: "fake-name",
+    // name: "fake-name",
     color: [0, 0, 255],
-    path: [
-      [-74.008293, 40.707696],
-      [-74.008016, 40.707988],
-      [-74.008893, 40.709044],
-      [-74.005847, 40.711688],
-      [-74.006039, 40.711916],
-      [-74.00519, 40.711983],
-      [-74.004486, 40.711528],
-      [-74.002307, 40.712682],
-      [-73.997981, 40.713673],
-      [-73.997536, 40.71345],
-      [-73.984704, 40.714517],
-      [-73.981221, 40.720812],
-      [-73.974729, 40.72977],
-      [-73.975874, 40.730251],
-      [-73.976002, 40.730656],
-      [-73.97683, 40.731161]
-    ]
+    path: []
   }
 ];
-
-const dummyResData = [-73.977, 40.731];
 
 const initialViewState = {
   latitude: 40.7128,
   longitude: -74.006,
-  zoom: 14,
-  pitch: 0,
-  bearing: 0
+  zoom: 14
+  // pitch: 0,
+  // bearing: 0
 };
 
 export class Navigation extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       viewport: {
         latitude: 40.7128,
@@ -55,12 +36,15 @@ export class Navigation extends Component {
         zoom: 14,
         pitch: 0,
         bearing: 0
-      }
+      },
+      restaurantLat: "",
+      restaurantLong: "",
+      coordinatesLoaded: false
     };
   }
 
-  componentDidMount() {
-    this.getCoordinates();
+  async componentDidMount() {
+    this.getRestaurantCoords();
   }
 
   componentDidUpdate() {
@@ -76,13 +60,47 @@ export class Navigation extends Component {
         }
       });
     }
+    this.getCoordinates();
   }
 
+  getRestaurantCoords = async () => {
+    // const venueId = this.props.selectedRestaurant;
+
+    // BELOW ID IS FOR TEST. COMMENT BACK IN ABOVE LINE AND DELETE BELOW LINE
+    const venueId = "412d2800f964a520df0c1fe3";
+    const params = {
+      client_id: "KUZ0H02M1VQNYUNKV40GFCICQUYGHRZJQVFLFS4MK01IHFYE",
+      client_secret: "ESQTWW5FJSPUDTTCM5JWQ1EO3T1GXNRVMS5XTKR3AKC4GNVJ",
+      v: "20130619"
+    };
+    const venuesEndpoint = `https://api.foursquare.com/v2/venues/${venueId}?&client_id=${
+      params.client_id
+    }&client_secret=${params.client_secret}&v=${params.v}`;
+
+    const res = await axios.get(venuesEndpoint);
+    const { venue } = res.data.response;
+    this.setState({
+      name: venue.name,
+      restaurantLat: venue.location.lat,
+      restaurantLong: venue.location.lng
+    });
+  };
+
   getCoordinates = async () => {
-    const endpoint = `https://api.mapbox.com/directions/v5/mapbox/cycling/-74.0083,40.7077;-73.977,40.731?geometries=geojson&access_token=pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg`;
+    const endpoint = `https://api.mapbox.com/directions/v5/mapbox/cycling/${
+      this.state.viewport.longitude
+    },${this.state.viewport.latitude};${this.state.restaurantLong},${
+      this.state.restaurantLat
+    }?geometries=geojson&access_token=pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg`;
     const res = await axios.get(endpoint);
     data[0].path = res.data.routes[0].geometry.coordinates;
-    console.log(data);
+    this.setState({
+      coordinatesLoaded: true
+    });
+  };
+
+  clickedHere = () => {
+    console.log("here!");
   };
 
   render() {
@@ -94,49 +112,46 @@ export class Navigation extends Component {
         getColor: data => data.color,
         widthMinPixels: 5
       })
-      //
-      // widthScale: 100,
-      //
-      // getPath: data => data.path,
     ];
 
     return (
       <React.Fragment>
         <div className="map">
-          <DeckGL
-            initialViewState={initialViewState}
-            layers={layer}
-            controller={true}
-            // onViewportChange={viewport =>
-            //   this.setState({
-            //     viewport
-            //   })
-            // }
-          >
-            <MapGL
-              mapStyle="mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
-              mapboxApiAccessToken="pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg"
-            >
-              <Marker
-                latitude={this.props.userLat}
-                longitude={this.props.userLong}
-                offsetLeft={-20}
-                offsetTop={-10}
-              >
-                <div className={`marker marker1`} />
-              </Marker>
-              <Marker
-                latitude={dummyResData[1]}
-                longitude={dummyResData[0]}
-                offsetLeft={-20}
-                offsetTop={-10}
-              >
-                <div className={`marker marker2`} />{" "}
-              </Marker>
-              }) }
-            </MapGL>
-          </DeckGL>
-        </div>
+          {" "}
+          {this.state.coordinatesLoaded && (
+            <DeckGL
+              initialViewState={initialViewState}
+              layers={layer}
+              controller={true}
+            />
+          )}{" "}
+          {/* <MapGL
+                      mapStyle="mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
+                      mapboxApiAccessToken="pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg"
+                    >
+                      <Marker
+                        latitude={this.props.userLat}
+                        longitude={this.props.userLong}
+                        offsetLeft={-20}
+                        offsetTop={-10}
+                      >
+                        <div className={`marker marker1`} />
+                      </Marker>
+                      <Marker
+                        latitude={dummyResData[1]}
+                        longitude={dummyResData[0]}
+                        offsetLeft={-20}
+                        offsetTop={-10}
+                      >
+                        <div className={`marker marker2`} />{" "}
+                      </Marker>
+                      }) }
+                    </MapGL>
+                  </DeckGL> */}
+          <button className="hereButton" onClick={() => this.clickedHere()}>
+            I 'm here!{" "}
+          </button>{" "}
+        </div>{" "}
       </React.Fragment>
     );
   }
@@ -147,7 +162,8 @@ const mapStateToProps = state => {
     userLong: state.location.user[0],
     userLat: state.location.user[1],
     icon1: state.icon.icon1,
-    icon2: state.icon.icon2
+    icon2: state.icon.icon2,
+    selectedRestaurant: state.selectedRestaurant
   };
 };
 
