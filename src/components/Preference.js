@@ -95,7 +95,7 @@ class Preference extends Component {
               type="button"
               onClick={() => this.handleClick()}
             >
-              <i class="fas fa-users" />
+              <i className="fas fa-users" />
             </button>
           ) : (
             ""

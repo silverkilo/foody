@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import MapGL, { Marker } from "react-map-gl";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import ReactModal from "react-modal";
 import SwipeLayer from "./SwipeLayer";
 import { connect } from "react-redux";
@@ -135,9 +135,9 @@ export class MapBox extends Component {
     const venuesEndpoint = "https://api.foursquare.com/v2/venues/search?";
 
     const params = {
-      client_id: "5DQ4HC1WROBOH0SFRD4IULDTPLLRP4J5LWKMOG0SZ0LRV5K0",
-      client_secret: "E5PLXEXQKZMQMPU02YDTSV0I1ZIAFK5LI0KPAEEZUCQQ5OJ3",
-      limit: 30,
+      client_id: "NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ",
+      client_secret: "YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM",
+      limit: 5,
       query: "Food",
       v: "20130619", // version of the API
       ll: `${lat}, ${long}`,

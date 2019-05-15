@@ -49,9 +49,6 @@ export class Chat extends Component {
                   array[1] === this.props.userId
                     ? (className = "receiver")
                     : (className = "sender");
-                  {
-                    console.log("CLASSNAME", className);
-                  }
                   return <li className={className}> {array[0]} </li>;
                 })}{" "}
             </ul>{" "}

@@ -14,7 +14,8 @@ import {
   Matching,
   MapBox,
   Navigation,
-  FinalPage
+  FinalPage,
+  NewMatch
 } from "./components";
 
 class Routes extends Component {
@@ -98,6 +99,7 @@ class Routes extends Component {
         <Route path="/map" component={MapBox} />{" "}
         <Route path="/navigation" component={Navigation} />{" "}
         <Route path="/finalpage" component={FinalPage} />{" "}
+        <Route path="/newmatch" component={NewMatch} />
       </Switch>
     );
   }

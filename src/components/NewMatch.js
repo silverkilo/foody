@@ -7,6 +7,7 @@ export default function NewMatch({
   photoURLs,
   preferences
 }) {
+  console.log(id, firstName, lastName, photoURLs, preferences);
   return (
     <div>
       <h2>Congrats, you matched with</h2>

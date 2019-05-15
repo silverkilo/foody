@@ -11,7 +11,7 @@ class Matching extends Component {
     if (this.props.didMatch.matched) {
       setTimeout(() => {
         this.props.history.push("/map");
-      }, 1000);
+      }, 3000);
     }
   }
   render() {
