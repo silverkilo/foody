@@ -1,0 +1,24 @@
+.finalContainer {
+  background: lightgrey;
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px
+}
+
+.finalButton {
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  background: white;
+  color: rgb(58, 124, 230);
+  font-weight: 700;
+  font-size: 2rem;
+  margin-top: 10px;
+  width: 100%;
+  text-transform: uppercase;
+}

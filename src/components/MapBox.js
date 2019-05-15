@@ -84,6 +84,7 @@ export class MapBox extends Component {
       },
       async () => {
         console.log("STATE AFTER SETTING MATCH PREFERENCES", this.state);
+        console.log("this.props.matchInfo", this.props.matchInfo);
         await this.getVenues(
           midpointLat,
           midpointLong,
