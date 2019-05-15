@@ -1,36 +1,15 @@
-import React, {
-  Component
-} from "react";
-import MapGL, {
-  Marker
-} from "react-map-gl";
-import {
-  Link
-} from "react-router-dom";
+import React, { Component } from "react";
+import MapGL, { Marker } from "react-map-gl";
+import { Link } from "react-router-dom";
 import ReactModal from "react-modal";
 import SwipeLayer from "./SwipeLayer";
-import {
-  connect
-} from "react-redux";
-import {
-  setUserLocation,
-  getMatchLocation
-} from "../store";
-import {
-  setSelectedIdx
-} from "../store/highlight";
-import {
-  getMatchPreference
-} from "../store/matchPreference";
-import {
-  joinChatRoom
-} from "../store/chat";
-import {
-  createVenueList
-} from "../store/food";
-import {
-  setIconImg
-} from "../store/icon";
+import { connect } from "react-redux";
+import { setUserLocation, getMatchLocation } from "../store";
+import { setSelectedIdx } from "../store/highlight";
+import { getMatchPreference } from "../store/matchPreference";
+import { joinChatRoom } from "../store/chat";
+import { createVenueList } from "../store/food";
+import { setIconImg } from "../store/icon";
 import Chat from "./Chat";
 import "./mapstyles.css";
 import Nav from "./Nav";
@@ -75,7 +54,8 @@ export class MapBox extends Component {
       let lat = this.props.userLat;
       let long = this.props.userLong;
       resolve([long, lat]);
-      this.setState({
+      this.setState(
+        {
           viewport: {
             ...this.state.viewport,
             latitude: lat,
@@ -101,9 +81,11 @@ export class MapBox extends Component {
     this.props.joinChatRoom();
     this.props.setIconImg();
     this.props.createVenueList();
-    this.setState({
-        matchPreferences: this.props.matchInfo ?
-          this.props.matchInfo.preferences : this.state.matchPreferences
+    this.setState(
+      {
+        matchPreferences: this.props.matchInfo
+          ? this.props.matchInfo.preferences
+          : this.state.matchPreferences
       },
       async () => {
         console.log("STATE AFTER SETTING MATCH PREFERENCES", this.state);
@@ -167,20 +149,20 @@ export class MapBox extends Component {
     };
 
     await fetch(venuesEndpoint + new URLSearchParams(params), {
-        method: "GET"
-      })
+      method: "GET"
+    })
       .then(response => response.json())
       .then(response => {
         // filter out those places without category names
         let filteredWithoutCategories = response.response.venues.filter(
           eachPlace => eachPlace.categories[0] !== undefined
         );
-        console.log("filteredWithoutCategories", filteredWithoutCategories)
+        console.log("filteredWithoutCategories", filteredWithoutCategories);
         // filter out places with categories that don't match the user's preferences
         let filtered = filteredWithoutCategories.filter(
           eachPlace =>
-          this.state.matchPreferences.indexOf(eachPlace.categories[0].name) >
-          -1
+            this.state.matchPreferences.indexOf(eachPlace.categories[0].name) >
+            -1
         );
         this.setState({
           allVenues: filtered,
@@ -200,15 +182,15 @@ export class MapBox extends Component {
   };
   createStars = () => {
     const rating = Math.round(this.state.selectedRestaurant.rating / 2);
-    let stars = [ <
-      i className = "fas fa-star empty" / > , <
-      i className = "fas fa-star empty" / > , <
-      i className = "fas fa-star empty" / > , <
-      i className = "fas fa-star empty" / > , <
-      i className = "fas fa-star empty" / >
+    let stars = [
+      <i className="fas fa-star empty" />,
+      <i className="fas fa-star empty" />,
+      <i className="fas fa-star empty" />,
+      <i className="fas fa-star empty" />,
+      <i className="fas fa-star empty" />
     ];
     for (let i = 0; i < rating; i++) {
-      stars[i] = < i className = "fas fa-star" / > ;
+      stars[i] = <i className="fas fa-star" />;
     }
     return stars;
   };
@@ -223,196 +205,123 @@ export class MapBox extends Component {
     return signs;
   };
   render() {
-    return ( <
-        React.Fragment >
-        <
-        Nav / >
-        <
-        div className = "map" >
-        <
-        MapGL {
-          ...this.state.viewport
-        }
-        mapStyle = "mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
-        onViewportChange = {
-          viewport =>
-          this.setState({
-            viewport
-          })
-        }
-        mapboxApiAccessToken = "pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg" >
-        <
-        Marker latitude = {
-          this.props.userLat
-        }
-        longitude = {
-          this.props.userLong
-        }
-        offsetLeft = {
-          -20
-        }
-        offsetTop = {
-          -10
-        } >
-        <
-        div className = {
-          `marker marker${this.props.icon1}`
-        }
-        /> < /
-        Marker > <
-        Marker latitude = {
-          this.props.matchLat
-        }
-        longitude = {
-          this.props.matchLong
-        }
-        offsetLeft = {
-          -20
-        }
-        offsetTop = {
-          -10
-        } >
-        <
-        div className = {
-          `marker marker${this.props.icon2}`
-        }
-        /> < /
-        Marker > {
-          this.state.allVenues.map((item, index) => {
-            let icon;
-            this.props.selectedIdx === index ?
-              (icon = `highlightedFooodMarker`) :
-              (icon = `foodMarker`);
-            return ( <
-              Marker latitude = {
-                item.location.lat
-              }
-              longitude = {
-                item.location.lng
-              }
-              offsetLeft = {
-                -20
-              }
-              offsetTop = {
-                -10
-              }
-              key = {
-                item.id
-              } >
-              <
-              div onClick = {
-                () => {
-                  this.props.setSelectedIdx(index);
-                }
-              }
-              className = {
-                icon
-              }
-              />{" "} < /
-              Marker >
-            );
-          })
-        } {
-          " "
-        } <
-        /MapGL>{" "} < /
-        div > {
-          " "
-        } <
-        button className = "chatBubble"
-        onClick = {
-          this.handleOpenChat
-        } >
-        <
-        i class = "fas fa-comment-alt" / >
-        <
-        /button> <
-        Chat / > {
-          this.state.loadedVenues && ( <
-            div className = "overlay" >
-            <
-            div className = "content" >
-            <
-            SwipeLayer allVenues = {
-              this.state.allVenues
+    return (
+      <React.Fragment>
+        <Nav />
+        <div className="map">
+          <MapGL
+            {...this.state.viewport}
+            mapStyle="mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
+            onViewportChange={viewport =>
+              this.setState({
+                viewport
+              })
             }
-            />{" "} < /
-            div > {
-              " "
-            } <
-            /div>
-          )
-        } <
-        ReactModal isOpen = {
-          this.props.selectedRestaurant ? true : false
-        }
-        shouldCloseOnOverlayClick = {
-          true
-        }
-        closeTimeoutMS = {
-          5000
-        }
-        contentLabel = "Restaurant Selected Modal"
-        className = "congrats__content"
-        overlayClassName = "congrats__overlay"
-        // style={{ overlay: {}, content: "hi is this working" }}
-        // portalClassName="ReactModalPortal"
-        // overlayClassName="ReactModal__Overlay"
-        // className="ReactModal__Content"
-        // bodyOpenClassName="ReactModal__Body--open"
-        // htmlOpenClassName="ReactModal__Html--open"
-        // ariaHideApp={true}
-        // role="dialog"
-        // parentSelector={() => document.body}
-        // data={{
-        //   background: "blue"
-        // }}
+            mapboxApiAccessToken="pk.eyJ1Ijoib2theW9sYSIsImEiOiJjanY3MXZva2MwMnB2M3pudG0xcWhrcWN2In0.mBX1cWn8lOgPUD0LBXHkWg"
+          >
+            <Marker
+              latitude={this.props.userLat}
+              longitude={this.props.userLong}
+              offsetLeft={-20}
+              offsetTop={-10}
+            >
+              <div className={`marker marker${this.props.icon1}`} />{" "}
+            </Marker>{" "}
+            <Marker
+              latitude={this.props.matchLat}
+              longitude={this.props.matchLong}
+              offsetLeft={-20}
+              offsetTop={-10}
+            >
+              <div className={`marker marker${this.props.icon2}`} />{" "}
+            </Marker>{" "}
+            {this.state.allVenues.map((item, index) => {
+              let icon;
+              this.props.selectedIdx === index
+                ? (icon = `highlightedFooodMarker`)
+                : (icon = `foodMarker`);
+              return (
+                <Marker
+                  latitude={item.location.lat}
+                  longitude={item.location.lng}
+                  offsetLeft={-20}
+                  offsetTop={-10}
+                  key={item.id}
+                >
+                  <div
+                    onClick={() => {
+                      this.props.setSelectedIdx(index);
+                    }}
+                    className={icon}
+                  />{" "}
+                </Marker>
+              );
+            })}{" "}
+          </MapGL>{" "}
+        </div>{" "}
+        <button className="chatBubble" onClick={this.handleOpenChat}>
+          <i class="fas fa-comment-alt" />
+        </button>{" "}
+        <Chat />{" "}
+        {this.state.loadedVenues && (
+          <div className="overlay">
+            <div className="content">
+              <SwipeLayer allVenues={this.state.allVenues} />{" "}
+            </div>{" "}
+          </div>
+        )}{" "}
+        <ReactModal
+          isOpen={this.props.selectedRestaurant ? true : false}
+          shouldCloseOnOverlayClick={true}
+          closeTimeoutMS={5000}
+          contentLabel="Restaurant Selected Modal"
+          className="congrats__content"
+          overlayClassName="congrats__overlay"
+          // style={{ overlay: {}, content: "hi is this working" }}
+          // portalClassName="ReactModalPortal"
+          // overlayClassName="ReactModal__Overlay"
+          // className="ReactModal__Content"
+          // bodyOpenClassName="ReactModal__Body--open"
+          // htmlOpenClassName="ReactModal__Html--open"
+          // ariaHideApp={true}
+          // role="dialog"
+          // parentSelector={() => document.body}
+          // data={{
+          //   background: "blue"
+          // }}
         >
-        <
-        i className = "fas fa-utensils congrats__icon" / >
-        <
-        h1 className = "congrats__title" > Congratulations! < /h1> <
-        p className = "congrats__text" >
-        You have both selected {
-          this.state.selectedRestaurant.name
-        } <
-        /p> <
-        span className = "congrats__text" > {
-          this.createStars()
-        } < /span> {
-        this.createCurrency() !== "" ? ( <
-          span className = "congrats__text" > {
-            this.createCurrency()
-          } < /span>
-        ) : (
-          ""
-        )
-      } <
-      span className = "congrats__text" > {
-        this.state.selectedRestaurant.address
-      } <
-      /span> <
-    span className = "congrats__text" > {
-        this.state.selectedRestaurant.city
-      }, {
-        " "
-      } {
-        this.state.selectedRestaurant.state
-      } <
-      /span> <
-    button className = "congrats__button"
-    onClick = {
-        () => {
-          this.handlePopupClose();
-        }
-      } >
-      Lets Go!
-      <
-      /button> < /
-    ReactModal > <
-      /React.Fragment>
-  );
-}
+          <i className="fas fa-utensils congrats__icon" />
+          <h1 className="congrats__title"> Congratulations! </h1>{" "}
+          <p className="congrats__text">
+            You have both selected {this.state.selectedRestaurant.name}{" "}
+          </p>{" "}
+          <span className="congrats__text"> {this.createStars()} </span>{" "}
+          {this.createCurrency() !== "" ? (
+            <span className="congrats__text"> {this.createCurrency()} </span>
+          ) : (
+            ""
+          )}{" "}
+          <span className="congrats__text">
+            {" "}
+            {this.state.selectedRestaurant.address}{" "}
+          </span>{" "}
+          <span className="congrats__text">
+            {" "}
+            {this.state.selectedRestaurant.city},{" "}
+            {this.state.selectedRestaurant.state}{" "}
+          </span>{" "}
+          <button
+            className="congrats__button"
+            onClick={() => {
+              this.handlePopupClose();
+            }}
+          >
+            Lets Go!
+          </button>{" "}
+        </ReactModal>{" "}
+      </React.Fragment>
+    );
+  }
 }
 
 const mapStateToProps = state => {
