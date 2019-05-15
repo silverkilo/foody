@@ -154,18 +154,9 @@ export class MapBox extends Component {
       .then(response => response.json())
       .then(response => {
         // filter out those places without category names
-        let filteredWithoutCategories = response.response.venues.filter(
-          eachPlace => eachPlace.categories[0] !== undefined
-        );
-        console.log("filteredWithoutCategories", filteredWithoutCategories);
-        // filter out places with categories that don't match the user's preferences
-        let filtered = filteredWithoutCategories.filter(
-          eachPlace =>
-            this.state.matchPreferences.indexOf(eachPlace.categories[0].name) >
-            -1
-        );
+
         this.setState({
-          allVenues: filtered,
+          allVenues: response.response.venues,
           loadedVenues: true
         });
       });
