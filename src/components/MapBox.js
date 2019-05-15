@@ -88,7 +88,11 @@ export class MapBox extends Component {
           : this.state.matchPreferences
       },
       async () => {
+<<<<<<< HEAD
         console.log(this.state);
+=======
+        console.log("STATE AFTER SETTING MATCH PREFERENCES", this.state);
+>>>>>>> master
         await this.getVenues(
           midpointLat,
           midpointLong,
@@ -141,7 +145,11 @@ export class MapBox extends Component {
     const params = {
       client_id: "5DQ4HC1WROBOH0SFRD4IULDTPLLRP4J5LWKMOG0SZ0LRV5K0",
       client_secret: "E5PLXEXQKZMQMPU02YDTSV0I1ZIAFK5LI0KPAEEZUCQQ5OJ3",
+<<<<<<< HEAD
       limit: 5,
+=======
+      limit: 30,
+>>>>>>> master
       query: "Food",
       v: "20130619", // version of the API
       ll: `${lat}, ${long}`,
@@ -157,6 +165,7 @@ export class MapBox extends Component {
         let filteredWithoutCategories = response.response.venues.filter(
           eachPlace => eachPlace.categories[0] !== undefined
         );
+        console.log("filteredWithoutCategories", filteredWithoutCategories);
         // filter out places with categories that don't match the user's preferences
         let filtered = filteredWithoutCategories.filter(
           eachPlace =>
@@ -164,12 +173,10 @@ export class MapBox extends Component {
             -1
         );
         this.setState({
-          allVenues: filtered
+          allVenues: filtered,
+          loadedVenues: true
         });
       });
-    this.setState({
-      loadedVenues: true
-    });
   };
 
   //chat functions
@@ -226,16 +233,16 @@ export class MapBox extends Component {
               offsetLeft={-20}
               offsetTop={-10}
             >
-              <div className={`marker marker${this.props.icon1}`} />
-            </Marker>
+              <div className={`marker marker${this.props.icon1}`} />{" "}
+            </Marker>{" "}
             <Marker
               latitude={this.props.matchLat}
               longitude={this.props.matchLong}
               offsetLeft={-20}
               offsetTop={-10}
             >
-              <div className={`marker marker${this.props.icon2}`} />
-            </Marker>
+              <div className={`marker marker${this.props.icon2}`} />{" "}
+            </Marker>{" "}
             {this.state.allVenues.map((item, index) => {
               let icon;
               this.props.selectedIdx === index
@@ -262,15 +269,15 @@ export class MapBox extends Component {
         </div>{" "}
         <button className="chatBubble" onClick={this.handleOpenChat}>
           <i class="fas fa-comment-alt" />
-        </button>
-        <Chat />
+        </button>{" "}
+        <Chat />{" "}
         {this.state.loadedVenues && (
           <div className="overlay">
             <div className="content">
               <SwipeLayer allVenues={this.state.allVenues} />{" "}
             </div>{" "}
           </div>
-        )}
+        )}{" "}
         <ReactModal
           isOpen={this.props.selectedRestaurant ? true : false}
           shouldCloseOnOverlayClick={true}
@@ -292,23 +299,25 @@ export class MapBox extends Component {
           // }}
         >
           <i className="fas fa-utensils congrats__icon" />
-          <h1 className="congrats__title">Congratulations!</h1>
+          <h1 className="congrats__title"> Congratulations! </h1>{" "}
           <p className="congrats__text">
-            You have both selected {this.state.selectedRestaurant.name}
-          </p>
-          <span className="congrats__text">{this.createStars()}</span>
+            You have both selected {this.state.selectedRestaurant.name}{" "}
+          </p>{" "}
+          <span className="congrats__text"> {this.createStars()} </span>{" "}
           {this.createCurrency() !== "" ? (
-            <span className="congrats__text">{this.createCurrency()}</span>
+            <span className="congrats__text"> {this.createCurrency()} </span>
           ) : (
             ""
-          )}
+          )}{" "}
           <span className="congrats__text">
-            {this.state.selectedRestaurant.address}
-          </span>
+            {" "}
+            {this.state.selectedRestaurant.address}{" "}
+          </span>{" "}
           <span className="congrats__text">
+            {" "}
             {this.state.selectedRestaurant.city},{" "}
-            {this.state.selectedRestaurant.state}
-          </span>
+            {this.state.selectedRestaurant.state}{" "}
+          </span>{" "}
           <button
             className="congrats__button"
             onClick={() => {
@@ -316,8 +325,8 @@ export class MapBox extends Component {
             }}
           >
             Lets Go!
-          </button>
-        </ReactModal>
+          </button>{" "}
+        </ReactModal>{" "}
       </React.Fragment>
     );
   }

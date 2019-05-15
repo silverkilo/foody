@@ -4,16 +4,16 @@
   height: 40px;
   border-radius: 50%;
   cursor: pointer;
-  z-index: 10;
+  z-index: 2;
 }
 
 .mapboxgl-marker {
-  z-index: 10
+  z-index: 2;
 }
 
 .detailsTemp {
   position: absolute;
-  bottom: 0
+  bottom: 0;
 }
 
 .foodMarker {

@@ -94,6 +94,7 @@ class FoodDetails extends Component {
   render() {
     return (
       <div className={this.state.card}>
+        {" "}
         {this.state.photo !== undefined ? (
           <img
             className="card__img"
@@ -102,18 +103,20 @@ class FoodDetails extends Component {
           />
         ) : (
           <img className="card__img" src="./images/stock.jpg" alt="" />
-        )}
+        )}{" "}
         <ul className="card__details">
-          <li className="card__name">{this.state.name}</li>
-          <li className="card__rating">{this.createStars()}</li>
+          <li className="card__name"> {this.state.name} </li>{" "}
+          <li className="card__rating"> {this.createStars()} </li>{" "}
           <li className="card__price">
-            {this.createCurrency()} {this.state.category}
-          </li>
-          <li className="card__address">{this.state.address}</li>
+            {" "}
+            {this.createCurrency()} {this.state.category}{" "}
+          </li>{" "}
+          <li className="card__address"> {this.state.address} </li>{" "}
           <li className="card__address">
-            {this.state.city}, {this.state.state}
-          </li>
-        </ul>
+            {" "}
+            {this.state.city}, {this.state.state}{" "}
+          </li>{" "}
+        </ul>{" "}
         {this.props.food.includes(this.props.venueId) ? (
           <button
             className="card__button"
@@ -121,7 +124,7 @@ class FoodDetails extends Component {
               this.handleDeselect(this.props.venueId);
             }}
           >
-            Remove
+            Remove{" "}
           </button>
         ) : (
           <button
@@ -132,7 +135,7 @@ class FoodDetails extends Component {
           >
             pick me!
           </button>
-        )}
+        )}{" "}
       </div>
     );
   }

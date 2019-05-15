@@ -171,7 +171,8 @@ export class Navigation extends Component {
               layers={layer}
               controller={true}
             >
-              {/* )}{" "} */}
+              {" "}
+              {/* )}{" "} */}{" "}
               <MapGL
                 mapStyle="mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
                 mapboxApiAccessToken="pk.eyJ1IjoicmhlYXJhbyIsImEiOiJjanY3NGloZm4wYzR5NGVxcGU4MXhwaTJtIn0.d_-A1vz2gnk_h1GbTchULA"
@@ -182,8 +183,8 @@ export class Navigation extends Component {
                   offsetLeft={-20}
                   offsetTop={-10}
                 >
-                  <div className={`marker marker1`} />
-                </Marker>
+                  <div className={`marker marker1`} />{" "}
+                </Marker>{" "}
                 <Marker
                   latitude={this.state.restaurantLat}
                   longitude={this.state.restaurantLong}
@@ -191,28 +192,30 @@ export class Navigation extends Component {
                   offsetTop={-10}
                 >
                   <div className={`foodMarker`} />{" "}
-                </Marker>
-              </MapGL>
+                </Marker>{" "}
+              </MapGL>{" "}
             </DeckGL>
-          )}
+          )}{" "}
           <div className="detailsTemp">
-            <div>Restaurant Details</div>
+            <div> Restaurant Details </div>{" "}
             <ul className="card__details">
-              <li className="card__name">{this.state.name}</li>
-              <li className="card__rating">{this.createStars()}</li>
+              <li className="card__name"> {this.state.name} </li>{" "}
+              <li className="card__rating"> {this.createStars()} </li>{" "}
               <li className="card__price">
-                {this.createCurrency()} {this.state.category}
-              </li>
-              <li className="card__address">{this.state.address}</li>
+                {" "}
+                {this.createCurrency()} {this.state.category}{" "}
+              </li>{" "}
+              <li className="card__address"> {this.state.address} </li>{" "}
               <li className="card__address">
-                {this.state.city}, {this.state.state}
-              </li>
-            </ul>
+                {" "}
+                {this.state.city}, {this.state.state}{" "}
+              </li>{" "}
+            </ul>{" "}
             <button className="hereButton" onClick={() => this.clickedHere()}>
-              I'm here!
-            </button>
-          </div>
-        </div>
+              I 'm here!{" "}
+            </button>{" "}
+          </div>{" "}
+        </div>{" "}
       </React.Fragment>
     );
   }

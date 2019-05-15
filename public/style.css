@@ -719,12 +719,21 @@
     align-items: center;
 }
 .match__preference {
-    font-size: 1.2em;
+    font-size: 1em;
     color: rgb(77, 77, 77);
+    padding: 5px;
+    border-radius: 5px;
+    background: rgb(58, 124, 230);
+    color: white;
+}
+.match__preference__container {
+    flex-basis: 33.3%;
 }
 .match__preferences {
     display: flex;
+    flex-flow: wrap;
     align-items: center;
+    margin-top: 5px;
 }
 .match__person {
     margin-right: 10px;
