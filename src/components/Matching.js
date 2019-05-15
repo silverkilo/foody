@@ -7,8 +7,17 @@ import NoMatches from "./NoMatches";
 import Nav from "./Nav";
 
 class Matching extends Component {
+  componentDidMount() {
+    if (this.props.didMatch.matched) {
+      console.log("MATCHED");
+      setTimeout(() => {
+        this.props.history.push("/map");
+      }, 3000);
+    }
+  }
   componentDidUpdate() {
     if (this.props.didMatch.matched) {
+      console.log("MATCHED");
       setTimeout(() => {
         this.props.history.push("/map");
       }, 3000);

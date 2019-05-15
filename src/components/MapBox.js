@@ -69,10 +69,10 @@ export class MapBox extends Component {
       Math.sqrt(
         (lat - this.props.matchLat) ** 2 + (long - this.props.matchLong) ** 2
       ) * 111000;
-    console.log("DISTANCE", distance);
     let midpointLat = (lat + this.props.matchLat) / 2;
     let midpointLong = (long + this.props.matchLong) / 2;
-
+    console.log("DISTANCE", distance);
+    console.log("LOC", midpointLat, midpointLong);
     this.props.joinChatRoom();
     this.props.setIconImg();
     this.props.createVenueList();
@@ -88,7 +88,7 @@ export class MapBox extends Component {
         await this.getVenues(
           midpointLat,
           midpointLong,
-          distance > 1000 ? distance : 1000
+          distance > 5000 ? distance : 5000
         );
       }
     );
@@ -132,6 +132,7 @@ export class MapBox extends Component {
   }
 
   getVenues = async (lat, long, radius) => {
+    console.log("RADIUS", radius);
     const venuesEndpoint = "https://api.foursquare.com/v2/venues/search?";
 
     const params = {
@@ -151,6 +152,7 @@ export class MapBox extends Component {
       .then(response => response.json())
       .then(response => {
         // filter out those places without category names
+        console.log(response);
         this.setState({
           allVenues: response.response.venues,
           loadedVenues: true

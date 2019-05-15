@@ -121,3 +121,39 @@ and (orientation : portrait) {
 .match-distance {
     font-size: 1.5rem
 }
+.new-match{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px #F0F0F0 solid
+}
+.new-match__container{
+    border: 1px solid black !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center
+}
+.new-match__info{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center
+}
+.new-match__header{
+    font-size: 2rem;
+    font-style: italic;
+}
+.new-match__first{
+    font-size: 1.5rem;
+    text-align: center
+}
+.new-match__last{
+    font-size: 1.5rem;
+    text-align: center
+}
+.new-match__img{
+    align-self: center
+}

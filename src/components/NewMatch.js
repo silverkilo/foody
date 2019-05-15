@@ -9,12 +9,14 @@ export default function NewMatch({
 }) {
   console.log(id, firstName, lastName, photoURLs, preferences);
   return (
-    <div>
-      <h2>Congrats, you matched with</h2>
-      <div key={id}>
-        <p>{firstName}</p>
-        <p>{lastName}</p>
-        <img src={photoURLs[0]} alt={firstName} />
+    <div className="new-match">
+      <div className="new-match_container">
+        <h2 className="new-match__header">Congrats, you matched with</h2>
+        <div className="new-match__info" key={id}>
+          <p className="new-match__first">{firstName}</p>
+          <p className="new-match__last">{lastName}</p>
+          <img className="new-match__img" src={photoURLs[0]} alt={firstName} />
+        </div>
       </div>
     </div>
   );

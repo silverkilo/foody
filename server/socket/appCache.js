@@ -63,11 +63,24 @@ class AppCache {
       delete this.roomInfo[matchId];
       delete this.venueList[userId];
       delete this.venueList[matchId];
-      await Match.destroy({
-        where: {
-          matcheeId: userId
-        }
-      });
+      await Promise.all([
+        Match.destroy({
+          where: {
+            matcheeId: userId
+          }
+        }),
+        Match.destroy({
+          where: {
+            matcherId: userId
+          }
+        }),
+        User.update(
+          {
+            hasMatched: null
+          },
+          { where: { id: userId } }
+        )
+      ]);
     }
   }
 }
