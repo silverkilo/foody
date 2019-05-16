@@ -14,6 +14,7 @@ import Chat from "./Chat";
 import "./mapstyles.css";
 import Nav from "./Nav";
 import t from "typy";
+import axios from "axios";
 
 // const mapAccess = {
 //   mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
@@ -39,7 +40,8 @@ export class MapBox extends Component {
       matchPreferences: [],
       loadedVenues: false,
       loadedUser: false,
-      selectedRestaurant: {}
+      selectedRestaurant: {},
+      selectedRestaurantDetails: {}
     };
     this.getLoc = null;
   }
@@ -115,6 +117,7 @@ export class MapBox extends Component {
       );
       console.log("venues", this.state.allVenues);
       console.log("selected", selected);
+      this.getVenuesDetails(selected);
       this.setState({
         selectedRestaurant: {
           name: t(selected[0], "name").safeObject,
@@ -130,14 +133,41 @@ export class MapBox extends Component {
       });
     }
   }
+  getVenuesDetails = async selected => {
+    const venueId = selected[0].id;
+    const params = {
+      client_id: "VNIMI2NZPZ5SN2UROHEFKMZ21NLDK4YOMUG244YVZI0ZL2HO",
+      client_secret: "MQQKYICUP0BWRM04EP2UYR2PDDZTTPERIGJ1IQUF54TJVYUV",
+      v: "20130619"
+    };
+    const venuesEndpoint = `https://api.foursquare.com/v2/venues/${venueId}?&client_id=${
+      params.client_id
+    }&client_secret=${params.client_secret}&v=${params.v}`;
 
+    const res = await axios.get(venuesEndpoint);
+    const { venue } = res.data.response;
+    console.log("selected restaurant", venue);
+    this.setState({
+      selectedRestaurantDetails: {
+        name: t(venue, "name").safeObject,
+        address: t(venue, "location.address").safeObject,
+        city: t(venue, "location.city").safeObject,
+        state: t(venue, "location.state").safeObject,
+        price: t(venue, "price.tier").safeObject,
+        currency: t(venue, "price.currency").safeObject,
+        rating: t(venue, "rating").safeObject,
+        categories: t(venue, "categories[0].shortName").safeObject,
+        photo: t(venue, "bestPhoto").safeObject
+      }
+    });
+  };
   getVenues = async (lat, long, radius) => {
     console.log("RADIUS", radius);
     const venuesEndpoint = "https://api.foursquare.com/v2/venues/search?";
 
     const params = {
-      client_id: "5DQ4HC1WROBOH0SFRD4IULDTPLLRP4J5LWKMOG0SZ0LRV5K0",
-      client_secret: "E5PLXEXQKZMQMPU02YDTSV0I1ZIAFK5LI0KPAEEZUCQQ5OJ3",
+      client_id: "KUZ0H02M1VQNYUNKV40GFCICQUYGHRZJQVFLFS4MK01IHFYE",
+      client_secret: "ESQTWW5FJSPUDTTCM5JWQ1EO3T1GXNRVMS5XTKR3AKC4GNVJ",
       limit: 30,
       v: "20130619", // version of the API
       intent: "browse",
@@ -171,7 +201,7 @@ export class MapBox extends Component {
     this.props.history.push("/navigation");
   };
   createStars = () => {
-    const rating = Math.round(this.state.selectedRestaurant.rating / 2);
+    const rating = Math.round(this.state.selectedRestaurantDetails.rating / 2);
     let stars = [
       <i className="fas fa-star empty" />,
       <i className="fas fa-star empty" />,
@@ -187,14 +217,16 @@ export class MapBox extends Component {
 
   createCurrency = () => {
     let signs = "";
-    const price = this.state.selectedRestaurant.price;
-    const currency = this.state.selectedRestaurant.currency;
+    const price = this.state.selectedRestaurantDetails.price;
+    const currency = this.state.selectedRestaurantDetails.currency;
     for (let i = 0; i < price; i++) {
       signs += currency;
     }
     return signs;
   };
   render() {
+    console.log("SELECTEDREST", this.state.selectedRestaurant);
+    console.log("SELECTEDRESTDETAILS", this.state.selectedRestaurantDetails);
     return (
       <React.Fragment>
         <Nav />
@@ -297,7 +329,7 @@ export class MapBox extends Component {
           <i className="fas fa-utensils congrats__icon" />
           <h1 className="congrats__title"> Congratulations! </h1>{" "}
           <p className="congrats__text">
-            You have both selected {this.state.selectedRestaurant.name}{" "}
+            You have both selected {this.state.selectedRestaurantDetails.name}{" "}
           </p>{" "}
           <span className="congrats__text"> {this.createStars()} </span>{" "}
           {this.createCurrency() !== "" ? (
@@ -307,12 +339,12 @@ export class MapBox extends Component {
           )}{" "}
           <span className="congrats__text">
             {" "}
-            {this.state.selectedRestaurant.address}{" "}
+            {this.state.selectedRestaurantDetails.address}{" "}
           </span>{" "}
           <span className="congrats__text">
             {" "}
-            {this.state.selectedRestaurant.city},{" "}
-            {this.state.selectedRestaurant.state}{" "}
+            {this.state.selectedRestaurantDetails.city},{" "}
+            {this.state.selectedRestaurantDetails.state}{" "}
           </span>{" "}
           <button
             className="congrats__button"
