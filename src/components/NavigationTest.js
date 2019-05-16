@@ -1,8 +1,18 @@
 import React from "react";
 import DeckGL from "deck.gl";
 import { StaticMap } from "react-map-gl";
-import { PathLayer, ScatterplotLayer } from "@deck.gl/layers";
+import { PathLayer, ScatterplotLayer, IconLayer } from "@deck.gl/layers";
 import axios from "axios";
+
+// const ICON_MAPPING = {
+//   marker: {
+//     x: 0,
+//     y: 0,
+//     width: 32,
+//     height: 32,
+//     mask: false
+//   }
+// };
 
 let data = [
   {
@@ -47,17 +57,6 @@ const layer = [
         position: [-74.00578, 40.713067],
         radius: 5,
         color: [0, 255, 0]
-      }
-    ],
-    radiusScale: 100
-  }),
-  new ScatterplotLayer({
-    id: "scatterplot - layer",
-    data: [
-      {
-        position: [-73.977712, 40.731873],
-        radius: 2,
-        color: [255, 0, 0]
       }
     ],
     radiusScale: 100
