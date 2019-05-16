@@ -1,20 +1,22 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import MatchStack from "./MatchStack";
-import { swipe } from "../store";
+import { swipe, getPotentialMatches } from "../store";
 import ReactModal from "react-modal";
 import NoMatches from "./NoMatches";
 import Nav from "./Nav";
 
 class Matching extends Component {
-  // componentDidMount() {
-  //   if (this.props.didMatch.matched) {
-  //     console.log("MATCHED");
-  //     setTimeout(() => {
-  //       this.props.history.push("/map");
-  //     }, 3000);
-  //   }
-  // }
+  async componentDidMount() {
+    if (this.props.didMatch.matched) {
+      console.log("MATCHED");
+      setTimeout(() => {
+        this.props.history.push("/map");
+      }, 3000);
+    } else {
+      await this.props.getPotentialMatches();
+    }
+  }
   componentDidUpdate() {
     if (this.props.didMatch.matched) {
       console.log("MATCHED");
@@ -35,8 +37,9 @@ class Matching extends Component {
       <React.Fragment>
         <Nav />
         <div className="match-container">
-          {this.props.loading ? null : <MatchStack users={users} />}
-        </div>
+          {" "}
+          {this.props.loading ? null : <MatchStack users={users} />}{" "}
+        </div>{" "}
         {this.props.didMatch.matched ? (
           <ReactModal
             isOpen={this.props.didMatch.matched ? true : false}
@@ -63,16 +66,16 @@ class Matching extends Component {
             <div>
               <p className="congrats__text">
                 You have matched with {this.props.didMatch.info.firstName}{" "}
-                {this.props.didMatch.info.lastName}
-              </p>
+                {this.props.didMatch.info.lastName}{" "}
+              </p>{" "}
               <img
                 className="congrats__img"
                 src={this.props.didMatch.info.photoURLs[0]}
                 alt={this.props.didMatch.info.firstName}
-              />
-            </div>
+              />{" "}
+            </div>{" "}
           </ReactModal>
-        ) : null}
+        ) : null}{" "}
       </React.Fragment>
     );
   }
@@ -84,5 +87,8 @@ const mapStateToProps = ({ match }) => ({
 
 export default connect(
   mapStateToProps,
-  { swipe }
+  {
+    swipe,
+    getPotentialMatches
+  }
 )(Matching);

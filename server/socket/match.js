@@ -226,6 +226,8 @@ module.exports = function(socket, userId) {
             const matcheeInfo = matcher1.id === matchee ? matcher1 : matcher2,
               matcherInfo = matcher1.id === userId ? matcher1 : matcher2;
             cache.createRoom(matcher1.id, matcher2.id);
+            cache.setUserLocation(matcher1.id, matcher1.location.coordinates);
+            cache.setUserLocation(matcher2.id, matcher2.location.coordinates);
             socket.emit("didMatch", { matched, info: matcheeInfo });
             socket
               .to(matcheeInfo.socketId)

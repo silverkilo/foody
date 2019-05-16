@@ -67,14 +67,16 @@ export class MapBox extends Component {
     });
 
     const [long, lat] = await this.getLoc;
+    await this.props.getMatchLocation();
+    console.log("GOTLOCATION");
     let distance =
       Math.sqrt(
         (lat - this.props.matchLat) ** 2 + (long - this.props.matchLong) ** 2
       ) * 111000;
     let midpointLat = (lat + this.props.matchLat) / 2;
     let midpointLong = (long + this.props.matchLong) / 2;
-    console.log("DISTANCE", distance);
-    console.log("LOC", midpointLat, midpointLong);
+    // console.log("DISTANCE", distance);
+    // console.log("LOC", midpointLat, midpointLong);
     this.props.joinChatRoom();
     this.props.setIconImg();
     this.props.createVenueList();
@@ -85,8 +87,6 @@ export class MapBox extends Component {
           : this.state.matchPreferences
       },
       async () => {
-        console.log("STATE AFTER SETTING MATCH PREFERENCES", this.state);
-        console.log("this.props.matchInfo", this.props.matchInfo);
         await this.getVenues(
           midpointLat,
           midpointLong,
@@ -292,6 +292,20 @@ export class MapBox extends Component {
             </div>{" "}
           </div>
         )}{" "}
+        {this.props.loadingLoc && (
+          <ReactModal
+            isOpen={this.props.loadingLoc ? true : false}
+            shouldCloseOnOverlayClick={true}
+            closeTimeoutMS={5000}
+            contentLabel="Restaurant Selected Modal"
+            className="congrats__content"
+            overlayClassName="congrats__overlay"
+          >
+            <i class="fas fa-spinner fa-spin fa-5x" />
+            <br />
+            <div> Waiting for {this.props.matchName}'s location</div>
+          </ReactModal>
+        )}
         <ReactModal
           isOpen={this.props.selectedRestaurant ? true : false}
           shouldCloseOnOverlayClick={true}
@@ -348,6 +362,7 @@ export class MapBox extends Component {
 
 const mapStateToProps = state => {
   return {
+    loadingLoc: state.location.loading,
     userId: state.user.id,
     userLat: state.location.user[1],
     userLong: state.location.user[0],
@@ -357,14 +372,17 @@ const mapStateToProps = state => {
     selectedIdx: state.selectedIdx,
     icon1: state.icon.icon1,
     icon2: state.icon.icon2,
-    selectedRestaurant: state.selectedRestaurant
+    selectedRestaurant: state.selectedRestaurant,
+    matchName: state.match.didMatch.matched
+      ? state.match.didMatch.info.firstName
+      : null
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     setUserLocation: arr => dispatch(setUserLocation(arr)),
-    getMatchLocation: userId => dispatch(getMatchLocation(userId)),
+    getMatchLocation: () => dispatch(getMatchLocation()),
     getMatchPreference: userId => dispatch(getMatchPreference(userId)),
     setSelectedIdx: idx => dispatch(setSelectedIdx(idx)),
     joinChatRoom: () => dispatch(joinChatRoom()),
