@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@deck.gl/core": "^7.0.5",
-    "@deck.gl/layers": "^7.0.5",
+    "@deck.gl/layers": "^7.0.6",
     "@deck.gl/react": "^7.0.5",
     "@mapbox/react-geocoder": "^2.5.0",
     "axios": "^0.18.0",

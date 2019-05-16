@@ -35,8 +35,9 @@ class Matching extends Component {
       <React.Fragment>
         <Nav />
         <div className="match-container">
-          {this.props.loading ? null : <MatchStack users={users} />}
-        </div>
+          {" "}
+          {this.props.loading ? null : <MatchStack users={users} />}{" "}
+        </div>{" "}
         <ReactModal
           isOpen={this.props.didMatch.matched ? true : false}
           shouldCloseOnOverlayClick={true}
@@ -60,16 +61,17 @@ class Matching extends Component {
           <i className="fas fa-utensils congrats__icon" />
           <h1 className="congrats__title"> Congratulations! </h1>{" "}
           <div>
-            <p className="congrats__text">
-              You have matched with {this.props.didMatch.info.firstName}{" "}
-              {this.props.didMatch.info.lastName}
-            </p>
-            <img
-              src={this.props.didMatch.info.photoURLs[0]}
-              alt={this.props.didMatch.info.firstName}
-            />
-          </div>
-        </ReactModal>
+            {" "}
+            {/* <p className="congrats__text">
+                                    You have matched with {this.props.didMatch.info.firstName}{" "}
+                                    {this.props.didMatch.info.lastName}
+                                  </p> */}{" "}
+            {/* <img
+                          src={this.props.didMatch.info.photoURLs[0]}
+                          alt={this.props.didMatch.info.firstName}
+                        />{" "} */}{" "}
+          </div>{" "}
+        </ReactModal>{" "}
       </React.Fragment>
     );
   }
@@ -81,5 +83,7 @@ const mapStateToProps = ({ match }) => ({
 
 export default connect(
   mapStateToProps,
-  { swipe }
+  {
+    swipe
+  }
 )(Matching);

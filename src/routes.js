@@ -13,8 +13,8 @@ import {
   Preference,
   Matching,
   MapBox,
-  Navigation,
-  FinalPage
+  FinalPage,
+  NavigationTest
 } from "./components";
 
 class Routes extends Component {
@@ -96,7 +96,7 @@ class Routes extends Component {
         <Route path="/preference" component={Preference} />{" "}
         <Route path="/matches" component={Matching} />{" "}
         <Route path="/map" component={MapBox} />{" "}
-        <Route path="/navigation" component={Navigation} />{" "}
+        <Route path="/navigation" component={NavigationTest} />{" "}
         <Route path="/finalpage" component={FinalPage} />{" "}
       </Switch>
     );
