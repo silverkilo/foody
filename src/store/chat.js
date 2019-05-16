@@ -1,6 +1,8 @@
 import { socket } from "./socket";
 const SEND_HISTORY = "SEND_HISTORY";
 const ADD_NEW_MSG = "ADD_NEW_MSG";
+const UNREAD_MSG = "UNREAD_MSG";
+const CLEAR_UNREAD_MSG = "CLEAR_UNREAD_MSG";
 
 const sendChatHistory = array => ({
   type: SEND_HISTORY,
@@ -10,6 +12,16 @@ const sendChatHistory = array => ({
 const addNewMessage = array => ({
   type: ADD_NEW_MSG,
   array
+});
+
+const plusUnreadMessage = num => ({
+  type: UNREAD_MSG,
+  num
+});
+
+const clearUnreadMessage = () => ({
+  type: CLEAR_UNREAD_MSG,
+  num: 0
 });
 
 export const joinChatRoom = () => dispatch => {
@@ -28,16 +40,19 @@ export const chatListener = () => dispatch => {
   socket.on("send-others-message", data => {
     let { msg, userId } = data;
     dispatch(addNewMessage([msg, userId]));
+    dispatch(plusUnreadMessage(1));
   });
+};
+
+export const clearUnread = () => dispatch => {
+  dispatch(clearUnreadMessage());
 };
 
 export const disconnectChat = () => dispatch => {
   socket.emit("disconnect-chat");
 };
 
-const initialState = [];
-
-export default (state = initialState, action) => {
+export function chatHistory(state = [], action) {
   switch (action.type) {
     case SEND_HISTORY:
       return action.array;
@@ -46,4 +61,15 @@ export default (state = initialState, action) => {
     default:
       return state;
   }
-};
+}
+
+export function unreadMsg(state = 0, action) {
+  switch (action.type) {
+    case UNREAD_MSG:
+      return (this.state += action.num);
+    case CLEAR_UNREAD_MSG:
+      return action.num;
+    default:
+      return state;
+  }
+}

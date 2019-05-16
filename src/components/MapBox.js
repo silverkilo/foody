@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { setUserLocation, getMatchLocation } from "../store";
 import { setSelectedIdx } from "../store/highlight";
 import { getMatchPreference } from "../store/matchPreference";
-import { joinChatRoom } from "../store/chat";
+import { joinChatRoom, clearUnread } from "../store/chat";
 import { createVenueList } from "../store/food";
 import { setIconImg } from "../store/icon";
 import Chat from "./Chat";
@@ -165,6 +165,7 @@ export class MapBox extends Component {
   handleOpenChat = () => {
     let chat = document.querySelector(".chatBox");
     chat.classList.add("is-visible");
+    this.props.clearUnread();
   };
 
   handlePopupClose = () => {
@@ -252,7 +253,8 @@ export class MapBox extends Component {
         <button className="chatBubble" onClick={this.handleOpenChat}>
           <i class="fas fa-comment-alt" />
         </button>{" "}
-        <Chat />{" "}
+        {this.props.unreadMsg > 0 ? <button> UNREAD MSG </button> : null}
+        <Chat />
         {this.state.loadedVenues && (
           <div className="overlay">
             <div className="content">
@@ -325,7 +327,8 @@ const mapStateToProps = state => {
     selectedIdx: state.selectedIdx,
     icon1: state.icon.icon1,
     icon2: state.icon.icon2,
-    selectedRestaurant: state.selectedRestaurant
+    selectedRestaurant: state.selectedRestaurant,
+    unreadMsg: state.unreadMsg
   };
 };
 
@@ -337,7 +340,8 @@ const mapDispatchToProps = dispatch => {
     setSelectedIdx: idx => dispatch(setSelectedIdx(idx)),
     joinChatRoom: () => dispatch(joinChatRoom()),
     setIconImg: () => dispatch(setIconImg()),
-    createVenueList: () => dispatch(createVenueList())
+    createVenueList: () => dispatch(createVenueList()),
+    clearUnread: () => dispatch(clearUnread())
   };
 };
 

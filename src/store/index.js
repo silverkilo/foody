@@ -10,7 +10,8 @@ import socket from "./socket";
 import location from "./location";
 import matchPreference from "./matchPreference";
 import selectedIdx from "./highlight";
-import chatHistory from "./chat";
+import { chatHistory } from "./chat";
+import { unreadMsg } from "./chat";
 import icon from "./icon";
 import upload from "./upload";
 import { food } from "./food";
@@ -29,7 +30,8 @@ const reducer = combineReducers({
   chatHistory,
   icon,
   selectedRestaurant,
-  upload
+  upload,
+  unreadMsg
 });
 
 const middleware = composeWithDevTools(
