@@ -3,7 +3,7 @@ const { User, Match } = require("../db/models");
 const matchListeners = require("./match");
 const chatListener = require("./chat");
 const venueListener = require("./chat");
-const exclusions = {};
+const cache = require("./appCache");
 
 User.findAll().then(users => {
   for (let user of users) {
@@ -12,8 +12,8 @@ User.findAll().then(users => {
         matcherId: user.id
       }
     }).then(matches => {
-      exclusions[user.id] = [user.id].concat(
-        matches.map(({ matcheeId }) => matcheeId)
+      matches.forEach(({ matcheeId }) =>
+        cache.addExclusion(user.id, matcheeId)
       );
     });
   }
@@ -44,13 +44,13 @@ module.exports = function socketio(server, sessionMiddleware) {
           }
         }
       );
-      exclusions[userId] = exclusions[userId] || [userId];
+      cache.addExclusion(userId);
       socket.emit("ready", true);
     } else {
       return socket.emit("ready", false);
     }
 
-    matchListeners(socket, userId, exclusions);
+    matchListeners(socket, userId);
     chatListener(socket, userId);
 
     socket.on("disconnect", async () => {

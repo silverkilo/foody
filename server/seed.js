@@ -124,6 +124,8 @@ async function seed() {
   ]);
   await User.update({ hasMatched: 2 }, { where: { id: 10 } });
   await User.update({ hasMatched: 10 }, { where: { id: 2 } });
+  // await db.query(`UPDATE "users" SET "hasMatched"=10 WHERE "id" = 2 `);
+  // await db.query(`UPDATE "users" SET "hasMatched"=2 WHERE "id" = 10 `);
   await Promise.all(
     categories.map((_, i) =>
       UserPreference.create(

@@ -14,7 +14,7 @@ const inCommon = (arr1, arr2) => {
   }
   return result;
 };
-module.exports = function(socket, userId, exclusions) {
+module.exports = function(socket, userId) {
   // CLIENT asks for potential matches
   // RETURNS a list of potential matches and their preferences
   socket.on("getPotentialMatches", async () => {
@@ -52,7 +52,7 @@ module.exports = function(socket, userId, exclusions) {
       const replacements = [
         user.preferences,
         user.id,
-        exclusions[userId],
+        cache.getExclusions(userId),
         user.location.coordinates[0],
         user.location.coordinates[1]
       ];
@@ -85,7 +85,7 @@ module.exports = function(socket, userId, exclusions) {
       );
       const moreReplacements = [
         user.preferences,
-        exclusions[userId].concat(matchers.map(({ id }) => id)),
+        cache.getExclusions(userId).concat(matchers.map(({ id }) => id)),
         ...userCoords,
         5 - matchers.length
       ];
@@ -190,7 +190,7 @@ module.exports = function(socket, userId, exclusions) {
   // EMITS whether there was a match, and if there was and both users are connected, emits the corresponding matcher/matchee to the client
   socket.on("swipe", async ({ value, matchee, matched }) => {
     try {
-      exclusions[userId].push(matchee);
+      cache.addExclusion(userId, matchee);
       if (value) {
         matched =
           matched ||
