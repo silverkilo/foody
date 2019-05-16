@@ -774,6 +774,7 @@
 .congrats__icon {
     font-size: 4rem;
     margin-bottom: 40px;
+    color: rgb(58, 124, 230);
 }
 .congrats__title {
     font-size: 2rem;
@@ -796,4 +797,8 @@
     margin-top: 10px;
     width: 100%;
     text-transform: uppercase;
+}
+.congrats__img {
+    width: 40vw;
+    height: 40vw;
 }
