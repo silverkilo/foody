@@ -50,6 +50,17 @@ const layer = [
       }
     ],
     radiusScale: 100
+  }),
+  new ScatterplotLayer({
+    id: "scatterplot - layer",
+    data: [
+      {
+        position: [-73.977712, 40.731873],
+        radius: 2,
+        color: [255, 0, 0]
+      }
+    ],
+    radiusScale: 100
   })
 ];
 
