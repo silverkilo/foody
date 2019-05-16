@@ -16,7 +16,7 @@ import upload from "./upload";
 import { food } from "./food";
 import { selectedRestaurant } from "./food";
 
-const reducer = combineReducers({
+const appReducer = combineReducers({
   user,
   categories,
   preferences,
@@ -32,11 +32,17 @@ const reducer = combineReducers({
   upload
 });
 
+const rootReducer = (state, action) => {
+  if (action.type === "REMOVE_USER") {
+    state = undefined;
+  }
+  return appReducer(state, action);
+};
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
 );
 
-export const store = createStore(reducer, middleware);
+export const store = createStore(rootReducer, middleware);
 
 export default store;
 export * from "./user";
