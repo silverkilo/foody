@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ReactSwipe, { reactSwipeEl } from "react-swipe";
+import ReactSwipe from "react-swipe";
 import "./mapstyles.css";
 import { connect } from "react-redux";
 import FoodDetails from "./FoodDetails";
@@ -33,7 +33,6 @@ const customStyles = {
 
 export class SwipeLayer extends Component {
   render() {
-    let reactSwipeEl;
     return (
       <div>
         <ReactSwipe
@@ -45,9 +44,9 @@ export class SwipeLayer extends Component {
               ele.setAttribute("data-index", this.props.selectedIdx);
             }
           }}
-          ref={element => {
-            reactSwipeEl = element;
-          }}
+          // ref={element => {
+          //   // reactSwipeEl = element;
+          // }}
           childCount={this.props.allVenues.length}
           style={customStyles}
         >

@@ -88,7 +88,7 @@ export class MapBox extends Component {
         await this.getVenues(
           midpointLat,
           midpointLong,
-          distance > 5000 ? distance : 5000
+          distance > 500 ? distance : 500
         );
       }
     );
@@ -136,13 +136,15 @@ export class MapBox extends Component {
     const venuesEndpoint = "https://api.foursquare.com/v2/venues/search?";
 
     const params = {
-      client_id: "NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ",
-      client_secret: "YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM",
-      limit: 5,
+      client_id: "5DQ4HC1WROBOH0SFRD4IULDTPLLRP4J5LWKMOG0SZ0LRV5K0",
+      client_secret: "E5PLXEXQKZMQMPU02YDTSV0I1ZIAFK5LI0KPAEEZUCQQ5OJ3",
+      limit: 30,
       v: "20130619", // version of the API
+      intent: "browse",
       ll: `${lat}, ${long}`,
       radius,
       categoryId: this.state.matchPreferences.join(",")
+      // + ",4d4b7105d754a06374d81259"
     };
 
     await fetch(venuesEndpoint + new URLSearchParams(params), {
@@ -166,7 +168,7 @@ export class MapBox extends Component {
   };
 
   handlePopupClose = () => {
-    this.props.history.push("/finalpage");
+    this.props.history.push("/navigation");
   };
   createStars = () => {
     const rating = Math.round(this.state.selectedRestaurant.rating / 2);
