@@ -36,9 +36,9 @@ const ready = () => ({
   type: READY
 });
 
-export const createConnection = () => dispatch => {
+export const createConnection = () => async dispatch => {
   socket.open();
-  return new Promise(resolve => {
+  return await new Promise(resolve => {
     socket.on("connect", () => {
       dispatch(connect(socket.connected));
       resolve(socket.connected);

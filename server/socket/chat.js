@@ -9,7 +9,6 @@ module.exports = function(socket, userId) {
       // console.log(chatHistory);
       socket.emit("send-chat-history", cache.getChatHistory(userId));
     } catch (e) {
-      console.log(e);
       socket.emit("errorMessage", "There was an error joining chatroom");
     }
   });
@@ -24,7 +23,6 @@ module.exports = function(socket, userId) {
         userId
       });
     } catch (e) {
-      console.log(e);
       socket.emit(
         "errorMessage",
         "There was an error getting-sending client messages."
@@ -35,8 +33,13 @@ module.exports = function(socket, userId) {
   socket.on("disconnect-chat", () => {
     try {
       cache.clearRecord(userId);
+      socket.off("disconnect-chat");
+      socket.off("start-choosing-res");
+      socket.off("setUserLocation");
+      socket.off("getMatchLocation");
+      socket.off("send-client-message");
+      socket.off("join-chatroom");
     } catch (e) {
-      console.log(e);
       socket.emit("errorMessage", "There was an error disconnecting chats.");
     }
   });
@@ -45,7 +48,6 @@ module.exports = function(socket, userId) {
     try {
       cache.createVenueList(userId);
     } catch (e) {
-      console.log(e);
       socket.emit(
         "errorMessage",
         "There was an error creating empty venue list."
@@ -55,19 +57,34 @@ module.exports = function(socket, userId) {
 
   socket.on("send-client-res", restaurantId => {
     try {
-      cache.venueList[userId].push(restaurantId);
+      cache.addVenue(userId, restaurantId);
       if (cache.checkVenueList(userId, restaurantId)) {
         socket.to(cache.getRoom(userId)).emit("matched", restaurantId);
         socket.emit("matched", restaurantId);
-        // console.log("resId in chat backend", restaurantId);
-        // console.log("venue list", cache.venueList);
       }
     } catch (e) {
-      console.log(e);
       socket.emit(
         "errorMessage",
         "There was an error sending client res choice."
       );
+    }
+  });
+  socket.on("setUserLocation", location => {
+    try {
+      socket.broadcast
+        .to(cache.getRoom(userId))
+        .emit("matchLocation", cache.setUserLocation(userId, location));
+    } catch (e) {
+      console.log(e);
+      socket.emit("errorMessage", "There was an error setting location");
+    }
+  });
+  socket.on("getMatchLocation", location => {
+    try {
+      socket.emit("matchLocation", cache.getMatchLocation(userId));
+    } catch (e) {
+      console.log(e);
+      socket.emit("errorMessage", "There was an error getting match location");
     }
   });
 };
