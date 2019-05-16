@@ -8,8 +8,8 @@ const LOADING_LOC = "LOADING_LOC";
 const setUserLoc = location => ({ type: SET_USER_LOC, location });
 const getMatchLoc = location => ({ type: GET_MATCH_LOC, location });
 const loadingLoc = () => ({ type: LOADING_LOC });
-export const setUserLocation = location => dispatch => {
-  socket.emit("setUserLocation", location);
+export const setUserLocation = location => (dispatch, getState) => {
+  if (getState().match.didMatch.match) socket.emit("setUserLocation", location);
   dispatch(setUserLoc(location));
 };
 

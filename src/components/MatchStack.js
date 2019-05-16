@@ -63,6 +63,7 @@ function MatchStack({ users, swipe }) {
     }
   });
   return props.map(({ x, y, rot, scale }, i) => {
+    console.log(i === current, i, current);
     const { id, match } = users[i];
     return (
       <animated.div

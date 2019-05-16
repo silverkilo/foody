@@ -47,17 +47,22 @@ export const matchListeners = () => async dispatch => {
         socket.on("didMatch", data => {
           dispatch(didMatch(data));
         });
-        socket.on("potentialMatches", async data => {
-          await timeout;
-          dispatch(potentialMatches(data));
-          dispatch(loading(false));
-        });
-
-        socket.emit("getPotentialMatches");
       }
       resolve(data.matched);
     });
     socket.emit("haveIMatched");
+  });
+};
+export const getPotentialMatches = () => async dispatch => {
+  return await new Promise(resolve => {
+    socket.on("potentialMatches", async data => {
+      await timeout;
+      dispatch(potentialMatches(data));
+      dispatch(loading(false));
+      resolve();
+    });
+    dispatch(loading(true));
+    socket.emit("getPotentialMatches");
   });
 };
 
