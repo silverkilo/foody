@@ -7,14 +7,14 @@ import NoMatches from "./NoMatches";
 import Nav from "./Nav";
 
 class Matching extends Component {
-  componentDidMount() {
-    if (this.props.didMatch.matched) {
-      console.log("MATCHED");
-      setTimeout(() => {
-        this.props.history.push("/map");
-      }, 3000);
-    }
-  }
+  // componentDidMount() {
+  //   if (this.props.didMatch.matched) {
+  //     console.log("MATCHED");
+  //     setTimeout(() => {
+  //       this.props.history.push("/map");
+  //     }, 3000);
+  //   }
+  // }
   componentDidUpdate() {
     if (this.props.didMatch.matched) {
       console.log("MATCHED");
@@ -58,7 +58,7 @@ class Matching extends Component {
             //   background: "blue"
             // }}
           >
-            <i className="fas fa-utensils congrats__icon" />
+            <i className="fas fa-user-friends congrats__icon" />
             <h1 className="congrats__title"> Congratulations! </h1>{" "}
             <div>
               <p className="congrats__text">
@@ -66,6 +66,7 @@ class Matching extends Component {
                 {this.props.didMatch.info.lastName}
               </p>
               <img
+                className="congrats__img"
                 src={this.props.didMatch.info.photoURLs[0]}
                 alt={this.props.didMatch.info.firstName}
               />
