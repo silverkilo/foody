@@ -3,16 +3,8 @@ import DeckGL from "deck.gl";
 import { StaticMap } from "react-map-gl";
 import { PathLayer, ScatterplotLayer, IconLayer } from "@deck.gl/layers";
 import axios from "axios";
-
-// const ICON_MAPPING = {
-//   marker: {
-//     x: 0,
-//     y: 0,
-//     width: 32,
-//     height: 32,
-//     mask: false
-//   }
-// };
+import { connect } from "react-redux";
+import t from "typy";
 
 let data = [
   {
@@ -60,20 +52,97 @@ const layer = [
       }
     ],
     radiusScale: 100
+  }),
+  new ScatterplotLayer({
+    id: "scatterplot - layer",
+    data: [
+      {
+        position: [-73.977712, 40.731873],
+        radius: 2,
+        color: [255, 0, 0]
+      }
+    ],
+    radiusScale: 100
   })
 ];
 
-export default class NavigationTest extends React.Component {
+export class NavigationTest extends React.Component {
   state = {
-    loadedData: false
+    loadedData: false,
+    restaurantLong: -73.977712,
+    restaurantLat: 40.731873,
+    name: "",
+    address: "",
+    city: "",
+    state: "",
+    price: "",
+    currency: "",
+    rating: "",
+    categories: "",
+    photo: ""
   };
 
   componentDidMount() {
     this.getCoordinates();
+    // this.getRestaurantCoords();
   }
 
+  // componentDidUpdate() {
+  //   if (
+  //     this.props.userLat !== this.state.viewport.latitude ||
+  //     this.props.userLong !== this.state.viewport.longitude
+  //   ) {
+  //     this.setState({
+  //       viewport: {
+  //         ...this.state.viewport,
+  //         latitude: this.props.userLat,
+  //         longitude: this.props.userLong
+  //       }
+  //     });
+  //   }
+  // }
+
+  getRestaurantCoords = async () => {
+    // const venueId = this.props.selectedRestaurant;
+
+    // BELOW ID IS FOR TEST. COMMENT BACK IN ABOVE LINE AND DELETE BELOW LINE
+    const venueId = "412d2800f964a520df0c1fe3";
+    const params = {
+      client_id: "NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ",
+      client_secret: "YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM",
+      v: "20130619"
+    };
+    const venuesEndpoint = `https://api.foursquare.com/v2/venues/${venueId}?&client_id=${
+      params.client_id
+    }&client_secret=${params.client_secret}&v=${params.v}`;
+
+    const res = await axios.get(venuesEndpoint);
+    console.log(res);
+    const { venue } = res.data.response;
+    this.setState({
+      name: t(venue, "name").safeObject,
+      address: t(venue, "location.address").safeObject,
+      city: t(venue, "location.city").safeObject,
+      state: t(venue, "location.state").safeObject,
+      price: t(venue, "price.tier").safeObject,
+      currency: t(venue, "price.currency").safeObject,
+      rating: t(venue, "rating").safeObject,
+      categories: t(venue, "categories[0].shortName").safeObject,
+      photo: t(venue, "bestPhoto").safeObject,
+      restaurantLat: venue.location.lat,
+      restaurantLong: venue.location.lng
+    });
+    this.setState({
+      loadedData: true
+    });
+  };
+
   getCoordinates = async () => {
-    const endpoint = `https://api.mapbox.com/directions/v5/mapbox/cycling/-74.006,40.7128;-73.9778,40.7317?geometries=geojson&access_token=pk.eyJ1IjoicmhlYXJhbyIsImEiOiJjanY3NGloZm4wYzR5NGVxcGU4MXhwaTJtIn0.d_-A1vz2gnk_h1GbTchULA`;
+    const endpoint = `https://api.mapbox.com/directions/v5/mapbox/cycling/${
+      this.props.userLong
+    },${this.props.userLat};${this.state.restaurantLong},${
+      this.state.restaurantLat
+    }?geometries=geojson&access_token=pk.eyJ1IjoicmhlYXJhbyIsImEiOiJjanY3NGloZm4wYzR5NGVxcGU4MXhwaTJtIn0.d_-A1vz2gnk_h1GbTchULA`;
     const res = await axios.get(endpoint);
     console.log("GEOJSON", res);
     data[0].path = res.data.routes[0].geometry.coordinates;
@@ -82,22 +151,95 @@ export default class NavigationTest extends React.Component {
     });
   };
 
+  createStars = () => {
+    const rating = Math.round(this.state.rating / 2);
+    let stars = [
+      <i className="fas fa-star empty" />,
+      <i className="fas fa-star empty" />,
+      <i className="fas fa-star empty" />,
+      <i className="fas fa-star empty" />,
+      <i className="fas fa-star empty" />
+    ];
+    for (let i = 0; i < rating; i++) {
+      stars[i] = <i className="fas fa-star" />;
+    }
+    return stars;
+  };
+
+  createCurrency = () => {
+    let signs = "";
+    const price = this.state.price;
+    const currency = this.state.currency;
+    for (let i = 0; i < price; i++) {
+      signs += currency;
+    }
+    return signs;
+  };
+
+  clickedHere = () => {
+    this.props.history.push("/finalpage");
+  };
+
   render() {
     return this.state.loadedData ? (
-      <DeckGL
-        initialViewState={{
-          longitude: -74.006,
-          latitude: 40.7128,
-          zoom: 12
-        }}
-        controller={true}
-        layers={layer}
-      >
-        <StaticMap
-          mapStyle="mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
-          mapboxApiAccessToken="pk.eyJ1IjoicmhlYXJhbyIsImEiOiJjanY3NGloZm4wYzR5NGVxcGU4MXhwaTJtIn0.d_-A1vz2gnk_h1GbTchULA"
-        />
-      </DeckGL>
+      <React.Fragment>
+        <DeckGL
+          initialViewState={{
+            longitude: -74.006,
+            latitude: 40.7128,
+            zoom: 12
+          }}
+          height={600}
+          width={500}
+          controller={true}
+          layers={layer}
+        >
+          <StaticMap
+            mapStyle="mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
+            mapboxApiAccessToken="pk.eyJ1IjoicmhlYXJhbyIsImEiOiJjanY3NGloZm4wYzR5NGVxcGU4MXhwaTJtIn0.d_-A1vz2gnk_h1GbTchULA"
+          />
+        </DeckGL>{" "}
+        <React.Fragment>
+          <div className="detailsTemp">
+            <div> Restaurant Details </div>{" "}
+            <ul className="card__details">
+              <li className="card__name"> {this.state.name} </li>{" "}
+              <li className="card__rating"> {this.createStars()} </li>{" "}
+              <li className="card__price">
+                {" "}
+                {this.createCurrency()} {this.state.category}{" "}
+              </li>{" "}
+              <li className="card__address"> {this.state.address} </li>{" "}
+              <li className="card__address">
+                {" "}
+                {this.state.city}, {this.state.state}{" "}
+              </li>{" "}
+            </ul>{" "}
+            <button className="hereButton" onClick={() => this.clickedHere()}>
+              I 'm here!{" "}
+            </button>{" "}
+          </div>
+          ;{" "}
+        </React.Fragment>{" "}
+      </React.Fragment>
     ) : null;
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    userLong: state.location.user[0],
+    userLat: state.location.user[1],
+    icon1: state.icon.icon1,
+    icon2: state.icon.icon2,
+    selectedRestaurant: state.selectedRestaurant
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {};
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NavigationTest);
