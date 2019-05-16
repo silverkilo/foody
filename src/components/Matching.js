@@ -1,20 +1,23 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import MatchStack from "./MatchStack";
-import { swipe } from "../store";
+import { swipe, getPotentialMatches } from "../store";
 import ReactModal from "react-modal";
 import NoMatches from "./NoMatches";
 import Nav from "./Nav";
 
 class Matching extends Component {
-  // componentDidMount() {
-  //   if (this.props.didMatch.matched) {
-  //     console.log("MATCHED");
-  //     setTimeout(() => {
-  //       this.props.history.push("/map");
-  //     }, 3000);
-  //   }
-  // }
+
+  async componentDidMount() {
+    if (this.props.didMatch.matched) {
+      console.log("MATCHED");
+      setTimeout(() => {
+        this.props.history.push("/map");
+      }, 3000);
+    } else {
+      await this.props.getPotentialMatches();
+    }
+  }
   componentDidUpdate() {
     if (this.props.didMatch.matched) {
       console.log("MATCHED");
@@ -84,5 +87,5 @@ const mapStateToProps = ({ match }) => ({
 
 export default connect(
   mapStateToProps,
-  { swipe }
+  { swipe, getPotentialMatches }
 )(Matching);
