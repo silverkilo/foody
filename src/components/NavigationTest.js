@@ -38,31 +38,53 @@ const layer = [
   new PathLayer({
     id: "path-layer",
     data,
-    getWidth: data => 3,
+    getWidth: data => 2,
     getColor: data => data.color,
-    widthMinPixels: 5
+    widthMinPixels: 2
   }),
-  new ScatterplotLayer({
-    id: "scatterplot - layer",
-    data: [
-      {
-        position: [-74.00578, 40.713067],
-        radius: 5,
-        color: [0, 255, 0]
-      }
-    ],
-    radiusScale: 100
-  }),
-  new ScatterplotLayer({
-    id: "scatterplot - layer",
+  new IconLayer({
+    id: "restaurant-layer",
     data: [
       {
         position: [-73.977712, 40.731873],
-        radius: 2,
-        color: [255, 0, 0]
+        url: process.env.PUBLIC_URL + "/images/selectedFoodPin.png"
       }
     ],
-    radiusScale: 100
+    getIcon: data => ({
+      url: data.url,
+      width: 500,
+      height: 500,
+      anchorY: 500
+    }),
+    getSize: data =>
+      Math.max(2, Math.min((data.contributions / 1000) * 25, 25)),
+    pickable: true,
+    sizeScale: 40,
+    radiusMinPixels: 50,
+    radiusMaxPixels: 800,
+    visible: true
+  }),
+  new IconLayer({
+    id: "currentLoc-layer",
+    data: [
+      {
+        position: [-74.00578, 40.713067],
+        url: process.env.PUBLIC_URL + "/images/currentLocation.png"
+      }
+    ],
+    getIcon: data => ({
+      url: data.url,
+      width: 500,
+      height: 500,
+      anchorY: 250
+    }),
+    getSize: data =>
+      Math.max(2, Math.min((data.contributions / 1000) * 25, 25)),
+    pickable: true,
+    sizeScale: 40,
+    radiusMinPixels: 50,
+    radiusMaxPixels: 800,
+    visible: true
   })
 ];
 
