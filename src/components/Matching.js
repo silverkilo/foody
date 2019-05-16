@@ -28,7 +28,7 @@ class Matching extends Component {
     //   const match = this.props.didMatch.info;
     //   return <NewMatch {...match} />;
     // }
-    if (!this.props.potentials.length) return <NoMatches />;
+    // if (!this.props.potentials.length) return <NoMatches />;
     const users = this.props.potentials;
 
     return (
