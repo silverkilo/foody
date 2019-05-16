@@ -11,9 +11,14 @@ function MatchStack({ users, swipe }) {
     y: i * -5,
     scale: 1,
     rot: 0,
-    delay: i * 100
+    delay: i * 200
   });
-  const from = _ => ({ x: 0, rot: 0, scale: 1.5, y: -1000 });
+  const from = i => ({
+    x: i % 2 === 0 ? -1000 : 1000,
+    rot: 0,
+    scale: 1.5,
+    y: i * -5
+  });
   const trans = (r, s) =>
     `perspective(1500px) rotateX(0deg) rotateY(${r / 10}deg) rotateZ(${r /
       2}deg) scale(${s})`;
