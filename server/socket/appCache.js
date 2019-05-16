@@ -1,5 +1,4 @@
 const { Match, User } = require("../db/models");
-const { Op } = require("sequelize");
 
 class AppCache {
   constructor() {
@@ -9,6 +8,7 @@ class AppCache {
       //   matchId,
       //   roomId,
       //   socketId
+      //   location
       // }
     };
     this.allChats = {
@@ -20,6 +20,16 @@ class AppCache {
       // user: ""
     };
     this.exclusions = {};
+  }
+  setUserLocation(userId, location) {
+    if (this.roomInfo[userId]) {
+      this.roomInfo[userId].location = location;
+    }
+    return location;
+  }
+  getMatchLocation(userId) {
+    const { matchId } = this.roomInfo[userId];
+    return this.roomInfo[matchId].location;
   }
   addExclusion(userId, exclusion) {
     if (!this.exclusions[userId]) {
@@ -64,6 +74,9 @@ class AppCache {
   checkVenueList(userId, restaurantId) {
     const matchId = this.roomInfo[userId].matchId;
     return this.venueList[matchId].includes(restaurantId);
+  }
+  addVenue(userId, venueId) {
+    this.venueList[userId].push(venueId);
   }
 
   async clearRecord(userId) {

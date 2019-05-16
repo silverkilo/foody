@@ -38,8 +38,8 @@ export const swipe = (value, matchee, matched, fetchMore) => dispatch => {
   return dispatch(swiped(value, matchee));
 };
 
-export const matchListeners = () => dispatch => {
-  return new Promise(resolve => {
+export const matchListeners = () => async dispatch => {
+  return await new Promise(resolve => {
     socket.on("haveYouMatched", data => {
       if (data.matched) {
         dispatch(didMatch(data));
