@@ -19,6 +19,18 @@ class AppCache {
     this.venueList = {
       // user: ""
     };
+    this.exclusions = {};
+  }
+  addExclusion(userId, exclusion) {
+    if (!this.exclusions(userId)) {
+      this.exclusions[userId] = [userId];
+    }
+    if (exclusion) {
+      this.exclusions[userId].push(exclusion);
+    }
+  }
+  getExclusions(userId) {
+    return this.exclusions[userId];
   }
   createRoom(user1, user2) {
     const roomId = String(this.roomId);

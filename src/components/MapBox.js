@@ -139,7 +139,6 @@ export class MapBox extends Component {
       client_id: "NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ",
       client_secret: "YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM",
       limit: 5,
-      query: "Food",
       v: "20130619", // version of the API
       ll: `${lat}, ${long}`,
       radius,

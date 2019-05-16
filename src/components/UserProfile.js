@@ -24,7 +24,7 @@ class UserProfile extends Component {
       firstName: this.props.firstName,
       lastName: this.props.lastName,
       email: this.props.email,
-      photoURL: this.props.photoURLs[0]
+      photoURL: this.props.photoURLs ? this.props.photoURLs[0] : null
     });
   }
   setPreviewImage(image) {
