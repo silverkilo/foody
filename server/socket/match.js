@@ -28,7 +28,7 @@ module.exports = function(socket, userId) {
                       FROM users
                       LEFT JOIN user_preferences
                           ON "user_preferences"."userId" = users.id
-                      LEFT JOIN preferences 
+                      LEFT JOIN preferences
                           ON "preferences"."id" = "user_preferences"."preferenceId"
                       WHERE users.id = ?
                       GROUP BY users.id

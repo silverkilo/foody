@@ -5,7 +5,7 @@ const db = new Sequelize(
     process.env.NODE_ENV === "test" ? "foody_test" : "foody"
   }`,
   {
-    logging: true
+    logging: false
   }
 );
 

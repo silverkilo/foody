@@ -22,7 +22,7 @@ class AppCache {
     this.exclusions = {};
   }
   addExclusion(userId, exclusion) {
-    if (!this.exclusions(userId)) {
+    if (!this.exclusions[userId]) {
       this.exclusions[userId] = [userId];
     }
     if (exclusion) {

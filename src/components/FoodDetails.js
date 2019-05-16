@@ -28,8 +28,8 @@ class FoodDetails extends Component {
   getVenuesDetails = async () => {
     const venueId = this.props.venueId;
     const params = {
-      client_id: "NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ",
-      client_secret: "YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM",
+      client_id: "5DQ4HC1WROBOH0SFRD4IULDTPLLRP4J5LWKMOG0SZ0LRV5K0",
+      client_secret: "E5PLXEXQKZMQMPU02YDTSV0I1ZIAFK5LI0KPAEEZUCQQ5OJ3",
       v: "20130619"
     };
     const venuesEndpoint = `https://api.foursquare.com/v2/venues/${venueId}?&client_id=${

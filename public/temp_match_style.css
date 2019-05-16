@@ -1,28 +1,35 @@
 /* match-card-container absolutely necessary styles, do not change */
-html, body , #root, .match-container{
+html,
+body,
+#root,
+.match-container {
     max-width: 100%;
     overscroll-behavior-y: contain !important;
     touch-action: none !important;
 }
-html, body {
-  height: 100%;
-  width: 100%;
-  /* position: fixed; */
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    /* position: fixed; */
 }
-.match-container{
-     overflow: hidden !important;
-     width: 100vw;
-     height: 100vh;
-     background: rgb(241, 241, 241);
+
+.match-container {
+    overflow: hidden !important;
+    width: 100vw;
+    height: 100vh;
+    background: rgb(241, 241, 241);
 }
+
 /* match-card-container also essential styles */
-.match-card-container{
+.match-card-container {
     -webkit-touch-callout: none;
-    -webkit-user-select: none; 
+    -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
-    -ms-user-select: none; 
-    user-select: none; 
+    -ms-user-select: none;
+    user-select: none;
     position: absolute;
     width: 100vw;
     height: 100vh;
@@ -31,16 +38,15 @@ html, body {
     align-items: center;
     justify-content: center;
 }
-@media only screen 
-and (min-device-width : 320px) 
-and (max-device-width : 568px) 
-and (orientation : portrait) {
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 568px) and (orientation : portrait) {
     .match-card-container {
         top: 20px;
     }
 }
+
 /* all felxible except for will-change */
-.match-card{
+.match-card {
     border-radius: 10px;
     background: white;
     max-width: 100vw;
@@ -48,11 +54,11 @@ and (orientation : portrait) {
     /* max-height: 570px; */
     will-change: transform;
     overflow: hidden;
-    box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.25);
+    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.25);
 }
 
 /* blur effect stlyes and animations */
-.match-card.blurred > div{
+.match-card.blurred>div {
     -webkit-filter: blur(20px);
     -moz-filter: blur(20px);
     -o-filter: blur(20px);
@@ -60,40 +66,45 @@ and (orientation : portrait) {
     filter: blur(20px);
 }
 
-.match-card.clear > div {
+.match-card.clear>div {
     animation-name: unblur;
     animation-duration: 250ms;
 }
-@keyframes unblur{
-    0%{
+
+@keyframes unblur {
+    0% {
         -webkit-filter: blur(20px);
         -moz-filter: blur(20px);
         -o-filter: blur(20px);
         -ms-filter: blur(20px);
         filter: blur(20px);
     }
-    25%{
+
+    25% {
         -webkit-filter: blur(15px);
         -moz-filter: blur(15px);
         -o-filter: blur(15px);
         -ms-filter: blur(15px);
         filter: blur(15px);
     }
-    50%{
+
+    50% {
         -webkit-filter: blur(10px);
         -moz-filter: blur(10px);
         -o-filter: blur(10px);
         -ms-filter: blur(10px);
         filter: blur(10px);
     }
-    75%{
+
+    75% {
         -webkit-filter: blur(5px);
         -moz-filter: blur(5px);
         -o-filter: blur(5px);
         -ms-filter: blur(5px);
         filter: blur(5px);
     }
-    100%{
+
+    100% {
         -webkit-filter: blur(0px);
         -moz-filter: blur(0px);
         -o-filter: blur(0px);
@@ -101,27 +112,32 @@ and (orientation : portrait) {
         filter: blur(0px);
     }
 }
+
 /* end blur styles */
 
 
 /* below styles are all flexible */
-.match-name{
+.match-name {
     text-align: center;
     font-size: 2rem;
     font-weight: bold;
 }
-.match-image{
+
+.match-image {
     display: flex;
     justify-content: center;
 }
-.match-image img{
+
+.match-image img {
     height: 40vh;
     width: 70vw;
 }
+
 .match-distance {
     font-size: 1.5rem
 }
-.new-match{
+
+.new-match {
     height: 100vh;
     width: 100vw;
     display: flex;
@@ -130,30 +146,37 @@ and (orientation : portrait) {
     align-items: center;
     border: 1px #F0F0F0 solid
 }
-.new-match__container{
+
+.new-match__container {
     border: 1px solid black !important;
     display: flex;
     flex-direction: column;
     justify-content: center
 }
-.new-match__info{
+
+.new-match__info {
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center
 }
-.new-match__header{
+
+.new-match__header {
     font-size: 2rem;
     font-style: italic;
+    text-align: center
 }
-.new-match__first{
+
+.new-match__first {
     font-size: 1.5rem;
     text-align: center
 }
-.new-match__last{
+
+.new-match__last {
     font-size: 1.5rem;
     text-align: center
 }
-.new-match__img{
+
+.new-match__img {
     align-self: center
 }
