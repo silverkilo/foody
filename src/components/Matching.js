@@ -35,14 +35,12 @@ class Matching extends Component {
     return (
       <React.Fragment>
         <Nav />
-        {/* <div className="match-container">
-          {!this.props.potentials.length ? (
-            <NoMatches />
-          ) : this.props.loading ? null : (
-            <MatchStack users={users} />
-          )}
-        </div> */}
         <NoMatches />
+        <div className="match-container page">
+          {" "}
+          {this.props.loading ? null : <MatchStack users={users} />}{" "}
+        </div>{" "}
+
         {this.props.didMatch.matched ? (
           <ReactModal
             isOpen={this.props.didMatch.matched ? true : false}

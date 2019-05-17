@@ -62,13 +62,13 @@ class Preference extends Component {
   }
 
   render() {
-    if (!this.state.loaded) {
-      return <h1>Loading...</h1>;
-    }
+    // if (!this.state.loaded) {
+    //   return <h1>Loading...</h1>;
+    // }
     return (
       <React.Fragment>
         <Nav />
-        <div className="preference">
+        <div className="preference page">
           <div className="preference__selection">
             <h1 className="preference__text">
               What type of food are you feeling today?

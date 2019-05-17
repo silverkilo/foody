@@ -132,6 +132,7 @@
 .welcome__button {
     background: rgb(58, 124, 230);
     padding: 10px;
+    border: 3px solid rgb(85, 138, 223);
     border-radius: 5px;
     color: white;
     outline: none;
@@ -402,6 +403,7 @@
 .card__button {
     flex-basis: 100%;
     background: rgb(58, 124, 230);
+    border: 3px solid rgb(85, 138, 223);
     border-radius: 5px;
     outline: none;
     border: none;
@@ -433,6 +435,7 @@
     border: none;
     outline: none;
     background: rgb(58, 124, 230);
+    border: 3px solid rgb(85, 138, 223);
     font-size: 2em;
     color: white;
     text-align: center;
@@ -791,6 +794,7 @@
     border-radius: 5px;
     padding: 10px;
     background: rgb(58, 124, 230);
+    border: 3px solid rgb(85, 138, 223);
     color: white;
     font-weight: 700;
     font-size: 1.2rem;
@@ -801,4 +805,66 @@
 .congrats__img {
     width: 40vw;
     height: 40vw;
+}
+/* .pageSlider-enter {
+    transform: translate3d(100%, 0, 0);
+  }
+  
+  .pageSlider-enter.pageSlider-enter-active {
+    transform: translate3d(0, 0, 0);
+    transition: all 600ms;
+  } */
+
+.pageSlider-exit > .page {
+    z-index: 1;
+}
+.pageSlider-enter > .page {
+    z-index: 10;
+}
+.pageSlider-enter.left > .page {
+    transform: translate3d(100%, 0, 0);
+}
+.pageSlider-enter.right > .page {
+    transform: translate3d(-100%, 0, 0);
+}
+.pageSlider-exit.left > .page {
+    transform: translate3d(-100%, 0, 0);
+}
+.pageSlider-enter.right > .page {
+    transform: translate3d(100%, 0, 0);
+}
+.pageSlider-enter.pageSlider-enter-active > .page {
+    transform: translate3d(0, 0, 0);
+    transition: all 200ms linear;
+}
+.pageSlider-exit.pageSlider-exit-active > .page {
+    transform: translate3d(-100%, 0, 0);
+    transition: all 200ms linear;
+}
+
+.pageSlider-exit > .page2 {
+    z-index: 1;
+}
+.pageSlider-enter > .page2 {
+    z-index: 10;
+}
+.pageSlider-enter.left > .page2 {
+    transform: translate3d(-100%, 0, 0);
+}
+.pageSlider-enter.right > .page2 {
+    transform: translate3d(100%, 0, 0);
+}
+.pageSlider-exit.left > .page2 {
+    transform: translate3d(100%, 0, 0);
+}
+.pageSlider-enter.right > .page2 {
+    transform: translate3d(-100%, 0, 0);
+}
+.pageSlider-enter.pageSlider-enter-active > .page2 {
+    transform: translate3d(0, 0, 0);
+    transition: all 200ms linear;
+}
+.pageSlider-exit.pageSlider-exit-active > .page2 {
+    transform: translate3d(-100%, 0, 0);
+    transition: all 200ms linear;
 }
