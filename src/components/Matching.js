@@ -7,7 +7,6 @@ import NoMatches from "./NoMatches";
 import Nav from "./Nav";
 
 class Matching extends Component {
-
   async componentDidMount() {
     if (this.props.didMatch.matched) {
       console.log("MATCHED");
