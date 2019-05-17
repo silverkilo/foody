@@ -4,7 +4,6 @@ import { StaticMap } from "react-map-gl";
 import { PathLayer, IconLayer } from "@deck.gl/layers";
 import axios from "axios";
 import { connect } from "react-redux";
-import t from "typy";
 
 let data = [
   {
@@ -32,60 +31,6 @@ let data = [
       // [-73.977712, 40.731873]
     ]
   }
-];
-
-const layer = [
-  new PathLayer({
-    id: "path-layer",
-    data,
-    getWidth: data => 2,
-    getColor: data => data.color,
-    widthMinPixels: 2
-  }),
-  new IconLayer({
-    id: "restaurant-layer",
-    data: [
-      {
-        position: [this.props.restaurantLong, this.props.restaurantLat],
-        url: process.env.PUBLIC_URL + "/images/selectedFoodPin.png"
-      }
-    ],
-    getIcon: data => ({
-      url: data.url,
-      width: 500,
-      height: 500,
-      anchorY: 500
-    }),
-    getSize: data =>
-      Math.max(2, Math.min((data.contributions / 1000) * 25, 25)),
-    pickable: true,
-    sizeScale: 40,
-    radiusMinPixels: 50,
-    radiusMaxPixels: 800,
-    visible: true
-  }),
-  new IconLayer({
-    id: "currentLoc-layer",
-    data: [
-      {
-        position: [this.props.userLong, this.props.userLat],
-        url: process.env.PUBLIC_URL + "/images/currentLocation.png"
-      }
-    ],
-    getIcon: data => ({
-      url: data.url,
-      width: 500,
-      height: 500,
-      anchorY: 250
-    }),
-    getSize: data =>
-      Math.max(2, Math.min((data.contributions / 1000) * 25, 25)),
-    pickable: true,
-    sizeScale: 40,
-    radiusMinPixels: 50,
-    radiusMaxPixels: 800,
-    visible: true
-  })
 ];
 
 export class NavigationTest extends React.Component {
@@ -201,6 +146,60 @@ export class NavigationTest extends React.Component {
   };
 
   render() {
+    const layer = [
+      new PathLayer({
+        id: "path-layer",
+        data,
+        getWidth: data => 2,
+        getColor: data => data.color,
+        widthMinPixels: 2
+      }),
+      new IconLayer({
+        id: "restaurant-layer",
+        data: [
+          {
+            position: [this.props.restaurantLong, this.props.restaurantLat],
+            url: process.env.PUBLIC_URL + "/images/selectedFoodPin.png"
+          }
+        ],
+        getIcon: data => ({
+          url: data.url,
+          width: 500,
+          height: 500,
+          anchorY: 500
+        }),
+        getSize: data =>
+          Math.max(2, Math.min((data.contributions / 1000) * 25, 25)),
+        pickable: true,
+        sizeScale: 40,
+        radiusMinPixels: 50,
+        radiusMaxPixels: 800,
+        visible: true
+      }),
+      new IconLayer({
+        id: "currentLoc-layer",
+        data: [
+          {
+            position: [this.props.userLong, this.props.userLat],
+            url: process.env.PUBLIC_URL + "/images/currentLocation.png"
+          }
+        ],
+        getIcon: data => ({
+          url: data.url,
+          width: 500,
+          height: 500,
+          anchorY: 250
+        }),
+        getSize: data =>
+          Math.max(2, Math.min((data.contributions / 1000) * 25, 25)),
+        pickable: true,
+        sizeScale: 40,
+        radiusMinPixels: 50,
+        radiusMaxPixels: 800,
+        visible: true
+      })
+    ];
+
     return this.state.loadedData ? (
       <React.Fragment>
         <DeckGL

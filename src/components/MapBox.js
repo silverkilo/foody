@@ -41,7 +41,8 @@ export class MapBox extends Component {
       matchPreferences: [],
       loadedVenues: false,
       loadedUser: false,
-      selectedRestaurant: {}
+      selectedRestaurant: {},
+      selectedRestaurantDetails: {}
     };
     this.getLoc = null;
   }
@@ -149,19 +150,22 @@ export class MapBox extends Component {
     const res = await axios.get(venuesEndpoint);
     const { venue } = res.data.response;
     console.log("selected restaurant", venue);
-    this.props.setVenueDetails({
-      name: t(venue, "name").safeObject,
-      address: t(venue, "location.address").safeObject,
-      city: t(venue, "location.city").safeObject,
-      state: t(venue, "location.state").safeObject,
-      price: t(venue, "price.tier").safeObject,
-      currency: t(venue, "price.currency").safeObject,
-      rating: t(venue, "rating").safeObject,
-      categories: t(venue, "categories[0].shortName").safeObject,
-      photo: t(venue, "bestPhoto").safeObject,
-      restaurantLat: venue.location.lat,
-      restaurantLong: venue.location.lng
+    this.setState({
+      selectedRestaurantDetails: {
+        name: t(venue, "name").safeObject,
+        address: t(venue, "location.address").safeObject,
+        city: t(venue, "location.city").safeObject,
+        state: t(venue, "location.state").safeObject,
+        price: t(venue, "price.tier").safeObject,
+        currency: t(venue, "price.currency").safeObject,
+        rating: t(venue, "rating").safeObject,
+        categories: t(venue, "categories[0].shortName").safeObject,
+        photo: t(venue, "bestPhoto").safeObject,
+        restaurantLat: venue.location.lat,
+        restaurantLong: venue.location.lng
+      }
     });
+    this.props.setVenueDetails({ ...this.props.setVenueDetails });
   };
 
   getVenues = async (lat, long, radius) => {
@@ -206,7 +210,7 @@ export class MapBox extends Component {
   };
 
   createStars = () => {
-    const rating = Math.round(this.props.rating / 2);
+    const rating = Math.round(this.state.selectedRestaurantDetails.rating / 2);
     let stars = [
       <i className="fas fa-star empty" />,
       <i className="fas fa-star empty" />,
@@ -222,8 +226,8 @@ export class MapBox extends Component {
 
   createCurrency = () => {
     let signs = "";
-    const price = this.props.price;
-    const currency = this.props.currency;
+    const price = this.state.selectedRestaurantDetails.price;
+    const currency = this.state.selectedRestaurantDetails.currency;
     for (let i = 0; i < price; i++) {
       signs += currency;
     }
@@ -334,7 +338,7 @@ export class MapBox extends Component {
           <i className="fas fa-utensils congrats__icon" />
           <h1 className="congrats__title"> Congratulations! </h1>{" "}
           <p className="congrats__text">
-            You have both selected {this.props.name}{" "}
+            You have both selected {this.state.selectedRestaurantDetails.name}{" "}
           </p>{" "}
           <span className="congrats__text"> {this.createStars()} </span>{" "}
           {this.createCurrency() !== "" ? (
@@ -342,10 +346,14 @@ export class MapBox extends Component {
           ) : (
             ""
           )}{" "}
-          <span className="congrats__text"> {this.props.address} </span>{" "}
           <span className="congrats__text">
             {" "}
-            {this.props.city}, {this.props.state}{" "}
+            {this.state.selectedRestaurantDetails.address}{" "}
+          </span>{" "}
+          <span className="congrats__text">
+            {" "}
+            {this.state.selectedRestaurantDetails.city},{" "}
+            {this.state.selectedRestaurantDetails.state}{" "}
           </span>{" "}
           <button
             className="congrats__button"
@@ -375,15 +383,6 @@ const mapStateToProps = state => {
     icon2: state.icon.icon2,
     selectedRestaurant: state.selectedRestaurant,
     unreadMsg: state.unreadMsg,
-    name: state.selectedRestaurant.name,
-    address: state.selectedRestaurant.address,
-    city: state.selectedRestaurant.city,
-    state: state.selectedRestaurant.state,
-    price: state.selectedRestaurant.price,
-    currency: state.selectedRestaurant.currency,
-    rating: state.selectedRestaurant.rating,
-    categories: state.selectedRestaurant.categories,
-    photo: state.selectedRestaurant.photo,
     matchName: state.match.didMatch.matched
       ? state.match.didMatch.info.firstName
       : null
