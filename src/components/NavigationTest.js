@@ -5,6 +5,7 @@ import { PathLayer, IconLayer } from "@deck.gl/layers";
 import axios from "axios";
 import { connect } from "react-redux";
 import t from "typy";
+import Nav from "./Nav";
 
 let data = [
   {
@@ -194,14 +195,15 @@ export class NavigationTest extends React.Component {
   render() {
     return this.state.loadedData ? (
       <React.Fragment>
+        <Nav />
         <DeckGL
           initialViewState={{
             longitude: -74.006,
             latitude: 40.7128,
             zoom: 12
           }}
-          height={600}
-          width={500}
+          height="100%"
+          width="100%"
           controller={true}
           layers={layer}
         >
@@ -211,26 +213,47 @@ export class NavigationTest extends React.Component {
           />
         </DeckGL>{" "}
         <React.Fragment>
-          <div className="detailsTemp">
-            <div> Restaurant Details </div>{" "}
-            <ul className="card__details">
-              <li className="card__name"> {this.state.name} </li>{" "}
-              <li className="card__rating"> {this.createStars()} </li>{" "}
-              <li className="card__price">
+          <div className="overlay">
+            <div className="content">
+              <div className="card">
                 {" "}
-                {this.createCurrency()} {this.state.category}{" "}
-              </li>{" "}
-              <li className="card__address"> {this.state.address} </li>{" "}
-              <li className="card__address">
-                {" "}
-                {this.state.city}, {this.state.state}{" "}
-              </li>{" "}
-            </ul>{" "}
-            <button className="hereButton" onClick={() => this.clickedHere()}>
-              I 'm here!{" "}
-            </button>{" "}
+                {this.state.photo !== undefined ? (
+                  <img
+                    className="card__img"
+                    src={
+                      this.state.photo.prefix +
+                      "200x200" +
+                      this.state.photo.suffix
+                    }
+                    alt=""
+                  />
+                ) : (
+                  <img className="card__img" src="./images/stock.jpg" alt="" />
+                )}{" "}
+                <ul className="card__details">
+                  <li className="card__name"> {this.state.name} </li>{" "}
+                  <li className="card__rating"> {this.createStars()} </li>{" "}
+                  <li className="card__price">
+                    {" "}
+                    {this.createCurrency()} {this.state.category}{" "}
+                  </li>{" "}
+                  <li className="card__address"> {this.state.address} </li>{" "}
+                  <li className="card__address">
+                    {" "}
+                    {this.state.city}, {this.state.state}{" "}
+                  </li>{" "}
+                </ul>{" "}
+                <button
+                  className="card__button"
+                  onClick={() => {
+                    this.clickedHere();
+                  }}
+                >
+                  I'm Here!
+                </button>
+              </div>
+            </div>
           </div>
-          ;{" "}
         </React.Fragment>{" "}
       </React.Fragment>
     ) : null;
