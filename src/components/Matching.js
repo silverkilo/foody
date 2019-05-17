@@ -36,7 +36,7 @@ class Matching extends Component {
     return (
       <React.Fragment>
         <Nav />
-        <div className="match-container">
+        <div className="match-container page">
           {" "}
           {this.props.loading ? null : <MatchStack users={users} />}{" "}
         </div>{" "}
