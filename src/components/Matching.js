@@ -37,9 +37,9 @@ class Matching extends Component {
         <Nav />
         <div className="match-container page">
           {" "}
-          {!users.length ? (
+          {this.props.loading ? null : !users.length ? (
             <NoMatches />
-          ) : this.props.loading ? null : (
+          ) : (
             <MatchStack users={users} />
           )}{" "}
         </div>{" "}
