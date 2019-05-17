@@ -48,7 +48,7 @@ In order to run this app on your device, ....
 ## Technology Used
 
 ### Language & Runtime Environment
-* [JavaScript]
+* [JavaScript](https://www.javascript.com/)
 * [Node.js](https://nodejs.org/en/)
 
 ### Library & Packages Used
