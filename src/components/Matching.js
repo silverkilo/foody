@@ -42,7 +42,6 @@ class Matching extends Component {
             <MatchStack users={users} />
           )}
         </div>
-
         {this.props.didMatch.matched ? (
           <ReactModal
             isOpen={this.props.didMatch.matched ? true : false}
@@ -64,20 +63,21 @@ class Matching extends Component {
             //   background: "blue"
             // }}
           >
-            <i className="fas fa-utensils congrats__icon" />
+            <i className="fas fa-user-friends congrats__icon" />
             <h1 className="congrats__title"> Congratulations! </h1>{" "}
             <div>
               <p className="congrats__text">
                 You have matched with {this.props.didMatch.info.firstName}{" "}
-                {this.props.didMatch.info.lastName}
-              </p>
+                {this.props.didMatch.info.lastName}{" "}
+              </p>{" "}
               <img
+                className="congrats__img"
                 src={this.props.didMatch.info.photoURLs[0]}
                 alt={this.props.didMatch.info.firstName}
-              />
-            </div>
+              />{" "}
+            </div>{" "}
           </ReactModal>
-        ) : null}
+        ) : null}{" "}
       </React.Fragment>
     );
   }
@@ -89,5 +89,8 @@ const mapStateToProps = ({ match }) => ({
 
 export default connect(
   mapStateToProps,
-  { swipe, getPotentialMatches }
+  {
+    swipe,
+    getPotentialMatches
+  }
 )(Matching);
