@@ -117,9 +117,7 @@ async function seed() {
       password,
       email,
       photoURLs: [
-        `https://res.cloudinary.com/omarjuice/image/upload/w_300,h_300/v1558110703/foody/${with_}.${
-          firstName === "Omar" ? "jpg" : "png"
-        }`
+        `https://res.cloudinary.com/omarjuice/image/upload/w_300,h_300/v1558113243/foody/${with_}.png`
       ]
     };
   });
