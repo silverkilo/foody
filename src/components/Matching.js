@@ -37,8 +37,9 @@ class Matching extends Component {
       <React.Fragment>
         <Nav />
         <div className="match-container">
-          {this.props.loading ? null : <MatchStack users={users} />}
-        </div>
+          {" "}
+          {this.props.loading ? null : <MatchStack users={users} />}{" "}
+        </div>{" "}
         {this.props.didMatch.matched ? (
           <ReactModal
             isOpen={this.props.didMatch.matched ? true : false}
@@ -65,16 +66,16 @@ class Matching extends Component {
             <div>
               <p className="congrats__text">
                 You have matched with {this.props.didMatch.info.firstName}{" "}
-                {this.props.didMatch.info.lastName}
-              </p>
+                {this.props.didMatch.info.lastName}{" "}
+              </p>{" "}
               <img
                 className="congrats__img"
                 src={this.props.didMatch.info.photoURLs[0]}
                 alt={this.props.didMatch.info.firstName}
-              />
-            </div>
+              />{" "}
+            </div>{" "}
           </ReactModal>
-        ) : null}
+        ) : null}{" "}
       </React.Fragment>
     );
   }
@@ -86,5 +87,8 @@ const mapStateToProps = ({ match }) => ({
 
 export default connect(
   mapStateToProps,
-  { swipe, getPotentialMatches }
+  {
+    swipe,
+    getPotentialMatches
+  }
 )(Matching);
