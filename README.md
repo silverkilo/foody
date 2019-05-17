@@ -39,17 +39,19 @@ This part of the app utilizes Mapbox API and FourSquare API.
 
 
 ## Getting Started
-In order to run this app on your device, download [Expo Client](https://itunes.apple.com/us/app/expo-client/id982107779?mt=8).
+In order to run this app on your device, ....
 
 ### Install dependencies and start server
 ```npm install```
 ```expo start```
 
-## Language & Runtime ENvironment
+## Technology Used
+
+### Language & Runtime Environment
 * [JavaScript]
 * [Node.js](https://nodejs.org/en/)
 
-## Library & Packages Used
+### Library & Packages Used
 * [Express](https://expressjs.com/)
 * [React](https://reactjs.org/)
 * [Redux](https://redux.js.org/)
@@ -61,7 +63,7 @@ In order to run this app on your device, download [Expo Client](https://itunes.a
 * [React-transition-group](https://reactcommunity.org/react-transition-group/)
 * [React-use-gesture](https://www.npmjs.com/package/react-with-gesture)
 
-## Other Technologies
+### Other Technologies
 * [Sequelize](https://www.npmjs.com/package/sequelize)
 * [Progressive-web-app](https://developers.google.com/web/progressive-web-apps/)
 * [Socket.io](https://socket.io/)
