@@ -12,30 +12,33 @@ Here are the flow of our app:
 
 
 ### Logging In
-
-Swiping for matches
-* User A and User B see each other's geolocation.
-<img src="/assets/images/IMG_1494_2.png" width="35%" height="35%">
-
+![Image of login](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/login.png)
 
 ### Preferences
 
-Swiping for matches
-* User A picks a 'food circle' - a circle on the map will appear with pins of all the restaurants in that region.
-<img src="/assets/images/IMG_1495_2.PNG" width="35%" height="35%">
+![Image of preference](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/preference.png)
 
 
 ### Matching
 
-Swiping for matches
-* User B scrolls through the food options in the 'food circle' that User A defined.
-<img src="/assets/images/IMG_1496_2.PNG" width="35%" height="35%">
+![Image of swipe](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/swipe.png)
+![Image of matched](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/matched.png)
 
 ### Restaurant Selection
 
-This part of the app utilizes Mapbox API and FourSquare API.
-* User B picks a food spot in that 'food circle'. User A is notified of the food spot chosen by User B.
-<img src="/assets/images/IMG_1497_2.PNG" width="35%" height="35%">
+##### This part of the app utilizes Mapbox API and FourSquare API.
+![Image of map](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/map.png)
+![Image of mapChat](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/mapChat.png)
+![Image of checkYes](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/checkYes.png)
+![Image of resSelected](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/resSelected.png)
+
+### Navigation
+
+![Image of navigation](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/navigation.png)
+
+### Review
+
+![Image of review](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/review.png)
 
 
 ## Getting Started
