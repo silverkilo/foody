@@ -243,17 +243,17 @@ const mapStateToProps = state => {
     icon1: state.icon.icon1,
     icon2: state.icon.icon2,
     selectedRestaurant: state.selectedRestaurant,
-    name: state.selectedRestaurant.name,
-    address: state.selectedRestaurant.address,
-    city: state.selectedRestaurant.city,
-    state: state.selectedRestaurant.state,
-    price: state.selectedRestaurant.price,
-    currency: state.selectedRestaurant.currency,
-    rating: state.selectedRestaurant.rating,
-    categories: state.selectedRestaurant.categories,
-    photo: state.selectedRestaurant.photo,
-    restaurantLat: state.selectedRestaurant.restaurantLat,
-    restaurantLong: state.selectedRestaurant.restaurantLong
+    name: state.venueDetails.name,
+    address: state.venueDetails.address,
+    city: state.venueDetails.city,
+    state: state.venueDetails.state,
+    price: state.venueDetails.price,
+    currency: state.venueDetails.currency,
+    rating: state.venueDetails.rating,
+    categories: state.venueDetails.categories,
+    photo: state.venueDetails.photo,
+    restaurantLat: state.venueDetails.restaurantLat,
+    restaurantLong: state.venueDetails.restaurantLong
   };
 };
 const mapDispatchToProps = dispatch => {
