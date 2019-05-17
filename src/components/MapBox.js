@@ -178,7 +178,7 @@ export class MapBox extends Component {
     const params = {
       client_id: "NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ",
       client_secret: "YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM",
-      limit: 15,
+      limit: 5,
       v: "20130619", // version of the API
       intent: "browse",
       ll: `${lat}, ${long}`,
