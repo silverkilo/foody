@@ -15,7 +15,7 @@ function MatchStack({ users, swipe }) {
   });
   const from = i => ({
     x: i % 2 === 0 ? -1000 : 1000,
-    rot: 0,
+    rot: i % 2 === 0 ? -400 : 400,
     scale: 1.5,
     y: i * -5
   });

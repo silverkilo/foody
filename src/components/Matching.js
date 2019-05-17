@@ -30,15 +30,19 @@ class Matching extends Component {
     //   const match = this.props.didMatch.info;
     //   return <NewMatch {...match} />;
     // }
-    // if (!this.props.potentials.length) return <NoMatches />;
     const users = this.props.potentials;
 
     return (
       <React.Fragment>
         <Nav />
         <div className="match-container">
-          {this.props.loading ? null : <MatchStack users={users} />}
+          {!this.props.potentials.length ? (
+            <NoMatches />
+          ) : this.props.loading ? null : (
+            <MatchStack users={users} />
+          )}
         </div>
+
         {this.props.didMatch.matched ? (
           <ReactModal
             isOpen={this.props.didMatch.matched ? true : false}
