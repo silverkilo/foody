@@ -7,7 +7,8 @@ import { connect } from "react-redux";
 import { setUserLocation, getMatchLocation } from "../store";
 import { setSelectedIdx } from "../store/highlight";
 import { getMatchPreference } from "../store/matchPreference";
-import { joinChatRoom } from "../store/chat";
+import { joinChatRoom, clearUnread } from "../store/chat";
+import { setVenueDetails } from "../store/venueDetail";
 import { createVenueList } from "../store/food";
 import { setIconImg } from "../store/icon";
 import Chat from "./Chat";
@@ -111,6 +112,7 @@ export class MapBox extends Component {
         }
       });
     }
+
     if (prevProps.selectedRestaurant !== this.props.selectedRestaurant) {
       let selected = this.state.allVenues.filter(
         venue => venue.id === this.props.selectedRestaurant
@@ -132,7 +134,12 @@ export class MapBox extends Component {
         }
       });
     }
+    if (this.state.selectedRestaurantDetails.name) {
+      console.log("set restaurant", this.state.selectedRestaurantDetails);
+      this.props.setVenueDetails(this.state.selectedRestaurantDetails);
+    }
   }
+
   getVenuesDetails = async selected => {
     const venueId = selected[0].id;
     const params = {
@@ -157,10 +164,13 @@ export class MapBox extends Component {
         currency: t(venue, "price.currency").safeObject,
         rating: t(venue, "rating").safeObject,
         categories: t(venue, "categories[0].shortName").safeObject,
-        photo: t(venue, "bestPhoto").safeObject
+        photo: t(venue, "bestPhoto").safeObject,
+        restaurantLat: venue.location.lat,
+        restaurantLong: venue.location.lng
       }
     });
   };
+
   getVenues = async (lat, long, radius) => {
     console.log("RADIUS", radius);
     const venuesEndpoint = "https://api.foursquare.com/v2/venues/search?";
@@ -195,11 +205,13 @@ export class MapBox extends Component {
   handleOpenChat = () => {
     let chat = document.querySelector(".chatBox");
     chat.classList.add("is-visible");
+    this.props.clearUnread();
   };
 
   handlePopupClose = () => {
     this.props.history.push("/navigation");
   };
+
   createStars = () => {
     const rating = Math.round(this.state.selectedRestaurantDetails.rating / 2);
     let stars = [
@@ -224,9 +236,8 @@ export class MapBox extends Component {
     }
     return signs;
   };
+
   render() {
-    console.log("SELECTEDREST", this.state.selectedRestaurant);
-    console.log("SELECTEDRESTDETAILS", this.state.selectedRestaurantDetails);
     return (
       <React.Fragment>
         <Nav />
@@ -284,6 +295,7 @@ export class MapBox extends Component {
         <button className="chatBubble" onClick={this.handleOpenChat}>
           <i class="fas fa-comment-alt" />
         </button>{" "}
+        {this.props.unreadMsg > 0 ? <button> UNREAD MSG </button> : null}{" "}
         <Chat />{" "}
         {this.state.loadedVenues && (
           <div className="overlay">
@@ -297,7 +309,7 @@ export class MapBox extends Component {
             isOpen={this.props.loadingLoc ? true : false}
             shouldCloseOnOverlayClick={true}
             closeTimeoutMS={5000}
-            contentLabel="Restaurant Selected Modal"
+            contentLabel="matchLocation loading Page"
             className="congrats__content"
             overlayClassName="congrats__overlay"
           >
@@ -306,7 +318,7 @@ export class MapBox extends Component {
             <div>
               {" "}
               Waiting for {this.props.matchName}
-              's location
+              's location{" "}
             </div>{" "}
           </ReactModal>
         )}{" "}
@@ -314,7 +326,7 @@ export class MapBox extends Component {
           isOpen={this.props.selectedRestaurant ? true : false}
           shouldCloseOnOverlayClick={true}
           closeTimeoutMS={5000}
-          contentLabel="Restaurant Selected Modal"
+          contentLabel="Restaurant Selected Popup"
           className="congrats__content"
           overlayClassName="congrats__overlay"
           // style={{ overlay: {}, content: "hi is this working" }}
@@ -377,6 +389,7 @@ const mapStateToProps = state => {
     icon1: state.icon.icon1,
     icon2: state.icon.icon2,
     selectedRestaurant: state.selectedRestaurant,
+    unreadMsg: state.unreadMsg,
     matchName: state.match.didMatch.matched
       ? state.match.didMatch.info.firstName
       : null
@@ -391,7 +404,9 @@ const mapDispatchToProps = dispatch => {
     setSelectedIdx: idx => dispatch(setSelectedIdx(idx)),
     joinChatRoom: () => dispatch(joinChatRoom()),
     setIconImg: () => dispatch(setIconImg()),
-    createVenueList: () => dispatch(createVenueList())
+    createVenueList: () => dispatch(createVenueList()),
+    clearUnread: () => dispatch(clearUnread()),
+    setVenueDetails: obj => dispatch(setVenueDetails(obj))
   };
 };
 
