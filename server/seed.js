@@ -42,12 +42,89 @@ async function seed() {
     latitude: 40.704663848,
     longitude: -74.006499974
   };
+  const names = [
+    "Juan Marges",
+    "Saeed Sheikh",
+    "Sam Huque",
+    "Eric Folks",
+    "Danny Marquez",
+    "Conrad Batraville",
+    "Ben Rodriguez",
+    "Brandon Rowe",
+    "Jeetkumar Desai",
+    "Julissa Napoletano",
+    "Frank Rose",
+    "Christina Armstrong",
+    "Emily Asaro",
+    "Billy Tan",
+    "Grace Lee",
+    "Matt Howe",
+    "Daniel Kil",
+    "Keith Nocera",
+    "Peter Burger",
+    "Barry Huang",
+    "David Adewoyin",
+    "Omar Jameer",
+    "AJ Lapid",
+    "Reggie Beauvais",
+    "Anna Mai",
+    "John Vasiliadis",
+    "Kenny Ye",
+    "Jackie Ore",
+    "Daniel Lanoff",
+    "Malhar Teli",
+    "Corey Greenwald",
+    "Eric Chan",
+    "Roger Palabasan",
+    "Jenny Wong",
+    "Logan Takahashi",
+    "Nevin Chen",
+    "Jason Levine",
+    "David Li",
+    "Katrina Rodnika",
+    "The Bazzles",
+    "John McDonald",
+    "Marielle Combier-Kapel",
+    "Gordon Wu",
+    "Marcia Wan",
+    "Sasha Kayola",
+    "Eileen Galindo",
+    "Rhea Rao",
+    "Mark Greenquist",
+    "Christopher Najafi",
+    "Aaron Nah",
+    "Ariel Ahdoot",
+    "Roumesh Persand",
+    "Harrison Cole",
+    "Brook Li"
+  ];
   const locations = [codyLoc];
+
+  const seedUsers = names.map((name, i) => {
+    const with_ = name.replace(" ", "_").toLowerCase();
+    const [firstName, lastName] = name.split(" ");
+    const email = name.replace(" ", ".").toLowerCase() + "@hungrystack.com";
+    const password = name.toLowerCase().replace(" ", "");
+    locations.push({
+      latitude:
+        codyLoc.latitude + (i + 1) * ((Math.random() > 5 ? -1 : 1) * 0.001),
+      longitude:
+        codyLoc.longitude + (i + 1) * ((Math.random() > 5 ? -1 : 1) * 0.001)
+    });
+    return {
+      firstName,
+      lastName,
+      password,
+      email,
+      photoURLs: [
+        `https://res.cloudinary.com/omarjuice/image/upload/w_300,h_300/v1558113243/foody/${with_}.png`
+      ]
+    };
+  });
 
   const users = await User.bulkCreate(
     [
       {
-        ...codyLoc,
         firstName: "Cody",
         lastName: "The Pug",
         email: "cody@thepug.com",
@@ -56,27 +133,7 @@ async function seed() {
           "https://images-na.ssl-images-amazon.com/images/I/71gRnoHe%2BTL._UY550_.jpg"
         ]
       }
-    ].concat(
-      Array(35)
-        .fill("x")
-        .map((_, i) => {
-          locations.push({
-            latitude:
-              codyLoc.latitude +
-              (i + 1) * ((Math.random() > 5 ? -1 : 1) * 0.001),
-            longitude:
-              codyLoc.longitude +
-              (i + 1) * ((Math.random() > 5 ? -1 : 1) * 0.001)
-          });
-          return {
-            firstName: faker.name.firstName(),
-            lastName: faker.name.lastName(),
-            email: "user" + String(i + 2) + "@email.com",
-            password: String(i + 2),
-            photoURLs: [faker.image.avatar()]
-          };
-        })
-    ),
+    ].concat(seedUsers),
     {
       returning: true
     }
@@ -96,36 +153,9 @@ async function seed() {
       .map((_, i) => ({
         userId: (i % users.length) + 1,
         preferenceId: (i % 20) + 1
-      }))
+      })),
+    { ignoreDuplicates: true }
   );
-  await UserPreference.bulkCreate([
-    {
-      userId: 7,
-      preferenceId: 13
-    },
-    {
-      userId: 10,
-      preferenceId: 1
-    },
-    {
-      userId: 10,
-      preferenceId: 13
-    }
-  ]);
-  await Match.bulkCreate([
-    {
-      matcherId: 2,
-      matcheeId: 10
-    },
-    {
-      matcherId: 10,
-      matcheeId: 2
-    }
-  ]);
-  await User.update({ hasMatched: 2 }, { where: { id: 10 } });
-  await User.update({ hasMatched: 10 }, { where: { id: 2 } });
-  // await db.query(`UPDATE "users" SET "hasMatched"=10 WHERE "id" = 2 `);
-  // await db.query(`UPDATE "users" SET "hasMatched"=2 WHERE "id" = 10 `);
   await Promise.all(
     categories.map((_, i) =>
       UserPreference.create(
@@ -137,6 +167,7 @@ async function seed() {
       )
     )
   );
+
   console.log(`seeded successfully`);
 }
 
