@@ -4,7 +4,6 @@ import { StaticMap } from "react-map-gl";
 import { PathLayer, IconLayer } from "@deck.gl/layers";
 import axios from "axios";
 import { connect } from "react-redux";
-import t from "typy";
 import Nav from "./Nav";
 
 let data = [
@@ -143,9 +142,9 @@ export class NavigationTest extends React.Component {
       new PathLayer({
         id: "path-layer",
         data,
-        getWidth: data => 2,
+        getWidth: data => 7,
         getColor: data => data.color,
-        widthMinPixels: 2
+        widthMinPixels: 7
       }),
       new IconLayer({
         id: "restaurant-layer",
@@ -195,45 +194,7 @@ export class NavigationTest extends React.Component {
 
     return this.state.loadedData ? (
       <React.Fragment>
-        <DeckGL
-          initialViewState={{
-            longitude: -74.006,
-            latitude: 40.7128,
-            zoom: 12
-          }}
-          height={600}
-          width={500}
-          controller={true}
-          layers={layer}
-        >
-          <StaticMap
-            mapStyle="mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
-            mapboxApiAccessToken="pk.eyJ1IjoicmhlYXJhbyIsImEiOiJjanY3NGloZm4wYzR5NGVxcGU4MXhwaTJtIn0.d_-A1vz2gnk_h1GbTchULA"
-          />
-        </DeckGL>{" "}
-        <React.Fragment>
-          <div className="detailsTemp">
-            <div> Restaurant Details </div>{" "}
-            <ul className="card__details">
-              <li className="card__name"> {this.props.name} </li>{" "}
-              <li className="card__rating"> {this.createStars()} </li>{" "}
-              <li className="card__price">
-                {" "}
-                {this.createCurrency()} {this.props.category}{" "}
-              </li>{" "}
-              <li className="card__address"> {this.props.address} </li>{" "}
-              <li className="card__address">
-                {" "}
-                {this.props.city}, {this.props.state}{" "}
-              </li>{" "}
-            </ul>{" "}
-            <button className="hereButton" onClick={() => this.clickedHere()}>
-              I 'm here!{" "}
-            </button>{" "}
-          </div>
-          ;{" "}
-        </React.Fragment>{" "}
-        === === = <Nav />
+        <Nav />
         <div className="page">
           <DeckGL
             initialViewState={{
@@ -256,13 +217,13 @@ export class NavigationTest extends React.Component {
               <div className="content">
                 <div className="card">
                   {" "}
-                  {this.state.photo !== undefined ? (
+                  {this.props.photo !== undefined ? (
                     <img
                       className="card__img"
                       src={
-                        this.state.photo.prefix +
+                        this.props.photo.prefix +
                         "200x200" +
-                        this.state.photo.suffix
+                        this.props.photo.suffix
                       }
                       alt=""
                     />
@@ -274,16 +235,16 @@ export class NavigationTest extends React.Component {
                     />
                   )}{" "}
                   <ul className="card__details">
-                    <li className="card__name"> {this.state.name} </li>{" "}
+                    <li className="card__name"> {this.props.name} </li>{" "}
                     <li className="card__rating"> {this.createStars()} </li>{" "}
                     <li className="card__price">
                       {" "}
-                      {this.createCurrency()} {this.state.category}{" "}
+                      {this.createCurrency()} {this.props.categories}{" "}
                     </li>{" "}
-                    <li className="card__address"> {this.state.address} </li>{" "}
+                    <li className="card__address"> {this.props.address} </li>{" "}
                     <li className="card__address">
                       {" "}
-                      {this.state.city}, {this.state.state}{" "}
+                      {this.props.city}, {this.props.state}{" "}
                     </li>{" "}
                   </ul>{" "}
                   <button
@@ -292,14 +253,13 @@ export class NavigationTest extends React.Component {
                       this.clickedHere();
                     }}
                   >
-                    I 'm Here!{" "}
+                    Here!{" "}
                   </button>{" "}
                 </div>{" "}
               </div>{" "}
             </div>{" "}
           </React.Fragment>{" "}
         </div>{" "}
-        >>> >>> > master{" "}
       </React.Fragment>
     ) : null;
   }
