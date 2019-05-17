@@ -168,7 +168,7 @@ export class MapBox extends Component {
     const params = {
       client_id: "KUZ0H02M1VQNYUNKV40GFCICQUYGHRZJQVFLFS4MK01IHFYE",
       client_secret: "ESQTWW5FJSPUDTTCM5JWQ1EO3T1GXNRVMS5XTKR3AKC4GNVJ",
-      limit: 30,
+      limit: 15,
       v: "20130619", // version of the API
       intent: "browse",
       ll: `${lat}, ${long}`,
@@ -303,9 +303,13 @@ export class MapBox extends Component {
           >
             <i class="fas fa-spinner fa-spin fa-5x" />
             <br />
-            <div> Waiting for {this.props.matchName}'s location</div>
+            <div>
+              {" "}
+              Waiting for {this.props.matchName}
+              's location
+            </div>{" "}
           </ReactModal>
-        )}
+        )}{" "}
         <ReactModal
           isOpen={this.props.selectedRestaurant ? true : false}
           shouldCloseOnOverlayClick={true}

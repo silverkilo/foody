@@ -1,7 +1,7 @@
 import React from "react";
 import DeckGL from "deck.gl";
 import { StaticMap } from "react-map-gl";
-import { PathLayer, ScatterplotLayer, IconLayer } from "@deck.gl/layers";
+import { PathLayer, IconLayer } from "@deck.gl/layers";
 import axios from "axios";
 import { connect } from "react-redux";
 import t from "typy";
@@ -91,8 +91,8 @@ const layer = [
 export class NavigationTest extends React.Component {
   state = {
     loadedData: false,
-    restaurantLong: -73.977712,
-    restaurantLat: 40.731873,
+    restaurantLong: "",
+    restaurantLat: "",
     name: "",
     address: "",
     city: "",
@@ -104,9 +104,9 @@ export class NavigationTest extends React.Component {
     photo: ""
   };
 
-  componentDidMount() {
-    this.getCoordinates();
-    // this.getRestaurantCoords();
+  async componentDidMount() {
+    await this.getRestaurantCoords();
+    await this.getCoordinates();
   }
 
   // componentDidUpdate() {
@@ -125,10 +125,10 @@ export class NavigationTest extends React.Component {
   // }
 
   getRestaurantCoords = async () => {
-    // const venueId = this.props.selectedRestaurant;
-
+    const venueId = this.props.selectedRestaurant;
+    // console.log("restaurantId", venueId);
     // BELOW ID IS FOR TEST. COMMENT BACK IN ABOVE LINE AND DELETE BELOW LINE
-    const venueId = "412d2800f964a520df0c1fe3";
+    // const venueId = "412d2800f964a520df0c1fe3";
     const params = {
       client_id: "NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ",
       client_secret: "YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM",
@@ -154,9 +154,10 @@ export class NavigationTest extends React.Component {
       restaurantLat: venue.location.lat,
       restaurantLong: venue.location.lng
     });
-    this.setState({
-      loadedData: true
-    });
+    // this.setState({
+    //   loadedData: true
+    // });
+    console.log("this.state.restaurantLat", this.state.restaurantLat);
   };
 
   getCoordinates = async () => {
