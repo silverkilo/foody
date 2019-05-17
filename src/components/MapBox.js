@@ -134,13 +134,17 @@ export class MapBox extends Component {
         }
       });
     }
+    if (this.state.selectedRestaurantDetails.name) {
+      console.log("set restaurant", this.state.selectedRestaurantDetails);
+      this.props.setVenueDetails(this.state.selectedRestaurantDetails);
+    }
   }
 
   getVenuesDetails = async selected => {
     const venueId = selected[0].id;
     const params = {
-      client_id: "VNIMI2NZPZ5SN2UROHEFKMZ21NLDK4YOMUG244YVZI0ZL2HO",
-      client_secret: "MQQKYICUP0BWRM04EP2UYR2PDDZTTPERIGJ1IQUF54TJVYUV",
+      client_id: "NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ",
+      client_secret: "YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM",
       v: "20130619"
     };
     const venuesEndpoint = `https://api.foursquare.com/v2/venues/${venueId}?&client_id=${
@@ -165,9 +169,6 @@ export class MapBox extends Component {
         restaurantLong: venue.location.lng
       }
     });
-    if (this.state.selectedRestaurantDetails) {
-      this.props.setVenueDetails(this.state.selectedRestaurantDetails);
-    }
   };
 
   getVenues = async (lat, long, radius) => {
@@ -175,8 +176,8 @@ export class MapBox extends Component {
     const venuesEndpoint = "https://api.foursquare.com/v2/venues/search?";
 
     const params = {
-      client_id: "KUZ0H02M1VQNYUNKV40GFCICQUYGHRZJQVFLFS4MK01IHFYE",
-      client_secret: "ESQTWW5FJSPUDTTCM5JWQ1EO3T1GXNRVMS5XTKR3AKC4GNVJ",
+      client_id: "NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ",
+      client_secret: "YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM",
       limit: 15,
       v: "20130619", // version of the API
       intent: "browse",
@@ -294,8 +295,8 @@ export class MapBox extends Component {
         <button className="chatBubble" onClick={this.handleOpenChat}>
           <i class="fas fa-comment-alt" />
         </button>{" "}
-        {this.props.unreadMsg > 0 ? <button> UNREAD MSG </button> : null}
-        <Chat />
+        {this.props.unreadMsg > 0 ? <button> UNREAD MSG </button> : null}{" "}
+        <Chat />{" "}
         {this.state.loadedVenues && (
           <div className="overlay">
             <div className="content">
@@ -317,7 +318,7 @@ export class MapBox extends Component {
             <div>
               {" "}
               Waiting for {this.props.matchName}
-              's location
+              's location{" "}
             </div>{" "}
           </ReactModal>
         )}{" "}
@@ -405,7 +406,7 @@ const mapDispatchToProps = dispatch => {
     setIconImg: () => dispatch(setIconImg()),
     createVenueList: () => dispatch(createVenueList()),
     clearUnread: () => dispatch(clearUnread()),
-    setVenueDetails: () => dispatch(setVenueDetails())
+    setVenueDetails: obj => dispatch(setVenueDetails(obj))
   };
 };
 
