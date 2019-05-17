@@ -1,17 +1,18 @@
 import React from "react";
-import { connect } from "react-redux";
-function NoMatches({ connected, error, ready }) {
+import { Link } from "react-router-dom";
+function NoMatches() {
   return (
-    <div>
-      <div>No Matches to show</div>
-      <div>SOCKET DEBUGGER</div>
-      <div>{connected ? "CONNECTED" : "NOT CONNECTED"}</div>
-      <div>{JSON.stringify(error)}</div>
-      <div>{ready && "READY"}</div>
+    <div className="no-matches">
+      <i className="fas fa-hamburger fa-3x" />
+      <h1 className="no-matches__header">
+        Can't find any more buddies for you right now.
+      </h1>
+      <br />
+      <Link className="no-matches__header" to="/preference">
+        Really Hungry? Select some new preferences.
+      </Link>
     </div>
   );
 }
 
-export default connect(({ socket }) => ({
-  ...socket
-}))(NoMatches);
+export default NoMatches;

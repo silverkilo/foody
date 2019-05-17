@@ -30,16 +30,17 @@ class Matching extends Component {
     //   const match = this.props.didMatch.info;
     //   return <NewMatch {...match} />;
     // }
-    // if (!this.props.potentials.length) return <NoMatches />;
     const users = this.props.potentials;
 
     return (
       <React.Fragment>
         <Nav />
+        <NoMatches />
         <div className="match-container page">
           {" "}
           {this.props.loading ? null : <MatchStack users={users} />}{" "}
         </div>{" "}
+
         {this.props.didMatch.matched ? (
           <ReactModal
             isOpen={this.props.didMatch.matched ? true : false}
@@ -48,18 +49,18 @@ class Matching extends Component {
             contentLabel="Restaurant Selected Modal"
             className="congrats__content"
             overlayClassName="congrats__overlay"
-            // style={{ overlay: {}, content: "hi is this working" }}
-            // portalClassName="ReactModalPortal"
-            // overlayClassName="ReactModal__Overlay"
-            // className="ReactModal__Content"
-            // bodyOpenClassName="ReactModal__Body--open"
-            // htmlOpenClassName="ReactModal__Html--open"
-            // ariaHideApp={true}
-            // role="dialog"
-            // parentSelector={() => document.body}
-            // data={{
-            //   background: "blue"
-            // }}
+          // style={{ overlay: {}, content: "hi is this working" }}
+          // portalClassName="ReactModalPortal"
+          // overlayClassName="ReactModal__Overlay"
+          // className="ReactModal__Content"
+          // bodyOpenClassName="ReactModal__Body--open"
+          // htmlOpenClassName="ReactModal__Html--open"
+          // ariaHideApp={true}
+          // role="dialog"
+          // parentSelector={() => document.body}
+          // data={{
+          //   background: "blue"
+          // }}
           >
             <i className="fas fa-user-friends congrats__icon" />
             <h1 className="congrats__title"> Congratulations! </h1>{" "}
