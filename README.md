@@ -1,5 +1,4 @@
 ## Foody: Yelp Meets Tinder
-
 Foody is a progressive web app that is a cross between tinder and yelp, where nearby people with similar food preferences could meet up with each other to grab a bite. We have all been in that situation where it’s the middle of the day and you are craving a speific type of food. You text all of your friends and of course everyone is busy. Wouldn’t it be great if you could just connect with someone nearby that also wants the same food as you do, and you can make a new friend? 
 
 This is the problem that our application Foody solves.
@@ -10,44 +9,51 @@ We implemented tinder-style swiping using the react-spring animation library. Ou
 
 Here are the flow of our app:
 
+&nbsp;
 
 ### Logging In
 ![Image of login](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/login.png)
 
+&nbsp;
 ### Preferences
 
 ![Image of preference](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/preference.png)
 
-
+&nbsp;
 ### Matching
 
 ![Image of swipe](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/swipe.png)
 ![Image of matched](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/matched.png)
 
+&nbsp;
 ### Restaurant Selection
 
+&nbsp;
 ##### This part of the app utilizes Mapbox API and FourSquare API.
 ![Image of map](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/map.png)
 ![Image of mapChat](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/mapChat.png)
 ![Image of checkYes](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/checkYes.png)
 ![Image of resSelected](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/resSelected.png)
 
+&nbsp;
 ### Navigation
 
 ![Image of navigation](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/navigation.png)
 
+&nbsp;
 ### Review
-
 ![Image of review](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/review.png)
 
-
+&nbsp;
 ## Getting Started
 In order to run this app on your device, ....
 
+&nbsp;
 ### Install dependencies and start server
 ```npm install```
 ```expo start```
 
+&nbsp;
 ## Technology Used
 
 ### Language & Runtime Environment
