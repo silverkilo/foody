@@ -1,7 +1,7 @@
 import React from "react";
 import DeckGL from "deck.gl";
 import { StaticMap } from "react-map-gl";
-import { PathLayer, ScatterplotLayer, IconLayer } from "@deck.gl/layers";
+import { PathLayer, IconLayer } from "@deck.gl/layers";
 import axios from "axios";
 import { connect } from "react-redux";
 import t from "typy";
@@ -19,17 +19,7 @@ let data = [
       // [-73.998493, 40.713452],
       // [-73.997981, 40.713673],
       // [-73.997586, 40.713448],
-      // [-73.99256, 40.713863],
-      // [-73.992637, 40.714706],
-      // [-73.988995, 40.721608],
-      // [-73.988487, 40.723418],
-      // [-73.980869, 40.733895],
-      // [-73.979701, 40.733362],
-      // [-73.979628, 40.732848],
-      // [-73.978613, 40.732169],
-      // [-73.977585, 40.732152],
-      // [-73.977876, 40.732047],
-      // [-73.977712, 40.731873]
+      // [-73.99256, 40.713863]
     ]
   }
 ];
@@ -91,8 +81,8 @@ const layer = [
 export class NavigationTest extends React.Component {
   state = {
     loadedData: false,
-    restaurantLong: -73.977712,
-    restaurantLat: 40.731873,
+    restaurantLong: "",
+    restaurantLat: "",
     name: "",
     address: "",
     city: "",
@@ -104,9 +94,9 @@ export class NavigationTest extends React.Component {
     photo: ""
   };
 
-  componentDidMount() {
-    this.getCoordinates();
-    // this.getRestaurantCoords();
+  async componentDidMount() {
+    await this.getRestaurantCoords();
+    await this.getCoordinates();
   }
 
   // componentDidUpdate() {
@@ -125,10 +115,8 @@ export class NavigationTest extends React.Component {
   // }
 
   getRestaurantCoords = async () => {
-    // const venueId = this.props.selectedRestaurant;
-
-    // BELOW ID IS FOR TEST. COMMENT BACK IN ABOVE LINE AND DELETE BELOW LINE
-    const venueId = "412d2800f964a520df0c1fe3";
+    const venueId = this.props.selectedRestaurant;
+    // const venueId = "412d2800f964a520df0c1fe3";
     const params = {
       client_id: "NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ",
       client_secret: "YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM",
@@ -154,9 +142,10 @@ export class NavigationTest extends React.Component {
       restaurantLat: venue.location.lat,
       restaurantLong: venue.location.lng
     });
-    this.setState({
-      loadedData: true
-    });
+    // this.setState({
+    //   loadedData: true
+    // });
+    console.log("this.state.restaurantLat", this.state.restaurantLat);
   };
 
   getCoordinates = async () => {
