@@ -66,7 +66,7 @@ class UserProfile extends Component {
     return (
       <React.Fragment>
         <Nav currentPage={this.state.currentPage} />
-        <div className="profile">
+        <div className="profile page page2">
           <div className="profile__photo">
             <h1 className="profile__title">Profile Picture</h1>
             <p className="profile__text">
