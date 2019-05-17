@@ -16,7 +16,7 @@ import icon from "./icon";
 import upload from "./upload";
 import { food } from "./food";
 import { selectedRestaurant } from "./food";
-import { venueDetails } from "./venueDetail";
+import venueDetails from "./venueDetail";
 
 const appReducer = combineReducers({
   user,

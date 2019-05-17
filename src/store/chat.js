@@ -66,7 +66,7 @@ export function chatHistory(state = [], action) {
 export function unreadMsg(state = 0, action) {
   switch (action.type) {
     case UNREAD_MSG:
-      return (this.state += action.num);
+      return (state += action.num);
     case CLEAR_UNREAD_MSG:
       return action.num;
     default:

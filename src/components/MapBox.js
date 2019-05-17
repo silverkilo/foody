@@ -165,7 +165,9 @@ export class MapBox extends Component {
         restaurantLong: venue.location.lng
       }
     });
-    this.props.setVenueDetails({ ...this.props.setVenueDetails });
+    if (this.state.selectedRestaurantDetails) {
+      this.props.setVenueDetails(this.state.selectedRestaurantDetails);
+    }
   };
 
   getVenues = async (lat, long, radius) => {

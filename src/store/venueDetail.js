@@ -22,7 +22,7 @@ const initialState = {
   // photo: t(venue, "bestPhoto").safeObject
 };
 
-export function venueDetails(state = initialState, action) {
+export default function(state = initialState, action) {
   switch (action.type) {
     case SET_VENUE_DETAILS:
       return action.obj;
