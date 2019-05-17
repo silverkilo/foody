@@ -295,7 +295,15 @@ export class MapBox extends Component {
         <button className="chatBubble" onClick={this.handleOpenChat}>
           <i class="fas fa-comment-alt" />
         </button>{" "}
-        {this.props.unreadMsg > 0 ? <button> UNREAD MSG </button> : null}{" "}
+        {this.props.unreadMsg > 0 ? (
+          <button className="chatBubble unread" onClick={this.handleOpenChat}>
+            <i class="fas fa-comment-alt" />
+          </button>
+        ) : (
+          <button className="chatBubble" onClick={this.handleOpenChat}>
+            <i class="fas fa-comment-alt" />
+          </button>
+        )}{" "}
         <Chat />{" "}
         {this.state.loadedVenues && (
           <div className="overlay">
