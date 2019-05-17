@@ -1,7 +1,7 @@
 import React from "react";
 import DeckGL from "deck.gl";
 import { StaticMap } from "react-map-gl";
-import { PathLayer, ScatterplotLayer, IconLayer } from "@deck.gl/layers";
+import { PathLayer, IconLayer } from "@deck.gl/layers";
 import axios from "axios";
 import { connect } from "react-redux";
 import t from "typy";
@@ -46,7 +46,7 @@ const layer = [
     id: "restaurant-layer",
     data: [
       {
-        position: [-73.977712, 40.731873],
+        position: [this.props.restaurantLong, this.props.restaurantLat],
         url: process.env.PUBLIC_URL + "/images/selectedFoodPin.png"
       }
     ],
@@ -68,7 +68,7 @@ const layer = [
     id: "currentLoc-layer",
     data: [
       {
-        position: [-74.00578, 40.713067],
+        position: [this.props.userLong, this.props.userLat],
         url: process.env.PUBLIC_URL + "/images/currentLocation.png"
       }
     ],
@@ -90,18 +90,18 @@ const layer = [
 
 export class NavigationTest extends React.Component {
   state = {
-    loadedData: false,
-    restaurantLong: -73.977712,
-    restaurantLat: 40.731873,
-    name: "",
-    address: "",
-    city: "",
-    state: "",
-    price: "",
-    currency: "",
-    rating: "",
-    categories: "",
-    photo: ""
+    loadedData: false
+    // restaurantLong: -73.977712,
+    // restaurantLat: 40.731873,
+    // name: "",
+    // address: "",
+    // city: "",
+    // state: "",
+    // price: "",
+    // currency: "",
+    // rating: "",
+    // categories: "",
+    // photo: ""
   };
 
   componentDidMount() {
@@ -124,46 +124,44 @@ export class NavigationTest extends React.Component {
   //   }
   // }
 
-  getRestaurantCoords = async () => {
-    // const venueId = this.props.selectedRestaurant;
+  // getRestaurantCoords = async () => {
+  //   // const venueId = this.props.selectedRestaurant;
 
-    // BELOW ID IS FOR TEST. COMMENT BACK IN ABOVE LINE AND DELETE BELOW LINE
-    const venueId = "412d2800f964a520df0c1fe3";
-    const params = {
-      client_id: "NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ",
-      client_secret: "YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM",
-      v: "20130619"
-    };
-    const venuesEndpoint = `https://api.foursquare.com/v2/venues/${venueId}?&client_id=${
-      params.client_id
-    }&client_secret=${params.client_secret}&v=${params.v}`;
+  //   // BELOW ID IS FOR TEST. COMMENT BACK IN ABOVE LINE AND DELETE BELOW LINE
+  //   const venueId = "412d2800f964a520df0c1fe3";
+  //   const params = {
+  //     client_id: "NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ",
+  //     client_secret: "YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM",
+  //     v: "20130619"
+  //   };
+  //   const venuesEndpoint = `https://api.foursquare.com/v2/venues/${venueId}?&client_id=${
+  //     params.client_id
+  //   }&client_secret=${params.client_secret}&v=${params.v}`;
 
-    const res = await axios.get(venuesEndpoint);
-    console.log(res);
-    const { venue } = res.data.response;
-    this.setState({
-      name: t(venue, "name").safeObject,
-      address: t(venue, "location.address").safeObject,
-      city: t(venue, "location.city").safeObject,
-      state: t(venue, "location.state").safeObject,
-      price: t(venue, "price.tier").safeObject,
-      currency: t(venue, "price.currency").safeObject,
-      rating: t(venue, "rating").safeObject,
-      categories: t(venue, "categories[0].shortName").safeObject,
-      photo: t(venue, "bestPhoto").safeObject,
-      restaurantLat: venue.location.lat,
-      restaurantLong: venue.location.lng
-    });
-    this.setState({
-      loadedData: true
-    });
-  };
+  //   const res = await axios.get(venuesEndpoint);
+  //   console.log(res);
+  //   const { venue } = res.data.response;
+  //   this.setState({
+  //     name: t(venue, "name").safeObject,
+  //     address: t(venue, "location.address").safeObject,
+  //     city: t(venue, "location.city").safeObject,
+  //     state: t(venue, "location.state").safeObject,
+  //     price: t(venue, "price.tier").safeObject,
+  //     currency: t(venue, "price.currency").safeObject,
+  //     rating: t(venue, "rating").safeObject,
+  //     categories: t(venue, "categories[0].shortName").safeObject,
+  //     photo: t(venue, "bestPhoto").safeObject
+  //   });
+  //   this.setState({
+  //     loadedData: true
+  //   });
+  // };
 
   getCoordinates = async () => {
     const endpoint = `https://api.mapbox.com/directions/v5/mapbox/cycling/${
       this.props.userLong
-    },${this.props.userLat};${this.state.restaurantLong},${
-      this.state.restaurantLat
+    },${this.props.userLat};${this.props.restaurantLong},${
+      this.props.restaurantLat
     }?geometries=geojson&access_token=pk.eyJ1IjoicmhlYXJhbyIsImEiOiJjanY3NGloZm4wYzR5NGVxcGU4MXhwaTJtIn0.d_-A1vz2gnk_h1GbTchULA`;
     const res = await axios.get(endpoint);
     console.log("GEOJSON", res);
@@ -174,7 +172,7 @@ export class NavigationTest extends React.Component {
   };
 
   createStars = () => {
-    const rating = Math.round(this.state.rating / 2);
+    const rating = Math.round(this.props.rating / 2);
     let stars = [
       <i className="fas fa-star empty" />,
       <i className="fas fa-star empty" />,
@@ -190,8 +188,8 @@ export class NavigationTest extends React.Component {
 
   createCurrency = () => {
     let signs = "";
-    const price = this.state.price;
-    const currency = this.state.currency;
+    const price = this.props.price;
+    const currency = this.props.currency;
     for (let i = 0; i < price; i++) {
       signs += currency;
     }
@@ -225,16 +223,16 @@ export class NavigationTest extends React.Component {
           <div className="detailsTemp">
             <div> Restaurant Details </div>{" "}
             <ul className="card__details">
-              <li className="card__name"> {this.state.name} </li>{" "}
+              <li className="card__name"> {this.props.name} </li>{" "}
               <li className="card__rating"> {this.createStars()} </li>{" "}
               <li className="card__price">
                 {" "}
-                {this.createCurrency()} {this.state.category}{" "}
+                {this.createCurrency()} {this.props.category}{" "}
               </li>{" "}
-              <li className="card__address"> {this.state.address} </li>{" "}
+              <li className="card__address"> {this.props.address} </li>{" "}
               <li className="card__address">
                 {" "}
-                {this.state.city}, {this.state.state}{" "}
+                {this.props.city}, {this.props.state}{" "}
               </li>{" "}
             </ul>{" "}
             <button className="hereButton" onClick={() => this.clickedHere()}>
@@ -254,7 +252,18 @@ const mapStateToProps = state => {
     userLat: state.location.user[1],
     icon1: state.icon.icon1,
     icon2: state.icon.icon2,
-    selectedRestaurant: state.selectedRestaurant
+    selectedRestaurant: state.selectedRestaurant,
+    name: state.selectedRestaurant.name,
+    address: state.selectedRestaurant.address,
+    city: state.selectedRestaurant.city,
+    state: state.selectedRestaurant.state,
+    price: state.selectedRestaurant.price,
+    currency: state.selectedRestaurant.currency,
+    rating: state.selectedRestaurant.rating,
+    categories: state.selectedRestaurant.categories,
+    photo: state.selectedRestaurant.photo,
+    restaurantLat: state.selectedRestaurant.restaurantLat,
+    restaurantLong: state.selectedRestaurant.restaurantLong
   };
 };
 const mapDispatchToProps = dispatch => {

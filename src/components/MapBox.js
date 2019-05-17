@@ -8,6 +8,7 @@ import { setUserLocation, getMatchLocation } from "../store";
 import { setSelectedIdx } from "../store/highlight";
 import { getMatchPreference } from "../store/matchPreference";
 import { joinChatRoom, clearUnread } from "../store/chat";
+import { setVenueDetails } from "../store/venueDetail";
 import { createVenueList } from "../store/food";
 import { setIconImg } from "../store/icon";
 import Chat from "./Chat";
@@ -40,8 +41,7 @@ export class MapBox extends Component {
       matchPreferences: [],
       loadedVenues: false,
       loadedUser: false,
-      selectedRestaurant: {},
-      selectedRestaurantDetails: {}
+      selectedRestaurant: {}
     };
     this.getLoc = null;
   }
@@ -111,6 +111,7 @@ export class MapBox extends Component {
         }
       });
     }
+
     if (prevProps.selectedRestaurant !== this.props.selectedRestaurant) {
       let selected = this.state.allVenues.filter(
         venue => venue.id === this.props.selectedRestaurant
@@ -133,6 +134,7 @@ export class MapBox extends Component {
       });
     }
   }
+
   getVenuesDetails = async selected => {
     const venueId = selected[0].id;
     const params = {
@@ -147,20 +149,21 @@ export class MapBox extends Component {
     const res = await axios.get(venuesEndpoint);
     const { venue } = res.data.response;
     console.log("selected restaurant", venue);
-    this.setState({
-      selectedRestaurantDetails: {
-        name: t(venue, "name").safeObject,
-        address: t(venue, "location.address").safeObject,
-        city: t(venue, "location.city").safeObject,
-        state: t(venue, "location.state").safeObject,
-        price: t(venue, "price.tier").safeObject,
-        currency: t(venue, "price.currency").safeObject,
-        rating: t(venue, "rating").safeObject,
-        categories: t(venue, "categories[0].shortName").safeObject,
-        photo: t(venue, "bestPhoto").safeObject
-      }
+    this.props.setVenueDetails({
+      name: t(venue, "name").safeObject,
+      address: t(venue, "location.address").safeObject,
+      city: t(venue, "location.city").safeObject,
+      state: t(venue, "location.state").safeObject,
+      price: t(venue, "price.tier").safeObject,
+      currency: t(venue, "price.currency").safeObject,
+      rating: t(venue, "rating").safeObject,
+      categories: t(venue, "categories[0].shortName").safeObject,
+      photo: t(venue, "bestPhoto").safeObject,
+      restaurantLat: venue.location.lat,
+      restaurantLong: venue.location.lng
     });
   };
+
   getVenues = async (lat, long, radius) => {
     console.log("RADIUS", radius);
     const venuesEndpoint = "https://api.foursquare.com/v2/venues/search?";
@@ -201,8 +204,9 @@ export class MapBox extends Component {
   handlePopupClose = () => {
     this.props.history.push("/navigation");
   };
+
   createStars = () => {
-    const rating = Math.round(this.state.selectedRestaurantDetails.rating / 2);
+    const rating = Math.round(this.props.rating / 2);
     let stars = [
       <i className="fas fa-star empty" />,
       <i className="fas fa-star empty" />,
@@ -218,16 +222,15 @@ export class MapBox extends Component {
 
   createCurrency = () => {
     let signs = "";
-    const price = this.state.selectedRestaurantDetails.price;
-    const currency = this.state.selectedRestaurantDetails.currency;
+    const price = this.props.price;
+    const currency = this.props.currency;
     for (let i = 0; i < price; i++) {
       signs += currency;
     }
     return signs;
   };
+
   render() {
-    console.log("SELECTEDREST", this.state.selectedRestaurant);
-    console.log("SELECTEDRESTDETAILS", this.state.selectedRestaurantDetails);
     return (
       <React.Fragment>
         <Nav />
@@ -299,7 +302,7 @@ export class MapBox extends Component {
             isOpen={this.props.loadingLoc ? true : false}
             shouldCloseOnOverlayClick={true}
             closeTimeoutMS={5000}
-            contentLabel="Restaurant Selected Modal"
+            contentLabel="matchLocation loading Page"
             className="congrats__content"
             overlayClassName="congrats__overlay"
           >
@@ -312,7 +315,7 @@ export class MapBox extends Component {
           isOpen={this.props.selectedRestaurant ? true : false}
           shouldCloseOnOverlayClick={true}
           closeTimeoutMS={5000}
-          contentLabel="Restaurant Selected Modal"
+          contentLabel="Restaurant Selected Popup"
           className="congrats__content"
           overlayClassName="congrats__overlay"
           // style={{ overlay: {}, content: "hi is this working" }}
@@ -331,7 +334,7 @@ export class MapBox extends Component {
           <i className="fas fa-utensils congrats__icon" />
           <h1 className="congrats__title"> Congratulations! </h1>{" "}
           <p className="congrats__text">
-            You have both selected {this.state.selectedRestaurantDetails.name}{" "}
+            You have both selected {this.props.name}{" "}
           </p>{" "}
           <span className="congrats__text"> {this.createStars()} </span>{" "}
           {this.createCurrency() !== "" ? (
@@ -339,14 +342,10 @@ export class MapBox extends Component {
           ) : (
             ""
           )}{" "}
+          <span className="congrats__text"> {this.props.address} </span>{" "}
           <span className="congrats__text">
             {" "}
-            {this.state.selectedRestaurantDetails.address}{" "}
-          </span>{" "}
-          <span className="congrats__text">
-            {" "}
-            {this.state.selectedRestaurantDetails.city},{" "}
-            {this.state.selectedRestaurantDetails.state}{" "}
+            {this.props.city}, {this.props.state}{" "}
           </span>{" "}
           <button
             className="congrats__button"
@@ -376,6 +375,15 @@ const mapStateToProps = state => {
     icon2: state.icon.icon2,
     selectedRestaurant: state.selectedRestaurant,
     unreadMsg: state.unreadMsg,
+    name: state.selectedRestaurant.name,
+    address: state.selectedRestaurant.address,
+    city: state.selectedRestaurant.city,
+    state: state.selectedRestaurant.state,
+    price: state.selectedRestaurant.price,
+    currency: state.selectedRestaurant.currency,
+    rating: state.selectedRestaurant.rating,
+    categories: state.selectedRestaurant.categories,
+    photo: state.selectedRestaurant.photo,
     matchName: state.match.didMatch.matched
       ? state.match.didMatch.info.firstName
       : null
@@ -391,7 +399,8 @@ const mapDispatchToProps = dispatch => {
     joinChatRoom: () => dispatch(joinChatRoom()),
     setIconImg: () => dispatch(setIconImg()),
     createVenueList: () => dispatch(createVenueList()),
-    clearUnread: () => dispatch(clearUnread())
+    clearUnread: () => dispatch(clearUnread()),
+    setVenueDetails: () => dispatch(setVenueDetails())
   };
 };
 

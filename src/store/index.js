@@ -16,6 +16,7 @@ import icon from "./icon";
 import upload from "./upload";
 import { food } from "./food";
 import { selectedRestaurant } from "./food";
+import { venueDetails } from "./venueDetail";
 
 const appReducer = combineReducers({
   user,
@@ -31,7 +32,8 @@ const appReducer = combineReducers({
   icon,
   selectedRestaurant,
   upload,
-  unreadMsg
+  unreadMsg,
+  venueDetails
 });
 
 const rootReducer = (state, action) => {
@@ -56,3 +58,4 @@ export * from "./match";
 export * from "./chat";
 export * from "./location";
 export * from "./upload";
+export * from "./venueDetail";
