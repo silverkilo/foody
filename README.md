@@ -1,6 +1,8 @@
-## Foody: Food Meets Tinder
+## Foody: Yelp Meets Tinder
 
-Foody is an app where nearby people with similar food preferences could meet up with each other to grab a bite.
+Foody is a progressive web app that is a cross between tinder and yelp, where nearby people with similar food preferences could meet up with each other to grab a bite. We have all been in that situation where it’s the middle of the day and you are craving a speific type of food. You text all of your friends and of course everyone is busy. Wouldn’t it be great if you could just connect with someone nearby that also wants the same food as you do, and you can make a new friend? This is the problem that our application Foody solves.
+**Our mobile application Foody provides an easy way for users to select what food they are in the mood for and match them with users with similar food preferences.** We implemented tinder-style swiping using the react-spring animation library. Our matching algorithm matches two users have swiped right on each other. Once matched, both users will see a map of all possible food options. We focused a lot of our time making sure that users would have a seamless experience connecting with others. Here are the flow of our app:
+
 
 ### Logging In
 
@@ -21,68 +23,29 @@ Swiping for matches
 
 This part of the app utilizes Mapbox API and FourSquare API.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## How NoYouChoose Works
+* User A and User B see each other's geolocation.
+<img src="/assets/images/IMG_1494_2.png" width="35%" height="35%">
+* User A picks a 'food circle' - a circle on the map will appear with pins of all the restaurants in that region.
+<img src="/assets/images/IMG_1495_2.PNG" width="35%" height="35%">
+* User B scrolls through the food options in the 'food circle' that User A defined.
+<img src="/assets/images/IMG_1496_2.PNG" width="35%" height="35%">
+* User B picks a food spot in that 'food circle'. User A is notified of the food spot chosen by User B.
+<img src="/assets/images/IMG_1497_2.PNG" width="35%" height="35%">
 
-### `npm start`
+## Getting Started
+In order to run this app on your device, download [Expo Client](https://itunes.apple.com/us/app/expo-client/id982107779?mt=8).
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Install dependencies and start server
+```npm install```
+```expo start```
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## Tech Used
+* [React-Native](https://facebook.github.io/react-native/)
+* [Expo.io](https://expo.io/)
+* [Socket.io](https://socket.io/)
+* [Node.js](https://nodejs.org/en/)
+* [Express](https://expressjs.com/)
+* [Yelp Fusion API](https://www.yelp.com/fusion)
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
