@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, Route, Switch } from "react-router-dom";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import {
   Login,
@@ -18,6 +19,15 @@ import {
 } from "./components";
 
 class Routes extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      prevDepth: this.getPathDepth(this.props.location)
+    };
+  }
+  componentWillReceiveProps() {
+    this.setState({ prevDepth: this.getPathDepth(this.props.location) });
+  }
   componentDidMount() {
     // disable pull to refresh for chrome IOS. Enabled for two fingers
     function preventPullToRefresh(element) {
@@ -73,32 +83,58 @@ class Routes extends Component {
       document.querySelector("body").style.position = "";
     }
   }
-
+  getPathDepth(location) {
+    let pathArr = location.pathname.split("/");
+    pathArr = pathArr.filter(n => n !== "");
+    return pathArr.length;
+  }
   render() {
+    const currentKey = this.props.location.pathname.split("/")[1] || "/";
+    // const timeout = { enter: 1000, exit: 400 };
     return (
-      <Switch>
-        <Route
-          exact
-          path="/"
-          render={() => <Login initSocket={() => this.props.initSocket()} />}
-        />{" "}
-        <Route path="/signup" component={Signup} />{" "}
-        <Route
-          path="/signup-email"
-          render={() => (
-            <SignupEmail initSocket={() => this.props.initSocket()} />
-          )}
-        />{" "}
-        <Route path="/signup-name" component={SignupName} />{" "}
-        <Route path="/signup-password" component={SignupPassword} />{" "}
-        <Route path="/welcome" component={Welcome} />{" "}
-        <Route path="/profile" component={UserProfile} />{" "}
-        <Route path="/preference" component={Preference} />{" "}
-        <Route path="/matches" component={Matching} />{" "}
-        <Route path="/map" component={MapBox} />{" "}
-        <Route path="/navigation" component={NavigationTest} />{" "}
-        <Route path="/finalpage" component={FinalPage} />{" "}
-      </Switch>
+      <TransitionGroup component="div">
+        <CSSTransition
+          key={currentKey}
+          timeout={300}
+          classNames="pageSlider"
+          mountOnEnter={false}
+          unmountOnExit={true}
+        >
+          <div
+            className={
+              this.getPathDepth(this.props.location) - this.state.prevDepth >= 0
+                ? "left"
+                : "right"
+            }
+          >
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={() => (
+                  <Login initSocket={() => this.props.initSocket()} />
+                )}
+              />{" "}
+              <Route path="/signup" component={Signup} />{" "}
+              <Route
+                path="/signup-email"
+                render={() => (
+                  <SignupEmail initSocket={() => this.props.initSocket()} />
+                )}
+              />{" "}
+              <Route path="/signup-name" component={SignupName} />{" "}
+              <Route path="/signup-password" component={SignupPassword} />{" "}
+              <Route path="/welcome" component={Welcome} />{" "}
+              <Route path="/profile" component={UserProfile} />{" "}
+              <Route path="/preference" component={Preference} />{" "}
+              <Route path="/matches" component={Matching} />{" "}
+              <Route path="/map" component={MapBox} />{" "}
+              <Route path="/navigation" component={NavigationTest} />{" "}
+              <Route path="/finalpage" component={FinalPage} />{" "}
+            </Switch>
+          </div>
+        </CSSTransition>
+      </TransitionGroup>
     );
   }
 }

@@ -20,7 +20,7 @@ class Welcome extends Component {
   render() {
     const { firstName, lastName } = this.props.user;
     return (
-      <div className="welcome">
+      <div className="welcome page">
         <h1 className="welcome__title">Welcome to Foody,</h1>
         <h1 className="welcome__user">{`${firstName} ${lastName}`}</h1>
         <p className="welcome__text">

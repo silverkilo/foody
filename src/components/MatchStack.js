@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { swipe } from "../store";
 import { useSprings, animated, interpolate } from "react-spring";
+
 import { useGesture } from "react-use-gesture";
 import MatchCard from "./MatchCard";
 
@@ -15,7 +16,7 @@ function MatchStack({ users, swipe }) {
   });
   const from = i => ({
     x: i % 2 === 0 ? -1000 : 1000,
-    rot: 0,
+    rot: i % 2 === 0 ? -300 : 300,
     scale: 1.5,
     y: i * -5
   });
@@ -48,7 +49,7 @@ function MatchStack({ users, swipe }) {
           return;
         } // We're only interested in changing spring-data for the current spring
         const x = isGone ? (200 + window.innerWidth) * dir : down ? xDelta : 0; // When a card is gone it flys out left or right, otherwise goes back to zero
-        const rot = xDelta / 100 + (isGone ? dir * 10 * velocity : 0); // How much the card tilts, flicking it harder makes it rotate faster
+        const rot = xDelta / 100 + (isGone ? dir * 10 * velocity * 2 : 0); // How much the card tilts, flicking it harder makes it rotate faster
         const scale = down ? 1.1 : 1; // Active cards lift up a bit
         return {
           x,
@@ -68,7 +69,6 @@ function MatchStack({ users, swipe }) {
     }
   });
   return props.map(({ x, y, rot, scale }, i) => {
-    console.log(i === current, i, current);
     const { id, match } = users[i];
     return (
       <animated.div

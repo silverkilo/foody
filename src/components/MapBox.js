@@ -241,7 +241,7 @@ export class MapBox extends Component {
     return (
       <React.Fragment>
         <Nav />
-        <div className="map">
+        <div className="map page">
           <MapGL
             {...this.state.viewport}
             mapStyle="mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"

@@ -1,27 +1,34 @@
 import React from "react";
 import DeckGL from "deck.gl";
-import { StaticMap } from "react-map-gl";
-import { PathLayer, IconLayer } from "@deck.gl/layers";
+import {
+  StaticMap
+} from "react-map-gl";
+import {
+  PathLayer,
+  IconLayer
+} from "@deck.gl/layers";
 import axios from "axios";
-import { connect } from "react-redux";
+import {
+  connect
+} from "react-redux";
+import t from "typy";
+import Nav from "./Nav";
 
-let data = [
-  {
-    name: "fake-name",
-    color: [0, 0, 255],
-    path: [
-      // [-74.00578, 40.713067],
-      // [-74.004577, 40.712425],
-      // [-74.003626, 40.71365],
-      // [-74.002666, 40.714243],
-      // [-74.002136, 40.715177],
-      // [-73.998493, 40.713452],
-      // [-73.997981, 40.713673],
-      // [-73.997586, 40.713448],
-      // [-73.99256, 40.713863]
-    ]
-  }
-];
+let data = [{
+  name: "fake-name",
+  color: [101, 147, 245],
+  path: [
+    // [-74.00578, 40.713067],
+    // [-74.004577, 40.712425],
+    // [-74.003626, 40.71365],
+    // [-74.002666, 40.714243],
+    // [-74.002136, 40.715177],
+    // [-73.998493, 40.713452],
+    // [-73.997981, 40.713673],
+    // [-73.997586, 40.713448],
+    // [-73.99256, 40.713863]
+  ]
+}];
 
 export class NavigationTest extends React.Component {
   state = {
@@ -109,15 +116,15 @@ export class NavigationTest extends React.Component {
 
   createStars = () => {
     const rating = Math.round(this.props.rating / 2);
-    let stars = [
-      <i className="fas fa-star empty" />,
-      <i className="fas fa-star empty" />,
-      <i className="fas fa-star empty" />,
-      <i className="fas fa-star empty" />,
-      <i className="fas fa-star empty" />
+    let stars = [ <
+      i className = "fas fa-star empty" / > , <
+      i className = "fas fa-star empty" / > , <
+      i className = "fas fa-star empty" / > , <
+      i className = "fas fa-star empty" / > , <
+      i className = "fas fa-star empty" / >
     ];
     for (let i = 0; i < rating; i++) {
-      stars[i] = <i className="fas fa-star" />;
+      stars[i] = < i className = "fas fa-star" / > ;
     }
     return stars;
   };
@@ -147,12 +154,10 @@ export class NavigationTest extends React.Component {
       }),
       new IconLayer({
         id: "restaurant-layer",
-        data: [
-          {
-            position: [this.props.restaurantLong, this.props.restaurantLat],
-            url: process.env.PUBLIC_URL + "/images/selectedFoodPin.png"
-          }
-        ],
+        data: [{
+          position: [this.props.restaurantLong, this.props.restaurantLat],
+          url: process.env.PUBLIC_URL + "/images/selectedFoodPin.png"
+        }],
         getIcon: data => ({
           url: data.url,
           width: 500,
@@ -169,12 +174,10 @@ export class NavigationTest extends React.Component {
       }),
       new IconLayer({
         id: "currentLoc-layer",
-        data: [
-          {
-            position: [this.props.userLong, this.props.userLat],
-            url: process.env.PUBLIC_URL + "/images/currentLocation.png"
-          }
-        ],
+        data: [{
+          position: [this.props.userLong, this.props.userLat],
+          url: process.env.PUBLIC_URL + "/images/currentLocation.png"
+        }],
         getIcon: data => ({
           url: data.url,
           width: 500,
@@ -191,47 +194,182 @@ export class NavigationTest extends React.Component {
       })
     ];
 
-    return this.state.loadedData ? (
-      <React.Fragment>
-        <DeckGL
-          initialViewState={{
-            longitude: -74.006,
-            latitude: 40.7128,
-            zoom: 12
-          }}
-          height={600}
-          width={500}
-          controller={true}
-          layers={layer}
-        >
-          <StaticMap
-            mapStyle="mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
-            mapboxApiAccessToken="pk.eyJ1IjoicmhlYXJhbyIsImEiOiJjanY3NGloZm4wYzR5NGVxcGU4MXhwaTJtIn0.d_-A1vz2gnk_h1GbTchULA"
-          />
-        </DeckGL>{" "}
-        <React.Fragment>
-          <div className="detailsTemp">
-            <div> Restaurant Details </div>{" "}
-            <ul className="card__details">
-              <li className="card__name"> {this.props.name} </li>{" "}
-              <li className="card__rating"> {this.createStars()} </li>{" "}
-              <li className="card__price">
-                {" "}
-                {this.createCurrency()} {this.props.category}{" "}
-              </li>{" "}
-              <li className="card__address"> {this.props.address} </li>{" "}
-              <li className="card__address">
-                {" "}
-                {this.props.city}, {this.props.state}{" "}
-              </li>{" "}
-            </ul>{" "}
-            <button className="hereButton" onClick={() => this.clickedHere()}>
-              I 'm here!{" "}
-            </button>{" "}
-          </div>
-          ;{" "}
-        </React.Fragment>{" "}
-      </React.Fragment>
+    return this.state.loadedData ? ( <
+      React.Fragment >
+      <<
+      << << < HEAD <
+      DeckGL initialViewState = {
+        {
+          longitude: -74.006,
+          latitude: 40.7128,
+          zoom: 12
+        }
+      }
+      height = {
+        600
+      }
+      width = {
+        500
+      }
+      controller = {
+        true
+      }
+      layers = {
+        layer
+      } >
+      <
+      StaticMap mapStyle = "mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
+      mapboxApiAccessToken = "pk.eyJ1IjoicmhlYXJhbyIsImEiOiJjanY3NGloZm4wYzR5NGVxcGU4MXhwaTJtIn0.d_-A1vz2gnk_h1GbTchULA" /
+      >
+      <
+      /DeckGL>{" "} <
+      React.Fragment >
+      <
+      div className = "detailsTemp" >
+      <
+      div > Restaurant Details < /div>{" "} <
+      ul className = "card__details" >
+      <
+      li className = "card__name" > {
+        this.props.name
+      } < /li>{" "} <
+      li className = "card__rating" > {
+        this.createStars()
+      } < /li>{" "} <
+      li className = "card__price" > {
+        " "
+      } {
+        this.createCurrency()
+      } {
+        this.props.category
+      } {
+        " "
+      } <
+      /li>{" "} <
+      li className = "card__address" > {
+        this.props.address
+      } < /li>{" "} <
+      li className = "card__address" > {
+        " "
+      } {
+        this.props.city
+      }, {
+        this.props.state
+      } {
+        " "
+      } <
+      /li>{" "} <
+      /ul>{" "} <
+      button className = "hereButton"
+      onClick = {
+        () => this.clickedHere()
+      } >
+      I 'm here!{" "} <
+      /button>{" "} <
+      /div>; {
+        " "
+      } <
+      /React.Fragment>{" "} ===
+      === = <
+      Nav / >
+      <
+      div className = "page" >
+      <
+      DeckGL initialViewState = {
+        {
+          longitude: -74.006,
+          latitude: 40.7128,
+          zoom: 12
+        }
+      }
+      height = "100%"
+      width = "100%"
+      controller = {
+        true
+      }
+      layers = {
+        layer
+      } >
+      <
+      StaticMap mapStyle = "mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
+      mapboxApiAccessToken = "pk.eyJ1IjoicmhlYXJhbyIsImEiOiJjanY3NGloZm4wYzR5NGVxcGU4MXhwaTJtIn0.d_-A1vz2gnk_h1GbTchULA" /
+      >
+      <
+      /DeckGL>{" "} <
+      React.Fragment >
+      <
+      div className = "overlay" >
+      <
+      div className = "content" >
+      <
+      div className = "card" > {
+        " "
+      } {
+        this.state.photo !== undefined ? ( <
+          img className = "card__img"
+          src = {
+            this.state.photo.prefix +
+            "200x200" +
+            this.state.photo.suffix
+          }
+          alt = "" /
+          >
+        ) : ( <
+          img className = "card__img"
+          src = "./images/stock.jpg"
+          alt = "" /
+          >
+        )
+      } {
+        " "
+      } <
+      ul className = "card__details" >
+      <
+      li className = "card__name" > {
+        this.state.name
+      } < /li>{" "} <
+      li className = "card__rating" > {
+        this.createStars()
+      } < /li>{" "} <
+      li className = "card__price" > {
+        " "
+      } {
+        this.createCurrency()
+      } {
+        this.state.category
+      } {
+        " "
+      } <
+      /li>{" "} <
+      li className = "card__address" > {
+        this.state.address
+      } < /li>{" "} <
+      li className = "card__address" > {
+        " "
+      } {
+        this.state.city
+      }, {
+        this.state.state
+      } {
+        " "
+      } <
+      /li>{" "} <
+      /ul>{" "} <
+      button className = "card__button"
+      onClick = {
+        () => {
+          this.clickedHere();
+        }
+      } >
+      I 'm Here! <
+      /button> <
+      /div> <
+      /div> <
+      /div> <
+      /React.Fragment>{" "} <
+      /div> >>>
+      >>> > master <
+      /React.Fragment>
     ) : null;
   }
 }

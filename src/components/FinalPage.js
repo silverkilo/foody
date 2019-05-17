@@ -15,7 +15,7 @@ class FinalPage extends Component {
     return (
       <React.Fragment>
         <Nav />
-        <div className="final">
+        <div className="final page">
           <img className="final__img" src={this.props.match.photoURLs} alt="" />
           <div className="final__social">
             <i className="fab fa-instagram" />
