@@ -25,7 +25,7 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case SET_VENUE_DETAILS:
-      return action.obj;
+      return { ...action.obj };
     default:
       return state;
   }
