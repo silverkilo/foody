@@ -35,7 +35,7 @@ class SignupPassword extends Component {
   render() {
     console.log(this.props);
     return (
-      <div className="email">
+      <div className="email page">
         <h1 className="email__title">Create a Password</h1>
         <form
           className="email__form"

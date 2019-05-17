@@ -35,7 +35,7 @@ class SignupEmail extends Component {
   render() {
     const { error } = this.props;
     return (
-      <div className="email">
+      <div className="email page">
         <h1 className="email__title">Enter Your Email</h1>
         {error && error.response && <div> {error.response.data} </div>}
         <form
