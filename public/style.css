@@ -132,6 +132,7 @@
 .welcome__button {
     background: rgb(58, 124, 230);
     padding: 10px;
+    border: 3px solid rgb(85, 138, 223);
     border-radius: 5px;
     color: white;
     outline: none;
@@ -402,6 +403,7 @@
 .card__button {
     flex-basis: 100%;
     background: rgb(58, 124, 230);
+    border: 3px solid rgb(85, 138, 223);
     border-radius: 5px;
     outline: none;
     border: none;
@@ -433,6 +435,7 @@
     border: none;
     outline: none;
     background: rgb(58, 124, 230);
+    border: 3px solid rgb(85, 138, 223);
     font-size: 2em;
     color: white;
     text-align: center;
@@ -791,6 +794,7 @@
     border-radius: 5px;
     padding: 10px;
     background: rgb(58, 124, 230);
+    border: 3px solid rgb(85, 138, 223);
     color: white;
     font-weight: 700;
     font-size: 1.2rem;
