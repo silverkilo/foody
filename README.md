@@ -27,8 +27,13 @@ Login, OAuth, Signup functionality
 
 &nbsp;
 ### Matching
-We wanted a location based, suggestive, matching algorithm.
+When the user gets to the matching page, Foody would suggest all the users that are nearby with similar food preferences. The swiping cards come in a stack of five, and we implemented our own location based, suggestive, matching algorithm that ranks the list of matchers based on:
+  1. The match's geographic proximity to the user.
+  2. The similarity of the match's food preferences compared to the user's.
+  
+The user could decide to swipe left (reject) or swipe right (accept) the matches shown. Once both parties swiped on each other, they are taken to the Restaurant Selection page when they would see a list of nearby restaurants that meet their common food interets.
 
+##### Challenges
 For each hungry spirit, we wanted to find others with similar preferences and prioritize them based on location. We originally used geographic coordinates in the database to calculate the distance between the requesting user and all of the other users with matching preferences. The problem with this was that we envisioned Foody to have both a high volume of concurrent users and have a smooth user experience. As you can imagine, repeatedly calculating the relative distance of thousands of users is not very performant, leading to quite a laggy UX and probably a database brought to its knees. 
 
 We made the decision to implement location calculations using the PostGIS database extension, which allows for storage and indexing of spatial data, in this case, geographic coordinates. Because we want users find a buddy as quickly as possible, for a particular user we also prioritize those who have already chosen to match with them. Now our algorithm is very performant, it quickly finds the nearest users who share the same preferences.
@@ -38,9 +43,9 @@ We made the decision to implement location calculations using the PostGIS databa
 
 &nbsp;
 ### Restaurant Selection
-On this page, you could swipe through the different restaurant options near you that meet you and your match's food preferences. Or you can click on the pin of the venue that is located closer, and the correponding restaurant would show up at the center of the screen. 
+On this page, the user could swipe through the different restaurant options near the user that meet the user and the user's match's food preferences. Or the user can click on the pin of the venue that is geographically closer, and the correponding restaurant would show up at the center of the screen. 
 
-You can utilize the chatroom functionality to discuss resaurant choices with your match. The chatroom bubble will vibrate if you get any new messages. The restaurant you pick will turn green, you have the option to remove that particular restaurant from your chosen restaurant list. Once you and your match pick the same restaurant, you will be taken to the navigation page.
+The user can utilize the chatroom functionality to discuss restaurant choices with the user's match. The chatroom bubble will vibrate if the user get any new messages. The restaurants the user ends up picking would turn green, the user have the option to remove that particular restaurant from his or her chosen restaurant list. Once the user and the user's match pick the same restaurant, the user will be taken to the navigation page.
 
 ##### Challenges
 We utilize five different technologies and libraries for the map component, which we use for both the Restaurant Selection and the Navigation page:
@@ -50,7 +55,7 @@ We utilize five different technologies and libraries for the map component, whic
   4. React-modal for the chat room and popup boxes.
   5. Socket.io for message communication and storage.
  
-As you can see these are a lot of moving pieces on the same page. So to get the app load up in the sequenze we intend it to, we turned a lot of actions into Promises, and we moved the location fetcher and match identifier into an earlier stage of the map. Now, when you are at the preference page, your device should have a popup window asking for the location your current location.
+Since there are a lot of moving pieces on the same page, to get the app load up in the sequenze we intended it to, we turned a lot of actions into Promises, and we moved the location fetcher and match identifier into an earlier stage of the app. Now, when the user is at the preference page, the user's device should have a popup window asking for the location of his or her current location.
 
 ![Image of map](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/map.png)
 ![Image of mapChat](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/mapChat.png)
