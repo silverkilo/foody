@@ -34,7 +34,15 @@ We made the decision to implement location calculations using the PostGIS databa
 
 &nbsp;
 ### Restaurant Selection
-This part of the app utilizes Mapbox API and FourSquare API.
+
+We utilize five different technologies and libraries for the map component, which we use for both the Restaurant Selection and the Navigation page:
+  1. Mapbox API for the map, Foursquare API for the venue details.
+  2. React-mapbox-gl and Deck-gl libraries for the rendering layers on top of the map.
+  3. React-swipe library for the venue display carousel.
+  4. React-modal for the chat room and popup boxes.
+  5. Socket.io for message communication and storage.
+ 
+As you can see these are a lot of moving pieces on the same page. So to get the app load up in the sequenze we intend it to, we turned a lot of actions into Promises, and we moved the location fetcher and match identifier into an earlier stage of the map. Now, when you are at the preference page, your device should have a popup window asking for the location your current location.
 
 ![Image of map](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/map.png)
 ![Image of mapChat](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/mapChat.png)
