@@ -105,5 +105,21 @@ In order to run this app on your device, ....
 * [Foursquare API](https://developer.foursquare.com/)
 * [PostGIS](https://postgis.net/)
 
+&nbsp;
+## Our Team
+### Jason Levine
+https://github.com/jasonclevine
+
+### Sasha kayola
+https://github.com/sashakayola
+
+### Rhea Rao
+https://github.com/rhearao
+
+### Omar Jameer 
+https://github.com/omarjuice
+
+
+
 
 
