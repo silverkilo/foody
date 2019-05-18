@@ -13,6 +13,7 @@ Here are the flow of our app:
 ![Watch the video](https://imgur.com/sG3zemD.png)
 
 &nbsp;
+## Our App Step by Step
 
 ### Logging In
 Login, OAuth, Signup functionality
