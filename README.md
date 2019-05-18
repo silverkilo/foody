@@ -8,7 +8,9 @@ This is the problem that our application Foody solves.
 We implemented tinder-style swiping using the react-spring animation library. Our matching algorithm matches two users have swiped right on each other. Once matched, both users will see a map of all possible food options. We focused a lot of our time making sure that users would have a seamless experience connecting with others. 
 
 Here are the flow of our app:
-[![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://youtu.be/vt5fpE0bzSY)
+[![Watch the video](https://imgur.com/UUeHubn)]
+[![Watch the video](https://imgur.com/VnQC50X)]
+[![Watch the video](https://imgur.com/sG3zemD)]
 
 &nbsp;
 
