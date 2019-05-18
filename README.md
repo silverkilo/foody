@@ -12,6 +12,8 @@ Here are the flow of our app:
 &nbsp;
 
 ### Logging In
+Login, OAuth, Signup functionality
+&nbsp;
 ![Image of login](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/login.png)
 
 &nbsp;
