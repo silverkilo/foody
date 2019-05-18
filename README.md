@@ -34,7 +34,11 @@ We made the decision to implement location calculations using the PostGIS databa
 
 &nbsp;
 ### Restaurant Selection
+On this page, you could swipe through the different restaurant options near you that meet you and your match's food preferences. Or you can click on the pin of the venue that is located closer, and the correponding restaurant would show up at the center of the screen. 
 
+You can utilize the chatroom functionality to discuss resaurant choices with your match. The chatroom bubble will vibrate if you get any new messages. The restaurant you pick will turn green, you have the option to remove that particular restaurant from your chosen restaurant list. Once you and your match pick the same restaurant, you will be taken to the navigation page.
+
+##### Challenges
 We utilize five different technologies and libraries for the map component, which we use for both the Restaurant Selection and the Navigation page:
   1. Mapbox API for the map, Foursquare API for the venue details.
   2. React-mapbox-gl and Deck-gl libraries for the rendering layers on top of the map.
