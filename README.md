@@ -67,14 +67,14 @@ Since there are a lot of moving pieces on the same page, to get the app load up 
 &nbsp;
 ### Navigation
 
-The navigation page will navigate you to your chosen restaurant, make sure to click the 'I'm here' button to let your match know that you have arrived!
+The navigation page will navigate the user to his/her chosen restaurant, clicking on the ```HERE``` button would notify the other party that he/she has arrived.
 
 ![Image of navigation](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/navigation.png)
 
 &nbsp;
 ### Review
 
-Once you are done with your meal, you can connect with your match on different social media, and leave a review of him/her!
+Once the user is done with his/her meal, the user can connect with the user's match on different social media, and leave a review for the other party.
 
 ![Image of review](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/review.png)
 
@@ -85,7 +85,7 @@ In order to run this app on your device, ....
 &nbsp;
 ### Install dependencies and start server
 ```npm install```
-```expo start```
+```npm run dev```
 
 &nbsp;
 ## Technology Used
