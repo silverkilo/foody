@@ -55,12 +55,14 @@ export const matchListeners = () => async dispatch => {
 };
 export const getPotentialMatches = () => async dispatch => {
   return await new Promise(resolve => {
-    socket.on("potentialMatches", async data => {
-      await timeout;
-      dispatch(potentialMatches(data));
-      dispatch(loading(false));
-      resolve();
-    });
+    if (!socket.hasListeners("potentialMatches")) {
+      socket.on("potentialMatches", async data => {
+        await timeout;
+        dispatch(potentialMatches(data));
+        dispatch(loading(false));
+        resolve();
+      });
+    }
     dispatch(loading(true));
     socket.emit("getPotentialMatches");
   });

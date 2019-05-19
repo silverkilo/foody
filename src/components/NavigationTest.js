@@ -4,7 +4,6 @@ import { StaticMap } from "react-map-gl";
 import { PathLayer, IconLayer } from "@deck.gl/layers";
 import axios from "axios";
 import { connect } from "react-redux";
-import t from "typy";
 import Nav from "./Nav";
 
 let data = [

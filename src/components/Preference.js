@@ -4,8 +4,7 @@ import {
   getAllCategories,
   sendUserPreference,
   logout,
-  addPreference,
-  swipe
+  addPreference
 } from "../store";
 import UserPreference from "./User-Preference";
 import Nav from "./Nav";
@@ -56,7 +55,6 @@ class Preference extends Component {
   handleClick() {
     const preferences = this.formatPreferences(this.props.preferences);
     this.props.sendUserPreference(this.props.user.id, preferences, () => {
-      this.props.swipe();
       this.props.history.push("/matches");
     });
   }
@@ -121,8 +119,8 @@ const mapDispatchToProps = dispatch => {
     sendUserPreference: (id, pref, callback) =>
       dispatch(sendUserPreference(id, pref, callback)),
     logout: () => dispatch(logout()),
-    addPreference: preference => dispatch(addPreference(preference)),
-    swipe: () => dispatch(swipe())
+    addPreference: preference => dispatch(addPreference(preference))
+    // swipe: () => dispatch(swipe())
   };
 };
 
