@@ -52,6 +52,13 @@ app.use("/api", require("./api"));
 app.use(express.static(path.join(__dirname, "..", "build")));
 
 if (process.env.NODE_ENV === "production") {
+  app.use((req, res, next) => {
+    if (req.secure) {
+      next();
+    } else {
+      res.redirect("https://" + req.headers.host + req.url);
+    }
+  });
   app.get("*", (req, res, next) => {
     res.sendFile(path.join(__dirname, "..", "build/index.html"));
   });
