@@ -48,8 +48,7 @@
     "test-w": "export NODE_ENV=test && jest --watch",
     "eject": "react-scripts eject",
     "seed": "node server/seed.js",
-    "pretty": "onchange '**/*.js' -- prettier --write {{changed}}",
-    "postinstall": "npm run build"
+    "pretty": "onchange '**/*.js' -- prettier --write {{changed}}"
   },
   "eslintConfig": {
     "extends": "react-app"
