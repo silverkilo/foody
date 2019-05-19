@@ -17,7 +17,6 @@ const sessionMiddleware = session({
   resave: false,
   saveUninitialized: false
 });
-require("./socket")(server, sessionMiddleware);
 
 passport.serializeUser((user, done) => done(null, user.id));
 
@@ -59,6 +58,7 @@ if (process.env.NODE_ENV === "production") {
       res.redirect("https://" + req.headers.host + req.url);
     }
   });
+  require("./socket")(server, sessionMiddleware);
   app.get("*", (req, res, next) => {
     res.sendFile(path.join(__dirname, "..", "build/index.html"));
   });
