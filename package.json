@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "faker": "^4.1.0",
     "@deck.gl/core": "^7.0.5",
     "@deck.gl/layers": "^7.0.5",
     "@deck.gl/react": "^7.0.5",
@@ -69,7 +70,6 @@
   "devDependencies": {
     "concurrently": "^4.1.0",
     "eslint-plugin-prettier": "^3.0.1",
-    "faker": "^4.1.0",
     "jest": "^24.7.1",
     "morgan": "^1.9.1",
     "onchange": "^5.2.0",
