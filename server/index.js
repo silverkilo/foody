@@ -1,6 +1,5 @@
 require("dotenv").config();
-const http =
-  process.env.NODE_ENV === "production" ? require("https") : require("http");
+const http = require("http");
 const path = require("path");
 const express = require("express");
 const session = require("express-session");
