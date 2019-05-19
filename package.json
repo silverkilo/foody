@@ -42,13 +42,14 @@
   "scripts": {
     "dev": "export NODE_ENV=development && concurrently \"npm run start-client\" \"nodemon --watch server server\"",
     "start-client": "react-scripts start",
-    "start": "node server",
+    "start": "export NODE_ENV=production && node server",
     "build": "react-scripts build",
     "test": "export NODE_ENV=test && jest",
     "test-w": "export NODE_ENV=test && jest --watch",
     "eject": "react-scripts eject",
     "seed": "node server/seed.js",
-    "pretty": "onchange '**/*.js' -- prettier --write {{changed}}"
+    "pretty": "onchange '**/*.js' -- prettier --write {{changed}}",
+    "postinstall": "npm run build"
   },
   "eslintConfig": {
     "extends": "react-app"
