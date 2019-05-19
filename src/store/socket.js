@@ -6,7 +6,8 @@ export const socket = io(
   {
     autoConnect: false,
     secure: process.env.NODE_ENV === "production",
-    host: window.location.host
+    host: window.location.host,
+    rejectUnauthorized: false
   }
 );
 const CONNECTED = "CONNECTED";
