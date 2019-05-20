@@ -5,6 +5,8 @@ import { PathLayer, IconLayer } from "@deck.gl/layers";
 import axios from "axios";
 import { connect } from "react-redux";
 import Nav from "./Nav";
+import { notifyArrival } from "../store/food";
+import ReactModal from "react-modal";
 
 let data = [
   {
@@ -134,6 +136,7 @@ export class NavigationTest extends React.Component {
   };
 
   clickedHere = () => {
+    this.props.notifyArrival();
     this.props.history.push("/finalpage");
   };
 
@@ -260,6 +263,15 @@ export class NavigationTest extends React.Component {
             </div>{" "}
           </React.Fragment>{" "}
         </div>{" "}
+        <ReactModal
+          isOpen={this.props.arrivalStatus}
+          closeTimeoutMS={1000}
+          contentLabel="notification that the other person arrived"
+          // className="congrats__content"
+          // overlayClassName="congrats__overlay"
+        >
+          <div>{this.props.matchName} has arrived!</div>
+        </ReactModal>
       </React.Fragment>
     ) : null;
   }
@@ -282,11 +294,17 @@ const mapStateToProps = state => {
     categories: state.venueDetails.categories,
     photo: state.venueDetails.photo,
     restaurantLat: state.venueDetails.restaurantLat,
-    restaurantLong: state.venueDetails.restaurantLong
+    restaurantLong: state.venueDetails.restaurantLong,
+    arrivalStatus: state.arrivalStatus,
+    matchName: state.match.didMatch.matched
+      ? state.match.didMatch.info.firstName
+      : null
   };
 };
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    notifyArrival: () => dispatch(notifyArrival())
+  };
 };
 
 export default connect(
