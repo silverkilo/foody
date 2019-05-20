@@ -12,38 +12,16 @@ let data = [
   {
     name: "fake-name",
     color: [101, 147, 245],
-    path: [
-      // [-74.00578, 40.713067],
-      // [-74.004577, 40.712425],
-      // [-74.003626, 40.71365],
-      // [-74.002666, 40.714243],
-      // [-74.002136, 40.715177],
-      // [-73.998493, 40.713452],
-      // [-73.997981, 40.713673],
-      // [-73.997586, 40.713448],
-      // [-73.99256, 40.713863]
-    ]
+    path: []
   }
 ];
 
 export class NavigationTest extends React.Component {
   state = {
     loadedData: false
-    // restaurantLong: -73.977712,
-    // restaurantLat: 40.731873,
-    // name: "",
-    // address: "",
-    // city: "",
-    // state: "",
-    // price: "",
-    // currency: "",
-    // rating: "",
-    // categories: "",
-    // photo: ""
   };
 
   async componentDidMount() {
-    // await this.getRestaurantCoords();
     await this.getCoordinates();
   }
 
@@ -103,7 +81,6 @@ export class NavigationTest extends React.Component {
       this.props.restaurantLat
     }?geometries=geojson&access_token=pk.eyJ1IjoicmhlYXJhbyIsImEiOiJjanY3NGloZm4wYzR5NGVxcGU4MXhwaTJtIn0.d_-A1vz2gnk_h1GbTchULA`;
     const res = await axios.get(endpoint);
-    console.log("GEOJSON", res);
     data[0].path = res.data.routes[0].geometry.coordinates;
     this.setState({
       loadedData: true

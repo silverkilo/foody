@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { updateUserThunk, logout } from "../store/user";
 import Nav from "./Nav";
@@ -73,7 +72,6 @@ class UserProfile extends Component {
               Upload a recent photo of yourself. This helps everyone find a
               great match.
             </p>
-            {/* <i className="fas fa-user-circle profile__img" /> */}
             <img
               src={this.state.image || this.state.photoURL}
               alt={this.state.firstName}

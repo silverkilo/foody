@@ -44,9 +44,6 @@ export class SwipeLayer extends Component {
               ele.setAttribute("data-index", this.props.selectedIdx);
             }
           }}
-          // ref={element => {
-          //   // reactSwipeEl = element;
-          // }}
           childCount={this.props.allVenues.length}
           style={customStyles}
         >
@@ -70,7 +67,6 @@ export const mapStateToProps = state => {
 
 export const mapDispatchToProps = dispatch => {
   return {
-    // pickFoodPlace: restaurantId => dispatch(setFood(restaurantId)),
     setSelectedIdx: idx => dispatch(setSelectedIdx(idx))
   };
 };

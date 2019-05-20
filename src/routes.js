@@ -92,7 +92,6 @@ class Routes extends Component {
   }
   render() {
     const currentKey = this.props.location.pathname.split("/")[1] || "/";
-    // const timeout = { enter: 1000, exit: 400 };
     return (
       <TransitionGroup component="div">
         <CSSTransition

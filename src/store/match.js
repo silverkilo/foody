@@ -78,7 +78,6 @@ export default (state = initialState, action) => {
     case SWIPE:
       return {
         ...state
-        // potentials: state.potentials.filter(user => user.id !== action.matchee)
       };
     default:
       return state;

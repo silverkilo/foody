@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import MapGL, { Marker } from "react-map-gl";
-// import { Link } from "react-router-dom";
 import ReactModal from "react-modal";
 import SwipeLayer from "./SwipeLayer";
 import { connect } from "react-redux";
@@ -34,8 +33,6 @@ export class MapBox extends Component {
       },
       lat: 40.754,
       long: -73.984,
-      // venuesUser: [],
-      // venuesMatch: [],
       allVenues: [],
       // THE BELOW MATCH PREFERENCES JUST HAS SOME PLACEHOLDER PREFERENCES FOR TESTING
       matchPreferences: [],
@@ -69,15 +66,12 @@ export class MapBox extends Component {
 
     const [long, lat] = await this.getLoc;
     await this.props.getMatchLocation();
-    console.log("GOTLOCATION");
     let distance =
       Math.sqrt(
         (lat - this.props.matchLat) ** 2 + (long - this.props.matchLong) ** 2
       ) * 111000;
     let midpointLat = (lat + this.props.matchLat) / 2;
     let midpointLong = (long + this.props.matchLong) / 2;
-    // console.log("DISTANCE", distance);
-    // console.log("LOC", midpointLat, midpointLong);
     this.props.joinChatRoom();
     this.props.setIconImg();
     this.props.createVenueList();
@@ -117,8 +111,6 @@ export class MapBox extends Component {
       let selected = this.state.allVenues.filter(
         venue => venue.id === this.props.selectedRestaurant
       );
-      console.log("venues", this.state.allVenues);
-      console.log("selected", selected);
       this.getVenuesDetails(selected);
       this.setState({
         selectedRestaurant: {
@@ -135,7 +127,6 @@ export class MapBox extends Component {
       });
     }
     if (this.state.selectedRestaurantDetails.name) {
-      console.log("set restaurant", this.state.selectedRestaurantDetails);
       this.props.setVenueDetails(this.state.selectedRestaurantDetails);
     }
   }
@@ -337,18 +328,6 @@ export class MapBox extends Component {
           contentLabel="Restaurant Selected Popup"
           className="congrats__content"
           overlayClassName="congrats__overlay"
-          // style={{ overlay: {}, content: "hi is this working" }}
-          // portalClassName="ReactModalPortal"
-          // overlayClassName="ReactModal__Overlay"
-          // className="ReactModal__Content"
-          // bodyOpenClassName="ReactModal__Body--open"
-          // htmlOpenClassName="ReactModal__Html--open"
-          // ariaHideApp={true}
-          // role="dialog"
-          // parentSelector={() => document.body}
-          // data={{
-          //   background: "blue"
-          // }}
         >
           <i className="fas fa-utensils congrats__icon" />
           <h1 className="congrats__title"> Congratulations! </h1>{" "}

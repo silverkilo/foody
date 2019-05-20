@@ -24,7 +24,6 @@ export class Chat extends Component {
 
   sendMsg = event => {
     event.preventDefault();
-    console.log(this.state.message);
     this.props.sendMessage(this.state.message, this.props.userId);
     this.setState({
       message: ""
@@ -36,11 +35,11 @@ export class Chat extends Component {
       <div className="chatBox">
         <div className="chatBox__inside">
           <div className="chatBox__header">
-            <h1> Chat </h1>{" "}
+            <h1> Chat </h1>
             <button onClick={() => this.handleClose()}>
               <i class="fas fa-times" />
-            </button>{" "}
-          </div>{" "}
+            </button>
+          </div>
           <div className="chatBox__body">
             <ul>
               {this.state.loaded &&
@@ -50,9 +49,9 @@ export class Chat extends Component {
                     ? (className = "receiver")
                     : (className = "sender");
                   return <li className={className}> {array[0]} </li>;
-                })}{" "}
-            </ul>{" "}
-          </div>{" "}
+                })}
+            </ul>
+          </div>
           <div className="chatBox__message">
             <form className="chatBox__form">
               <input
@@ -65,17 +64,17 @@ export class Chat extends Component {
                     message: ev.target.value
                   })
                 }
-              />{" "}
+              />
               <button
                 onClick={this.sendMsg}
                 className="chatBox__button"
                 type="submit"
               >
-                Send{" "}
-              </button>{" "}
-            </form>{" "}
-          </div>{" "}
-        </div>{" "}
+                Send
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
     );
   }
