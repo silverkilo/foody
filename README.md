@@ -94,14 +94,6 @@ Once the user is done with his/her meal, the user can connect with the user's ma
 
 ![Image of review](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/review.png)
 
-&nbsp;
-## Getting Started
-In order to run this app on your device, ....
-
-&nbsp;
-### Install dependencies and start server
-```npm install```
-```npm run dev```
 
 &nbsp;
 ## Technology Used
