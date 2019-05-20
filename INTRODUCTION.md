@@ -60,11 +60,9 @@ On this page, the user could swipe through the different restaurant options near
 The user can utilize the chatroom functionality to discuss restaurant choices with the user's match. The chatroom bubble will vibrate if the user get any new messages. The restaurants the user ends up picking would turn green, the user have the option to remove that particular restaurant from his or her chosen restaurant list. Once the user and the user's match pick the same restaurant, the user will be taken to the navigation page.
 
 **Challenges**
-- Getting the Mapbox API and Foursquare API to work and the information to show! 
-We heavily relied on the React-mapbox-gl and Deck-gl library to render the map, and the layers on top of the map. Since doumentation is limited, we had to go through a lot of trial and error to get the page to render the way we want them to. Our teammate Sasha actually wrote a simple guide for using React-mapbox-gl and Deck-gl on Medium, check it out: https://medium.com/@sashakayola/map-layering-using-mapbox-gl-js-deck-gl-react-ba0ece89aaef
+- Getting the Mapbox API and Foursquare API to work and the information to show! We heavily relied on the React-mapbox-gl and Deck-gl library to render the map, and the layers on top of the map. Since doumentation on integrating React with Mapbox-gl and Deck-gl is limited, we had to go through a lot of trial and error to get the page to render the way we want them to. Our teammate Sasha actually wrote a simple guide on Medium for future developers who intend to user React with Mapbox-gl and Deck-gl, check it out: https://medium.com/@sashakayola/map-layering-using-mapbox-gl-js-deck-gl-react-ba0ece89aaef
 
-- Managing Loading Sequence
-We utilize five different technologies and libraries for the map component, which we use for both the Restaurant Selection and the Navigation page:
+- Managing Loading Sequence. We utilize five different technologies and libraries for the map component, which we use for both the Restaurant Selection and the Navigation page:
   1. Mapbox API for the map, Foursquare API for the venue details.
   2. React-mapbox-gl and Deck-gl libraries for the rendering layers on top of the map.
   3. React-swipe library for the venue display carousel.
