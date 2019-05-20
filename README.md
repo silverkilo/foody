@@ -24,10 +24,10 @@ Login, OAuth, Navbar functionality
 
 Sign-up Pages
 
-![Image of createAccount](https://res.cloudinary.com/dpdg4ooge/image/upload/w_250,h_500/v1558382132/createAccount.png)
-![Image of emailSignup](https://res.cloudinary.com/dpdg4ooge/image/upload/w_250,h_500/v1558382132/emailSignup.png)
-![Image of addName](https://res.cloudinary.com/dpdg4ooge/image/upload/w_250,h_500/v1558382132/addName.png)
-![Image of welcomePage](https://res.cloudinary.com/dpdg4ooge/image/upload/w_250,h_500/v1558382132/welcomePage.png)
+![Image of createAccount](https://res.cloudinary.com/dpdg4ooge/image/upload/w_200,h_450/v1558382132/createAccount.png)
+![Image of emailSignup](https://res.cloudinary.com/dpdg4ooge/image/upload/w_200,h_450/v1558382132/emailSignup.png)
+![Image of addName](https://res.cloudinary.com/dpdg4ooge/image/upload/w_200,h_450/v1558382132/addName.png)
+![Image of welcomePage](https://res.cloudinary.com/dpdg4ooge/image/upload/w_200,h_450/v1558382132/welcomePage.png)
 
 
 &nbsp;
