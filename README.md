@@ -76,10 +76,10 @@ We utilize five different technologies and libraries for the map component, whic
   into an earlier stage of the app. Now, when the user is at the preference page, the user's device should propmt a popup window asking 
   for the location of his or her current location. This ensures a smoother user experience.
 
-![Image of map](https://res.cloudinary.com/omarjuice/image/upload/w_200,h_450/v1558130311/foody_pics/map.png)
-![Image of mapChat](https://res.cloudinary.com/omarjuice/image/upload/w_200,h_450/v1558130311/foody_pics/mapChat.png)
-![Image of checkYes](https://res.cloudinary.com/omarjuice/image/upload/w_200,h_450/v1558130311/foody_pics/checkYes.png)
-![Image of resSelected](https://res.cloudinary.com/omarjuice/image/upload/w_200,h_450/v1558130311/foody_pics/resSelected.png)
+  ![Image of map](https://res.cloudinary.com/omarjuice/image/upload/w_200,h_450/v1558130311/foody_pics/map.png)
+  ![Image of mapChat](https://res.cloudinary.com/omarjuice/image/upload/w_200,h_450/v1558130311/foody_pics/mapChat.png)
+  ![Image of checkYes](https://res.cloudinary.com/omarjuice/image/upload/w_200,h_450/v1558130311/foody_pics/checkYes.png)
+  ![Image of resSelected](https://res.cloudinary.com/omarjuice/image/upload/w_200,h_450/v1558130311/foody_pics/resSelected.png)
 
 &nbsp;
 ### Navigation
