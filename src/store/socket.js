@@ -42,7 +42,6 @@ export const createConnection = () => async dispatch => {
     socket.on("connect", () => {
       dispatch(connect(socket.connected));
       resolve(socket.connected);
-      console.log("SOCKET ", socket.connected);
     });
     socket.on("disconnect", () => {
       dispatch(connect(socket.connected));

@@ -11,7 +11,6 @@ class FinalPage extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <React.Fragment>
         <Nav />
@@ -55,17 +54,6 @@ class FinalPage extends Component {
           </form>
         </div>
       </React.Fragment>
-      // <div className="finalContainer">
-      //   <button
-      //     onClick={() => {
-      //       this.props.disconnectChat();
-      //       this.props.history.push("/preference");
-      //     }}
-      //     className="finalButton"
-      //   >
-      //     I'm done. <br /> Take me back!
-      //   </button>
-      // </div>
     );
   }
 }

@@ -17,7 +17,6 @@ export const me = initSocket => async dispatch => {
     const res = await axios.get("/auth/me");
     dispatch(getUser(res.data || initialState));
     if (res.data) {
-      // await initSocket();
       return res.data;
     }
     return false;
