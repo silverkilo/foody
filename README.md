@@ -45,6 +45,7 @@ When the user gets to the matching page, Foody would suggest all the users that 
 The user could decide to swipe left (reject) or swipe right (accept) on the matches shown. Once both parties swiped on each other, they are taken to the Restaurant Selection page when they would see a list of nearby restaurants that meet their common food interets.
 
 **Challenges**
+
 For each hungry spirit, we wanted to find others with similar preferences and prioritize them based on location. We originally used geographic coordinates in the database to calculate the distance between the requesting user and all of the other users with matching preferences. The problem with this was that we envisioned Foody to have both a high volume of concurrent users and have a smooth user experience. As you can imagine, repeatedly calculating the relative distance of thousands of users is not very performant, leading to quite a laggy UX and probably a database brought to its knees. 
 
 We made the decision to implement location calculations using the PostGIS database extension, which allows for storage and indexing of spatial data, in this case, geographic coordinates. Because we want users find a buddy as quickly as possible, for a particular user we also prioritize those who have already chosen to match with them. Now our algorithm is very performant, it quickly finds the nearest users who share the same preferences.
@@ -70,7 +71,10 @@ We utilize five different technologies and libraries for the map component, whic
   4. React-modal for the chat room and popup boxes.
   5. Socket.io for message communication and storage.
  
-Since there are a lot of moving pieces on the same page, another technical issue we had to tackle is to get the app load up in the sequenze we intended it to. We edned up turning a lot of actions into Promises, and moving the location fetcher and match identifier into an earlier stage of the app. Now, when the user is at the preference page, the user's device should propmt a popup window asking for the location of his or her current location. This ensures a smoother user experience.
+  Since there are a lot of moving pieces on the same page, another technical issue we had to tackle is to get the app load up in the
+  sequenze we intended it to. We edned up turning a lot of actions into Promises, and moving the location fetcher and match identifier 
+  into an earlier stage of the app. Now, when the user is at the preference page, the user's device should propmt a popup window asking 
+  for the location of his or her current location. This ensures a smoother user experience.
 
 ![Image of map](https://res.cloudinary.com/omarjuice/image/upload/w_200,h_450/v1558130311/foody_pics/map.png)
 ![Image of mapChat](https://res.cloudinary.com/omarjuice/image/upload/w_200,h_450/v1558130311/foody_pics/mapChat.png)
