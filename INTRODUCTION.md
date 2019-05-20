@@ -20,9 +20,17 @@ Here is a demo of the flow of our app:
 
 ### Logging In
 
-Login, OAuth, Signup functionality
+Login, OAuth, Navbar functionality
 
 ![Image of login](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/login.png)
+![Image of Navbar](https://res.cloudinary.com/dpdg4ooge/image/upload/w_250,h_500/v1558382132/navBar.png)
+
+Sign-up Pages
+
+![Image of createAccount](https://res.cloudinary.com/dpdg4ooge/image/upload/w_200,h_450/v1558382132/createAccount.png)
+![Image of emailSignup](https://res.cloudinary.com/dpdg4ooge/image/upload/w_200,h_450/v1558382132/emailSignup.png)
+![Image of addName](https://res.cloudinary.com/dpdg4ooge/image/upload/w_200,h_450/v1558382132/addName.png)
+![Image of welcomePage](https://res.cloudinary.com/dpdg4ooge/image/upload/w_200,h_450/v1558382132/welcomePage.png)
 
 &nbsp;
 
@@ -38,10 +46,11 @@ When the user gets to the matching page, Foody would suggest all the users that 
 
 1. The match's geographic proximity to the user.
 2. The similarity of the match's food preferences compared to the user's.
+3. Whether the match has swiped on the user.
 
-The user could decide to swipe left (reject) or swipe right (accept) the matches shown. Once both parties swiped on each other, they are taken to the Restaurant Selection page when they would see a list of nearby restaurants that meet their common food interets.
+The user could decide to swipe left (reject) or swipe right (accept) on the matches shown. Once both parties swiped on each other, they are taken to the Restaurant Selection page when they would see a list of nearby restaurants that meet their common food interets.
 
-##### Challenges
+**Challenges**
 
 For each hungry spirit, we wanted to find others with similar preferences and prioritize them based on location. We originally used geographic coordinates in the database to calculate the distance between the requesting user and all of the other users with matching preferences. The problem with this was that we envisioned Foody to have both a high volume of concurrent users and have a smooth user experience. As you can imagine, repeatedly calculating the relative distance of thousands of users is not very performant, leading to quite a laggy UX and probably a database brought to its knees.
 
@@ -58,23 +67,27 @@ On this page, the user could swipe through the different restaurant options near
 
 The user can utilize the chatroom functionality to discuss restaurant choices with the user's match. The chatroom bubble will vibrate if the user get any new messages. The restaurants the user ends up picking would turn green, the user have the option to remove that particular restaurant from his or her chosen restaurant list. Once the user and the user's match pick the same restaurant, the user will be taken to the navigation page.
 
-##### Challenges
+**Challenges**
 
-We utilize five different technologies and libraries for the map component, which we use for both the Restaurant Selection and the Navigation page:
+- Getting the Mapbox API and Foursquare API to work and the information to show! We heavily relied on the React-mapbox-gl and Deck-gl library to render the map, and the layers on top of the map. Since doumentation on integrating React with Mapbox-gl and Deck-gl is limited, we had to go through a lot of trial and error to get the page to render the way we want them to. Our teammate Sasha actually wrote a simple guide on Medium for future developers who intend to user React with Mapbox-gl and Deck-gl, check it out: https://medium.com/@sashakayola/map-layering-using-mapbox-gl-js-deck-gl-react-ba0ece89aaef
 
-1. Mapbox API for the map, Foursquare API for the venue details.
-2. React-mapbox-gl and Deck-gl libraries for the rendering layers on top of the map.
-3. React-swipe library for the venue display carousel.
-4. React-modal for the chat room and popup boxes.
-5. Socket.io for message communication and storage.
+- Managing Loading Sequence. We utilize five different technologies and libraries for the map component, which we use for both the Restaurant Selection and the Navigation page:
 
-Since there are a lot of moving pieces on the same page, to get the app load up in the sequenze we intended it to, we turned a lot of actions into Promises, and we moved the location fetcher and match identifier into an earlier stage of the app. Now, when the user is at the preference page, the user's device should have a popup window asking for the location of his or her current location.
+  1. Mapbox API for the map, Foursquare API for the venue details.
+  2. React-mapbox-gl and Deck-gl libraries for the rendering layers on top of the map.
+  3. React-swipe library for the venue display carousel.
+  4. React-modal for the chat room and popup boxes.
+  5. Socket.io for message communication and storage.
 
-![Image of map](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/map.png)
-![Image of mapChat](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/mapChat.png)
+  Since there are a lot of moving pieces on the same page, another technical issue we had to tackle is to get the app load up in the
+  sequenze we intended it to. We edned up turning a lot of actions into Promises, and moving the location fetcher and match identifier
+  into an earlier stage of the app. Now, when the user is at the preference page, the user's device should propmt a popup window asking
+  for the location of his or her current location. This ensures a smoother user experience.
 
-![Image of checkYes](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/checkYes.png)
-![Image of resSelected](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/resSelected.png)
+  ![Image of map](https://res.cloudinary.com/omarjuice/image/upload/w_200,h_450/v1558130311/foody_pics/map.png)
+  ![Image of mapChat](https://res.cloudinary.com/omarjuice/image/upload/w_200,h_450/v1558130311/foody_pics/mapChat.png)
+  ![Image of checkYes](https://res.cloudinary.com/omarjuice/image/upload/w_200,h_450/v1558130311/foody_pics/checkYes.png)
+  ![Image of resSelected](https://res.cloudinary.com/omarjuice/image/upload/w_200,h_450/v1558130311/foody_pics/resSelected.png)
 
 &nbsp;
 
@@ -126,6 +139,7 @@ In order to run this app on your device, ....
 - [React-spring](https://www.react-spring.io/)
 - [React-transition-group](https://reactcommunity.org/react-transition-group/)
 - [React-use-gesture](https://www.npmjs.com/package/react-with-gesture)
+- [Typy](https://www.npmjs.com/package/typy)
 
 ### Other Technologies
 
@@ -135,6 +149,9 @@ In order to run this app on your device, ....
 - [MapBox API](https://docs.mapbox.com/api/)
 - [Foursquare API](https://developer.foursquare.com/)
 - [PostGIS](https://postgis.net/)
+- [OAuth](https://oauth.net/2/)
+- [Cloudinary](https://cloudinary.com/)
+- [PostgreSQL](https://www.postgresql.org/)
 
 &nbsp;
 
