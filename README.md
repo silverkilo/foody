@@ -44,7 +44,7 @@ When the user gets to the matching page, Foody would suggest all the users that 
   
 The user could decide to swipe left (reject) or swipe right (accept) on the matches shown. Once both parties swiped on each other, they are taken to the Restaurant Selection page when they would see a list of nearby restaurants that meet their common food interets.
 
-##### Challenges
+**Challenges**
 For each hungry spirit, we wanted to find others with similar preferences and prioritize them based on location. We originally used geographic coordinates in the database to calculate the distance between the requesting user and all of the other users with matching preferences. The problem with this was that we envisioned Foody to have both a high volume of concurrent users and have a smooth user experience. As you can imagine, repeatedly calculating the relative distance of thousands of users is not very performant, leading to quite a laggy UX and probably a database brought to its knees. 
 
 We made the decision to implement location calculations using the PostGIS database extension, which allows for storage and indexing of spatial data, in this case, geographic coordinates. Because we want users find a buddy as quickly as possible, for a particular user we also prioritize those who have already chosen to match with them. Now our algorithm is very performant, it quickly finds the nearest users who share the same preferences.
