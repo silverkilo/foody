@@ -80,7 +80,8 @@ The navigation page will navigate the user to his/her chosen restaurant, clickin
 
 Mapbox GL JS is a Javascript library that uses WebGL to render maps and deck.gl is Uber’s data visualization library that is built on top of Mapbox GL. Using these in conjunction allowed us to add a layer on our map of restaurants.
 
-One challenge with using Mapbox GL is that it relies on HTML canvases for a lot of its functionality and React was not built to play nice with HTML canvases. Conveniently, Uber has another library called React-Map-Gl which serves as a React wrapper around Mapbox GL JS. Even more conveniently, React-Map-Gl integrates well with deck.gl.
+##### Challenges
+The main challenge with using Mapbox GL is that it relies on HTML canvases for a lot of its functionality and React was not built to play nice with HTML canvases. Conveniently, Uber has another library called React-Map-Gl which serves as a React wrapper around Mapbox GL JS. Even more conveniently, React-Map-Gl integrates well with deck.gl.
 
 To create the actual navigation path from point A to B, we used a data layer overlay called PathLayer. We supplied an array of coordinates (to indicate how to get from point A to B) to deck.gl which was responsible for actually rendering this layer on top of our map.
 
