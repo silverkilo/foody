@@ -14,10 +14,7 @@ export const setIconImg = num => dispatch => {
   }
 };
 
-const initialState = {
-  // icon1: num,
-  // icon2: num
-};
+const initialState = {};
 
 export default function(state = initialState, action) {
   switch (action.type) {

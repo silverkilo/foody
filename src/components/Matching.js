@@ -19,7 +19,6 @@ class Matching extends Component {
   }
   componentDidUpdate() {
     if (this.props.didMatch.matched) {
-      console.log("MATCHED");
       setTimeout(() => {
         this.props.history.push("/map");
       }, 3000);
@@ -51,18 +50,6 @@ class Matching extends Component {
             contentLabel="Restaurant Selected Modal"
             className="congrats__content"
             overlayClassName="congrats__overlay"
-            // style={{ overlay: {}, content: "hi is this working" }}
-            // portalClassName="ReactModalPortal"
-            // overlayClassName="ReactModal__Overlay"
-            // className="ReactModal__Content"
-            // bodyOpenClassName="ReactModal__Body--open"
-            // htmlOpenClassName="ReactModal__Html--open"
-            // ariaHideApp={true}
-            // role="dialog"
-            // parentSelector={() => document.body}
-            // data={{
-            //   background: "blue"
-            // }}
           >
             <i className="fas fa-user-friends congrats__icon" />
             <h1 className="congrats__title"> Congratulations! </h1>{" "}
