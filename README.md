@@ -68,12 +68,10 @@ We utilize five different technologies and libraries for the map component, whic
  
 Since there are a lot of moving pieces on the same page, to get the app load up in the sequenze we intended it to, we turned a lot of actions into Promises, and we moved the location fetcher and match identifier into an earlier stage of the app. Now, when the user is at the preference page, the user's device should have a popup window asking for the location of his or her current location.
 
-![Image of map](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/map.png)
-![Image of mapChat](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/mapChat.png)
-
-
-![Image of checkYes](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/checkYes.png)
-![Image of resSelected](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/resSelected.png)
+![Image of map](https://res.cloudinary.com/omarjuice/image/upload/w_200,h_450/v1558130311/foody_pics/map.png)
+![Image of mapChat](https://res.cloudinary.com/omarjuice/image/upload/w_200,h_450/v1558130311/foody_pics/mapChat.png)
+![Image of checkYes](https://res.cloudinary.com/omarjuice/image/upload/w_200,h_450/v1558130311/foody_pics/checkYes.png)
+![Image of resSelected](https://res.cloudinary.com/omarjuice/image/upload/w_200,h_450/v1558130311/foody_pics/resSelected.png)
 
 &nbsp;
 ### Navigation
