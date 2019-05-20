@@ -120,7 +120,7 @@ In order to run this app on your device, ....
 ### Jason Levine
 https://github.com/jasonclevine
 
-### Sasha kayola
+### Sasha Kayola
 https://github.com/sashakayola
 
 ### Rhea Rao
