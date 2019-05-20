@@ -20,14 +20,14 @@ Here is a demo of the flow of our app:
 Login, OAuth, Navbar functionality
 
 ![Image of login](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/login.png)
-![Image of Navbar](https://res.cloudinary.com/dpdg4ooge/image/upload/v1558382132/navBar.png)
+![Image of Navbar](https://res.cloudinary.com/dpdg4ooge/image/upload/w_250,h_500/v1558382132/navBar.png)
 
 Sign-up Pages
 
-![Image of createAccount](https://res.cloudinary.com/dpdg4ooge/image/upload/v1558382132/createAccount.png)
-![Image of emailSignup](https://res.cloudinary.com/dpdg4ooge/image/upload/v1558382132/emailSignup.png)
-![Image of addName](https://res.cloudinary.com/dpdg4ooge/image/upload/v1558382132/addName.png)
-![Image of welcomePage](https://res.cloudinary.com/dpdg4ooge/image/upload/v1558382132/welcomePage.png)
+![Image of createAccount](https://res.cloudinary.com/dpdg4ooge/image/upload/w_250,h_500/v1558382132/createAccount.png)
+![Image of emailSignup](https://res.cloudinary.com/dpdg4ooge/image/upload/w_250,h_500/v1558382132/emailSignup.png)
+![Image of addName](https://res.cloudinary.com/dpdg4ooge/image/upload/w_250,h_500/v1558382132/addName.png)
+![Image of welcomePage](https://res.cloudinary.com/dpdg4ooge/image/upload/w_250,h_500/v1558382132/welcomePage.png)
 
 
 &nbsp;
