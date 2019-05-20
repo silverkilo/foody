@@ -58,7 +58,11 @@ On this page, the user could swipe through the different restaurant options near
 
 The user can utilize the chatroom functionality to discuss restaurant choices with the user's match. The chatroom bubble will vibrate if the user get any new messages. The restaurants the user ends up picking would turn green, the user have the option to remove that particular restaurant from his or her chosen restaurant list. Once the user and the user's match pick the same restaurant, the user will be taken to the navigation page.
 
-##### Challenges
+**Challenges**
+- Getting mapbox to show! 
+We heavily relied on the React-mapbox-gl and Deck-gl library to render the map, and the layers on top of the map. Since doumentation is limited, we had to go through a lot of trial and error to get the page to render the way we want them to. Our teammate Sasha actually wrote a simple guide for using React-mapbox-gl and Deck-gl on Medium, check it out: https://medium.com/@sashakayola/map-layering-using-mapbox-gl-js-deck-gl-react-ba0ece89aaef
+
+- Managing Loading Sequence
 We utilize five different technologies and libraries for the map component, which we use for both the Restaurant Selection and the Navigation page:
   1. Mapbox API for the map, Foursquare API for the venue details.
   2. React-mapbox-gl and Deck-gl libraries for the rendering layers on top of the map.
@@ -66,7 +70,7 @@ We utilize five different technologies and libraries for the map component, whic
   4. React-modal for the chat room and popup boxes.
   5. Socket.io for message communication and storage.
  
-Since there are a lot of moving pieces on the same page, to get the app load up in the sequenze we intended it to, we turned a lot of actions into Promises, and we moved the location fetcher and match identifier into an earlier stage of the app. Now, when the user is at the preference page, the user's device should have a popup window asking for the location of his or her current location.
+Since there are a lot of moving pieces on the same page, another technical issue we had to tackle is to get the app load up in the sequenze we intended it to. We edned up turning a lot of actions into Promises, and moving the location fetcher and match identifier into an earlier stage of the app. Now, when the user is at the preference page, the user's device should propmt a popup window asking for the location of his or her current location. This ensures a smoother user experience.
 
 ![Image of map](https://res.cloudinary.com/omarjuice/image/upload/w_200,h_450/v1558130311/foody_pics/map.png)
 ![Image of mapChat](https://res.cloudinary.com/omarjuice/image/upload/w_200,h_450/v1558130311/foody_pics/mapChat.png)
@@ -76,14 +80,7 @@ Since there are a lot of moving pieces on the same page, to get the app load up 
 &nbsp;
 ### Navigation
 
-The navigation page will navigate the user to his/her chosen restaurant, clicking on the ```HERE``` button will notify the other party that he/she has arrived. We implemented the navigation using Mapbox GL JS and deck.gl.
-
-Mapbox GL JS is a Javascript library that uses WebGL to render maps and deck.gl is Uber’s data visualization library that is built on top of Mapbox GL. Using these in conjunction allowed us to add a layer on our map of restaurants.
-
-##### Challenges
-The main challenge with using Mapbox GL is that it relies on HTML canvases for a lot of its functionality and React was not built to play nice with HTML canvases. Conveniently, Uber has another library called React-Map-Gl which serves as a React wrapper around Mapbox GL JS. Even more conveniently, React-Map-Gl integrates well with deck.gl.
-
-To create the actual navigation path from point A to B, we used a data layer overlay called PathLayer. We supplied an array of coordinates (to indicate how to get from point A to B) to deck.gl which was responsible for actually rendering this layer on top of our map.
+The navigation page will navigate the user to his/her chosen restaurant, clicking on the ```HERE``` button would notify the other party that he/she has arrived.
 
 ![Image of navigation](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/navigation.png)
 
@@ -94,6 +91,14 @@ Once the user is done with his/her meal, the user can connect with the user's ma
 
 ![Image of review](https://res.cloudinary.com/omarjuice/image/upload/w_250,h_500/v1558130311/foody_pics/review.png)
 
+&nbsp;
+## Getting Started
+In order to run this app on your device, ....
+
+&nbsp;
+### Install dependencies and start server
+```npm install```
+```npm run dev```
 
 &nbsp;
 ## Technology Used
