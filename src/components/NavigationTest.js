@@ -4,13 +4,12 @@ import { StaticMap } from "react-map-gl";
 import { PathLayer, IconLayer } from "@deck.gl/layers";
 import axios from "axios";
 import { connect } from "react-redux";
-import t from "typy";
 import Nav from "./Nav";
 
 let data = [
   {
     name: "fake-name",
-    color: [0, 0, 255],
+    color: [101, 147, 245],
     path: [
       // [-74.00578, 40.713067],
       // [-74.004577, 40.712425],
@@ -25,78 +24,24 @@ let data = [
   }
 ];
 
-const layer = [
-  new PathLayer({
-    id: "path-layer",
-    data,
-    getWidth: data => 2,
-    getColor: data => data.color,
-    widthMinPixels: 2
-  }),
-  new IconLayer({
-    id: "restaurant-layer",
-    data: [
-      {
-        position: [-73.977712, 40.731873],
-        url: process.env.PUBLIC_URL + "/images/selectedFoodPin.png"
-      }
-    ],
-    getIcon: data => ({
-      url: data.url,
-      width: 500,
-      height: 500,
-      anchorY: 500
-    }),
-    getSize: data =>
-      Math.max(2, Math.min((data.contributions / 1000) * 25, 25)),
-    pickable: true,
-    sizeScale: 40,
-    radiusMinPixels: 50,
-    radiusMaxPixels: 800,
-    visible: true
-  }),
-  new IconLayer({
-    id: "currentLoc-layer",
-    data: [
-      {
-        position: [-74.00578, 40.713067],
-        url: process.env.PUBLIC_URL + "/images/currentLocation.png"
-      }
-    ],
-    getIcon: data => ({
-      url: data.url,
-      width: 500,
-      height: 500,
-      anchorY: 250
-    }),
-    getSize: data =>
-      Math.max(2, Math.min((data.contributions / 1000) * 25, 25)),
-    pickable: true,
-    sizeScale: 40,
-    radiusMinPixels: 50,
-    radiusMaxPixels: 800,
-    visible: true
-  })
-];
-
 export class NavigationTest extends React.Component {
   state = {
-    loadedData: false,
-    restaurantLong: "",
-    restaurantLat: "",
-    name: "",
-    address: "",
-    city: "",
-    state: "",
-    price: "",
-    currency: "",
-    rating: "",
-    categories: "",
-    photo: ""
+    loadedData: false
+    // restaurantLong: -73.977712,
+    // restaurantLat: 40.731873,
+    // name: "",
+    // address: "",
+    // city: "",
+    // state: "",
+    // price: "",
+    // currency: "",
+    // rating: "",
+    // categories: "",
+    // photo: ""
   };
 
   async componentDidMount() {
-    await this.getRestaurantCoords();
+    // await this.getRestaurantCoords();
     await this.getCoordinates();
   }
 
@@ -115,45 +60,45 @@ export class NavigationTest extends React.Component {
   //   }
   // }
 
-  getRestaurantCoords = async () => {
-    const venueId = this.props.selectedRestaurant;
-    // const venueId = "412d2800f964a520df0c1fe3";
-    const params = {
-      client_id: "NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ",
-      client_secret: "YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM",
-      v: "20130619"
-    };
-    const venuesEndpoint = `https://api.foursquare.com/v2/venues/${venueId}?&client_id=${
-      params.client_id
-    }&client_secret=${params.client_secret}&v=${params.v}`;
+  // getRestaurantCoords = async () => {
+  //   const venueId = this.props.selectedRestaurant;
+  //   // const venueId = "412d2800f964a520df0c1fe3";
+  //   const params = {
+  //     client_id: "NX3GZUE1WIRAGVIIW3IEPTA0XJBBHQXMV3FW4NN44X3JMYYJ",
+  //     client_secret: "YJQZYGOBGSRRMLW0FZNNCFFXANTEB0HUVEXPTSBIA2BNOOGM",
+  //     v: "20130619"
+  //   };
+  //   const venuesEndpoint = `https://api.foursquare.com/v2/venues/${venueId}?&client_id=${
+  //     params.client_id
+  //   }&client_secret=${params.client_secret}&v=${params.v}`;
 
-    const res = await axios.get(venuesEndpoint);
-    console.log(res);
-    const { venue } = res.data.response;
-    this.setState({
-      name: t(venue, "name").safeObject,
-      address: t(venue, "location.address").safeObject,
-      city: t(venue, "location.city").safeObject,
-      state: t(venue, "location.state").safeObject,
-      price: t(venue, "price.tier").safeObject,
-      currency: t(venue, "price.currency").safeObject,
-      rating: t(venue, "rating").safeObject,
-      categories: t(venue, "categories[0].shortName").safeObject,
-      photo: t(venue, "bestPhoto").safeObject,
-      restaurantLat: venue.location.lat,
-      restaurantLong: venue.location.lng
-    });
-    // this.setState({
-    //   loadedData: true
-    // });
-    console.log("this.state.restaurantLat", this.state.restaurantLat);
-  };
+  //   const res = await axios.get(venuesEndpoint);
+  //   console.log(res);
+  //   const { venue } = res.data.response;
+  //   this.setState({
+  //     name: t(venue, "name").safeObject,
+  //     address: t(venue, "location.address").safeObject,
+  //     city: t(venue, "location.city").safeObject,
+  //     state: t(venue, "location.state").safeObject,
+  //     price: t(venue, "price.tier").safeObject,
+  //     currency: t(venue, "price.currency").safeObject,
+  //     rating: t(venue, "rating").safeObject,
+  //     categories: t(venue, "categories[0].shortName").safeObject,
+  //     photo: t(venue, "bestPhoto").safeObject,
+  //     restaurantLat: venue.location.lat,
+  //     restaurantLong: venue.location.lng
+  //   });
+  //   // this.setState({
+  //   //   loadedData: true
+  //   // });
+  //   console.log("this.state.restaurantLat", this.state.restaurantLat);
+  // };
 
   getCoordinates = async () => {
     const endpoint = `https://api.mapbox.com/directions/v5/mapbox/cycling/${
       this.props.userLong
-    },${this.props.userLat};${this.state.restaurantLong},${
-      this.state.restaurantLat
+    },${this.props.userLat};${this.props.restaurantLong},${
+      this.props.restaurantLat
     }?geometries=geojson&access_token=pk.eyJ1IjoicmhlYXJhbyIsImEiOiJjanY3NGloZm4wYzR5NGVxcGU4MXhwaTJtIn0.d_-A1vz2gnk_h1GbTchULA`;
     const res = await axios.get(endpoint);
     console.log("GEOJSON", res);
@@ -164,7 +109,7 @@ export class NavigationTest extends React.Component {
   };
 
   createStars = () => {
-    const rating = Math.round(this.state.rating / 2);
+    const rating = Math.round(this.props.rating / 2);
     let stars = [
       <i className="fas fa-star empty" />,
       <i className="fas fa-star empty" />,
@@ -180,8 +125,8 @@ export class NavigationTest extends React.Component {
 
   createCurrency = () => {
     let signs = "";
-    const price = this.state.price;
-    const currency = this.state.currency;
+    const price = this.props.price;
+    const currency = this.props.currency;
     for (let i = 0; i < price; i++) {
       signs += currency;
     }
@@ -193,6 +138,60 @@ export class NavigationTest extends React.Component {
   };
 
   render() {
+    const layer = [
+      new PathLayer({
+        id: "path-layer",
+        data,
+        getWidth: data => 7,
+        getColor: data => data.color,
+        widthMinPixels: 7
+      }),
+      new IconLayer({
+        id: "restaurant-layer",
+        data: [
+          {
+            position: [this.props.restaurantLong, this.props.restaurantLat],
+            url: process.env.PUBLIC_URL + "/images/selectedFoodPin.png"
+          }
+        ],
+        getIcon: data => ({
+          url: data.url,
+          width: 500,
+          height: 500,
+          anchorY: 500
+        }),
+        getSize: data =>
+          Math.max(2, Math.min((data.contributions / 1000) * 25, 25)),
+        pickable: true,
+        sizeScale: 40,
+        radiusMinPixels: 50,
+        radiusMaxPixels: 800,
+        visible: true
+      }),
+      new IconLayer({
+        id: "currentLoc-layer",
+        data: [
+          {
+            position: [this.props.userLong, this.props.userLat],
+            url: process.env.PUBLIC_URL + "/images/currentLocation.png"
+          }
+        ],
+        getIcon: data => ({
+          url: data.url,
+          width: 500,
+          height: 500,
+          anchorY: 250
+        }),
+        getSize: data =>
+          Math.max(2, Math.min((data.contributions / 1000) * 25, 25)),
+        pickable: true,
+        sizeScale: 40,
+        radiusMinPixels: 50,
+        radiusMaxPixels: 800,
+        visible: true
+      })
+    ];
+
     return this.state.loadedData ? (
       <React.Fragment>
         <Nav />
@@ -218,13 +217,13 @@ export class NavigationTest extends React.Component {
               <div className="content">
                 <div className="card">
                   {" "}
-                  {this.state.photo !== undefined ? (
+                  {this.props.photo !== undefined ? (
                     <img
                       className="card__img"
                       src={
-                        this.state.photo.prefix +
+                        this.props.photo.prefix +
                         "200x200" +
-                        this.state.photo.suffix
+                        this.props.photo.suffix
                       }
                       alt=""
                     />
@@ -236,16 +235,16 @@ export class NavigationTest extends React.Component {
                     />
                   )}{" "}
                   <ul className="card__details">
-                    <li className="card__name"> {this.state.name} </li>{" "}
+                    <li className="card__name"> {this.props.name} </li>{" "}
                     <li className="card__rating"> {this.createStars()} </li>{" "}
                     <li className="card__price">
                       {" "}
-                      {this.createCurrency()} {this.state.category}{" "}
+                      {this.createCurrency()} {this.props.categories}{" "}
                     </li>{" "}
-                    <li className="card__address"> {this.state.address} </li>{" "}
+                    <li className="card__address"> {this.props.address} </li>{" "}
                     <li className="card__address">
                       {" "}
-                      {this.state.city}, {this.state.state}{" "}
+                      {this.props.city}, {this.props.state}{" "}
                     </li>{" "}
                   </ul>{" "}
                   <button
@@ -254,13 +253,13 @@ export class NavigationTest extends React.Component {
                       this.clickedHere();
                     }}
                   >
-                    I'm Here!
-                  </button>
-                </div>
-              </div>
-            </div>
+                    Here!{" "}
+                  </button>{" "}
+                </div>{" "}
+              </div>{" "}
+            </div>{" "}
           </React.Fragment>{" "}
-        </div>
+        </div>{" "}
       </React.Fragment>
     ) : null;
   }
@@ -272,7 +271,18 @@ const mapStateToProps = state => {
     userLat: state.location.user[1],
     icon1: state.icon.icon1,
     icon2: state.icon.icon2,
-    selectedRestaurant: state.selectedRestaurant
+    selectedRestaurant: state.selectedRestaurant,
+    name: state.venueDetails.name,
+    address: state.venueDetails.address,
+    city: state.venueDetails.city,
+    state: state.venueDetails.state,
+    price: state.venueDetails.price,
+    currency: state.venueDetails.currency,
+    rating: state.venueDetails.rating,
+    categories: state.venueDetails.categories,
+    photo: state.venueDetails.photo,
+    restaurantLat: state.venueDetails.restaurantLat,
+    restaurantLong: state.venueDetails.restaurantLong
   };
 };
 const mapDispatchToProps = dispatch => {

@@ -443,7 +443,18 @@
     top: 100px;
     right: 10%;
 }
-
+.unread {
+    animation: shadow-pulse 1s infinite;
+}
+@keyframes shadow-pulse
+{
+     0% {
+          box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
+     }
+     100% {
+          box-shadow: 0 0 0 15px rgba(0, 0, 0, 0);
+     }
+}
 .chatBox {
     display: flex;
     justify-content: center;

@@ -10,11 +10,13 @@ import socket from "./socket";
 import location from "./location";
 import matchPreference from "./matchPreference";
 import selectedIdx from "./highlight";
-import chatHistory from "./chat";
+import { chatHistory } from "./chat";
+import { unreadMsg } from "./chat";
 import icon from "./icon";
 import upload from "./upload";
 import { food } from "./food";
 import { selectedRestaurant } from "./food";
+import venueDetails from "./venueDetail";
 
 const appReducer = combineReducers({
   user,
@@ -29,7 +31,9 @@ const appReducer = combineReducers({
   chatHistory,
   icon,
   selectedRestaurant,
-  upload
+  upload,
+  unreadMsg,
+  venueDetails
 });
 
 const rootReducer = (state, action) => {
@@ -54,3 +58,4 @@ export * from "./match";
 export * from "./chat";
 export * from "./location";
 export * from "./upload";
+export * from "./venueDetail";

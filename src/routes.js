@@ -75,7 +75,9 @@ class Routes extends Component {
     }
   }
   componentDidUpdate() {
-    if (this.props.location.pathname === "/matches") {
+    if (
+      ["/matches", "/map", "/navigation"].includes(this.props.location.pathname)
+    ) {
       document.querySelector("html").style.position = "fixed";
       document.querySelector("body").style.position = "fixed";
     } else {

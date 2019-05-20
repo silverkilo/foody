@@ -30,7 +30,6 @@ class Matching extends Component {
     //   const match = this.props.didMatch.info;
     //   return <NewMatch {...match} />;
     // }
-    // if (!this.props.potentials.length) return <NoMatches />;
     const users = this.props.potentials;
 
     return (
@@ -38,7 +37,11 @@ class Matching extends Component {
         <Nav />
         <div className="match-container page">
           {" "}
-          {this.props.loading ? null : <MatchStack users={users} />}{" "}
+          {this.props.loading ? null : !users.length ? (
+            <NoMatches />
+          ) : (
+            <MatchStack users={users} />
+          )}{" "}
         </div>{" "}
         {this.props.didMatch.matched ? (
           <ReactModal
