@@ -8,20 +8,6 @@ export default function MatchCard({
   distance,
   preferences
 }) {
-  // console.log(
-  //   "id",
-  //   id,
-  //   "firstName",
-  //   firstName,
-  //   "lastName",
-  //   lastName,
-  //   "photoURLs",
-  //   photoURLs,
-  //   "distance",
-  //   distance,
-  //   "preferences",
-  //   preferences
-  // );
   return (
     <div className="match__card">
       <img className="match__img" draggable={false} src={photoURLs[0]} alt="" />
