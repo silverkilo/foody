@@ -51,7 +51,7 @@ module.exports = function(socket, userId) {
                       FROM "users" AS "user"
                           INNER JOIN (
                               "user_preferences"
-                              INNER JOIN "preferences" AS "preferences" ON "preferences"."id" = "user_preferences"."preferenceId"
+                              INNER JOIN "preferences" ON "preferences"."id" = "user_preferences"."preferenceId"
                               )
                           ON "user"."id" = "user_preferences"."userId" AND "preferences"."id" IN (
                               SELECT "preferenceId" FROM user_preferences WHERE "userId" = ? )
@@ -61,7 +61,6 @@ module.exports = function(socket, userId) {
                       ORDER BY match DESC, "user"."location" <-> (
                           SELECT location FROM users WHERE id = ? )
                       LIMIT 5;
-                  ;
                   `,
         { replacements }
       );
