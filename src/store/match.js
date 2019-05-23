@@ -56,9 +56,11 @@ export const matchListeners = () => async dispatch => {
 export const getPotentialMatches = () => async dispatch => {
   return await new Promise(resolve => {
     socket.on("potentialMatches", async data => {
+      console.log(data);
       await timeout;
       dispatch(potentialMatches(data));
       dispatch(loading(false));
+
       resolve();
     });
     dispatch(loading(true));

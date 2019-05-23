@@ -138,6 +138,7 @@ async function seed() {
       returning: true
     }
   );
+  await Match.create({ matcherId: 46, matcheeId: 1 });
   for (let user of users) {
     const { longitude, latitude } = locations[user.id - 1];
     await db.query(
