@@ -87,4 +87,16 @@ module.exports = function(socket, userId) {
       socket.emit("errorMessage", "There was an error getting match location");
     }
   });
+
+  socket.on("send-arrival-signal", () => {
+    try {
+      socket.broadcast.to(cache.getRoom(userId)).emit("arrived");
+    } catch (e) {
+      console.log(e);
+      socket.emit(
+        "errorMessage",
+        "There was an error getting or sending arrival signal"
+      );
+    }
+  });
 };

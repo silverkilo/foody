@@ -4,45 +4,24 @@ import { StaticMap } from "react-map-gl";
 import { PathLayer, IconLayer } from "@deck.gl/layers";
 import axios from "axios";
 import { connect } from "react-redux";
-import t from "typy";
 import Nav from "./Nav";
+import { notifyArrival } from "../store/food";
+import ReactModal from "react-modal";
 
 let data = [
   {
     name: "fake-name",
     color: [101, 147, 245],
-    path: [
-      // [-74.00578, 40.713067],
-      // [-74.004577, 40.712425],
-      // [-74.003626, 40.71365],
-      // [-74.002666, 40.714243],
-      // [-74.002136, 40.715177],
-      // [-73.998493, 40.713452],
-      // [-73.997981, 40.713673],
-      // [-73.997586, 40.713448],
-      // [-73.99256, 40.713863]
-    ]
+    path: []
   }
 ];
 
 export class NavigationTest extends React.Component {
   state = {
     loadedData: false
-    // restaurantLong: -73.977712,
-    // restaurantLat: 40.731873,
-    // name: "",
-    // address: "",
-    // city: "",
-    // state: "",
-    // price: "",
-    // currency: "",
-    // rating: "",
-    // categories: "",
-    // photo: ""
   };
 
   async componentDidMount() {
-    // await this.getRestaurantCoords();
     await this.getCoordinates();
   }
 
@@ -102,7 +81,6 @@ export class NavigationTest extends React.Component {
       this.props.restaurantLat
     }?geometries=geojson&access_token=pk.eyJ1IjoicmhlYXJhbyIsImEiOiJjanY3NGloZm4wYzR5NGVxcGU4MXhwaTJtIn0.d_-A1vz2gnk_h1GbTchULA`;
     const res = await axios.get(endpoint);
-    console.log("GEOJSON", res);
     data[0].path = res.data.routes[0].geometry.coordinates;
     this.setState({
       loadedData: true
@@ -135,6 +113,7 @@ export class NavigationTest extends React.Component {
   };
 
   clickedHere = () => {
+    this.props.notifyArrival();
     this.props.history.push("/finalpage");
   };
 
@@ -143,9 +122,9 @@ export class NavigationTest extends React.Component {
       new PathLayer({
         id: "path-layer",
         data,
-        getWidth: data => 2,
+        getWidth: data => 7,
         getColor: data => data.color,
-        widthMinPixels: 2
+        widthMinPixels: 7
       }),
       new IconLayer({
         id: "restaurant-layer",
@@ -195,45 +174,7 @@ export class NavigationTest extends React.Component {
 
     return this.state.loadedData ? (
       <React.Fragment>
-        <DeckGL
-          initialViewState={{
-            longitude: -74.006,
-            latitude: 40.7128,
-            zoom: 12
-          }}
-          height={600}
-          width={500}
-          controller={true}
-          layers={layer}
-        >
-          <StaticMap
-            mapStyle="mapbox://styles/rhearao/cjve4ypqx3uct1fo7p0uyb5hu"
-            mapboxApiAccessToken="pk.eyJ1IjoicmhlYXJhbyIsImEiOiJjanY3NGloZm4wYzR5NGVxcGU4MXhwaTJtIn0.d_-A1vz2gnk_h1GbTchULA"
-          />
-        </DeckGL>{" "}
-        <React.Fragment>
-          <div className="detailsTemp">
-            <div> Restaurant Details </div>{" "}
-            <ul className="card__details">
-              <li className="card__name"> {this.props.name} </li>{" "}
-              <li className="card__rating"> {this.createStars()} </li>{" "}
-              <li className="card__price">
-                {" "}
-                {this.createCurrency()} {this.props.category}{" "}
-              </li>{" "}
-              <li className="card__address"> {this.props.address} </li>{" "}
-              <li className="card__address">
-                {" "}
-                {this.props.city}, {this.props.state}{" "}
-              </li>{" "}
-            </ul>{" "}
-            <button className="hereButton" onClick={() => this.clickedHere()}>
-              I 'm here!{" "}
-            </button>{" "}
-          </div>
-          ;{" "}
-        </React.Fragment>{" "}
-        === === = <Nav />
+        <Nav />
         <div className="page">
           <DeckGL
             initialViewState={{
@@ -256,13 +197,13 @@ export class NavigationTest extends React.Component {
               <div className="content">
                 <div className="card">
                   {" "}
-                  {this.state.photo !== undefined ? (
+                  {this.props.photo !== undefined ? (
                     <img
                       className="card__img"
                       src={
-                        this.state.photo.prefix +
+                        this.props.photo.prefix +
                         "200x200" +
-                        this.state.photo.suffix
+                        this.props.photo.suffix
                       }
                       alt=""
                     />
@@ -274,16 +215,16 @@ export class NavigationTest extends React.Component {
                     />
                   )}{" "}
                   <ul className="card__details">
-                    <li className="card__name"> {this.state.name} </li>{" "}
+                    <li className="card__name"> {this.props.name} </li>{" "}
                     <li className="card__rating"> {this.createStars()} </li>{" "}
                     <li className="card__price">
                       {" "}
-                      {this.createCurrency()} {this.state.category}{" "}
+                      {this.createCurrency()} {this.props.categories}{" "}
                     </li>{" "}
-                    <li className="card__address"> {this.state.address} </li>{" "}
+                    <li className="card__address"> {this.props.address} </li>{" "}
                     <li className="card__address">
                       {" "}
-                      {this.state.city}, {this.state.state}{" "}
+                      {this.props.city}, {this.props.state}{" "}
                     </li>{" "}
                   </ul>{" "}
                   <button
@@ -292,14 +233,22 @@ export class NavigationTest extends React.Component {
                       this.clickedHere();
                     }}
                   >
-                    I 'm Here!{" "}
+                    Here!{" "}
                   </button>{" "}
                 </div>{" "}
               </div>{" "}
             </div>{" "}
           </React.Fragment>{" "}
         </div>{" "}
-        >>> >>> > master{" "}
+        <ReactModal
+          isOpen={this.props.arrivalStatus}
+          closeTimeoutMS={1000}
+          contentLabel="notification that the other person arrived"
+          // className="congrats__content"
+          // overlayClassName="congrats__overlay"
+        >
+          <div>{this.props.matchName} has arrived!</div>
+        </ReactModal>
       </React.Fragment>
     ) : null;
   }
@@ -322,11 +271,17 @@ const mapStateToProps = state => {
     categories: state.venueDetails.categories,
     photo: state.venueDetails.photo,
     restaurantLat: state.venueDetails.restaurantLat,
-    restaurantLong: state.venueDetails.restaurantLong
+    restaurantLong: state.venueDetails.restaurantLong,
+    arrivalStatus: state.arrivalStatus,
+    matchName: state.match.didMatch.matched
+      ? state.match.didMatch.info.firstName
+      : null
   };
 };
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    notifyArrival: () => dispatch(notifyArrival())
+  };
 };
 
 export default connect(

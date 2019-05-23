@@ -26,8 +26,6 @@ export const postLocation = ({
 
 export const getMatchLocation = () => async dispatch => {
   try {
-    // const { location } = getState().match.didMatch.info;
-    // dispatch(getMatchLoc(location.coordinates));
     dispatch(loadingLoc());
     return await new Promise(resolve => {
       let timeout = setTimeout(() => {

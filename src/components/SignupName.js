@@ -36,7 +36,6 @@ class SignupName extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <div className="email page">
         <h1 className="email__title">Add Your Name</h1>

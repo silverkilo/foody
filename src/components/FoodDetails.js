@@ -38,7 +38,6 @@ class FoodDetails extends Component {
 
     const res = await axios.get(venuesEndpoint);
     const { venue } = res.data.response;
-    console.log(venue);
     this.setState({
       name: t(venue, "name").safeObject,
       address: t(venue, "location.address").safeObject,
@@ -92,7 +91,6 @@ class FoodDetails extends Component {
   };
 
   render() {
-    console.log("state", this.state);
     return (
       <div className={this.state.card}>
         {" "}
