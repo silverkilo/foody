@@ -31,8 +31,8 @@ export default function MatchCard({
           {lastName}
         </h1>
         <ul className="match__preferences">
-          {preferences.slice(0, 3).map(preference => (
-            <li className="match__preference__container">
+          {preferences.slice(0, 3).map((preference, i) => (
+            <li key={i} className="match__preference__container">
               <span className="match__preference">{preference}</span>
             </li>
           ))}
