@@ -50,10 +50,10 @@ module.exports = function(socket, userId) {
                           "matcheeId" IS NOT NULL AS match
                       FROM "users" AS "user"
                           INNER JOIN (
-                              "user_preferences" AS "preferences->user_preference"
-                              INNER JOIN "preferences" AS "preferences" ON "preferences"."id" = "preferences->user_preference"."preferenceId"
+                              "user_preferences"
+                              INNER JOIN "preferences" AS "preferences" ON "preferences"."id" = "user_preferences"."preferenceId"
                               )
-                          ON "user"."id" = "preferences->user_preference"."userId" AND "preferences"."id" IN (
+                          ON "user"."id" = "user_preferences"."userId" AND "preferences"."id" IN (
                               SELECT "preferenceId" FROM user_preferences WHERE "userId" = ? )
                           LEFT JOIN "matches" AS "match" ON "user"."id" = "match"."matcherId" AND "match"."matcheeId" = ?
                       WHERE (("user"."id" NOT IN (?) AND "user"."hasMatched" IS NULL))
