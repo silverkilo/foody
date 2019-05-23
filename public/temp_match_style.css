@@ -37,6 +37,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1;
 }
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 568px) and (orientation : portrait) {
@@ -191,4 +192,34 @@ body {
 .no-matches__header{
     font-size: 1.5rem;
     text-align: center
+}
+
+.match-overlay{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index:10;
+    border-radius: 50%;
+}
+
+.match-overlay .yes{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:rgba(0, 0, 255, 0.5); 
+    color: white
+}
+.match-overlay .no{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:rgba(255, 0, 0, 0.5); 
+    color: white
 }
