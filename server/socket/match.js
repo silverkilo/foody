@@ -63,8 +63,7 @@ module.exports = function(socket, userId) {
                       LIMIT 5;
                   `,
         { replacements }
-      );
-      socket.emit("potentialMatches", matchers);
+      );      socket.emit("potentialMatches", matchers);
     } catch (e) {
       console.log(e);
       socket.emit("errorMessage", "There was an error getting matches");

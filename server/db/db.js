@@ -1,9 +1,7 @@
 const Sequelize = require("sequelize");
 
 const db = new Sequelize(
-  `postgres://localhost:5432/${
-    process.env.NODE_ENV === "test" ? "foody_test" : "foody"
-  }`,
+  process.env.DATABASE_URL || `postgres://localhost:5432/foody`,
   {
     logging: false
   }

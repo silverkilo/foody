@@ -14,6 +14,7 @@ class Matching extends Component {
         this.props.history.push("/map");
       }, 3000);
     } else {
+      console.log("RENDER");
       await this.props.getPotentialMatches();
     }
   }

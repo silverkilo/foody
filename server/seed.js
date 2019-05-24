@@ -99,7 +99,8 @@ async function seed() {
     "Brook Li"
   ];
   const locations = [codyLoc];
-
+  console.log(names.indexOf("Sasha Kayola"));
+  console.log(names.indexOf("Rhea Rao"));
   const seedUsers = names.map((name, i) => {
     const with_ = name.replace(" ", "_").toLowerCase();
     const [firstName, lastName] = name.split(" ");
@@ -117,7 +118,9 @@ async function seed() {
       password,
       email,
       photoURLs: [
-        `https://res.cloudinary.com/omarjuice/image/upload/w_300,h_300/v1558113243/foody/${with_}.png`
+        `https://res.cloudinary.com/omarjuice/image/upload/w_300,h_300/v1558110703/foody/${with_}.${
+          firstName === "Omar" ? "jpg" : "png"
+        }`
       ]
     };
   });
@@ -148,6 +151,18 @@ async function seed() {
       }
     );
   }
+  await Match.bulkCreate([
+    {
+      matcherId: 46,
+      matcheeId: 48
+    },
+    {
+      matcherId: 48,
+      matcheeId: 46
+    }
+  ]);
+  await User.update({ hasMatched: 46 }, { where: { id: 48 } });
+  await User.update({ hasMatched: 48 }, { where: { id: 46 } });
   await UserPreference.bulkCreate(
     Array(users.length * 5)
       .fill("x")

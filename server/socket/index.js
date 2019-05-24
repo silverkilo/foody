@@ -2,7 +2,6 @@ const socketIO = require("socket.io");
 const { User, Match } = require("../db/models");
 const matchListeners = require("./match");
 const chatListener = require("./chat");
-const venueListener = require("./chat");
 const cache = require("./appCache");
 
 User.findAll().then(users => {
