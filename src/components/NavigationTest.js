@@ -241,13 +241,21 @@ export class NavigationTest extends React.Component {
           </React.Fragment>{" "}
         </div>{" "}
         <ReactModal
+          closeTimeoutMS={200}
           isOpen={this.props.arrivalStatus}
-          closeTimeoutMS={1000}
+          onRequestClose={}
           contentLabel="notification that the other person arrived"
-          // className="congrats__content"
-          // overlayClassName="congrats__overlay"
+          className="congrats__content"
+          overlayClassName="congrats__overlay"
         >
-          <div>{this.props.matchName} has arrived!</div>
+          <img
+            className="congrats__img"
+            src={this.props.photoURLs}
+            alt={this.props.matchName}
+          />
+          <h1 className="congrats__title">
+            {this.props.matchName} has arrived!
+          </h1>
         </ReactModal>
       </React.Fragment>
     ) : null;
@@ -273,6 +281,9 @@ const mapStateToProps = state => {
     restaurantLat: state.venueDetails.restaurantLat,
     restaurantLong: state.venueDetails.restaurantLong,
     arrivalStatus: state.arrivalStatus,
+    photoURLs: state.match.didMatch.matched
+      ? state.match.didMatch.info.photoURLs[0]
+      : null,
     matchName: state.match.didMatch.matched
       ? state.match.didMatch.info.firstName
       : null

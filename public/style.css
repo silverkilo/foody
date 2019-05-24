@@ -816,6 +816,8 @@
 .congrats__img {
     width: 40vw;
     height: 40vw;
+    border-radius: 10px;
+    margin-bottom: 20px;
 }
 /* .pageSlider-enter {
     transform: translate3d(100%, 0, 0);
