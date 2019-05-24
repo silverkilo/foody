@@ -18,11 +18,17 @@ let data = [
 
 export class NavigationTest extends React.Component {
   state = {
-    loadedData: false
+    loadedData: false,
+    showArrivalStatus: false
   };
 
   async componentDidMount() {
     await this.getCoordinates();
+    if (this.props.arrivalStatus) {
+      this.setState({
+        showArrivalStatus: true
+      });
+    }
   }
 
   // componentDidUpdate() {
@@ -115,6 +121,12 @@ export class NavigationTest extends React.Component {
   clickedHere = () => {
     this.props.notifyArrival();
     this.props.history.push("/finalpage");
+  };
+
+  handleCloseModal = () => {
+    this.setState({
+      showArrivalStatus: false
+    });
   };
 
   render() {
@@ -242,8 +254,8 @@ export class NavigationTest extends React.Component {
         </div>{" "}
         <ReactModal
           closeTimeoutMS={200}
-          isOpen={this.props.arrivalStatus}
-          onRequestClose={}
+          isOpen={this.state.showArrivalStatus}
+          onRequestClose={this.handleCloseModal}
           contentLabel="notification that the other person arrived"
           className="congrats__content"
           overlayClassName="congrats__overlay"
