@@ -118,6 +118,7 @@ module.exports = function(socket, userId) {
         );
         matchers.push(...moreMatchers);
       }
+      console.log(matchers.map(({ id }) => id));
       socket.emit("potentialMatches", matchers);
     } catch (e) {
       console.log(e);

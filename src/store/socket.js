@@ -1,10 +1,13 @@
 import io from "socket.io-client";
 export const socket = io(
-  `http://${window.location.hostname}${
-    process.env.NODE_ENV === "production" ? "" : ":3001"
-  }`,
+  // process.env.NODE_ENV === "production"
+  //   ? `https://${window.location.host}`
+  //   : `http://${window.location.hostname}:3001`,
   {
-    autoConnect: false
+    autoConnect: false,
+    secure: process.env.NODE_ENV === "production",
+    host: window.location.host,
+    rejectUnauthorized: false
   }
 );
 const CONNECTED = "CONNECTED";
