@@ -18,11 +18,17 @@ let data = [
 
 export class NavigationTest extends React.Component {
   state = {
-    loadedData: false
+    loadedData: false,
+    showArrivalStatus: false
   };
 
   async componentDidMount() {
     await this.getCoordinates();
+    if (this.props.arrivalStatus) {
+      this.setState({
+        showArrivalStatus: true
+      });
+    }
   }
 
   // componentDidUpdate() {
@@ -115,6 +121,12 @@ export class NavigationTest extends React.Component {
   clickedHere = () => {
     this.props.notifyArrival();
     this.props.history.push("/finalpage");
+  };
+
+  handleCloseModal = () => {
+    this.setState({
+      showArrivalStatus: false
+    });
   };
 
   render() {
@@ -241,13 +253,21 @@ export class NavigationTest extends React.Component {
           </React.Fragment>{" "}
         </div>{" "}
         <ReactModal
-          isOpen={this.props.arrivalStatus}
-          closeTimeoutMS={1000}
+          closeTimeoutMS={200}
+          isOpen={this.state.showArrivalStatus}
+          onRequestClose={this.handleCloseModal}
           contentLabel="notification that the other person arrived"
-          // className="congrats__content"
-          // overlayClassName="congrats__overlay"
+          className="congrats__content"
+          overlayClassName="congrats__overlay"
         >
-          <div>{this.props.matchName} has arrived!</div>
+          <img
+            className="congrats__img"
+            src={this.props.photoURLs}
+            alt={this.props.matchName}
+          />
+          <h1 className="congrats__title">
+            {this.props.matchName} has arrived!
+          </h1>
         </ReactModal>
       </React.Fragment>
     ) : null;
@@ -273,6 +293,9 @@ const mapStateToProps = state => {
     restaurantLat: state.venueDetails.restaurantLat,
     restaurantLong: state.venueDetails.restaurantLong,
     arrivalStatus: state.arrivalStatus,
+    photoURLs: state.match.didMatch.matched
+      ? state.match.didMatch.info.photoURLs[0]
+      : null,
     matchName: state.match.didMatch.matched
       ? state.match.didMatch.info.firstName
       : null
