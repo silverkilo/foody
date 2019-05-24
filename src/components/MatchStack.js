@@ -75,7 +75,6 @@ function MatchStack({ users, swipe }) {
   });
   return props.map(({ x, y, rot, scale }, i) => {
     const { id, match } = users[i];
-    // console.log(i === current && swipeValue === true);
     return (
       <animated.div
         className="match-card-container"

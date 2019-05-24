@@ -20,106 +20,50 @@ module.exports = function(socket, userId) {
   socket.on("getPotentialMatches", async () => {
     try {
       //get the current user, aggregate their preferences into an array, get their location
-      const [[user]] = await db.query(
-        `
-                      SELECT
-                          users.id, location,
-                          array_agg(preferences.id) as preferences
-                      FROM users
-                      LEFT JOIN user_preferences
-                          ON "user_preferences"."userId" = users.id
-                      LEFT JOIN preferences
-                          ON "preferences"."id" = "user_preferences"."preferenceId"
-                      WHERE users.id = ?
-                      GROUP BY users.id
-                  `,
-        { replacements: [userId] }
-      );
       // get all users who have preferences in common with the user and who have chosen to match with the current user
       // get their preferences
       // sort them by distance from the current user
-      // exclude the current user and any other exclusion
+      // exclude the current user and any other exclusion(users the curretn user has already swiped on)
 
       // ** `ST_Distance("user"."location", 'SRID=26918;POINT(? ?)'::geometry) AS distance` <- for seeing the actual distance, we dont normally want Postgis to actually do this calculation
       // if doing ST_Distance, prepend user.location.coordiates[0] and user.location.coordiates[1] to the replacements array
       // this can also be done for the following query
 
-      const showDistance = false; //change to true to get distances
-      const userCoords = [
-        user.location.coordinates[0],
-        user.location.coordinates[1]
-      ];
+      const showDistance = false; //change to true to get distances, not for use in production
       const replacements = [
-        user.preferences,
-        user.id,
+        userId,
+        userId,
         cache.getExclusions(userId),
-        user.location.coordinates[0],
-        user.location.coordinates[1]
+        userId
       ];
-      if (showDistance) replacements.unshift(...userCoords);
-      replacements.push(...userCoords);
+      if (showDistance) replacements.unshift(userId);
+      //one query now
       const [matchers] = await db.query(
         `
                       SELECT
                           "user"."id", "user"."firstName", "user"."lastName", "user"."photoURLs", ${
                             showDistance
-                              ? `ST_Distance("user"."location", 'SRID=26918;POINT(? ?)'::geometry) AS distance,`
+                              ? `ST_Distance("user"."location", (SELECT location FROM users WHERE id=?)) AS distance,`
                               : ``
                           }
                           array_agg("preferences"."category") as preferences,
-                          TRUE as match
+                          "matcheeId" IS NOT NULL AS match
                       FROM "users" AS "user"
                           INNER JOIN (
-                              "user_preferences" AS "preferences->user_preference"
-                              INNER JOIN "preferences" AS "preferences" ON "preferences"."id" = "preferences->user_preference"."preferenceId"
+                              "user_preferences"
+                              INNER JOIN "preferences" ON "preferences"."id" = "user_preferences"."preferenceId"
                               )
-                          ON "user"."id" = "preferences->user_preference"."userId" AND "preferences"."id" IN (?)
-                          INNER JOIN "matches" AS "match" ON "user"."id" = "match"."matcherId" AND "match"."matcheeId" = ?
+                          ON "user"."id" = "user_preferences"."userId" AND "preferences"."id" IN (
+                              SELECT "preferenceId" FROM user_preferences WHERE "userId" = ? )
+                          LEFT JOIN "matches" AS "match" ON "user"."id" = "match"."matcherId" AND "match"."matcheeId" = ?
                       WHERE (("user"."id" NOT IN (?) AND "user"."hasMatched" IS NULL))
-                      GROUP BY "user"."id"
-                      ORDER BY "user"."location" <-> 'SRID=26918;POINT(? ?)'::geometry
+                      GROUP BY "user"."id", "matcheeId"
+                      ORDER BY match DESC, "user"."location" <-> (
+                          SELECT location FROM users WHERE id = ? )
                       LIMIT 5;
-                  ;
                   `,
         { replacements }
-      );
-      const moreReplacements = [
-        user.preferences,
-        cache.getExclusions(userId).concat(matchers.map(({ id }) => id)),
-        ...userCoords,
-        5 - matchers.length
-      ];
-      if (showDistance) moreReplacements.unshift(...userCoords);
-      if (matchers.length < 5) {
-        // get all users and their preferences who have at least one preference in common with the user, sort them by distance
-        const [moreMatchers] = await db.query(
-          `
-                          SELECT
-                              "user"."id",  "user"."firstName", "user"."lastName",  "user"."photoURLs", ${
-                                showDistance
-                                  ? `ST_Distance("user"."location", 'SRID=26918;POINT(? ?)'::geometry) AS distance,`
-                                  : ``
-                              }
-                              array_agg("preferences"."category") AS preferences,
-                              FALSE AS match
-                          FROM "users" AS "user" INNER JOIN (
-                          "user_preferences" AS "preferences->user_preference"
-                          INNER JOIN "preferences" AS "preferences" ON "preferences"."id" = "preferences->user_preference"."preferenceId"
-                          )
-                          ON "user"."id" = "preferences->user_preference"."userId" AND "preferences"."id" IN (?)
-                          WHERE (("user"."id" NOT IN (?) AND "user"."hasMatched" IS NULL))
-                          GROUP BY "user"."id"
-                          ORDER BY "user"."location" <-> 'SRID=26918;POINT(? ?)'::geometry
-                          LIMIT ?;
-                  `,
-          {
-            replacements: moreReplacements
-          }
-        );
-        matchers.push(...moreMatchers);
-      }
-      console.log(matchers.map(({ id }) => id));
-      socket.emit("potentialMatches", matchers);
+      );      socket.emit("potentialMatches", matchers);
     } catch (e) {
       console.log(e);
       socket.emit("errorMessage", "There was an error getting matches");
