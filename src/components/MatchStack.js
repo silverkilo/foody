@@ -23,7 +23,10 @@ function MatchStack({ users, swipe }) {
   const trans = (r, s) =>
     `perspective(1500px) rotateX(0deg) rotateY(${r / 10}deg) rotateZ(${r /
       2}deg) scale(${s})`;
-  const [current, setState] = React.useState(users.length - 1);
+  const [{ current, swipeValue }, setState] = React.useState({
+    current: users.length - 1,
+    swipeValue: null
+  });
   const [props, set] = useSprings(users.length, i => ({
     ...to(i),
     from: from(i)
@@ -41,7 +44,6 @@ function MatchStack({ users, swipe }) {
       const dir = xDelta > 0 ? 1 : -1; // Direction should either point left or right
       let isGone = false;
       if (!down && trigger) {
-        setState(index - 1);
         isGone = true;
       } // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
       set(i => {
@@ -61,10 +63,13 @@ function MatchStack({ users, swipe }) {
       });
       if (!down && isGone) {
         const shouldFetchMore = index === 0;
-        swipe(dir === 1, id, match, shouldFetchMore);
+        const val = dir === 1;
+        swipe(val, id, match, shouldFetchMore);
+        setState({ swipeValue: val, current });
         setTimeout(() => {
+          setState({ current: index - 1, swipeValue: null });
           currentTarget.parentElement.style.display = "none";
-        }, 250);
+        }, 400);
       }
     }
   });
@@ -89,6 +94,27 @@ function MatchStack({ users, swipe }) {
             transform: interpolate([rot, scale], trans)
           }}
         >
+          <div className="match-overlay">
+            <div className={i === current && swipeValue === false && "no"}>
+              <i
+                class={
+                  i === current &&
+                  swipeValue === false &&
+                  "far fa-thumbs-down fa-10x"
+                }
+              />
+            </div>
+
+            <div className={i === current && swipeValue === true && "yes"}>
+              <i
+                className={
+                  i === current &&
+                  swipeValue === true &&
+                  "far fa-thumbs-up fa-10x"
+                }
+              />
+            </div>
+          </div>
           <MatchCard {...users[i]} />
         </animated.div>
       </animated.div>
