@@ -1,5 +1,7 @@
 ## Foody: Yelp Meets Tinder
 
+### [A video presentation of Foody](https://www.youtube.com/watch?v=-ddRfUMdJ70&list=PLx0iOsdUOUmk9wbCJIHGsqBWYV29)
+
 Foody is a progressive web app that is a cross between tinder and yelp, where nearby people with similar food preferences could meet up with each other to grab a bite. We have all been in that situation where it’s the middle of the day and you are craving a specific type of food. You text all of your friends and of course everyone is busy. Wouldn’t it be great if you could just connect with someone nearby that also wants the same food as you do, and you can make a new friend?
 
 This is the problem that our application Foody solves.
