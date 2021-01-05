@@ -7,7 +7,7 @@
     "@deck.gl/core": "^7.0.5",
     "@deck.gl/layers": "^7.0.5",
     "@deck.gl/react": "^7.0.5",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "cloudinary": "^1.14.0",
     "connect-session-sequelize": "^6.0.0",
     "deck.gl": "^7.0.5",
